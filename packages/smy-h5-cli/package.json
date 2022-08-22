@@ -1,0 +1,64 @@
+{
+  "name": "@smy-h5/cli",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "smy-h5-cli": "./lib/index.js"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "keywords": [
+    "cli",
+    "smy-h5"
+  ],
+  "files": [
+    "lib",
+    "site",
+    "tsconfig.json",
+    "smy.default.config.js",
+    "preset.js"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/babel__core": "^7.1.19",
+    "@types/fs-extra": "^9.0.13",
+    "@types/hash-sum": "^1.0.0",
+    "@types/less": "^3.0.3",
+    "@types/lodash": "^4.14.183",
+    "@types/node": "^16.11.45"
+  },
+  "dependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/helper-plugin-utils": "^7.18.9",
+    "@babel/plugin-transform-typescript": "^7.18.12",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-typescript": "^7.18.6",
+    "@vue/babel-preset-jsx": "^1.3.1",
+    "@vue/component-compiler-utils": "^3.3.0",
+    "babel-plugin-jsx-event-modifiers": "^2.0.5",
+    "babel-plugin-jsx-v-model": "^2.0.3",
+    "build": "^0.1.4",
+    "chalk": "4.1.2",
+    "commander": "^9.4.0",
+    "execa": "^6.1.0",
+    "fs-extra": "^10.1.0",
+    "glob": "^8.0.3",
+    "hash-sum": "^2.0.0",
+    "less": "^4.1.3",
+    "lodash": "^4.17.21",
+    "ora": "^5.4.0",
+    "vite": "^3.0.2",
+    "vite-plugin-html": "^3.2.0",
+    "vite-plugin-vue2": "^2.0.2",
+    "vue": "2.7.8",
+    "vue-template-compiler": "^2.7.8"
+  },
+  "peerDependencies": {
+    "live-server": "^1.2.2",
+    "vue": "2.7.8",
+    "vue-template-compiler": "^2.7.8"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "@smy-h5/js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.umd.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.es.js",
+      "require": "./lib/index.umd.js",
+      "types": "./lib/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.build.json && pnpm run patch-types",
+    "test": "vitest",
+    "patch-types": "esno scripts/patch-types"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.11.45",
+    "esno": "^0.16.3",
+    "fs-extra": "^10.1.0",
+    "vitest": "^0.18.1",
+    "@types/fs-extra": "^9.0.13"
+  },
+  "dependencies": {
+  }
+}
