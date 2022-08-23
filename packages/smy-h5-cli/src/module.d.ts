@@ -5,3 +5,5 @@ declare module 'less' {
 }
 
 declare module '@babel/helper-plugin-utils'
+
+declare module 'glob'

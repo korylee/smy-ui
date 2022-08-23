@@ -5,4 +5,8 @@ module.exports = {
   port: 8080,
   title: 'SMY UI',
   themesKey: 'SMY_THEMES',
+  pc:{
+    redirect: '/index',
+    menu: [],
+  },
 }
