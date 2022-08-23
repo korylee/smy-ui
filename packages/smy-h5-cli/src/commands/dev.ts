@@ -29,7 +29,7 @@ async function startServer(force: boolean = false) {
 
   if(pathExistsSync(SMY_CONFIG)) {}
 
-  logger.success(`\n${isRestart?'Res':'S'}tart successfully!!!`)
+  logger.success(`\n${isRestart ? 'Res' : 'S'}tart successfully!!!`)
 }
 
 export async function dev(cmd: { force?: boolean }) {
