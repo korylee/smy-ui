@@ -2,24 +2,38 @@
 <p align="center">一个 Vue 2 移动端 组件库</p>
 
 ## 项目结构
+
 子项目命名规则：文件夹名 `smy-h5-*`, 项目名称：`@smy-h5/*`
 子项目执行脚本：`pnpm --filter <项目名称> run <脚本名称>`
 
 ### @smy-h5/cli
-组件库脚手架，内部内置了dev，preview，build，lint，release等命令
-通过扫描ui文件目录示例markdown文件自动生成router文件
+
+组件库脚手架，内部内置了 dev，preview，build，lint，release 等命令
+通过扫描 ui 文件目录示例 markdown 文件自动生成 router 文件
 
 ### @smy-h5/ui
+
 基础组件库本体，不要写业务逻辑，便于后面维护
 @smy-h5/js 等不要打包进去，避免出现重复打包的情况
 
 ### @smy-h5/js
-将项目中的public.js抽离出来单独维护，一个项目一份public.js真的太烦了
+
+将项目中的 public.js 抽离出来单独维护，一个项目一份 public.js 真的太烦了
+
+### @smy-h5/vooks
+
+vue 的一些工具方法或混入
+
+### @smy-h5/eslint-config
+
+eslint config
 
 ### 待做。。。
+
 将全流程，借款等独立的业务可以抽离作为一个项目。
 便于后续投放及维护
-> axios等依赖不要打包进去，保持项目的干净，可将其作为外部依赖。后续可以将axios二次封装为一个定制化程度高的项目
+
+> axios 等依赖不要打包进去，保持项目的干净，可将其作为外部依赖。后续可以将 axios 二次封装为一个定制化程度高的项目
 
 ## Git 贡献提交规范
 
@@ -39,9 +53,9 @@
   - `types` 类型定义文件更改
   - `wip` 开发中
 
-
 ## 安装
-使用pnpm安装
+
+使用 pnpm 安装
 
 ```bash
 pnpm i

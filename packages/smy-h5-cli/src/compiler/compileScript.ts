@@ -66,8 +66,8 @@ export async function compileESEntry(dir: string, publicDirs: string[]) {
   const cssImports: string[] = [];
   const lessImports: string[] = [];
   const version = require(UI_PACKAGE_JSON).version;
-  const { namespace = "sm" } = getSmyConfig();
-  const componentPrefix = upperFirst(namespace);
+  const { namespace = "smy" } = getSmyConfig();
+  // const componentPrefix = upperFirst(namespace);
 
   publicDirs.forEach((dirname: string) => {
     const publicComponent = upperFirst(camelCase(dirname));
@@ -106,9 +106,9 @@ function useComponent (app, component) {
 }
 
 function registerComponent(app, name, component) {
-  const registered = app.component(componentPrefix + name);
+  const registered = app.component(name);
   if (!registered) {
-    app.component(name, componentPrefix + component);
+    app.component(name, component);
   }
 }
 `;
@@ -117,19 +117,16 @@ function registerComponent(app, name, component) {
 ${imports.join("\n")}\n
 ${internalComponents.join("\n")}\n
 const version = '${version}';
-const componentPrefix = '${componentPrefix}';
 ${install}
 export {
   install,
   version,
-  componentPrefix,
   ${publicComponents.join(",\n ")}
 }
 
 export default {
   install,
   version,
-  componentPrefix,
   ${publicComponents.join(",\n  ")}
 }
 `;

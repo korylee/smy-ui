@@ -1,0 +1,32 @@
+{
+  "name": "@smy-h5/vooks",
+  "version": "0.0.1",
+  "description": "vue 的工具方法",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "exports": {
+    ".":{
+      "import": "./es/index.js",
+      "require": "./lib/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b --force tsconfig.esm.json && tsc -b --force tsconfig.cjs.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-babel": "^5.3.1",
+    "deepmerge": "^4.2.2",
+    "rollup": "^2.79.0",
+    "rollup-plugin-esbuild": "^4.10.1",
+    "vite": "^3.0.8",
+    "vitest": "^0.18.1",
+    "vue": "2.6.14"
+  },
+  "peerDependencies": {
+    "vue": "^2.5.0"
+  }
+}

@@ -1,0 +1,102 @@
+.home-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  min-width: 1200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.slash-box {
+  position: absolute;
+  width: 30px;
+  bottom: -70%;
+  top: -130%;
+  right: 52%;
+  transform-origin: bottom right;
+  box-shadow: -20px 0 20px var(--site-config-color-home-page-slash);
+}
+
+.profile-container {
+  height: 100vh;
+  padding-left: 10vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .container-box {
+    width: 35vw;
+    min-width: 500px;
+    .description-conatiner {
+      display: flex;
+      margin-bottom: 35px;
+    }
+
+    .logo-container {
+      margin-right: 20px;
+    }
+
+    .button-group {
+      display: flex;
+      margin-top: 25px;
+      align-items: center;
+    }
+    .block-button-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .common-button {
+      height: 52px;
+      font-size: 18px;
+      transition: all 0.25s;
+      animation: fade-in 0.75s forwards;
+      text-align: center;
+    }
+    .extra-button {
+      flex-shrink: 0;
+      background-color: var(--site-config-color-home-page-extra-button-background);
+    }
+
+    .github-button {
+      background-color: var(--site-config-color-home-page-github-button-background);
+      color: #fff;
+    }
+
+    .primary-button {
+      background-color: var(--site-config-color-home-page-primary-button-background);
+    }
+
+    .base-title {
+      font-size: 60px;
+      line-height: 72px;
+      font-weight: 500;
+      margin-top: 8px;
+      animation: fade-in 0.75s forwards;
+    }
+
+    .base-description {
+      font-size: 16px;
+      line-height: 28px;
+      padding-left: 4px;
+      font-weight: 500;
+      margin-bottom: 45px;
+      letter-spacing: 1px;
+      animation: fade-in 0.75s forwards;
+    }
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

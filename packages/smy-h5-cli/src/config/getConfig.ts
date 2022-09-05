@@ -1,5 +1,5 @@
 import { pathExistsSync } from "fs-extra";
-import { SITE_CONFIG, SITE_DIR, SITE_OUTPUT_DIR, SITE_OUTPUT_PATH, SITE_PC_ROUTES, SITE_PUBLIC_PATH, SMY_CONFIG, VITE_RESOLVE_EXTENSION } from "../shared/constant";
+import { SITE_CONFIG, SITE_DIR, SITE_MOBILE_ROUTES, SITE_OUTPUT_PATH, SITE_PC_ROUTES, SITE_PUBLIC_PATH, SMY_CONFIG, VITE_RESOLVE_EXTENSION } from "../shared/constant";
 import { get, merge } from "lodash";
 import { InlineConfig } from "vite";
 import { createVuePlugin } from "vite-plugin-vue2";
@@ -25,7 +25,6 @@ export function getSmyConfig(emit = false): Record<string, any> {
 
 export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
   const host = smyConfig.host;
-  const defaultLanguage = smyConfig.defaultLanguage;
   console.log('root: ',SITE_DIR);
 
   return {
@@ -35,6 +34,7 @@ export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
       alias: {
         '@config': SITE_CONFIG,
         '@pc-routes': SITE_PC_ROUTES,
+        '@mobile-routes': SITE_MOBILE_ROUTES,
       },
     },
     server: {
@@ -50,8 +50,8 @@ export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
       createHtmlPlugin({
         inject: {
           data: {
-            pcTitle: get(smyConfig, `pc.title.${defaultLanguage}`),
-            mobileTitle: get(smyConfig, `mobile.title.${defaultLanguage}`),
+            pcTitle: get(smyConfig, `pc.title`),
+            mobileTitle: get(smyConfig, `mobile.title`),
             logo: get(smyConfig, "logo"),
             baidu: get(smyConfig, "analysis.baidu", ""),
           },

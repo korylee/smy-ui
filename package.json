@@ -9,16 +9,29 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.5.0",
+    "@smy-h5/eslint-config": "workspace:*",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.5.1",
     "stylelint": "^14.11.0",
     "typescript": "~4.7.4",
-    "vite": "^3.0.2"
+    "vite": "^3.0.8"
   },
   "lint-staged": {
     "*.{ts,tsx,js,vue,less}": "prettier --write",
     "*.{ts,tsx,js,vue}": "eslint --fix",
     "*.{vue,css,less}": "stylelint --fix"
-  }
+  },
+  "eslintConfig": {
+    "root": true,
+    "ignorePatterns":[
+      "packages/varlet-vue2-cli/lib/**",
+      "packages/varlet-vue2-cli/site/**",
+      "packages/varlet-vue2-ui/lib/**",
+      "packages/varlet-vue2-ui/es/**",
+      "packages/varlet-vue2-ui/umd/**",
+      "packages/varlet-vue2-ui/site/**",
+      "packages/varlet-vue2-ui/public/**"
+    ],
+    "extends":["@smy-h5"]
+  },
+  "packageManager": "pnpm@7.8.0"
 }

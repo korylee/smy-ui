@@ -21,10 +21,9 @@ export const CLI_PACKAGE_JSON = resolve(__dirname, '../../package.json')
 // site
 export const SITE = resolve(__dirname, "../../site");
 export const SITE_OUTPUT_PATH = resolve(CWD, 'site')
-export const SITE_OUTPUT_DIR = resolve(CWD, "site");
 export const SITE_DIR = resolve(CWD, ".smy/site");
 export const SITE_PC_DIR = resolve(CWD, ".smy/site/pc");
 export const SITE_PC_ROUTES = resolve(CWD, ".smy/pc.routes.ts");
 export const SITE_MOBILE_ROUTES = resolve(CWD, '.smy/mobile.routes.ts')
-export const SITE_PUBLIC_PATH = resolve(CWD, "site");
+export const SITE_PUBLIC_PATH = resolve(CWD, "public");
 export const SITE_CONFIG = resolve(CWD, ".smy/site.config.json");

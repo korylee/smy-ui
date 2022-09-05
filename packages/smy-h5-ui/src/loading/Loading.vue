@@ -7,7 +7,7 @@ export default {
 };
 </script>
 <style scoped>
-div {
+    div {
   width: 100%
 }
 </style>

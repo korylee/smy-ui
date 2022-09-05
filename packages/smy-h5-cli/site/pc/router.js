@@ -21,12 +21,12 @@ const mobileRedirect = config.mobile?.redirect
 if(redirect){
   routes.push({
     path: '*',
-    redirect: `/${redirect}`
+    redirect: `${redirect}`
   })
 }
 
 const router = new VueRouter({
-  scrollBehavior:()=>({x: 0, y: 0}),
+  scrollBehavior: () => ({x: 0, y: 0}),
   routes
 })
 
