@@ -1,9 +1,27 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "example/**/*", "example/**/*.vue"],
-  "exclude": ["example/**/__tests__/*"],
+  "include": [
+    "env.d.ts"
+  ],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
-  }
+    "strict": true,
+    "downlevelIteration": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "jsx": "preserve",
+    "isolatedModules": true
+  },
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.spec.js",
+    "node_modules"
+  ]
 }

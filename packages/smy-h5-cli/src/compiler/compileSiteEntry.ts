@@ -11,6 +11,7 @@ import {
   ROOT_PAGES_DIR,
   SITE_PC_ROUTES,
   SITE_MOBILE_ROUTES,
+  ROOT_DOCS_DIR,
 } from '../shared/constant'
 import { glob, isDir, outputFileSyncOnChange } from '../shared/fs-utils'
 import slash from 'slash'
@@ -18,6 +19,7 @@ import { resolve } from 'path'
 
 const EXAMPLE_COMPONENT_NAME_RE = /\/([-\w]+)\/example\/index.vue/
 const ROOT_PAGE_RE = /\/pages\/([-\w]+)\/index\.([-\w]+)$/
+const ROOT_DOCS_RE = /\/docs\/([-\w]+)\.md/
 
 export function getRootRoutePath(rootPath: string): string {
   const [, routePath] = rootPath.match(ROOT_PAGE_RE) ?? []
@@ -25,11 +27,19 @@ export function getRootRoutePath(rootPath: string): string {
   return `/${routePath}`
 }
 
+const getRootDocRouteName = (rootDocsPath: string): string => rootDocsPath.match(ROOT_DOCS_RE)?.[1] ?? ''
+
+const getRootDocRoutePath = (rootDocsPath: string): string => `/${getRootDocRouteName(rootDocsPath)}`
+
+const getExampleRouteName = (examplePath: string) => examplePath.match(EXAMPLE_COMPONENT_NAME_RE)?.[1]
+
 const getExampleRoutePath = (examplePath: string) => '/' + examplePath.match(EXAMPLE_COMPONENT_NAME_RE)?.[1]
 
 const findExamples = () => glob(`${SRC_DIR}/**/${EXAMPLE_DIR_NAME}/${DIR_INDEX}`)
 
 const findComponentDocs = () => glob(`${SRC_DIR}/**/${DOCS_DIR_NAME}/*.md`)
+
+const findRootDocs = () => glob(`${ROOT_DOCS_DIR}/*.md`)
 
 async function findRoot(): Promise<string[]> {
   const userPages = await glob(`${ROOT_PAGES_DIR}/**`)
@@ -46,15 +56,16 @@ async function findRoot(): Promise<string[]> {
 
 async function compileMobileSiteRoutes() {
   const examples: string[] = await findExamples()
-  const routes = examples.map(
-    (example) => `
+  const routes = examples.map((example) => {
+    const name = getExampleRouteName(example)
+    return `
   {
-    path: '${getExampleRoutePath(example)}',
+    name: '${name}',
+    path: '/${name}',
     // @ts-ignore
     component: () => import('${example}')
-  }
-  `
-  )
+  }`
+  })
   const source = `export default [
     ${routes.join(', ')}
   ]`
@@ -62,7 +73,7 @@ async function compileMobileSiteRoutes() {
 }
 
 async function compilePcSiteRoutes() {
-  const [root] = await Promise.all([findRoot()])
+  const [root, rootDocs] = await Promise.all([findRoot(), findRootDocs(), findComponentDocs()])
 
   const rootPagesRoutes = root.map(
     (rootPath) => `
@@ -73,18 +84,31 @@ async function compilePcSiteRoutes() {
   }`
   )
 
+  const rootDocsRoutes = rootDocs.map((rootDoc) => {
+    const name = getRootDocRouteName(rootDoc)
+    return `
+      {
+        name: '${name}',
+        path: '/${name}',
+        //@ts-ignore
+        component: () => import('${rootDoc}')
+      }`
+  })
+
   const layoutRoutes = `
   {
     path: '/layout',
     // @ts-ignore
-    component: ()=> import('${slash(SITE_PC_DIR)}/Layout.vue'),
-    children: []
+    component: ()=> import('${slash(SITE_PC_DIR)}/Layout/index.vue'),
+    children: [
+      ${[...rootDocsRoutes].join(',')}
+    ]
   }`
 
   const source = `export default [\
     ${rootPagesRoutes.join(',')},
     ${layoutRoutes}
-  ]`
+]`
   outputFileSyncOnChange(SITE_PC_ROUTES, source)
 }
 

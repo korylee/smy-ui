@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { ComponentOptions } from 'vue'
+import { ComponentOptions, PropType } from 'vue'
 
 export function mountComponent(component: ComponentOptions<Vue>, container = 'body', options = {}) {
   const instance = new (Vue.extend(component))(options)
@@ -65,12 +65,12 @@ declare type RequiredKeys<T> = {
 
 declare type OptionalKeys<T> = Exclude<keyof T, RequiredKeys<T>>
 
-export declare type PropType<T> = PropConstructor<T> | PropConstructor<T>[]
+// export declare type PropType<T> = PropConstructor<T> | PropConstructor<T>[]
 
-declare type PropConstructor<T = any> = { new (...args: any[]): T & {} } | { (): T } | PropMethod<T>
+// declare type PropConstructor<T = any> = { new (...args: any[]): T & {} } | { (): T } | PropMethod<T>
 
-declare type PropMethod<T, TConstructor = any> = [T] extends [((...args: any) => any) | undefined]
-  ? { new (): TConstructor; (): T; readonly prototype: TConstructor }
-  : never
+// declare type PropMethod<T, TConstructor = any> = [T] extends [((...args: any) => any) | undefined]
+//   ? { new (): TConstructor; (): T; readonly prototype: TConstructor }
+//   : never
 
 export declare type IfAny<T, Y, N> = 0 extends 1 & T ? Y : N

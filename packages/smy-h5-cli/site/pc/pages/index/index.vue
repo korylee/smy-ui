@@ -10,7 +10,7 @@
         <div class="description-container">
           <div class="base-title">{{ title }}</div>
         </div>
-        <div class="base-description">{{description}}</div>
+        <div class="base-description">{{ description }}</div>
         <div class="button-group">
           <SiteButton class="common-button primary-button" @click="getStart">
             <div class="block-button-content">
@@ -26,23 +26,23 @@
 <script>
 import { get } from 'lodash-es'
 import config from '@config'
-import SiteButton from '../../../components/button'
+import SiteButton from '../../components/button'
 
 export default {
-  components:{SiteButton},
+  components: { SiteButton },
   data: () => ({
     github: get(config, 'pc.header.gihub'),
     title: get(config, 'title'),
     description: get(config, 'description'),
   }),
-  methods:{
-    getStart(){
+  methods: {
+    getStart() {
       this.$router.push('/home')
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="less" scoped>
-@import "./index.less";
+@import './index.less';
 </style>

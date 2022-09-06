@@ -7,6 +7,7 @@ export const ES_DIR = resolve(CWD, "es");
 export const LIB_DIR = resolve(CWD, "lib");
 export const TYPES_DIR = resolve(CWD, "types");
 export const ROOT_PAGES_DIR = resolve(CWD, 'pages')
+export const ROOT_DOCS_DIR = resolve(CWD, 'docs')
 
 export const VITE_RESOLVE_EXTENSION = [".vue", ".ts", ".js", ".mjs", ".tsx", ".jsx"];
 export const PUBLIC_DIR_INDEXES = ["index.vue", "index.tsx", "index.ts", "index.jsx", "index.js"];
