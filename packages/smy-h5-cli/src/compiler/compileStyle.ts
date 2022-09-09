@@ -1,7 +1,7 @@
-import { isDir, replaceExt, smartAppendFileSync } from "../shared/fs-utils";
+import { replaceExt, smartAppendFileSync } from "../shared/fs-utils";
 import { parse, resolve } from "path";
 import { render } from "less";
-import { ensureFileSync, readFileSync, writeFileSync } from "fs-extra";
+import { readFileSync, writeFileSync } from "fs-extra";
 
 export const EMPTY_SPACE_RE = /[\s]+/g;
 export const EMPTY_LINE_RE = /[\n\r]*/g;

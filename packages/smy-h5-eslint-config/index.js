@@ -67,9 +67,6 @@ export default defineConfig({
       },
     },
     {
-      files: ['*.vue', '*.js'],
-    },
-    {
       files: ['*.ts', '*.tsx'],
       extends: [],
       parserOptions: {

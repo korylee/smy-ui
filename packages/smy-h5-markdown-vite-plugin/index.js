@@ -50,8 +50,7 @@ function highlight(str, lang, style) {
     return `
     <pre class="hljs"><code>
     ${link}${hljs.highlight(str, { language: lang, ignoreIllegals: true }).value}
-    </code></pre>
-    `
+    </code></pre>`
   }
   return ''
 }

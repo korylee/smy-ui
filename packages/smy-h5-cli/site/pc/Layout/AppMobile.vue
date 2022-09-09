@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import { replace } from 'lodash-es'
-
 export default {
   name: 'AppMobile',
   props: {
@@ -25,6 +23,7 @@ iframe {
   height: 100%;
   border: none;
 }
+
 .smy-site-mobile {
   position: sticky;
   flex: 0 0 325px;

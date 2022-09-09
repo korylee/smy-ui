@@ -23,13 +23,13 @@
   "eslintConfig": {
     "root": true,
     "ignorePatterns":[
-      "packages/varlet-vue2-cli/lib/**",
-      "packages/varlet-vue2-cli/site/**",
-      "packages/varlet-vue2-ui/lib/**",
-      "packages/varlet-vue2-ui/es/**",
-      "packages/varlet-vue2-ui/umd/**",
-      "packages/varlet-vue2-ui/site/**",
-      "packages/varlet-vue2-ui/public/**"
+      "packages/smy-h5-cli/lib/**",
+      "packages/smy-h5-cli/site/**",
+      "packages/smy-h5-ui/lib/**",
+      "packages/smy-h5-ui/es/**",
+      "packages/smy-h5-ui/umd/**",
+      "packages/smy-h5-ui/site/**",
+      "packages/smy-h5-ui/public/**"
     ],
     "extends":["@smy-h5"]
   },

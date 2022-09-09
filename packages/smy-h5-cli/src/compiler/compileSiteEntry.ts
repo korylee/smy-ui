@@ -1,4 +1,4 @@
-import { copy, ensureDir, ensureFile, link, readdir, remove } from 'fs-extra'
+import { copy, ensureDir, link, readdir, remove } from 'fs-extra'
 import { getSmyConfig } from '../config/getConfig'
 import {
   EXAMPLE_DIR_NAME,
@@ -20,6 +20,7 @@ import { resolve } from 'path'
 const EXAMPLE_COMPONENT_NAME_RE = /\/([-\w]+)\/example\/index.vue/
 const ROOT_PAGE_RE = /\/pages\/([-\w]+)\/index\.([-\w]+)$/
 const ROOT_DOCS_RE = /\/docs\/([-\w]+)\.md/
+const COMPONENT_DOCS_RE = /\/([-\w]+)\/docs\/index\.md/
 
 export function getRootRoutePath(rootPath: string): string {
   const [, routePath] = rootPath.match(ROOT_PAGE_RE) ?? []
@@ -37,7 +38,9 @@ const getExampleRoutePath = (examplePath: string) => '/' + examplePath.match(EXA
 
 const findExamples = () => glob(`${SRC_DIR}/**/${EXAMPLE_DIR_NAME}/${DIR_INDEX}`)
 
-const findComponentDocs = () => glob(`${SRC_DIR}/**/${DOCS_DIR_NAME}/*.md`)
+const findComponentDocs = () => glob(`${SRC_DIR}/**/${DOCS_DIR_NAME}/index.md`)
+
+const getComponentRouteName = (examplePath: string) => examplePath.match(COMPONENT_DOCS_RE)?.[1]
 
 const findRootDocs = () => glob(`${ROOT_DOCS_DIR}/*.md`)
 
@@ -68,12 +71,23 @@ async function compileMobileSiteRoutes() {
   })
   const source = `export default [
     ${routes.join(', ')}
-  ]`
+]`
   await outputFileSyncOnChange(SITE_MOBILE_ROUTES, source)
 }
 
 async function compilePcSiteRoutes() {
-  const [root, rootDocs] = await Promise.all([findRoot(), findRootDocs(), findComponentDocs()])
+  const [root, rootDocs, componentDocs] = await Promise.all([findRoot(), findRootDocs(), findComponentDocs()])
+
+  const componentDocsRoutes = componentDocs.map((componentDoc) => {
+    const name = getComponentRouteName(componentDoc)
+    return `
+      {
+        name: '${name}',
+        path: '/${name}',
+        //@ts-ignore
+        component: () => import ('${componentDoc}')
+      }`
+  })
 
   const rootPagesRoutes = root.map(
     (rootPath) => `
@@ -101,7 +115,7 @@ async function compilePcSiteRoutes() {
     // @ts-ignore
     component: ()=> import('${slash(SITE_PC_DIR)}/Layout/index.vue'),
     children: [
-      ${[...rootDocsRoutes].join(',')}
+      ${[...rootDocsRoutes, ...componentDocsRoutes].join(',')}
     ]
   }`
 

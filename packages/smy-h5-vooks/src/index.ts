@@ -1,2 +1,3 @@
-export { ExtractPropTypes, mountComponent } from './props'
-export { hasSlots, getSlots } from './slots'
+export { ExtractPropTypes } from './props'
+export { hasSlots, getSlots, SlotsMixin } from './slots'
+export { mountComponent } from './component'

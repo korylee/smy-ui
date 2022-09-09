@@ -3,7 +3,8 @@
     <router-view></router-view>
   </div>
 </template>
-<style>
+<style lang="less">
+@import './styles/global.less';
 body {
   margin: 0;
 }

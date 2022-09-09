@@ -5,8 +5,6 @@ import hash from "hash-sum";
 import { compileScript } from "./compileScript";
 import { replaceExt } from "../shared/fs-utils";
 import { clearEmptyLine, compileLess, extractStyleDependencies, STYLE_IMPORT_RE } from "./compileStyle";
-import { readFileSync } from "fs";
-import { render } from "less";
 
 export async function compileSFCFile(sfc: string) {
   const source: string = await readFile(sfc, "utf-8");

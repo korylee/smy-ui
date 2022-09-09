@@ -72,7 +72,7 @@ export async function compileESEntry(dir: string, publicDirs: string[]) {
   publicDirs.forEach((dirname: string) => {
     const publicComponent = upperFirst(camelCase(dirname));
     publicComponents.push(publicComponent);
-    imports.push(`import ${publicComponent}, * as ${publicComponents}Module from './${dirname}'`);
+    imports.push(`import ${publicComponent}, * as ${publicComponent}Module from './${dirname}'`);
     internalComponents.push(
       `export const _${publicComponent}Component = ${publicComponent}Module._${publicComponent}Component || {}`
     );

@@ -1,15 +1,20 @@
-import { ExtractPropTypes, PropType } from '@smy-h5/vooks'
-const fitValidator = (fit: string) => ['fill', 'contain', 'cover', 'none', 'scale-down'].includes(fit)
+import { ExtractPropTypes } from '@smy-h5/vooks'
+import type { PropType } from 'vue'
+
+const fitType = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
+type FitType = typeof fitType[number]
+
+const fitValidator = (fit: FitType) => fitType.includes(fit)
 
 export const props = {
   src: {
     type: String,
   },
   fit: {
-    type: String as PropType<'fill' | 'contain' | 'cover' | 'none' | 'scale-down'>,
+    type: String as PropType<FitType>,
     validator: fitValidator,
     default: 'cover',
   },
-}
+} as const
 
 export type CardProps = ExtractPropTypes<typeof props>

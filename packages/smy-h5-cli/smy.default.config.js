@@ -1,14 +1,23 @@
 module.exports = {
   name: 'Smy',
-  namespace: 'sm',
+  namespace: 'smy',
   host: 'localhost',
   port: 8080,
   title: 'SMY UI',
   themesKey: 'SMY_THEMES',
+  highlight: {
+    /**
+     * @see https://highlightjs.org/
+     */
+    style: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/styles/nord.min.css',
+  },
   pc: {
     redirect: '/index',
     menu: [],
     title: 'Smy h5',
+  },
+  mobile: {
+    redirect: '/home',
   },
   themes: {
     'color-body': '#fff',
@@ -26,6 +35,10 @@ module.exports = {
     'color-introduce-border': '#2196f3',
     'color-primary': '#2196f3',
     'color-link': '#00c48f',
+    'color-progress': '#1d92e9',
+    'color-progress-track': '#fff',
     'color-sidebar': '#3a7afe',
+    'color-hl-background': '#fafafa',
+    'color-hl-code': '#58727e',
   },
 }
