@@ -65,7 +65,7 @@ export default {
     },
     handleSidebarChange(menu) {
       this.$refs.doc.scrollTop = 0
-      this.compoentName = this.getComponentNameByMenuName(menu.doc)
+      this.componentName = this.getComponentNameByMenuName(menu.doc)
       this.menuName = menu.doc
     },
   },

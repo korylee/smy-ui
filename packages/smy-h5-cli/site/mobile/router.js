@@ -18,6 +18,7 @@ if (redirect) {
 
 routes.push({
   path: '/home',
+  name: 'home',
   component: () => import('./components/AppHome.vue')
 })
 
@@ -30,12 +31,12 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const path = to.path
   const replace = to.query.replace
-  console.log(path,replace)
   if (!isPhone() && !inIframe()) {
     window.location.href = `./#/${path}`
     return
   }
   if (!isPhone() && inIframe()) {
+    // @ts-ignore
     window.top.onMobileRouteChange(path, replace)
   }
   next()

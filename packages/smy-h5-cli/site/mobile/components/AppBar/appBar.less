@@ -1,0 +1,19 @@
+@site-app-bar-color: var(--site-color-primary);
+@site-app-bar-height: 36px;
+
+:root {
+  --site-app-bar-color: @site-app-bar-color;
+  --site-app-bar-text-color: #fff;
+  --site-app-bar-height: @site-app-bar-height;
+}
+
+.smy-site-app-bar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: var(--site-app-bar-height);
+  background: var(--site-app-bar-color);
+  color: var(--site-app-bar-text-color);
+  transition: background-color .25s;
+}

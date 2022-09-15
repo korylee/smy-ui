@@ -38,6 +38,6 @@ export default {
 
 <style lang="less">
 @import '../_styles/common.less';
-@import '../styles/elevation.less';
+@import '../_styles/elevation.less';
 @import './card.less';
 </style>

@@ -7,14 +7,14 @@
       class="smy-site-sidebar__item"
       :class="{
         'smy-site-sidebar__item--active': item.doc === menuName,
-        'varlet-site-sidebar__link': item.type !== MenuTypes.TITLE,
-        'varlet-site-sidebar__title': item.type === MenuTypes.TITLE,
+        'smy-site-sidebar__link': !isTitle(item),
+        'smy-site-sidebar__title': isTitle(item),
       }"
       @click.native="changeRoute(item)"
     >
       <span
         :class="{
-          'smy-site-sidebar__item--tile': item.type === MenuTypes.TITLE,
+          'smy-site-sidebar__item--tile': isTitle(item),
         }"
         >{{ item.text }}</span
       >
@@ -33,12 +33,14 @@ export default {
     menu: Array,
     menuName: String,
   },
-  data: () => ({ MenuTypes }),
   methods: {
     changeRoute(item) {
-      if (item.type === MenuTypes.TITLE || this.menuName === item.doc) return
+      if (this.isTitle(item)|| this.menuName === item.doc) return
       this.$emit('change', item)
     },
+    isTitle(item){
+      return item.type === MenuTypes.TITLE
+    }
   },
 }
 </script>
@@ -51,7 +53,7 @@ export default {
   top: 60px;
   bottom: 0;
   left: 0;
-  z-index: 0;
+  z-index: 6;
   overflow-y: scroll;
   box-shadow: 0 8px 12px var(--site-config-color-shadow);
   background: var(--site-config-color-bar);
@@ -88,6 +90,7 @@ export default {
     font-size: 14px;
     color: var(--site-config-color-text);
     transition: color 0.2s;
+
     &:hover {
       color: var(--site-config-color-sidebar);
     }
