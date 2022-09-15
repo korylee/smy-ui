@@ -1,13 +1,17 @@
 <template>
-  <div class="smy-card" @click="handleClick">
+  <div class="smy-card" :class="`smy-elevation--${elevation || 2}`" @click="handleClick">
     <slot name="image">
-      <img v-if="src" class="smy-card__image" :src="src" />
+      <img v-if="src" class="smy-card__image" :src="src" :alt="alt" :style="{ objectFit: fit, height: height }" />
     </slot>
     <slot name="title">
       <div v-if="title" class="smy-card__title">{{ title }}</div>
     </slot>
-    <slot name="subtitle"></slot>
-    <slot name="content"></slot>
+    <slot name="subtitle">
+      <div v-if="subtitle" class="smy-card__subtitle">{{ subtitle }}</div>
+    </slot>
+    <slot name="content">
+       <div v-if="content" class="smy-card__content">{{ content }}</div>
+    </slot>
     <div v-if="hasSlots('extra')" class="smy-card__footer">
       <slot name="extra" />
     </div>
@@ -34,5 +38,6 @@ export default {
 
 <style lang="less">
 @import '../_styles/common.less';
+@import '../styles/elevation.less';
 @import './card.less';
 </style>

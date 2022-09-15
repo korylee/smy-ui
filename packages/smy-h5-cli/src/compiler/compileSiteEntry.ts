@@ -24,17 +24,12 @@ const COMPONENT_DOCS_RE = /\/([-\w]+)\/docs\/index\.md/
 
 export function getRootRoutePath(rootPath: string): string {
   const [, routePath] = rootPath.match(ROOT_PAGE_RE) ?? []
-
   return `/${routePath}`
 }
 
 const getRootDocRouteName = (rootDocsPath: string): string => rootDocsPath.match(ROOT_DOCS_RE)?.[1] ?? ''
 
-const getRootDocRoutePath = (rootDocsPath: string): string => `/${getRootDocRouteName(rootDocsPath)}`
-
 const getExampleRouteName = (examplePath: string) => examplePath.match(EXAMPLE_COMPONENT_NAME_RE)?.[1]
-
-const getExampleRoutePath = (examplePath: string) => '/' + examplePath.match(EXAMPLE_COMPONENT_NAME_RE)?.[1]
 
 const findExamples = () => glob(`${SRC_DIR}/**/${EXAMPLE_DIR_NAME}/${DIR_INDEX}`)
 
@@ -61,7 +56,7 @@ async function compileMobileSiteRoutes() {
   const examples: string[] = await findExamples()
   const routes = examples.map((example) => {
     const name = getExampleRouteName(example)
-    return `
+    return `\
   {
     name: '${name}',
     path: '/${name}',

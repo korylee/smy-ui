@@ -37,7 +37,7 @@ export default {
       handler() {
         const { name } = this.$route
         if (!name) return
-        this.compoentName = this.getComponentNameByMenuName(name)
+        this.componentName = this.getComponentNameByMenuName(name)
         this.menuName = name
         document.title = get(config, 'pc.title')
       },

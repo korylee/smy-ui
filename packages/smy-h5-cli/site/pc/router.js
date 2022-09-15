@@ -36,7 +36,7 @@ Object.defineProperty(window, 'onMobileRouteChange',{
       router.replace(`/${replace}`)
       return
     }
-    router.replace(`/${path}`)
+    router.replace(path)
   }
 })
 

@@ -15,6 +15,19 @@ export const props = {
     validator: fitValidator,
     default: 'cover',
   },
+  height: [String, Number],
+  alt: String,
+  title: String,
+  subtitle: String,
+  content: String,
+  elevation: [Number, String],
+  // ripple: {
+  //   type: Boolean,
+  //   default: false,
+  // },
+  // onClick: {
+  //   type: Function as PropType<(e: Event) => void>,
+  // },
 } as const
 
 export type CardProps = ExtractPropTypes<typeof props>

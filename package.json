@@ -22,7 +22,7 @@
   },
   "eslintConfig": {
     "root": true,
-    "ignorePatterns":[
+    "ignorePatterns": [
       "packages/smy-h5-cli/lib/**",
       "packages/smy-h5-cli/site/**",
       "packages/smy-h5-ui/lib/**",
@@ -31,7 +31,12 @@
       "packages/smy-h5-ui/site/**",
       "packages/smy-h5-ui/public/**"
     ],
-    "extends":["@smy-h5"]
+    "extends": [
+      "@smy-h5"
+    ]
   },
-  "packageManager": "pnpm@7.8.0"
+  "packageManager": "pnpm@7.8.0",
+  "dependencies": {
+    "@types/node": "^16.11.45"
+  }
 }

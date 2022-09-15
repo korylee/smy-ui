@@ -1,4 +1,4 @@
-import { PropType } from 'vue'
+import type { PropType } from 'vue'
 
 declare type InferPropType<T> = [T] extends [null]
   ? any

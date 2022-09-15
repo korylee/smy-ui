@@ -1,5 +1,8 @@
-import Loading from "./Loading.vue";
+import Loading from './Loading.vue'
+import { withInstall } from '../_utils/components'
 
-export const _LoadingComponent = Loading;
+withInstall(Loading)
 
-export default Loading;
+export const _LoadingComponent = Loading
+
+export default Loading

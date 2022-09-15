@@ -25,17 +25,13 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.1.0",
     "@smy-h5/cli": "workspace:^1.0.0",
     "@types/jsdom": "^16.2.14",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^16.11.45",
-    "@vue/eslint-config-prettier": "^7.0.0",
-    "@vue/eslint-config-typescript": "^11.0.0",
     "@vue/test-utils": "^1.3.0",
     "@vue/tsconfig": "^0.1.3",
     "conventional-changelog": "^3.1.25",
-    "eslint-plugin-vue": "^9.0.0",
     "jsdom": "^20.0.0",
     "lodash-es": "^4.17.21",
     "npm-run-all": "^4.1.5",
