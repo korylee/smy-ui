@@ -16,6 +16,7 @@ import { getPublicDirs, isDir, isDTS, isLess, isScript, isSFC } from '../shared/
 import { compileSFCFile } from './compileSFC'
 import { compileESEntry, compileScriptFile } from './compileScript'
 import { compileLess } from './compileStyle'
+import { generateReference } from './compileTypes'
 
 export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boolean = false) {
   if (moduleType === 'esm') {
@@ -37,6 +38,7 @@ export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boo
   const publicDirs = await getPublicDirs()
 
   await (isCjs ? console.log(dest) : compileESEntry(dest, publicDirs))
+  generateReference(dest)
 }
 
 export function compileESMBundle() {

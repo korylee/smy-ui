@@ -1,7 +1,7 @@
-import { ensureDir, readdir, writeFile } from 'fs-extra'
+import { ensureDir, readdir, writeFile, writeFileSync } from 'fs-extra'
 import { getSmyConfig } from '../config/getConfig'
 import { TYPES_DIR, UI_PACKAGE_JSON } from '../shared/constant'
-import { resolve } from 'path'
+import { relative, resolve } from 'path'
 import { upperFirst } from 'lodash'
 
 export async function compileTypes() {
@@ -35,4 +35,13 @@ export const version: string
 ${exports.join('\n')}
 `
   await Promise.all([writeFile(resolve(TYPES_DIR, 'index.d.ts'), template)])
+}
+
+export function generateReference(moduleDir: string) {
+  writeFileSync(
+    resolve(moduleDir, 'index.d.ts'),
+    `\
+export * from '${relative(moduleDir, TYPES_DIR)}'
+`
+  )
 }
