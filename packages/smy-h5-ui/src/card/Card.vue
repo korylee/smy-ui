@@ -10,10 +10,10 @@
       <div v-if="subtitle" class="smy-card__subtitle">{{ subtitle }}</div>
     </slot>
     <slot name="content">
-       <div v-if="content" class="smy-card__content">{{ content }}</div>
+      <div v-if="content" class="smy-card__content">{{ content }}</div>
     </slot>
-    <div v-if="hasSlots('extra')" class="smy-card__footer">
-      <slot name="extra" />
+    <div v-if="hasSlots('footer')" class="smy-card__footer">
+      <slot name="footer" />
     </div>
   </div>
 </template>

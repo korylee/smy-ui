@@ -1,3 +1,5 @@
+export type { LoadingProps } from './props'
+
 import Loading from './Loading.vue'
 import { withInstall } from '../_utils/components'
 
