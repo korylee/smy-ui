@@ -8,6 +8,7 @@ module.exports = {
       { text: 'Loading 加载', doc: 'loading', type: 2 },
       { text: '展示组件', type: 1 },
       { text: 'Card 卡片', doc: 'card', type: 2 },
+      { text: 'ImgPreview 图片预览', doc: 'img-preview', type: 2 },
       { text: '导航组件', type: 1 },
       { text: '功能指令', type: 1 },
       { text: '反馈组件', type: 1 },

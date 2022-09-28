@@ -14,3 +14,14 @@ export const isNill = (val: unknown): val is null | undefined => val == null
 export const isBool = (val: unknown): val is boolean => typeof val === 'boolean'
 
 export const isString = (val: unknown): val is string => typeof val === 'string'
+
+export function merge(target, ...args) {
+  args.forEach((source = {}) => {
+    Reflect.ownKeys(source).forEach((prop) => {
+      const value = source[prop]
+      if (value == undefined) return
+      target[prop] = value
+    })
+  })
+  return target
+}

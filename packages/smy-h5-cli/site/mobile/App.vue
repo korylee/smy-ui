@@ -45,4 +45,7 @@ body {
   color: var(--site-config-color-text);
   transition: background-color 0.25s, color 0.25s;
 }
+.router-view__block {
+  padding: 54px 12px 15px;
+}
 </style>

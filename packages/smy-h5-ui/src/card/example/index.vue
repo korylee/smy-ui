@@ -9,7 +9,7 @@
     <div>插槽</div>
     <smy-card :title="title" :content="content" :subtitle="subtitle" src="https://varlet-vue2.vercel.app/cat.jpg">
       <template #footer>
-        <button>嗒嗒嗒</button>
+        <button>这里是footer插槽</button>
       </template>
     </smy-card>
   </div>
