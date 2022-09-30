@@ -20,6 +20,7 @@ module.exports = defineConfig({
   rules: {
     // typescript-eslint
     '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
   overrides: [],
 })
