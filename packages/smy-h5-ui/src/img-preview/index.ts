@@ -38,3 +38,5 @@ handlePreviewImg.install = (app, opts = {}) => {
   createImgPreview(opts)
   app.prototype.$previewImg = handlePreviewImg
 }
+
+export default ImgPreview

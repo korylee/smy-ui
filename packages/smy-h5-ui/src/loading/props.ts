@@ -1,7 +1,7 @@
 import { ExtractPropTypes } from '@smy-h5/vooks'
 import { PropType } from 'vue'
 
-const loadingTypes = ['circle', 'wave', 'cube', 'rect'] as const
+const loadingTypes = ['circle', 'wave', 'cube', 'disappear'] as const
 
 const loadingSize = ['normal', 'mini', 'small', 'large'] as const
 

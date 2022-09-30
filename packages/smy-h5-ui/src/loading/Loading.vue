@@ -22,14 +22,14 @@
           :class="`smy-loading__${type}-item smy-loading__${type}-item--${size}`"
         ></div>
       </div>
-    </div>
-    <div
-      v-if="hasSlots('description') || description"
-      :class="`smy-loading__description--${size}`"
-      :style="{ color }"
-      class="smy-loading__description"
-    >
-      <slot name="description">{{ description }}</slot>
+      <div
+        v-if="hasSlots('description') || description"
+        :class="`smy-loading__description--${size}`"
+        :style="{ color }"
+        class="smy-loading__description"
+      >
+        <slot name="description">{{ description }}</slot>
+      </div>
     </div>
   </div>
 </template>
