@@ -30,13 +30,25 @@
 > 这里按实际需求来
 
 ### 基础组件
+[] StyleProvider样式定制 / ConfigProvider配置定制
+[x] loading 加载
 
 ### 展示组件
 
+[x] Card 卡片
+[x]ImgPreview 图片预览
+  - [] 原组件写的有点死
 ### 导航组件
-
+[] Tab 选项卡
 ### 功能指令
-
+[x] lazy 图片懒加载
 ### 反馈组件
-
+[] Toast 消息条
+[] Dialog 对话框
+[] Popup弹出层
+[] ActionSheet 动作面板 由下面弹出的对话框
+[] Countdown 倒计时
+[] 日期选择器
 ### 表单组件
+[] Form 表单
+[] input 输入框
