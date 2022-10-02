@@ -20,7 +20,7 @@
 
 将项目中的 public.js 抽离出来单独维护，一个项目一份 public.js 真的太烦了
 
-### @smy-h5/vooks
+### @smy-h5/vtools
 
 vue 的一些工具方法或混入
 

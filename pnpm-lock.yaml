@@ -150,7 +150,7 @@ importers:
   packages/smy-h5-ui:
     specifiers:
       '@smy-h5/cli': workspace:^1.0.0
-      '@smy-h5/vooks': workspace:^0.0.1
+      '@smy-h5/vtools': workspace:^0.0.1
       '@types/jsdom': ^16.2.14
       '@types/lodash-es': ^4.17.6
       '@types/node': ^16.11.45
@@ -171,7 +171,7 @@ importers:
       vue-tsc: ^0.38.8
     devDependencies:
       '@smy-h5/cli': link:../smy-h5-cli
-      '@smy-h5/vooks': link:../smy-h5-vooks
+      '@smy-h5/vtools': link:../smy-h5-vtools
       '@types/jsdom': registry.npmmirror.com/@types/jsdom/16.2.15
       '@types/lodash-es': registry.npmmirror.com/@types/lodash-es/4.17.6
       '@types/node': registry.npmmirror.com/@types/node/16.11.49
@@ -191,7 +191,7 @@ importers:
       vue-template-compiler: registry.npmmirror.com/vue-template-compiler/2.6.14
       vue-tsc: registry.npmmirror.com/vue-tsc/0.38.9_typescript@4.7.4
 
-  packages/smy-h5-vooks:
+  packages/smy-h5-vtools:
     specifiers:
       '@rollup/plugin-babel': ^5.3.1
       deepmerge: ^4.2.2

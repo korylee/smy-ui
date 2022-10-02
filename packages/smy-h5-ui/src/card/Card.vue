@@ -20,7 +20,7 @@
 
 <script>
 import { props } from './props'
-import { SlotsMixin } from '@smy-h5/vooks'
+import { SlotsMixin } from '@smy-h5/vtools'
 
 export default {
   name: 'SmyCard',

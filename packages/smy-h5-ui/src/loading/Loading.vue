@@ -34,7 +34,7 @@
   </div>
 </template>
 <script lang="ts">
-import { SlotsMixin } from '@smy-h5/vooks'
+import { SlotsMixin } from '@smy-h5/vtools'
 import { props } from './props'
 import { LOADING_NUMBERS_DICT, LOADING_SIZE_DICT } from './constant'
 import { toNumber } from '../_utils/shared'

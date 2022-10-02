@@ -1,4 +1,4 @@
-import { ExtractPropTypes } from '@smy-h5/vooks'
+import { ExtractPropTypes } from '@smy-h5/vtools'
 import type { PropType } from 'vue'
 
 const fitType = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
