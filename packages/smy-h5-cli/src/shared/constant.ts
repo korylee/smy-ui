@@ -4,6 +4,7 @@ export const CWD = process.cwd();
 export const SMY_CONFIG = resolve(CWD, "smy.config.js");
 export const SRC_DIR = resolve(CWD, "src");
 export const ES_DIR = resolve(CWD, "es");
+export const UMD_DIR = resolve(CWD, 'umd')
 export const LIB_DIR = resolve(CWD, "lib");
 export const TYPES_DIR = resolve(CWD, "types");
 export const ROOT_PAGES_DIR = resolve(CWD, 'pages')

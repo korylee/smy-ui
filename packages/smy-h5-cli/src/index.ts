@@ -4,6 +4,7 @@ import { build } from './commands/build'
 import { changelog } from './commands/changelog'
 import { compile } from './commands/compile'
 import { dev } from './commands/dev'
+import { lint } from './commands/lint'
 import { preview } from './commands/preview'
 import { CLI_PACKAGE_JSON } from './shared/constant'
 import logger from './shared/logger'
@@ -24,6 +25,8 @@ program
   .option('-sl --siteLink', 'Hard link site the folder')
   .description('Run development enviroment')
   .action(dev)
+
+program.command('lint').description('Lint code').action(lint)
 
 program
   .command('changelog')

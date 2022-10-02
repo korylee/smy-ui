@@ -1,8 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": [
-    "env.d.ts"
-  ],
+  "include": ["env.d.ts"],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
@@ -12,16 +10,9 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowJs": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "jsx": "preserve",
     "isolatedModules": true
   },
-  "exclude": [
-    "**/*.spec.ts",
-    "**/*.spec.js",
-    "node_modules"
-  ]
+  "exclude": ["**/*.spec.ts", "**/*.spec.js", "node_modules"]
 }

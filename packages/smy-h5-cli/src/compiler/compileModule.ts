@@ -1,6 +1,6 @@
 import { copy, readdir, removeSync } from 'fs-extra'
 import { build } from 'vite'
-import { getESMBundleConfig } from '../config'
+import { getESMBundleConfig, getUMDCOnfig } from '../config'
 import { getSmyConfig } from '../config/getConfig'
 import {
   DOCS_DIR_NAME,
@@ -14,11 +14,14 @@ import {
 import { resolve } from 'path'
 import { getPublicDirs, isDir, isDTS, isLess, isScript, isSFC } from '../shared/fs-utils'
 import { compileSFCFile } from './compileSFC'
-import { compileESEntry, compileScriptFile } from './compileScript'
+import { compileCommonJSEntry, compileESEntry, compileScriptFile } from './compileScript'
 import { compileLess } from './compileStyle'
 import { generateReference } from './compileTypes'
 
 export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boolean = false) {
+  if (moduleType === 'umd') {
+    return await compileUMD()
+  }
   if (moduleType === 'esm') {
     return await compileESMBundle()
   }
@@ -37,8 +40,15 @@ export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boo
   )
   const publicDirs = await getPublicDirs()
 
-  await (isCjs ? console.log(dest) : compileESEntry(dest, publicDirs))
+  await (isCjs ? compileCommonJSEntry(dest, publicDirs) : compileESEntry(dest, publicDirs))
   generateReference(dest)
+}
+
+export function compileUMD() {
+  const config = getUMDCOnfig(getSmyConfig())
+  return build(config)
+    .then(() => Promise.resolve())
+    .catch(() => Promise.reject())
 }
 
 export function compileESMBundle() {

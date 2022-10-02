@@ -6,6 +6,9 @@ import { compileScript } from './compileScript'
 import { replaceExt } from '../shared/fs-utils'
 import { clearEmptyLine, compileLess, extractStyleDependencies, STYLE_IMPORT_RE } from './compileStyle'
 
+const EXPORT_START_RE = /export\s+default\s+{/
+const DEFINE_EXPORT_START_RE = /export\s+default\s+defineComponent\s*\(\s*{/
+
 export async function compileSFCFile(sfc: string) {
   const source: string = await readFile(sfc, 'utf-8')
   const descriptor = compileUtils.parse({ source, compiler, needMap: false } as any)
@@ -54,9 +57,6 @@ export async function compileSFCFile(sfc: string) {
     }
   }
 }
-
-const EXPORT_START_RE = /export\s+default\s+{/
-const DEFINE_EXPORT_START_RE = /export\s+default\s+defineComponent\s*\(\s*{/
 
 export function injectRender(script: string, render: string): string {
   if (DEFINE_EXPORT_START_RE.test(script.trim())) {

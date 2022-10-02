@@ -1,5 +1,3 @@
 {
-  "presets": [
-    "@smy-h5/cli/preset"
-  ]
+  "presets": ["@smy-h5/cli/preset"]
 }
