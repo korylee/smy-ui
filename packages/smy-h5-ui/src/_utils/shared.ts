@@ -22,7 +22,7 @@ export const removeItem = (arr: Array<unknown>, item: unknown) => {
 export function throttle<T = Func>(method: T, mustRunDelay = 200): T {
   let timer: number
   let start = 0
-  return function loop(this: unknown, ...args) {
+  return function loop(this: unknown, ...args: any[]) {
     const now = Date.now()
     const elapsed = now - start
 

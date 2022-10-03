@@ -6,6 +6,7 @@ import { compile } from './commands/compile'
 import { dev } from './commands/dev'
 import { lint } from './commands/lint'
 import { preview } from './commands/preview'
+import { release } from './commands/release'
 import { CLI_PACKAGE_JSON } from './shared/constant'
 import logger from './shared/logger'
 
@@ -34,6 +35,12 @@ program
   .option('-f --file <file>', 'Changelog filename')
   .description('Generate changelog')
   .action(changelog)
+
+program
+  .command('release')
+  .option('-r --remote <remote>', 'Remote name')
+  .description('Release all packages and generate changelogs')
+  .action(release)
 
 program.on('command:*', ([cwd]) => {
   program.outputHelp()

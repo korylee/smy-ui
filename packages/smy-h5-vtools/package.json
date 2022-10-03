@@ -1,5 +1,5 @@
 {
-  "name": "@smy-h5/vooks",
+  "name": "@smy-h5/vtools",
   "version": "0.0.1",
   "description": "vue 的工具方法",
   "main": "lib/index.js",
