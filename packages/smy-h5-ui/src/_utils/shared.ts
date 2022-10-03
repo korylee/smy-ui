@@ -19,7 +19,7 @@ export const removeItem = (arr: Array<unknown>, item: unknown) => {
   if (~index) return arr.splice(index, 1)
 }
 
-export function throttle<T = Func>(method: T, mustRunDelay = 200): T {
+export function throttle<T extends Func>(method: T, mustRunDelay = 200): T {
   let timer: number
   let start = 0
   return function loop(this: unknown, ...args: any[]) {
@@ -38,7 +38,7 @@ export function throttle<T = Func>(method: T, mustRunDelay = 200): T {
         loop.apply(this, args)
       }, mustRunDelay - elapsed)
     }
-  }
+  } as T
 }
 
 export const isNill = (val: unknown): val is null | undefined => val == null
@@ -107,7 +107,7 @@ export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Windo
   const allParentScroller: Array<HTMLElement | Window> = []
   let element: HTMLElement | Window = el
   while (element !== window) {
-    element = getParentScroller(element)
+    element = getParentScroller(element as HTMLElement)
     allParentScroller.push(element)
   }
   return allParentScroller
