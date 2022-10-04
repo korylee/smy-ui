@@ -1,10 +1,8 @@
 export const props = {
   title: [Number, String],
+  desc: String,
   border: {
     type: Boolean,
     default: false,
   },
-  titleClass: [String, Array, Object],
-  desc: String,
-  descClass: [String, Array, Object],
-}
+} as const

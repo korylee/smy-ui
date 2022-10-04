@@ -1,5 +1,5 @@
 <template>
-  <div class="smy-site-sidebar">
+  <div class="smy-site-sidebar smy-elevation--3">
     <Cell
       v-for="(item, index) of menu"
       :id="item.docs"
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Cell from '../components/cell'
+import Cell from '../../components/cell'
 import { MenuTypes } from '../common'
 
 export default {
@@ -35,12 +35,12 @@ export default {
   },
   methods: {
     changeRoute(item) {
-      if (this.isTitle(item)|| this.menuName === item.doc) return
+      if (this.isTitle(item) || this.menuName === item.doc) return
       this.$emit('change', item)
     },
-    isTitle(item){
+    isTitle(item) {
       return item.type === MenuTypes.TITLE
-    }
+    },
   },
 }
 </script>
@@ -66,6 +66,13 @@ export default {
     user-select: none;
     padding: 10px 28px;
 
+    &--title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 28px;
+      padding: 8px 0 8px;
+      color: var(--site-config-color-text);
+    }
     &--active {
       position: relative;
       background: var(--site-config-color-sidebar-active-background);

@@ -38,6 +38,7 @@ module.exports = {
     'color-progress': '#1d92e9',
     'color-progress-track': '#fff',
     'color-sidebar': '#3a7afe',
+    'color-sidebar-active-background': '#3a7afe1a',
     'color-hl-background': '#fafafa',
     'color-hl-code': '#58727e',
   },

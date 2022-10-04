@@ -45,6 +45,14 @@ body {
   color: var(--site-config-color-text);
   transition: background-color 0.25s, color 0.25s;
 }
+
+header {
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+  font-weight: bold;
+}
+
 .router-view__block {
   padding: 54px 12px 15px;
 }
