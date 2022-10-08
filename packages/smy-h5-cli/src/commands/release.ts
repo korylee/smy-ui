@@ -19,6 +19,7 @@ async function isWorktreeEmpty() {
 
 async function publish(preRelease: boolean) {
   const s = ora().start('Publishing all packages')
+  // 若是需要过滤某些包不发布，或者可以使用--filter=!xxx（未测试
   const args = ['-r', 'publish', '--no-git-checks', '--access', 'publish']
   preRelease && args.push('--tag', 'alpha')
   const ret = await execa('pnpm', args)

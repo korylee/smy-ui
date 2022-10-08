@@ -1,6 +1,6 @@
 {
   "name": "@smy-h5/js",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "lib/index.umd.js",
   "module": "lib/index.es.js",
