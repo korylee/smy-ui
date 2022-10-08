@@ -2,9 +2,11 @@
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["env.d.ts"],
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
     "composite": true,
     "baseUrl": ".",
-    "strict": true,
+    "strict": false,
     "downlevelIteration": true,
     "declaration": true,
     "skipLibCheck": true,
@@ -12,7 +14,8 @@
     "allowJs": true,
     "lib": ["esnext", "dom"],
     "jsx": "preserve",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "moduleResolution": "node"
   },
   "exclude": ["**/*.spec.ts", "**/*.spec.js", "node_modules"]
 }

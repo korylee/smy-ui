@@ -1,4 +1,4 @@
-export const hasSlots = (vm: any, name = 'default') => vm.$scopedSlots[name] || vm.$slots[name]
+export const hasSlots = (vm: any, name = 'default') => Boolean(vm.$scopedSlots[name] || vm.$slots[name])
 
 export function getSlots(vm: any, name = 'default', data?: Record<string, any>) {
   const { $slots, $scopedSlots } = vm
@@ -8,7 +8,7 @@ export function getSlots(vm: any, name = 'default', data?: Record<string, any>) 
 
 export const SlotsMixin = {
   methods: {
-    hasSlots(name: string) {
+    hasSlots(name?: string) {
       return hasSlots(this, name)
     },
     getSlots(name?: string, data?: Record<string, any>) {

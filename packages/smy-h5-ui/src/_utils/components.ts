@@ -13,7 +13,7 @@ function registerComponent(app: VueConstructor, name: string, component: any) {
 }
 
 export function withInstall(component: any) {
-  component.install = function (app) {
+  function install(app) {
     const { name, alias } = component
     registerComponent(app, name, component)
     if (alias) {
@@ -22,4 +22,6 @@ export function withInstall(component: any) {
       })
     }
   }
+  component.install = install
+  return install
 }

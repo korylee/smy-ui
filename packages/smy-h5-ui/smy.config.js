@@ -13,6 +13,7 @@ module.exports = {
       { text: '功能指令', type: 1 },
       { text: 'Lazy 懒加载', type: 2, doc: 'lazy' },
       { text: '反馈组件', type: 1 },
+      { text: 'Toast 吐司气泡', doc: 'toast', type: 2 },
       { text: '表单组件', type: 1 },
     ],
   },
