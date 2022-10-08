@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { ComponentOptions } from 'vue'
+import type { ComponentOptions } from 'vue'
 
 export function mountComponent(component: ComponentOptions<Vue>, container = 'body', options = {}) {
   const instance = new (Vue.extend(component))(options)

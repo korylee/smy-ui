@@ -21,7 +21,7 @@ const baseConfig = defineConfig({
   ],
   external: ['vue'],
   output: {
-    name: 'VTools',
+    name: '@smy-h5/vtools',
     format: 'umd',
     exports: 'named',
     globals: {

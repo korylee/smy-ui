@@ -6,7 +6,7 @@ export default defineConfig({
     outDir: 'lib',
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: '@korylee/utils',
+      name: '@smy-h5/js',
       fileName: (formate) => `index.${formate}.js`,
     },
   },

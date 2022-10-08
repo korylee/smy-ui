@@ -12,7 +12,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -b --force tsconfig.esm.json && tsc -b --force tsconfig.cjs.json"
+    "build": "tsc -b --force tsconfig.esm.json && tsc -b --force tsconfig.cjs.json && rollup -c && rimraf {es,lib}/*.tsbuildinfo"
   },
   "keywords": [],
   "author": "",
