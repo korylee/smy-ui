@@ -12,20 +12,20 @@ const redirect = get(config, 'mobile.redirect')
 if (redirect) {
   routes.push({
     path: '*',
-    redirect
+    redirect,
   })
 }
 
 routes.push({
   path: '/home',
   name: 'home',
-  component: () => import('./components/AppHome.vue')
+  component: () => import('./components/AppHome.vue'),
 })
 
 console.log(routes)
 const router = new VueRouter({
   scrollBehavior: () => ({ x: 0, y: 0 }),
-  routes
+  routes,
 })
 
 router.beforeEach((to, from, next) => {

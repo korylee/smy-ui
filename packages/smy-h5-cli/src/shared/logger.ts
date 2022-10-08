@@ -1,8 +1,8 @@
 import chalk from 'chalk'
 
 export default {
-  info(text: string){
-    console.log(text);
+  info(text: string) {
+    console.log(text)
   },
   success(text: string) {
     console.log(chalk.hex('#00c48f')(text))

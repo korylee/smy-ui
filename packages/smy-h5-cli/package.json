@@ -1,6 +1,6 @@
 {
   "name": "@smy-h5/cli",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "bin": {
     "smy-h5-cli": "./lib/index.js"

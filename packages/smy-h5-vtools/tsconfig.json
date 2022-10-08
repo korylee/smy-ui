@@ -16,5 +16,5 @@
     "target": "ES6",
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"]
-  },
+  }
 }

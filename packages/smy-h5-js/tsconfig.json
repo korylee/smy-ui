@@ -6,21 +6,9 @@
     // "declarationDir": "lib",
     // "outDir": "./lib",
     "strict": true,
-    "lib": [
-      "es6",
-      "DOM"
-    ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types"
-    ]
+    "lib": ["es6", "DOM"],
+    "typeRoots": ["./node_modules/@types", "./types"]
   },
-  "include": [
-    "src",
-    "types"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/__tests__/*"
-  ],
+  "include": ["src", "types"],
+  "exclude": ["node_modules", "**/__tests__/*"]
 }

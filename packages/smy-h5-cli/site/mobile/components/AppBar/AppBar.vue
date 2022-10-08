@@ -1,11 +1,11 @@
 <template>
   <div class="smy-site-app-bar">
     <div class="smy-site-app-bar__left">
-      <slot name="left"/>
+      <slot name="left" />
     </div>
     <div class="smy-site-app-bar__title"></div>
     <div class="smy-site-app-bar__right">
-      <slot name="right"/>
+      <slot name="right" />
     </div>
   </div>
 </template>

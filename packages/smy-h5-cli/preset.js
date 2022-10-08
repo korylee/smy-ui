@@ -1,1 +1,1 @@
-module.exports = require('./lib/config/babel.config');
+module.exports = require('./lib/config/babel.config')

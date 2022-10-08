@@ -9,11 +9,25 @@ import { writeFileSync } from 'fs-extra'
 import { changelog } from './changelog'
 import ora from 'ora'
 
-const releaseTypes = ['premajor', 'major', 'prepatch', 'patch' ]
+// 不懂看这 https://www.jianshu.com/p/5565536a1f82
+const releaseTypes = ['premajor', 'major', 'prepatch', 'patch', 'preminor', 'minor']
 
 async function isWorktreeEmpty() {
   const ret = await execa('git', ['status', '--porcelain'])
   return !ret.stdout
+}
+
+async function publish(preRelease: boolean) {
+  const s = ora().start('Publishing all packages')
+  const args = ['-r', 'publish', '--no-git-checks', '--access', 'publish']
+  preRelease && args.push('--tag', 'alpha')
+  const ret = await execa('pnpm', args)
+  if (ret.stderr && ret.stderr.includes('npm ERR!')) {
+    throw new Error('\n' + ret.stderr)
+  } else {
+    s.succeed('Publish all packages successfully')
+    ret.stdout && logger.info(ret.stdout)
+  }
 }
 
 function updateVersion(version: string) {
@@ -74,6 +88,8 @@ export async function release(cmd: { remote?: string }) {
       await changelog()
       await pushGit(expectVersion, cmd.remote)
     }
+
+    await publish(isPreRelease)
 
     logger.success(`Release version ${expectVersion} successfuly!`)
 

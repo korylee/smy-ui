@@ -21,7 +21,7 @@ const baseConfig = defineConfig({
   ],
   external: ['vue'],
   output: {
-    name: 'vooks',
+    name: 'VTools',
     format: 'umd',
     exports: 'named',
     globals: {

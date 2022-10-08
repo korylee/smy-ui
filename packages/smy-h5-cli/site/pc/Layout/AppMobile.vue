@@ -11,17 +11,17 @@ export default {
   name: 'AppMobile',
   props: {
     componentName: String,
-    replace: String
+    replace: String,
   },
-  computed:{
-    iframeSrc({componentName,replace}){
+  computed: {
+    iframeSrc({ componentName, replace }) {
       return `./mobile.html#/${componentName}?platform=pc&replace=${replace}`
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style lang='less'>
+<style lang="less">
 iframe {
   display: block;
   width: 100%;

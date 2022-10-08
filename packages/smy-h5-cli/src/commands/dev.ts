@@ -13,7 +13,7 @@ let watcher: FSWatcher | undefined
 async function startServer(cmd: DevOptions) {
   const { force, siteLink } = cmd
   const isRestart = Boolean(server)
-  console.log('site-link:', siteLink);
+  console.log('site-link:', siteLink)
 
   logger.info(`${isRestart ? 'Res' : 'S'}tarting server...`)
 

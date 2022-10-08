@@ -3,6 +3,6 @@
   "references": [
     {
       "path": "./src/tsconfig.cjs.json"
-    },
+    }
   ]
 }

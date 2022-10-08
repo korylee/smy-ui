@@ -3,6 +3,6 @@
 
 patchTypes()
 
-function patchTypes(){
+function patchTypes() {
   // copy(resolve(__dirname, '../types'),resolve(__dirname, '../lib/types'));
 }

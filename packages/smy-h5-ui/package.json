@@ -25,7 +25,7 @@
     "lint": "smy-h5-cli lint"
   },
   "devDependencies": {
-    "@smy-h5/cli": "workspace:^1.0.0",
+    "@smy-h5/cli": "workspace:*",
     "@types/jsdom": "^16.2.14",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^16.11.45",
