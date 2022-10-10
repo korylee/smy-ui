@@ -1,8 +1,9 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
-    "target": "esnext",
+    "target": "ES2016",
     "module": "esnext",
     "composite": true,
     "baseUrl": ".",
@@ -12,10 +13,8 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowJs": true,
-    "lib": ["esnext", "dom"],
     "jsx": "preserve",
     "isolatedModules": true,
     "moduleResolution": "node"
   },
-  "exclude": ["**/*.spec.ts", "**/*.spec.js", "node_modules"]
 }

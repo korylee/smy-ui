@@ -1,5 +1,5 @@
-import { ExtractPropTypes } from '@smy-h5/vtools'
-import { PropType } from 'vue'
+import type { ExtractPropTypes } from '@smy-h5/vtools'
+import type { PropType } from 'vue'
 import { props as LoadingProps } from '../loading/props'
 
 export const TOAST_TYPES = ['loading', 'success', 'warning', 'info', 'error'] as const

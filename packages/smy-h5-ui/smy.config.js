@@ -5,6 +5,7 @@ module.exports = {
       { text: '开发指南', type: 1 },
       { text: '基本介绍', type: 3, doc: 'home' },
       { text: '基础组件', type: 1 },
+      { text: 'ConfigProvider 全局配置', doc: 'config-provider', type: 2 },
       { text: 'Loading 加载', doc: 'loading', type: 2 },
       { text: '展示组件', type: 1 },
       { text: 'Card 卡片', doc: 'card', type: 2 },

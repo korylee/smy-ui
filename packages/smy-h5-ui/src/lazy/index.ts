@@ -1,4 +1,3 @@
-import { diffieHellman } from 'crypto'
 import type { PluginObject, VueConstructor, DirectiveOptions } from 'vue'
 import type { DirectiveBinding } from 'vue/types/options'
 import { createLRUCache, inViewport, removeItem, getAllParentScroller, throttle, merge } from '../_utils/shared'

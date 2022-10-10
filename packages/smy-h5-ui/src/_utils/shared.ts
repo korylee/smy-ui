@@ -1,5 +1,11 @@
-declare interface Func<T = any, R = T> {
+export declare interface Func<T = any, R = T> {
   (...args: T[]): R
+}
+
+export function kebabCase(str: string): string {
+  const reg = /([^-])([A-Z])/g
+
+  return str.replace(reg, '$1-$2').replace(reg, '$1-$2').toLowerCase()
 }
 
 export function toNumber(val: number | string | boolean | undefined | null): number {

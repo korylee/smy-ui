@@ -1,4 +1,4 @@
-import { ExtractPropTypes } from '@smy-h5/vtools'
+import type { ExtractPropTypes } from '@smy-h5/vtools'
 
 export const props = {
   to: {

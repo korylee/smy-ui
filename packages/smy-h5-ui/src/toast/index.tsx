@@ -1,10 +1,13 @@
+import type { ToastPosition, ToastProps } from './props'
+import type { CreateElement } from 'vue'
+
 import { withInstall } from '../_utils/components'
 import SmyToast from './Toast.vue'
 import SmyToastCore from './ToastCore.vue'
 import { isNumber, isString, toNumber } from '../_utils/shared'
-import Vue, { CreateElement } from 'vue'
+import Vue from 'vue'
 import { mountComponent } from '@smy-h5/vtools'
-import { ToastPosition, ToastProps, TOAST_TYPES } from './props'
+import { TOAST_TYPES } from './props'
 import context from '../_context'
 
 type MutablePartial<T> = {
