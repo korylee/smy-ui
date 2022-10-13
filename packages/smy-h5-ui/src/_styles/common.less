@@ -14,11 +14,35 @@
   &--absolute {
     position: absolute;
   }
+  &--hidden,
+  &--lock {
+    overflow: hidden;
+  }
+  &--block {
+    display: block;
+  }
+  &--inline-block {
+    display: inline-block;
+  }
+  &--flex {
+    display: flex;
+  }
+  &-inline-flex {
+    display: inline-flex;
+  }
+  &--ellipsis {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 :root {
   --font-size-xs: @font-size-xs;
   --color-primary: @color-primary;
+  --color-info: @color-info;
+  --color-success: @color-success;
+  --color-disabled: @color-disabled;
   --shadow-key-umbra-opacity: @shadow-key-umbra-opacity;
   --shadow-key-penumbra-opacity: @shadow-key-penumbra-opacity;
   --shadow-key-ambient-opacity: @shadow-key-ambient-opacity;

@@ -25,3 +25,18 @@ export function withInstall(component: any) {
   component.install = install
   return install
 }
+
+export function addRouteListener(vm: any, cb: () => void) {
+  const add = () => {
+    window.addEventListener('hashchange', cb)
+    window.addEventListener('popstate', cb)
+  }
+  const remove = () => {
+    window.removeEventListener('hashchange', cb)
+    window.removeEventListener('popstate', cb)
+  }
+  vm.$on('hook:mounted', add)
+  vm.$on('hook:activated', add)
+  vm.$on('hook:deactivated', remove)
+  vm.$on('hook:beforeDestory', remove)
+}

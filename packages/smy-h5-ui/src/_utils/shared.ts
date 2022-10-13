@@ -146,3 +146,6 @@ export function createLRUCache<T, R>(max: number, cache = new Map()): LRUCacheIn
     delete: deleteItem,
   }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export const NOOP = (): void => {}

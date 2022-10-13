@@ -1,5 +1,5 @@
-import { ExtractPropTypes } from '@smy-h5/vtools'
-import { PropType } from 'vue'
+import type { ExtractPropTypes } from '@smy-h5/vtools'
+import type { PropType } from 'vue'
 
 const loadingTypes = ['circle', 'wave', 'cube', 'disappear'] as const
 

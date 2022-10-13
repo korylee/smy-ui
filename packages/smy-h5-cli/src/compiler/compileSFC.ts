@@ -59,8 +59,9 @@ export async function compileSFCFile(sfc: string) {
 }
 
 export function injectRender(script: string, render: string): string {
-  if (DEFINE_EXPORT_START_RE.test(script.trim())) {
-    return script.trim().replace(
+  script = script.trim()
+  if (DEFINE_EXPORT_START_RE.test(script)) {
+    return script.replace(
       DEFINE_EXPORT_START_RE,
       `
 ${render}\nexport default defineComponent({
@@ -69,8 +70,8 @@ render,\
     )
   }
 
-  if (EXPORT_START_RE.test(script.trim())) {
-    return script.trim().replace(
+  if (EXPORT_START_RE.test(script)) {
+    return script.replace(
       EXPORT_START_RE,
       `${render}\nexport default {
       render,\

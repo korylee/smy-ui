@@ -61,5 +61,6 @@ export default {
 }
 </script>
 <style lang="less">
+@import '../_styles/common.less';
 @import './loading.less';
 </style>
