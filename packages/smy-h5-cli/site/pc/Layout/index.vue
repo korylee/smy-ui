@@ -165,6 +165,15 @@ export default {
         word-wrap: break-word;
         color: var(--site-config-color-hl-code);
       }
+      p code,
+      li code,
+      table code {
+        word-break: keep-all;
+        font-size: 15px;
+        @doc-active();
+        color: var(--site-config-color-primary);
+      }
+
       .card {
         border-radius: 4px;
         padding: 20px;

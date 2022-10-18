@@ -1,4 +1,5 @@
 module.exports = {
+  highlight: { style: null },
   useMobile: true,
   pc: {
     menu: [

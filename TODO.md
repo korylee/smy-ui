@@ -57,7 +57,7 @@
 
 [x] Toast 消息条
 [] Dialog 对话框
-[] Popup 弹出层
+[x] Popup 弹出层
 [] ActionSheet 动作面板 由下面弹出的对话框
 [] Countdown 倒计时
 [] DatePicker 日期选择器
