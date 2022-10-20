@@ -12,6 +12,8 @@ import ora from 'ora'
 // 不懂看这 https://www.jianshu.com/p/5565536a1f82
 const releaseTypes = ['premajor', 'major', 'prepatch', 'patch', 'preminor', 'minor']
 
+const ReleasePackages = ['ui', 'eslint-config', 'vtools']
+
 async function isWorktreeEmpty() {
   const ret = await execa('git', ['status', '--porcelain'])
   return !ret.stdout
@@ -19,8 +21,11 @@ async function isWorktreeEmpty() {
 
 async function publish(preRelease: boolean) {
   const s = ora().start('Publishing all packages')
+  const args = ['-r', 'publish', '--no-git-checks', '--access', 'public']
   // 过滤某些包，或者可以使用--filter=xxx --filter=!xxx
-  const args = ['-r', 'publish', '--no-git-checks', '--access', 'public', '--filter', 'ui', '--filter', 'eslint-config']
+  ReleasePackages.forEach((pkg) => {
+    args.push('--filter', pkg)
+  })
   preRelease && args.push('--tag', 'alpha')
   const ret = await execa('pnpm', args)
   if (ret.stderr && ret.stderr.includes('npm ERR!')) {

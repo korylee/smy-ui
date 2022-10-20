@@ -1,4 +1,4 @@
-## 0.0.1 (2022-10-18)
+## [0.0.1](https://git.smyoa.com/FE/smy-h5/compare/5aa3919a8b505c6368e06975eb02a5167ab18310...v0.0.1) (2022-10-18)
 
 
 ### Bug Fixes

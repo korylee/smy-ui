@@ -47,7 +47,8 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "vue": "^2.6.14"
+    "vue": "^2.6.14",
+    "@smy-h5/vtools": "workspace:*"
   },
   "sideEffects": [
     "es/**/style/*",
