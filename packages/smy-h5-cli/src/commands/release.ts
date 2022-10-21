@@ -41,6 +41,8 @@ function updateVersion(version: string) {
   packageJsons.push('package.json')
 
   packageJsons.forEach((path: string) => {
+    if (!~ReleasePackages.findIndex((key) => path.includes(key))) return
+    console.log(path)
     const file = resolve(CWD, path)
     const config = require(file)
 
