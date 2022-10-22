@@ -1,4 +1,4 @@
-import { copy, readdir, removeSync } from 'fs-extra'
+import { copy, readdir, remove, removeSync } from 'fs-extra'
 import { build } from 'vite'
 import { getESMBundleConfig, getUMDCOnfig } from '../config'
 import { getSmyConfig } from '../config/getConfig'
@@ -12,11 +12,11 @@ import {
   TESTS_DIR_NAME,
 } from '../shared/constant'
 import { resolve } from 'path'
-import { getPublicDirs, isDir, isDTS, isLess, isScript, isSFC } from '../shared/fs-utils'
+import { isDir, isDTS, isLess, isPublicDir, isScript, isSFC } from '../shared/fs-utils'
 import { compileSFCFile } from './compileSFC'
 import { compileCommonJSEntry, compileESEntry, compileScriptFile } from './compileScript'
 import { compileLess } from './compileStyle'
-import { generateReference } from './compileTypes'
+import { compileDts } from './compileTypes'
 
 export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boolean = false) {
   if (moduleType === 'umd') {
@@ -28,9 +28,15 @@ export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boo
 
   const isCjs = moduleType === 'commonjs'
   process.env.BABEL_MODULE = isCjs ? 'commonjs' : 'module'
+
+  const moduleDir: string[] = await readdir(SRC_DIR)
+  const publicDirs = moduleDir.filter(
+    (filename: string) => isPublicDir(resolve(SRC_DIR, filename)) && !filename.startsWith('_')
+  )
+
   const dest = isCjs ? LIB_DIR : ES_DIR
   await copy(SRC_DIR, dest)
-  const moduleDir: string[] = await readdir(dest)
+  await remove(resolve(SRC_DIR, 'index.d.ts'))
 
   await Promise.all(
     moduleDir.map((filename: string) => {
@@ -38,10 +44,8 @@ export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boo
       return isDir(file) ? compileDir(file) : null
     })
   )
-  const publicDirs = await getPublicDirs()
 
   await (isCjs ? compileCommonJSEntry(dest, publicDirs) : compileESEntry(dest, publicDirs))
-  generateReference(dest)
 }
 
 export function compileUMD() {
@@ -60,15 +64,21 @@ export function compileESMBundle() {
 
 export async function compileDir(dir: string) {
   const dirs = await readdir(dir)
-  await Promise.all(
-    dirs.map((filename) => {
-      const file = resolve(dir, filename)
+  const files: string[] = []
+  dirs.forEach((filename) => {
+    const file = resolve(dir, filename)
+    const uncompileFiles = [EXAMPLE_DIR_NAME, DOCS_DIR_NAME, TESTS_DIR_NAME]
+    if (uncompileFiles.includes(filename)) {
+      removeSync(file)
+      return
+    }
+    if (isDTS(file) || filename === STYLE_DIR_NAME) return
+    files.push(file)
+  })
 
-      ;[EXAMPLE_DIR_NAME, DOCS_DIR_NAME, TESTS_DIR_NAME].includes(filename) && removeSync(file)
-      if (isDTS(file) || filename === STYLE_DIR_NAME) return
-      return compileFile(file)
-    })
-  )
+  const compileDtsFiles = files.filter((file) => isSFC(file) || isScript(file))
+  await compileDts(compileDtsFiles)
+  return Promise.all(files.map((file) => compileFile(file)))
 }
 
 export async function compileFile(file: string) {

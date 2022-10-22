@@ -1,10 +1,5 @@
 import type { VueConstructor } from 'vue'
 
-export declare class SmyComponent {
-  static name: string
-  static install(app: VueConstructor): void
-}
-
 function registerComponent(app: VueConstructor, name: string, component: any) {
   const registered = app.component(name)
   if (!registered) {

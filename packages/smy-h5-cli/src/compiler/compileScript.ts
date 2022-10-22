@@ -1,5 +1,5 @@
 import { transformAsync } from '@babel/core'
-import { writeFileSync, readFileSync, removeSync, writeFile } from 'fs-extra'
+import { writeFileSync, readFileSync, removeSync, writeFile, pathExistsSync } from 'fs-extra'
 import { camelCase, upperFirst } from 'lodash'
 import { isDir, replaceExt } from '../shared/fs-utils'
 import { extractStyleDependencies } from './compileStyle'
@@ -46,6 +46,7 @@ export async function compileScript(script: string, file: string) {
     script = moduleCompatible(script)
   }
 
+  // ts -> js
   const result = await transformAsync(script, { filename: file })
   let code = result?.code
   if (!code) return logger.error(`${file} code is empty`)
@@ -136,7 +137,7 @@ ${lessImports.join('\n')}
 }
 
 export async function compileCommonJSEntry(dir: string, publicDirs: string[]) {
-  const requries: string[] = []
+  const requires: string[] = []
   const plugins: string[] = []
   const cssRequires: string[] = []
   const lessRequires: string[] = []
@@ -144,30 +145,33 @@ export async function compileCommonJSEntry(dir: string, publicDirs: string[]) {
   publicDirs.forEach((dirname) => {
     const publicComponent = upperFirst(camelCase(dirname))
     publicComponents.push(publicComponent)
-    requries.push(`var ${publicComponent} = require('./${dirname}').default`)
-    plugins.push(`${publicComponent}.install && appp.use(${publicComponent})`)
+    requires.push(`var ${publicComponent} = require('./${dirname}')['default']`)
+    plugins.push(`${publicComponent}.install && app.use(${publicComponent})`)
     cssRequires.push(`require('./${dirname}/style')`)
     lessRequires.push(`require('./${dirname}/style/less')`)
   })
   const install = `
-  function install(app) {
-    ${plugins.join('\n ')}
-  }
-  `
-  const indexTemplate = `
-  ${requries.join('\n')}\n
-  ${install}
-  module.exports = {
-    install,
-    ${publicComponents.join(',\n ')}
-  }
-  `
-  const styleTemplate = `
-  ${cssRequires.join('\n')}
-  `
-  const lessTemplate = `
-  ${lessRequires.join('\n')}`
+function install(app) {
+  ${plugins.join('\n  ')}
+}
+`
 
+  const indexTemplate = `\
+${requires.join('\n')}\n
+${install}
+
+module.exports = {
+  install,
+  ${publicComponents.join(',\n  ')}
+}
+`
+  const styleTemplate = `\
+${cssRequires.join('\n')}
+`
+
+  const lessTemplate = `\
+${lessRequires.join('\n')}
+`
   await Promise.all([
     writeFile(resolve(dir, 'index.js'), indexTemplate, 'utf-8'),
     writeFile(resolve(dir, 'style.js'), styleTemplate, 'utf-8'),

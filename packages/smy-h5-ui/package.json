@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "module": "es/index.js",
   "main": "lib/index.js",
-  "typings": "types/index.d.ts",
+  "typings": "es/index.d.ts",
+  "unpkg": "dist/index.js",
   "keywords": [
     "vue2",
     "UI"
@@ -12,7 +13,8 @@
     "lib",
     "es",
     "umd",
-    "types"
+    "volar.d.ts",
+    "lighlights"
   ],
   "scripts": {
     "dev": "smy-h5-cli dev",
@@ -47,12 +49,16 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "vue": "^2.6.14",
+    "vue": ">= 2.6.0",
     "@smy-h5/vtools": "workspace:*"
   },
   "sideEffects": [
     "es/**/style/*",
     "lib/**/style/*",
+    "es/style.js",
+    "es/less.js",
+    "lib/style.js",
+    "lib/less.js",
     "*.css",
     "*.less"
   ],

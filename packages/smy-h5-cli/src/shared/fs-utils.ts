@@ -1,20 +1,7 @@
-import {
-  appendFileSync,
-  ensureFileSync,
-  lstatSync,
-  outputFileSync,
-  pathExistsSync,
-  readdir,
-  readFileSync,
-} from 'fs-extra'
+import { appendFileSync, ensureFileSync, lstatSync, outputFileSync, pathExistsSync, readFileSync } from 'fs-extra'
 import { extname, resolve } from 'path'
-import { PUBLIC_DIR_INDEXES, SCRIPTS_EXTENSIONS, SRC_DIR } from './constant'
+import { PUBLIC_DIR_INDEXES, SCRIPTS_EXTENSIONS } from './constant'
 import globSync from 'glob'
-
-export async function getPublicDirs(): Promise<string[]> {
-  const srcDir: string[] = await readdir(SRC_DIR)
-  return srcDir.filter((filename: string) => isPublicDir(resolve(SRC_DIR, filename)))
-}
 
 export const isDir = (file: string): boolean => pathExistsSync(file) && lstatSync(file).isDirectory()
 

@@ -9,6 +9,8 @@ export const LIB_DIR = resolve(CWD, 'lib')
 export const TYPES_DIR = resolve(CWD, 'types')
 export const ROOT_PAGES_DIR = resolve(CWD, 'pages')
 export const ROOT_DOCS_DIR = resolve(CWD, 'docs')
+export const TS_CONFIG = resolve(CWD, 'tsconfig.json')
+export const TS_TYPES_CONFIG = resolve(CWD, 'tsconfig.types.json')
 
 export const ESLINT_EXTENSIONS = ['.vue', '.ts', '.js', '.mjs', '.tsx', '.jsx']
 export const VITE_RESOLVE_EXTENSION = ['.vue', '.ts', '.js', '.mjs', '.tsx', '.jsx']

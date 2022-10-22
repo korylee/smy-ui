@@ -1,4 +1,4 @@
-import type { ToastPosition, ToastProps } from './props'
+import type { ToastPosition, ToastProps, ToastType } from './props'
 import type { CreateElement } from 'vue'
 
 import { withInstall } from '../_utils/components'
@@ -147,16 +147,21 @@ const Toast = function toast(options: number | string | ReactiveToastOptions) {
   }
 }
 
-TOAST_TYPES.forEach((type) => {
-  Toast[type] = (options: Parameters<typeof Toast>[0]) => {
-    if (isString(options) || isNumber(options)) {
-      options = { content: String(options), type }
-    } else {
-      options.type = type
-    }
-    return Toast(options)
+type ToastInter = typeof Toast
+
+const getToast = (type: ToastType) => (options: Parameters<ToastInter>[0]) => {
+  if (isString(options) || isNumber(options)) {
+    options = { content: String(options), type }
+  } else {
+    options.type = type
   }
-})
+  return Toast(options)
+}
+
+const Toasts: { [type in ToastType]: ReturnType<typeof getToast> } = TOAST_TYPES.reduce((acc, cur) => {
+  acc[cur] = getToast(cur)
+  return cur
+}, {} as any)
 
 Toast.allowMultiple = function (bool = false) {
   if (!bool !== isAllowMultiple) {
@@ -228,6 +233,6 @@ const install = withInstall(SmyToast)
 Toast.install = install
 
 export type { ToastProps } from './props'
-export { SmyToast }
+export { SmyToast, Toasts }
 
-export default Toast
+export default Object.assign(Toast, Toasts)

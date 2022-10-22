@@ -26,4 +26,5 @@ export async function compile(cmd: { onUmd: boolean }) {
   await removeDir()
   await Promise.all([runTask('types', compileTypes)])
   await runTask('module', compileModule)
+  await runTask('commonjs', () => compileModule('commonjs'))
 }
