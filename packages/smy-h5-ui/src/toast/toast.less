@@ -8,6 +8,8 @@
 @toast-success-background: var(--color-success);
 @toast-content-padding: 14px 16px;
 @toast-action-margin: 0 16px 0 0;
+@toast-vertical-width: unset;
+@toast-vertical-padding: 24px;
 
 :root {
   --toast-width: @toast-width;
@@ -21,6 +23,8 @@
 
   --toast-content-padding: @toast-content-padding;
   --toast-action-margin: @toast-action-margin;
+  --toast-vertical-width: @toast-vertical-width;
+  --toast-vertical-padding: @toast-vertical-padding;
 }
 
 .smy-transition-group {
@@ -45,6 +49,20 @@
   bottom: 0;
   transition: all 0.15s var(--cubic-bezier);
 
+  & &__vertical {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    width: var(--toast-vertical-width);
+    padding: var(--toast-vertical-padding);
+
+    .smy-toast__content {
+      padding: 0;
+    }
+    .smy-toast__action {
+      margin: 0;
+      align-self: center;
+    }
+  }
   &__wrapper {
     width: var(--toast-width);
     display: flex;

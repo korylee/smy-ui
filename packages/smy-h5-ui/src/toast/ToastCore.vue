@@ -2,7 +2,9 @@
   <div class="smy-toast" :style="toastStyle">
     <div :class="toastWrapClass" :style="{ zIndex }">
       <div class="smy-toast__content" :class="contentClass">
-        <slot>{{ content }}</slot>
+        <slot>
+          <span v-html="content"></span>
+        </slot>
       </div>
       <div class="smy-toast__action">
         <Loading v-if="type === 'loading'" :type="loadingType" :size="loadingSize" />

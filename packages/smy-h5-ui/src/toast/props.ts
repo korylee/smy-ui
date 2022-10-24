@@ -16,7 +16,7 @@ export const props = {
   // 显示的位置
   position: {
     type: String as PropType<ToastPosition>,
-    default: 'top',
+    default: 'center',
     validator: (position: ToastPosition) => TOAST_POSITIONS.includes(position),
   },
   content: String,
@@ -29,7 +29,7 @@ export const props = {
   // 是否将消息内容堆叠在操作上
   vertical: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   // 是否禁止滚动穿透
   locakScroll: {
@@ -55,6 +55,5 @@ export const props = {
   },
   loadingType: LoadingProps.type,
   loadingSize: LoadingProps.size,
-} as const
-
+}
 export type ToastProps = ExtractPropTypes<typeof props>

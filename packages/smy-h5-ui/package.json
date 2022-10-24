@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "module": "es/index.js",
   "main": "lib/index.js",
-  "typings": "es/index.d.ts",
+  "typings": "types/index.d.ts",
   "unpkg": "dist/index.js",
   "keywords": [
     "vue2",

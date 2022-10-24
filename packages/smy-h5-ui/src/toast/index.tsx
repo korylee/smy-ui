@@ -160,7 +160,7 @@ const getToast = (type: ToastType) => (options: Parameters<ToastInter>[0]) => {
 
 const Toasts: { [type in ToastType]: ReturnType<typeof getToast> } = TOAST_TYPES.reduce((acc, cur) => {
   acc[cur] = getToast(cur)
-  return cur
+  return acc
 }, {} as any)
 
 Toast.allowMultiple = function (bool = false) {
@@ -177,6 +177,17 @@ Toast.clear = function () {
     option.reactiveToastOptions.show = false
   })
 }
+
+function setDefaultOptions(key: Partial<ReactiveToastOptions>, value: undefined): void
+function setDefaultOptions<T extends keyof ReactiveToastOptions>(key: T, value: ReactiveToastOptions[T]) {
+  if (typeof key === 'string') {
+    defaultOption[key] = value
+  } else {
+    Object.assign(defaultOption, key)
+  }
+}
+
+Toast.setDefaultOptions = setDefaultOptions
 
 Toast.Component = SmyToast
 
