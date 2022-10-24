@@ -2,7 +2,7 @@ import type { PluginObject, VueConstructor, DirectiveOptions } from 'vue'
 import type { DirectiveBinding } from 'vue/types/options'
 import { createLRUCache, inViewport, removeItem, getAllParentScroller, throttle, merge } from '../_utils/shared'
 
-interface LazyOptions {
+export interface LazyOptions {
   loading?: string
   error?: string
   attempt?: number

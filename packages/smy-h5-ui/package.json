@@ -13,7 +13,7 @@
     "lib",
     "es",
     "umd",
-    "volar.d.ts",
+    "types",
     "lighlights"
   ],
   "scripts": {

@@ -16,7 +16,6 @@ import { isDir, isDTS, isLess, isPublicDir, isScript, isSFC } from '../shared/fs
 import { compileSFCFile } from './compileSFC'
 import { compileCommonJSEntry, compileESEntry, compileScriptFile } from './compileScript'
 import { compileLess } from './compileStyle'
-import { compileDts } from './compileTypes'
 
 export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boolean = false) {
   if (moduleType === 'umd') {
@@ -64,21 +63,18 @@ export function compileESMBundle() {
 
 export async function compileDir(dir: string) {
   const dirs = await readdir(dir)
-  const files: string[] = []
-  dirs.forEach((filename) => {
-    const file = resolve(dir, filename)
-    const uncompileFiles = [EXAMPLE_DIR_NAME, DOCS_DIR_NAME, TESTS_DIR_NAME]
-    if (uncompileFiles.includes(filename)) {
-      removeSync(file)
-      return
-    }
-    if (isDTS(file) || filename === STYLE_DIR_NAME) return
-    files.push(file)
-  })
-
-  const compileDtsFiles = files.filter((file) => isSFC(file) || isScript(file))
-  await compileDts(compileDtsFiles)
-  return Promise.all(files.map((file) => compileFile(file)))
+  await Promise.all(
+    dirs.map((filename) => {
+      const file = resolve(dir, filename)
+      const uncompileFiles = [EXAMPLE_DIR_NAME, DOCS_DIR_NAME, TESTS_DIR_NAME, STYLE_DIR_NAME]
+      if (uncompileFiles.includes(filename)) {
+        removeSync(file)
+        return
+      }
+      if (isDTS(file)) return
+      return compileFile(file)
+    })
+  )
 }
 
 export async function compileFile(file: string) {

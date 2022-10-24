@@ -83,7 +83,7 @@ export async function compileESEntry(dir: string, publicDirs: string[]) {
   publicDirs.forEach((dirname: string) => {
     const publicComponent = upperFirst(camelCase(dirname))
     publicComponents.push(publicComponent)
-    imports.push(`import ${publicComponent}, * as ${publicComponent}Module from './${dirname}'`)
+    imports.push(`import ${publicComponent} from './${dirname}'`)
     // internalComponents.push(
     //   `export const _${publicComponent}Component = ${publicComponent}Module._${publicComponent}Component || {}`
     // )
@@ -100,7 +100,7 @@ const installTargets = [];
 function install(app) {
   if (installTargets.includes(app)) return;
   installTargets.push(app);
-  ${plugins.join('\n ')}
+  ${plugins.join('\n  ')}
 }
 `
   // ${internalComponents.join('\n')}\n
@@ -112,7 +112,7 @@ ${install}
 export {
   install,
   version,
-  ${publicComponents.join(',\n ')}
+  ${publicComponents.join(',\n  ')}
 }
 
 export default {

@@ -1,60 +1,35 @@
 import type { SourceFile } from 'ts-morph'
 
-import { pathExistsSync, readdir, writeFile } from 'fs-extra'
+import { ensureDir, pathExistsSync, readdir, writeFile } from 'fs-extra'
 import { getSmyConfig } from '../config/getConfig'
-import { UI_PACKAGE_JSON, TS_CONFIG, TS_TYPES_CONFIG, SRC_DIR, CWD } from '../shared/constant'
+import {
+  UI_PACKAGE_JSON,
+  TS_CONFIG,
+  TS_TYPES_CONFIG,
+  SRC_DIR,
+  CWD,
+  TYPES_DIR,
+  EXAMPLE_DIR_NAME,
+  DOCS_DIR_NAME,
+  TESTS_DIR_NAME,
+  STYLE_DIR_NAME,
+} from '../shared/constant'
 import { resolve } from 'path'
 import { camelCase, upperFirst } from 'lodash'
 const path = require('path')
 const fs = require('fs')
 const { Project } = require('ts-morph')
 const { parse, compileScript } = require('@vue/compiler-sfc')
-import { isDir, isScript, isSFC } from '../shared/fs-utils'
+import { isDir, isDTS, isScript, isSFC } from '../shared/fs-utils'
 
 export async function compileTypes() {
-  const config = getSmyConfig()
-  const namespace = config.namespace
-  const { name } = require(UI_PACKAGE_JSON)
-  const entryDir = await readdir(SRC_DIR)
-  const exports: string[] = []
-  const declares: string[] = []
-
-  entryDir.forEach((filename) => {
-    if (!isDir(resolve(SRC_DIR, filename))) return
-    if (filename.startsWith('_')) return
-    const componentName = upperFirst(camelCase(filename))
-    const upperComponentName = `${upperFirst(namespace)}${componentName}`
-    exports.push(`export * from './${filename}'`)
-    declares.push(`${upperComponentName}: typeof import('${name}')['${componentName}']`)
-  })
-  const template = `\
-import type { VueConstructor } from 'vue'
-
-export const install: (app: VueConstructor) => void
-
-export const version: string
-
-${exports.join('\n')}
-`
-
-  const globalTemplate = `\
-declare module 'vue' {
-  export interface GlobalComponents {
-    ${declares.join('\n    ')}
-  }
-}
-
-export {}
-`
-  await Promise.all([
-    writeFile(resolve(SRC_DIR, 'index.d.ts'), template),
-    writeFile(resolve(CWD, 'volar.d.ts'), globalTemplate),
-  ])
+  await ensureDir(TYPES_DIR)
+  await Promise.all([comipleTypesEntry(), compileModuleTypes()])
 }
 
 let index = 1
 
-const getIsTs = (str: string) => ['ts', '.tsx'].includes(str)
+const getIsTs = (str: string) => ['ts', 'tsx'].includes(str)
 
 export async function compileDts(files: string[]) {
   // 这部分内容具体可以查阅 ts-morph 的文档
@@ -65,8 +40,9 @@ export async function compileDts(files: string[]) {
       emitDeclarationOnly: true,
       noEmitOnError: true,
       allowJs: true, // 如果想兼容 js 语法需要加上
-      // outDir, // 可以设置自定义的打包文件夹，如 'types'
+      outDir: TYPES_DIR, // 可以设置自定义的打包文件夹，如 'types'
       jsx: true,
+      noEmit: false,
     },
     tsConfigFilePath: pathExistsSync(TS_TYPES_CONFIG) ? TS_TYPES_CONFIG : TS_CONFIG,
     skipAddingFilesFromTsConfig: true,
@@ -112,10 +88,10 @@ export async function compileDts(files: string[]) {
       }
     })
   )
-  // const diagnostics = project.getPreEmitDiagnostics()
+  const diagnostics = project.getPreEmitDiagnostics()
 
   // 输出解析过程中的错误信息
-  // console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
+  console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
 
   project.emitToMemory()
 
@@ -130,4 +106,76 @@ export async function compileDts(files: string[]) {
       await fs.promises.writeFile(filePath, outputFile.getText(), 'utf8')
     }
   }
+}
+
+async function getAllComipleDtsFiles(dir: string, files: string[] = []) {
+  const entryDir = await readdir(dir)
+  await Promise.all(
+    entryDir.map(async (filename) => {
+      const file = resolve(dir, filename)
+      if ([EXAMPLE_DIR_NAME, DOCS_DIR_NAME, TESTS_DIR_NAME, STYLE_DIR_NAME].includes(filename)) return
+      if (isDir(file)) {
+        await getAllComipleDtsFiles(file, files)
+      } else {
+        if (isDTS(file)) return
+        if (!isSFC(file) && !isScript(file)) return
+        files.push(file)
+      }
+    })
+  )
+  return files
+}
+
+export async function compileModuleTypes() {
+  const files: string[] = await getAllComipleDtsFiles(SRC_DIR)
+  await compileDts(files)
+}
+
+async function comipleTypesEntry() {
+  const config = getSmyConfig()
+  const namespace = config.namespace
+  const { name, version } = require(UI_PACKAGE_JSON)
+  const entryDir = await readdir(SRC_DIR)
+  const exports: string[] = []
+  const declares: string[] = []
+
+  entryDir.forEach((filename) => {
+    const file = resolve(SRC_DIR, filename)
+    if (!isDir(file)) return
+    if (filename.startsWith('_')) return
+    const componentName = upperFirst(camelCase(filename))
+    const upperComponentName = `${upperFirst(namespace)}${componentName}`
+    exports.push(`export { default as ${componentName} } from './${filename}'`)
+    declares.push(`${upperComponentName}: typeof import('${name}')['${componentName}']`)
+  })
+  const template = `\
+import type { VueConstructor } from 'vue'
+
+export declare function install(app: VueConstructor): void
+
+export declare const version = "${version}";
+
+${exports.join('\n')}
+
+declare const _default: {
+  install: typeof install;
+  version: typeof version;
+}
+
+export default _default
+`
+
+  const globalTemplate = `\
+declare module 'vue' {
+  export interface GlobalComponents {
+    ${declares.join('\n    ')}
+  }
+}
+
+export {}
+`
+  await Promise.all([
+    writeFile(resolve(TYPES_DIR, 'index.d.ts'), template),
+    writeFile(resolve(TYPES_DIR, 'volar.d.ts'), globalTemplate),
+  ])
 }

@@ -1,12 +1,12 @@
 import { remove } from 'fs-extra'
-import { ES_DIR } from '../shared/constant'
+import { ES_DIR, LIB_DIR, TYPES_DIR } from '../shared/constant'
 import ora from 'ora'
 import { compileModule } from '../compiler/compileModule'
 import logger from '../shared/logger'
 import { compileTypes } from '../compiler/compileTypes'
 
 export function removeDir() {
-  return Promise.all([remove(ES_DIR)])
+  return Promise.all([remove(ES_DIR), remove(TYPES_DIR), remove(LIB_DIR)])
 }
 
 export async function runTask(taskName: string, task: () => any) {
@@ -26,5 +26,5 @@ export async function compile(cmd: { onUmd: boolean }) {
   await removeDir()
   await Promise.all([runTask('types', compileTypes)])
   await runTask('module', compileModule)
-  await runTask('commonjs', () => compileModule('commonjs'))
+  // await runTask('commonjs', () => compileModule('commonjs'))
 }

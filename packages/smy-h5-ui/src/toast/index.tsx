@@ -72,7 +72,7 @@ function getCoreVNode(h: CreateElement, option: UniqToastOptionItem) {
       reactiveToastOptions?.onClose?.()
     },
   }
-  return h(SmyToastCore, {
+  return h(SmyToastCore as any, {
     key: id,
     attrs,
     style,
