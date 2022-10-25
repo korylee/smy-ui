@@ -7,8 +7,13 @@
         </slot>
       </div>
       <div class="smy-toast__action">
-        <Loading v-if="type === 'loading'" :type="loadingType" :size="loadingSize" />
-        <slot name="action" />
+        <slot v-if="hasSlots('action')" name="action" />
+        <template v-else-if="action">
+          <span v-if="isString(action)" v-html="action"></span>
+          <RenderToComp v-else-if="isFunction(action)" :render="action" />
+          <component v-else :is="action" />
+        </template>
+        <Loading v-else-if="type === 'loading'" :type="loadingType" :size="loadingSize" />
       </div>
     </div>
   </div>
@@ -20,11 +25,14 @@ import { props, TOAST_TYPES } from './props'
 import { createZIndexMixin } from '../_context/mixins/zIndex'
 import { createLockMixin } from '../_context/mixins/lock'
 import { SlotsMixin } from '@smy-h5/vtools'
+import { isString, isFunction } from '../_utils/shared'
+import { RenderToComp } from '../_utils/components'
 
 export default {
   name: 'SmyToastCore',
   components: {
     Loading,
+    RenderToComp,
   },
   mixins: [SlotsMixin, createZIndexMixin('show'), createLockMixin('show', 'lockScroll')],
   props,
@@ -38,14 +46,14 @@ export default {
         baseClass,
         {
           'smy-toast__vertical': vertical,
-          [`smy-toast__wrapper--${type}`]: type && TOAST_TYPES.includes(type),
+          [`smy-toast__wrapper--${type}`]: TOAST_TYPES.includes(type),
         },
       ]
     },
     toastStyle({ zIndex }) {
       const isForbidClick = this.type === 'loading' || this.forbidClick
       return {
-        pointerEvents: isForbidClick ? 'auto' : 'none',
+        pointerEvents: isForbidClick ? 'none' : 'auto',
         zIndex,
       }
     },
@@ -54,6 +62,7 @@ export default {
     show: {
       immediate: true,
       handler(show) {
+        console.log(this);
         if (show) {
           this.$emit('open')
           this.updateAfterDuration()
@@ -75,8 +84,10 @@ export default {
   //   }
   // },
   methods: {
+    isString,
+    isFunction,
     updateAfterDuration() {
-      this.tiemr = setTimeout(() => {
+      this.timer = setTimeout(() => {
         this.$emit('update:show', false)
       }, this.duration)
     },

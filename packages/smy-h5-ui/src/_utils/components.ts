@@ -1,4 +1,4 @@
-import type { VueConstructor } from 'vue'
+import type { CreateElement, PropType, VNode, VueConstructor } from 'vue'
 
 function registerComponent(app: VueConstructor, name: string, component: any) {
   const registered = app.component(name)
@@ -34,4 +34,16 @@ export function addRouteListener(vm: any, cb: () => void) {
   vm.$on('hook:activated', add)
   vm.$on('hook:deactivated', remove)
   vm.$on('hook:beforeDestory', remove)
+}
+
+export const RenderToComp = {
+  name: 'RenderToComp',
+  functional: true,
+  props: {
+    render: Function,
+  },
+  render(h, context) {
+    const { props, parent } = context
+    return typeof props.render === 'function' ? props.render.call(parent, h, context) : props.render
+  },
 }

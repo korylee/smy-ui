@@ -46,6 +46,7 @@ importers:
       '@types/lodash-es': ^4.17.6
       '@types/node': ^16.11.45
       '@types/semver': ^7.3.12
+      '@vue/babel-helper-vue-jsx-merge-props': ^1.4.0
       '@vue/babel-preset-jsx': ^1.3.1
       '@vue/component-compiler-utils': ^3.3.0
       babel-plugin-jsx-event-modifiers: ^2.0.5
@@ -82,6 +83,7 @@ importers:
       '@babel/preset-env': 7.19.3_@babel+core@7.19.3
       '@babel/preset-typescript': 7.18.6_@babel+core@7.19.3
       '@smy-h5/vtools': link:../smy-h5-vtools
+      '@vue/babel-helper-vue-jsx-merge-props': 1.4.0
       '@vue/babel-preset-jsx': 1.4.0_76uwputr6txv3zbv2nnvhvxpgu
       '@vue/component-compiler-utils': 3.3.0_lodash@4.17.21
       babel-plugin-jsx-event-modifiers: 2.0.5
@@ -161,6 +163,7 @@ importers:
       '@types/jsdom': ^16.2.14
       '@types/lodash-es': ^4.17.6
       '@types/node': ^16.11.45
+      '@vue/babel-helper-vue-jsx-merge-props': ^1.4.0
       '@vue/test-utils': ^1.3.0
       '@vue/tsconfig': ^0.1.3
       conventional-changelog: ^3.1.25
@@ -182,6 +185,7 @@ importers:
       '@types/jsdom': 16.2.15
       '@types/lodash-es': 4.17.6
       '@types/node': 16.11.63
+      '@vue/babel-helper-vue-jsx-merge-props': 1.4.0
       '@vue/test-utils': 1.3.0_sbs6or2oam5i4s4vmfp4rzwdnq
       '@vue/tsconfig': 0.1.3_@types+node@16.11.63
       conventional-changelog: 3.1.25
@@ -1900,7 +1904,6 @@ packages:
 
   /@vue/babel-helper-vue-jsx-merge-props/1.4.0:
     resolution: {integrity: sha512-JkqXfCkUDp4PIlFdDQ0TdXoIejMtTHP67/pvxlgeY+u5k3LEdKuWZ3LK6xkxo52uDoABIVyRwqVkfLQJhk7VBA==}
-    dev: false
 
   /@vue/babel-plugin-transform-vue-jsx/1.4.0_@babel+core@7.19.3:
     resolution: {integrity: sha512-Fmastxw4MMx0vlgLS4XBX0XiBbUFzoMGeVXuMV08wyOfXdikAFqBTuYPR0tlk+XskL19EzHc39SgjrPGY23JnA==}

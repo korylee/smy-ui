@@ -55,6 +55,13 @@ export const isString = (val: unknown): val is string => typeof val === 'string'
 
 export const isNumber = (val: unknown): val is number => typeof val === 'number'
 
+export const isFunction = (val: unknown): val is Func => typeof val === 'function'
+
+export const isPlainObject = (val: unknown): val is Record<string, any> =>
+  Object.prototype.toString.call(val) === '[object Object]'
+
+export const isObject = (val: unknown): val is object => typeof val === 'object' && val !== null
+
 export const doubleRaf = () =>
   new Promise((resolve) => {
     window.requestAnimationFrame(() => {

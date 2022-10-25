@@ -4,22 +4,23 @@ import type { CreateElement } from 'vue'
 import { withInstall } from '../_utils/components'
 import SmyToast from './Toast.vue'
 import SmyToastCore from './ToastCore.vue'
-import { isNumber, isString, toNumber } from '../_utils/shared'
+import { isNumber, isPlainObject, isString, toNumber } from '../_utils/shared'
 import Vue from 'vue'
 import { mountComponent } from '@smy-h5/vtools'
 import { TOAST_TYPES } from './props'
 import context from '../_context'
+import { throwError } from '../_utils/smy'
+// type MutablePartial<T> = {
+//   -readonly [K in keyof T]?: T[K]
+// }
 
-type MutablePartial<T> = {
-  -readonly [K in keyof T]?: T[K]
-}
-
-export type ReactiveToastOptions = MutablePartial<ToastProps> & {
+export type ReactiveToastOptions = Partial<ToastProps> & {
   onOpen?: () => void
   onOpened?: () => void
   onClose?: () => void
   onClosed?: () => void
 }
+
 interface UniqToastOptionItem {
   id: number
   reactiveToastOptions: ReactiveToastOptions
@@ -35,7 +36,7 @@ const uniqToastOptions = Vue.observable<{ value: UniqToastOptionItem[] }>({
   value: [],
 })
 
-const defaultOption: ReactiveToastOptions = {
+const defaultOptions: ReactiveToastOptions = {
   type: undefined,
   content: '',
   position: 'top',
@@ -44,10 +45,16 @@ const defaultOption: ReactiveToastOptions = {
   contentClass: undefined,
   loadingType: 'circle',
   loadingSize: 'normal',
-  locakScroll: false,
+  lockScroll: false,
   teleport: 'body',
   forbidClick: false,
 }
+
+let currentOptions = {
+  ...defaultOptions,
+}
+
+let defaultOptionsMap: { [key in ToastType]?: Omit<ReactiveToastOptions, 'type'> } = {}
 
 function getCoreVNode(h: CreateElement, option: UniqToastOptionItem) {
   const { id, reactiveToastOptions, customUpdate } = option
@@ -98,8 +105,7 @@ const TransitionGroupHost = {
         attrs: {
           name: 'smy-toast-fade',
           tag: 'div',
-          staticClass: 'smy-transition-group',
-          class: isPointerAuto ? 'smy-pointer-auto' : '',
+          class: [`smy-transition-group ${isPointerAuto ? 'smy-pointer-auto' : ''}`],
         },
         style: {
           zIndex: context.zIndex,
@@ -117,7 +123,8 @@ const TransitionGroupHost = {
 const Toast = function toast(options: number | string | ReactiveToastOptions) {
   const toastOptions = isString(options) || isNumber(options) ? { content: String(options) } : options
   const reactiveToastOptions = Vue.observable({
-    ...defaultOption,
+    ...currentOptions,
+    ...defaultOptionsMap[toastOptions.type],
     ...toastOptions,
   })
   Vue.set(reactiveToastOptions, 'show', true)
@@ -147,9 +154,7 @@ const Toast = function toast(options: number | string | ReactiveToastOptions) {
   }
 }
 
-type ToastInter = typeof Toast
-
-const getToast = (type: ToastType) => (options: Parameters<ToastInter>[0]) => {
+const getToast = (type: ToastType) => (options: Parameters<typeof Toast>[0]) => {
   if (isString(options) || isNumber(options)) {
     options = { content: String(options), type }
   } else {
@@ -178,16 +183,30 @@ Toast.clear = function () {
   })
 }
 
-function setDefaultOptions(key: Partial<ReactiveToastOptions>, value: undefined): void
-function setDefaultOptions<T extends keyof ReactiveToastOptions>(key: T, value: ReactiveToastOptions[T]) {
-  if (typeof key === 'string') {
-    defaultOption[key] = value
+function setDefaultOptions(value: ReactiveToastOptions): void
+function setDefaultOptions(key: ToastType, value: Omit<ReactiveToastOptions, 'type'>): void
+function setDefaultOptions(key: ToastType | Partial<ReactiveToastOptions>, value?: Partial<ReactiveToastOptions>) {
+  if (isString(key)) {
+    if (!isPlainObject(value)) {
+      throwError('toast', `setDefaultOptions 设置${key}对应的值必须是对象`)
+    }
+    delete value.type
+    defaultOptionsMap[key] = value
   } else {
-    Object.assign(defaultOption, key)
+    Object.assign(currentOptions, key)
   }
 }
 
 Toast.setDefaultOptions = setDefaultOptions
+
+Toast.resetDefaultOptions = function resetDefaultOptions(type: ToastType) {
+  if (isString(type)) {
+    defaultOptionsMap[type] = undefined
+  } else {
+    currentOptions = { ...defaultOptions }
+    defaultOptionsMap = {}
+  }
+}
 
 Toast.Component = SmyToast
 
@@ -215,7 +234,7 @@ function removeUniqOption(el: HTMLElement) {
   }
 }
 
-function addUniqOption(uniqToastOptionItem) {
+function addUniqOption(uniqToastOptionItem: UniqToastOptionItem) {
   uniqToastOptions.value.push(uniqToastOptionItem)
 }
 
@@ -243,7 +262,6 @@ const install = withInstall(SmyToast)
 
 Toast.install = install
 
-export type { ToastProps } from './props'
 export { SmyToast, Toasts }
 
 export default Object.assign(Toast, Toasts)

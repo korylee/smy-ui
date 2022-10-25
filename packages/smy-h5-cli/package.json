@@ -44,6 +44,7 @@
     "@babel/preset-env": "^7.18.10",
     "@babel/preset-typescript": "^7.18.6",
     "@smy-h5/vtools": "workspace:*",
+    "@vue/babel-helper-vue-jsx-merge-props": "^1.4.0",
     "@vue/babel-preset-jsx": "^1.3.1",
     "@vue/component-compiler-utils": "^3.3.0",
     "babel-plugin-jsx-event-modifiers": "^2.0.5",
