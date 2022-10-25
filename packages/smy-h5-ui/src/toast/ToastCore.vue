@@ -62,7 +62,6 @@ export default {
     show: {
       immediate: true,
       handler(show) {
-        console.log(this);
         if (show) {
           this.$emit('open')
           this.updateAfterDuration()
