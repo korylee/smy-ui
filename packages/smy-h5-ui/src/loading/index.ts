@@ -1,9 +1,9 @@
 export type { LoadingProps } from './props'
 
 import Loading from './Loading.vue'
-import { withInstall } from '../_utils/components'
+import { createInstall } from '../_utils/components'
 
-withInstall(Loading)
+Loading.install = createInstall(Loading)
 
 export const _LoadingComponent = Loading
 

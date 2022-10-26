@@ -1,7 +1,7 @@
 import type { ToastPosition, ToastProps, ToastType } from './props'
 import type { CreateElement } from 'vue'
 
-import { withInstall } from '../_utils/components'
+import { createInstall } from '../_utils/components'
 import SmyToast from './Toast.vue'
 import SmyToastCore from './ToastCore.vue'
 import { isNumber, isPlainObject, isString, toNumber } from '../_utils/shared'
@@ -105,7 +105,7 @@ const TransitionGroupHost = {
         attrs: {
           name: 'smy-toast-fade',
           tag: 'div',
-          class: [`smy-transition-group ${isPointerAuto ? 'smy-pointer-auto' : ''}`],
+          class: `smy-transition-group ${isPointerAuto ? 'smy-pointer-auto' : ''}`,
         },
         style: {
           zIndex: context.zIndex,
@@ -258,7 +258,9 @@ function getTop(position: ToastPosition = 'top') {
   }
 }
 
-const install = withInstall(SmyToast)
+const install = createInstall(SmyToast)
+
+SmyToast.install = install
 
 Toast.install = install
 

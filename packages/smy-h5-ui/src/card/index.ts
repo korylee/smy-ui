@@ -1,8 +1,9 @@
-import Card from './Card.vue'
-import { withInstall } from '../_utils/components'
 export type { CardProps } from './props'
 
-withInstall(Card)
+import Card from './Card.vue'
+import { createInstall } from '../_utils/components'
+
+Card.install = createInstall(Card)
 export const _CardComponent = Card
 
 export default Card

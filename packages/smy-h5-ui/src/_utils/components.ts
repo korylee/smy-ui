@@ -1,4 +1,4 @@
-import type { CreateElement, PropType, VNode, VueConstructor } from 'vue'
+import type { VueConstructor } from 'vue'
 
 function registerComponent(app: VueConstructor, name: string, component: any) {
   const registered = app.component(name)
@@ -7,8 +7,8 @@ function registerComponent(app: VueConstructor, name: string, component: any) {
   }
 }
 
-export function withInstall(component: any) {
-  function install(app) {
+export function createInstall(component: any) {
+  return function install(app: VueConstructor) {
     const { name, alias } = component
     registerComponent(app, name, component)
     if (alias) {
@@ -17,8 +17,6 @@ export function withInstall(component: any) {
       })
     }
   }
-  component.install = install
-  return install
 }
 
 export function addRouteListener(vm: any, cb: () => void) {

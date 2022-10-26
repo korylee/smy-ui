@@ -1,7 +1,7 @@
 export type { TeleportProps } from './props'
-import { withInstall } from '../_utils/components'
+import { createInstall } from '../_utils/components'
 import Teleport from './Teleport'
 
-withInstall(Teleport)
+Teleport.install = createInstall(Teleport)
 
 export default Teleport
