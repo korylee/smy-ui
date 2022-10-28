@@ -34,13 +34,7 @@ export default {
     renderContent() {
       return (
         <div
-          class={[
-            'smy-popup__content',
-            'smy-elevation--3',
-            `smy-popup__content--${this.position}`,
-            this.$attrs.class,
-            this.contentClass,
-          ]}
+          class={['smy-popup__content', `smy-popup__content--${this.position}`, this.$attrs.class, this.contentClass]}
           style={[{ zIndex: this.zIndex }, this.contentStyle]}
           {...{ attrs: this.$attrs }}
         >

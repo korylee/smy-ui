@@ -20,7 +20,7 @@ const path = require('path')
 const fs = require('fs')
 const { Project } = require('ts-morph')
 const { parse, compileScript } = require('@vue/compiler-sfc')
-import { isDir, isDTS, isScript, isSFC } from '../shared/fs-utils'
+import { isDir, isDTS, isPublicDir, isScript, isSFC } from '../shared/fs-utils'
 
 export async function compileTypes() {
   await ensureDir(TYPES_DIR)
@@ -143,6 +143,7 @@ async function comipleTypesEntry() {
     const file = resolve(SRC_DIR, filename)
     if (!isDir(file)) return
     if (filename.startsWith('_')) return
+    if (!isPublicDir(file)) return
     const componentName = upperFirst(camelCase(filename))
     const upperComponentName = `${upperFirst(namespace)}${componentName}`
     exports.push(`export { default as ${componentName} } from './${filename}'`)

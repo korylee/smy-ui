@@ -1,6 +1,6 @@
-export declare interface Func<T = any, R = T> {
-  (...args: T[]): R
-}
+import type { Func } from './is'
+
+import { isBool, isNill, isString } from './is'
 
 export function kebabCase(str: string): string {
   const reg = /([^-])([A-Z])/g
@@ -47,21 +47,6 @@ export function throttle<T extends Func>(method: T, mustRunDelay = 200): T {
   } as T
 }
 
-export const isNill = (val: unknown): val is null | undefined => val == null
-
-export const isBool = (val: unknown): val is boolean => typeof val === 'boolean'
-
-export const isString = (val: unknown): val is string => typeof val === 'string'
-
-export const isNumber = (val: unknown): val is number => typeof val === 'number'
-
-export const isFunction = (val: unknown): val is Func => typeof val === 'function'
-
-export const isPlainObject = (val: unknown): val is Record<string, any> =>
-  Object.prototype.toString.call(val) === '[object Object]'
-
-export const isObject = (val: unknown): val is object => typeof val === 'object' && val !== null
-
 export const doubleRaf = () =>
   new Promise((resolve) => {
     window.requestAnimationFrame(() => {
@@ -80,52 +65,12 @@ export function merge(target, ...args) {
   return target
 }
 
-/**
- * 检查当前dom是否在视口，getBoundingClientRect这方案终究还是有性能问题，后续看有无必要换方案
- */
-export async function inViewport(el: HTMLElement): Promise<boolean> {
-  await doubleRaf()
-  const { top, bottom, left, right } = el.getBoundingClientRect()
-  const { innerWidth, innerHeight } = window
-  const xInViewport = left <= innerWidth && right >= 0
-  const yInViewport = top <= innerHeight && bottom >= 0
-
-  return xInViewport && yInViewport
-}
-
 export interface LRUCacheInstance<T, R> {
   cache: Map<T, R>
   has(key: T): boolean
   put(key: T, value: R): void
   get(key: T): R | undefined
   delete(key: T): boolean
-}
-
-export function getParentScroller(el: HTMLElement): HTMLElement | Window {
-  let element = el
-  while (element) {
-    if (!element.parentNode) break
-    element = element.parentNode as HTMLElement
-    if (element === document.body || element === document.documentElement) {
-      break
-    }
-    const scrollRE = /(scroll|auto)/
-    const { overflowY, overflow } = window.getComputedStyle(element)
-    if (scrollRE.test(overflowY) || scrollRE.test(overflow)) {
-      return element
-    }
-  }
-  return window
-}
-
-export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
-  const allParentScroller: Array<HTMLElement | Window> = []
-  let element: HTMLElement | Window = el
-  while (element !== window) {
-    element = getParentScroller(element as HTMLElement)
-    allParentScroller.push(element)
-  }
-  return allParentScroller
 }
 
 export function createLRUCache<T, R>(max: number, cache = new Map()): LRUCacheInstance<T, R> {

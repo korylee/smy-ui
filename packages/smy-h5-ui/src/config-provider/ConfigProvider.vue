@@ -6,7 +6,7 @@
 
 <script>
 import { props } from './props'
-import { formatStyleVars } from '../_utils/elements'
+import { formatStyleVars } from '../_utils/dom'
 
 export default {
   name: 'SmyConfigProvider',

@@ -54,6 +54,6 @@ header {
 }
 
 .router-view__block {
-  padding: 54px 12px 15px;
+  padding-top: 54px;
 }
 </style>

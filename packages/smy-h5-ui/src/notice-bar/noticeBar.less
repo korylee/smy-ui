@@ -1,0 +1,98 @@
+@import '../_styles/var.less';
+
+@notice-bar-height: 40px;
+@notice-bar-line-height: 24px;
+@notice-bar-padding: 0 16px;
+@notice-bar-font-size: @font-size-md;
+@notice-bar-text-color: rgba(211, 125, 066, 1);
+@notice-bar-bg-color: rgba(251, 248, 220, 1);
+
+:root {
+  --notice-bar-height: @notice-bar-height;
+  --notice-bar-padding: @notice-bar-padding;
+  --notice-bar-font-size: @notice-bar-font-size;
+  --notice-bar-line-height: @notice-bar-line-height;
+  --notice-bar-text-color: @notice-bar-text-color;
+  --notice-bar-bg-color: @notice-bar-bg-color;
+}
+
+.smy-notice-bar {
+  display: flex;
+  height: var(--notice-bar-height);
+  padding: var(--notice-bar-padding);
+  font-size: var(--notice-bar-font-size);
+  line-height: var(--notice-bar-line-height);
+  position: relative;
+  align-items: center;
+  color: var(--notice-bar-text-color);
+  background-color: var(--notice-bar-bg-color);
+
+  &.wrapable {
+    height: auto;
+    padding: 8px 16px;
+
+    .smy-notice-bar__content {
+      position: relative;
+      white-space: normal;
+      word-wrap: break-word;
+      &-wrap {
+        height: auto;
+      }
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--notice-bar-text-color);
+  }
+  &--close {
+    position: relative;
+    padding-right: 40px;
+  }
+  &__left-icon {
+    height: 16px;
+    min-width: 5px;
+    margin-right: 5px;
+    box-sizing: border-box;
+    background-size: 100% 100%;
+  }
+  &__right-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    box-sizing: border-box;
+    padding-left: 5px;
+  }
+  &__content {
+    &-wrap {
+      flex: 1;
+      height: var(--notice-bar-line-height);
+      overflow: hidden;
+      position: relative;
+    }
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  &__vertical {
+    position: relative;
+  }
+}
+
+.smy-notice-bar-play {
+  @keyframes smy-notice-bar-play {
+    to {
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
+  animation: smy-notice-bar-play linear both running;
+}
+.smy-notice-bar-play-infinite {
+  @keyframes smy-notice-bar-play-infinite {
+    to {
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
+  animation: smy-notice-bar-play-infinite linear infinite both running;
+}

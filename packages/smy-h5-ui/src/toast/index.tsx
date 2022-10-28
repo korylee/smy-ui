@@ -4,7 +4,8 @@ import type { CreateElement } from 'vue'
 import { createInstall } from '../_utils/components'
 import SmyToast from './Toast.vue'
 import SmyToastCore from './ToastCore.vue'
-import { isNumber, isPlainObject, isString, toNumber } from '../_utils/shared'
+import { toNumber } from '../_utils/shared'
+import { isNumber, isPlainObject, isString } from '../_utils/is'
 import Vue from 'vue'
 import { mountComponent } from '@smy-h5/vtools'
 import { TOAST_TYPES } from './props'
@@ -48,6 +49,7 @@ const defaultOptions: ReactiveToastOptions = {
   lockScroll: false,
   teleport: 'body',
   forbidClick: false,
+  action: undefined,
 }
 
 let currentOptions = {

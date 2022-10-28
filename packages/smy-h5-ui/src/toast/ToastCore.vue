@@ -25,7 +25,7 @@ import { props, TOAST_TYPES } from './props'
 import { createZIndexMixin } from '../_context/mixins/zIndex'
 import { createLockMixin } from '../_context/mixins/lock'
 import { SlotsMixin } from '@smy-h5/vtools'
-import { isString, isFunction } from '../_utils/shared'
+import { isString, isFunction } from '../_utils/is'
 import { RenderToComp } from '../_utils/components'
 
 export default {
@@ -53,7 +53,7 @@ export default {
     toastStyle({ zIndex }) {
       const isForbidClick = this.type === 'loading' || this.forbidClick
       return {
-        pointerEvents: isForbidClick ? 'none' : 'auto',
+        pointerEvents: isForbidClick ? 'auto' : 'none',
         zIndex,
       }
     },
