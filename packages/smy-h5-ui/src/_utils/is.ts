@@ -20,3 +20,5 @@ export const isFunction = (val: unknown): val is Func => typeof val === 'functio
 export const isPlainObject = isType<Record<string, any>>('Object')
 
 export const isObject = (val: unknown): val is object => typeof val === 'object' && val !== null
+
+export const isArray = Array.isArray

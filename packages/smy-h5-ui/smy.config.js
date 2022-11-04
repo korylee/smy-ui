@@ -11,6 +11,7 @@ module.exports = {
       { text: '展示组件', type: 1 },
       { text: 'Price 商品价格', doc: 'price', type: 2 },
       { text: 'Countdown 倒计时', doc: 'countdown', type: 2 },
+      { text: 'Scroller 滚动', doc: 'scroller', type: 2 },
       { text: 'Card 卡片', doc: 'card', type: 2 },
       { text: 'ImgPreview 图片预览', doc: 'img-preview', type: 2 },
       { text: '导航组件', type: 1 },

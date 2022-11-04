@@ -1,12 +1,12 @@
-import type { Func } from './is'
-
-import { isBool, isNill, isString } from './is'
+import { isBool, isNill, isString, isArray, type Func, isObject } from './is'
 
 export function kebabCase(str: string): string {
   const reg = /([^-])([A-Z])/g
 
   return str.replace(reg, '$1-$2').replace(reg, '$1-$2').toLowerCase()
 }
+
+export const upperFirst = (word: string) => word.charAt(0).toUpperCase() + word.slice(1)
 
 export function toNumber(val: number | string | boolean | undefined | null): number {
   if (isNill(val)) return 0
@@ -101,3 +101,15 @@ export function createLRUCache<T, R>(max: number, cache = new Map()): LRUCacheIn
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const NOOP = (): void => {}
+
+export function pick<T extends Record<string, any>, R extends keyof T>(source: T, props: R | R[]): Pick<T, R> {
+  if (!isObject(source)) return {} as any
+  const wrapProps = isNill(props) ? [] : isArray(props) ? props : [props]
+  return wrapProps.reduce((res, key: R) => {
+    const exist = Reflect.has(source, key)
+    if (exist) {
+      Reflect.set(res, key, source[key])
+    }
+    return res
+  }, {} as Pick<T, R>)
+}

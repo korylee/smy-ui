@@ -4,7 +4,7 @@
     v-show="showNoticeBar"
     :class="{ 'nut-noticebar--close': closable, wrapable }"
     class="smy-notice-bar"
-    @click="$listeners.click?.($event)"
+    @click="onClick"
   >
     <div v-if="iconShow" class="smy-notice-bar__left-icon">
       <slot name="left-icon"> </slot>
@@ -21,7 +21,7 @@
         <slot>{{ text }}</slot>
       </div>
     </div>
-    <div v-if="closable" class="smy-notice-bar__right-icon" @click.stop="handleClickCLose">
+    <div v-if="closable" class="smy-notice-bar__right-icon" @click.stop="handleClickClose">
       <slot name="right-icon">
         <CloseIcon />
       </slot>
@@ -30,12 +30,7 @@
   <div v-else-if="direction === 'vertical' && scrollList.length > 0" class="smy-notice-bar smy-notice-bar__vertical">
     <template>
       <ul class="horse-lamp-list">
-        <li
-          v-for="(item, index) in scrollList"
-          :key="index"
-          class="horse-lamp-list__item"
-          @click="$listeners.click?.(item)"
-        >
+        <li v-for="(item, index) in scrollList" :key="index" class="horse-lamp-list__item" @click="onClick">
           {{ item }}
         </li>
       </ul>
@@ -122,8 +117,8 @@ export default {
     })
   },
   methods: {
-    handleClickCLose(event) {
-      this.showNoticeBar = !this.close
+    handleClickClose(event) {
+      this.showNoticeBar = !this.closable
       this.$emit('close', event)
     },
     async onAnimationEnd() {
@@ -146,6 +141,9 @@ export default {
         if (!last) return
         this.distance = 0
       }, n * this.speed)
+    },
+    onClick(e) {
+      this.$listeners.click?.(e)
     },
   },
 }

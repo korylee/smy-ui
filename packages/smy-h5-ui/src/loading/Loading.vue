@@ -33,7 +33,8 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+
+<script>
 import { SlotsMixin } from '@smy-h5/vtools'
 import { props } from './props'
 import { LOADING_NUMBERS_DICT, LOADING_SIZE_DICT } from './constant'
@@ -54,7 +55,7 @@ export default {
     currentLoadingNums() {
       return LOADING_NUMBERS_DICT[this.type]
     },
-    getRadius({ radius, size }): number {
+    getRadius({ radius, size }) {
       return radius ? toNumber(radius) : LOADING_SIZE_DICT[size]
     },
   },

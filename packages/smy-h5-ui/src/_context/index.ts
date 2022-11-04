@@ -6,7 +6,7 @@ interface Context {
   thouchmoveForbid: boolean
 }
 
-const reactiveConxtext = Vue.observable<Context>({
+export const reactiveConxtext = Vue.observable<Context>({
   locks: {},
   zIndex: 1000,
   thouchmoveForbid: true,
