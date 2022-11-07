@@ -1,4 +1,4 @@
-import { isBool, isNill, isString, isArray, type Func, isObject } from './is'
+import { isBool, isNill, isString, isArray, type Func, isObject, isNumber } from './is'
 
 export function kebabCase(str: string): string {
   const reg = /([^-])([A-Z])/g
@@ -112,4 +112,11 @@ export function pick<T extends Record<string, any>, R extends keyof T>(source: T
     }
     return res
   }, {} as Pick<T, R>)
+}
+
+export function convertToUnit(str: string | number | null | undefined, unit = 'px'): string | undefined {
+  if (str == null || str === '') return undefined
+  else if (isNumber(str) || /^\d+$/.test(str)) return `${Number(str)}${unit}`
+  else if (isNaN(+str!)) return String(str)
+  else return `${Number(str)}${unit}`
 }
