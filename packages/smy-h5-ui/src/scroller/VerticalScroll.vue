@@ -4,7 +4,6 @@
       <div v-if="isFirstPull" class="smy-vert-pulldown">
         <div v-if="!isLoading" class="smy-vert-pulldown-txt">{{ pulldownTxt }}</div>
         <div v-else class="smy-vert-pulldown-status">
-          <!-- <span class="smy-vert-loading"></span> -->
           <Loading :size="loadingSize" :type="loadingType" class="smy-vert-loading" />
           <span class="smy-vert-loading-txt">{{ loadingTxt }}</span>
         </div>

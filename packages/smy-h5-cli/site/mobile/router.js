@@ -31,10 +31,10 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const path = to.path
   const replace = to.query.replace
-  if (!isPhone() && !inIframe()) {
-    window.location.href = `./#/${path}`
-    return
-  }
+  // if (!isPhone() && !inIframe()) {
+  //   window.location.href = `./#/${path}`
+  //   return
+  // }
   if (!isPhone() && inIframe()) {
     // @ts-ignore
     window.top.onMobileRouteChange(path, replace)

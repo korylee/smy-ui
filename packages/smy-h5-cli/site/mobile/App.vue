@@ -2,7 +2,6 @@
   <div class="site-mobile">
     <header>
       <AppBar class="app-bar">
-        <template #left> </template>
       </AppBar>
     </header>
     <div class="router-view__block">

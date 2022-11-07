@@ -1,4 +1,4 @@
-# 卡片
+# Card 卡片 <qr-code name="card"/>
 
 ### 引入
 

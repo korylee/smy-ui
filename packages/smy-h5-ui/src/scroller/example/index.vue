@@ -1,31 +1,35 @@
 <template>
-  <div class="vert-panel">
-    <Scroller
-      :is-loading="isLoading"
-      :is-un-more="isUnMore"
-      :propsTime="0"
-      @pulldown="pulldown"
-      @scrollChange="scrollChange"
-      @loadMore="loadMoreVert"
-    >
-      <div class="smy-vert-list-panel">
-        <div class="smy-vert-list-item" v-for="(item, index) of listData" :key="index">
-          <dl class="smy-scroller-item-info">
-            <dt>{{ index }} 防水升级版 蓝牙音箱 低音炮 IPX7设计 户外便携音响 迷你小音</dt>
-            <dd>2018-02-25</dd>
-          </dl>
+  <div>
+    <NoticeBar text="此 Demo 在 PC 端浏览器与移动端浏览器体验差异较大，建议在 Android 或 iOS 设备上体验。" />
+    <div class="vert-panel">
+      <Scroller
+        :is-loading="isLoading"
+        :is-un-more="isUnMore"
+        :propsTime="0"
+        @pulldown="pulldown"
+        @scrollChange="scrollChange"
+        @loadMore="loadMoreVert"
+      >
+        <div class="smy-vert-list-panel">
+          <div class="smy-vert-list-item" v-for="(item, index) of listData" :key="index">
+            <dl class="smy-scroller-item-info">
+              <dt>{{ index }} 防水升级版 蓝牙音箱 低音炮 IPX7设计 户外便携音响 迷你小音</dt>
+              <dd>2018-02-25</dd>
+            </dl>
+          </div>
         </div>
-      </div>
-    </Scroller>
+      </Scroller>
+    </div>
   </div>
 </template>
 
 <script>
-import Scroller from '../Scroller.jsx'
+import Scroller from '../'
+import NoticeBar from '../../notice-bar'
 
 export default {
   name: 'ScrollExample',
-  components: { Scroller },
+  components: { Scroller, NoticeBar },
   data: () => ({
     listData: new Array(10),
     isLoading: false,
