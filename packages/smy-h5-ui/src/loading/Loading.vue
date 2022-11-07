@@ -6,13 +6,10 @@
     <div v-if="isShow" class="smy--box smy-loading__body" :class="{ 'smy-loading__inside': hasDefaultSlots }">
       <div v-if="type === 'circle'" class="smy-loading__circle">
         <Icon class="smy-loading__circle-block" :color="color" :size="getRadius * 2">
-          <loading-svg />
-        </Icon>
-        <!-- <span :style="{ color, height: `${getRadius * 2}px`, width: `${getRadius * 2}px` }">
           <svg viewBox="25 25 50 50">
             <circle cx="50" cy="50" r="20" fill="none"></circle>
           </svg>
-        </span> -->
+        </Icon>
       </div>
       <div v-else-if="currentLoadingNums" :class="`smy-loading__${type} smy-loading__${type}--${size}`">
         <div
@@ -39,13 +36,12 @@ import { SlotsMixin } from '@smy-h5/vtools'
 import { props } from './props'
 import { LOADING_NUMBERS_DICT, LOADING_SIZE_DICT } from './constant'
 import { toNumber } from '../_utils/shared'
-import LoadingSvg from '../_icon/LoadingSvg.vue'
 import Icon from '../icon'
 
 export default {
   name: 'SmyLoading',
   mixins: [SlotsMixin],
-  components: { LoadingSvg, Icon },
+  components: { Icon },
   props,
   computed: {
     hasDefaultSlots() {
