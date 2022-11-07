@@ -88,10 +88,10 @@ export async function compileDts(files: string[]) {
       }
     })
   )
-  const diagnostics = project.getPreEmitDiagnostics()
+  // const diagnostics = project.getPreEmitDiagnostics()
 
-  // 输出解析过程中的错误信息
-  console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
+  // // 输出解析过程中的错误信息
+  // console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
 
   project.emitToMemory()
 

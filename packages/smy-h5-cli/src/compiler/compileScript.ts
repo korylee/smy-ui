@@ -81,6 +81,7 @@ export async function compileESEntry(dir: string, publicDirs: string[]) {
   // const componentPrefix = upperFirst(namespace);
 
   publicDirs.forEach((dirname: string) => {
+    if (dirname.startsWith('_')) return
     const publicComponent = upperFirst(camelCase(dirname))
     publicComponents.push(publicComponent)
     imports.push(`import ${publicComponent} from './${dirname}'`)
@@ -143,6 +144,7 @@ export async function compileCommonJSEntry(dir: string, publicDirs: string[]) {
   const lessRequires: string[] = []
   const publicComponents: string[] = []
   publicDirs.forEach((dirname) => {
+    if (dirname.startsWith('_')) return
     const publicComponent = upperFirst(camelCase(dirname))
     publicComponents.push(publicComponent)
     requires.push(`var ${publicComponent} = require('./${dirname}')['default']`)

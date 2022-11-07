@@ -29,9 +29,7 @@ export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boo
   process.env.BABEL_MODULE = isCjs ? 'commonjs' : 'module'
 
   const moduleDir: string[] = await readdir(SRC_DIR)
-  const publicDirs = moduleDir.filter(
-    (filename: string) => isPublicDir(resolve(SRC_DIR, filename)) && !filename.startsWith('_')
-  )
+  const publicDirs = moduleDir.filter((filename: string) => isPublicDir(resolve(SRC_DIR, filename)))
 
   const dest = isCjs ? LIB_DIR : ES_DIR
   await copy(SRC_DIR, dest)

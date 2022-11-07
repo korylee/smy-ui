@@ -17,44 +17,43 @@ export async function compileSFCFile(sfc: string) {
   const hasScope = styles.some((style) => style.scoped)
   const id = hash(source)
   const scopeId = hasScope ? `data-v-${id}` : ''
-  if (script) {
-    const render = template && compileTemplate(template.content)
-    let { content } = script
-    if (render) {
-      content = injectRender(content, render)
-    }
+  let content = script?.content ?? `export default {  }`
+
+  const render = template && compileTemplate(template.content)
+  if (render) {
+    content = injectRender(content, render)
+  }
+
+  if (scopeId) {
+    content = injectScopeId(content, scopeId)
+  }
+
+  await compileScript(content, sfc)
+
+  for (let index = 0; index < styles.length; index++) {
+    const style = styles[index]
+    const lang = (style.lang || 'css') as 'css' | 'less'
+    const file = replaceExt(sfc, `Sfc${index || ''}.${lang}`)
+    let code = style.content.trim()
 
     if (scopeId) {
-      content = injectScopeId(content, scopeId)
+      ;({ code } = compileUtils.compileStyle({
+        source: style.content,
+        filename: file,
+        id: scopeId,
+        scoped: style.scoped,
+        preprocessLang: lang,
+      }))
     }
 
-    await compileScript(content, sfc)
+    code = extractStyleDependencies(file, code, {
+      expect: lang,
+      self: true,
+      reg: STYLE_IMPORT_RE,
+    })
+    writeFileSync(file, clearEmptyLine(code), 'utf-8')
 
-    for (let index = 0; index < styles.length; index++) {
-      const style = styles[index]
-      const lang = (style.lang || 'css') as 'css' | 'less'
-      const file = replaceExt(sfc, `Sfc${index || ''}.${lang}`)
-      let code = style.content.trim()
-
-      if (scopeId) {
-        ;({ code } = compileUtils.compileStyle({
-          source: style.content,
-          filename: file,
-          id: scopeId,
-          scoped: style.scoped,
-          preprocessLang: lang,
-        }))
-      }
-
-      code = extractStyleDependencies(file, code, {
-        expect: lang,
-        self: true,
-        reg: STYLE_IMPORT_RE,
-      })
-      writeFileSync(file, clearEmptyLine(code), 'utf-8')
-
-      style.lang === 'less' && (await compileLess(file))
-    }
+    style.lang === 'less' && (await compileLess(file))
   }
 }
 
