@@ -1,4 +1,4 @@
-import { isBool, isNill, isString, isArray, type Func, isObject, isNumber } from './is'
+import { isBool, isNill, isString, isArray, type Func, isObject, isNumber, isPx, isRem } from './is'
 
 export function kebabCase(str: string): string {
   const reg = /([^-])([A-Z])/g
@@ -119,4 +119,17 @@ export function convertToUnit(str: string | number | null | undefined, unit = 'p
   else if (isNumber(str) || /^\d+$/.test(str)) return `${Number(str)}${unit}`
   else if (isNaN(+str!)) return String(str)
   else return `${Number(str)}${unit}`
+}
+
+export function toPxNum(value) {
+  if (isNumber(value)) return value
+  if (isPx(value)) {
+    return +value.replace('px', '')
+  }
+  if (isRem(value)) {
+    const num = +value.replace('rem', '')
+    const rootFontSize = window.getComputedStyle(document.documentElement).fontSize
+    return num * parseFloat(rootFontSize)
+  }
+  return 0
 }

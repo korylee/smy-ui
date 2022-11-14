@@ -1,0 +1,51 @@
+@cell-color: #333;
+@cell-font-size: 14px;
+@cell-desc-font-size: 12px;
+@cell-desc-color: rgba(0, 0, 0, 0.6);
+@cell-padding: 10px 12px;
+@cell-min-height: 40px;
+@cell-border-color: #bcc2cb;
+@cell-border-left: 12px;
+@cell-border-right: 12px;
+@cell-icon-right: 8px;
+@cell-extra-left: 8px;
+
+:root {
+  --cell-color: @cell-color;
+  --cell-font-size: @cell-font-size;
+  --cell-desc-font-size: @cell-desc-font-size;
+  --cell-desc-color: @cell-desc-color;
+  --cell-padding: @cell-padding;
+  --cell-min-height: @cell-min-height;
+  --cell-border-color: @cell-border-color;
+  --cell-border-left: @cell-border-left;
+  --cell-border-right: @cell-border-right;
+  --cell-icon-right: @cell-icon-right;
+  --cell-extra-left: @cell-extra-left;
+}
+
+.smy-cell {
+  align-items: center;
+  display: flex;
+  min-height: var(--cell-min-height);
+  outline: none;
+  padding: var(--cell-padding);
+  position: relative;
+  box-sizing: border-box;
+  font-size: var(--cell-font-size);
+  color: var(--cell-color);
+
+  &__content {
+    flex: 1;
+    overflow: hidden;
+  }
+  &__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  &__desc{
+    font-size: var(--cell-desc-font-size);
+    color: var(--cell-desc-color);
+  }
+}

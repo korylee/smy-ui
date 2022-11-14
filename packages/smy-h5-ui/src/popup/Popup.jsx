@@ -27,7 +27,7 @@ export default {
   methods: {
     hidePopup() {
       const { $listeners } = this
-      $listeners?.onClickOverlay?.()
+      $listeners?.clickOverlay?.()
       if (!this.closeOnClickOverlay) return
       $listeners?.['update:show']?.(false)
     },

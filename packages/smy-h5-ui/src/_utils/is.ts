@@ -22,3 +22,6 @@ export const isPlainObject = isType<Record<string, any>>('Object')
 export const isObject = (val: unknown): val is object => typeof val === 'object' && val !== null
 
 export const isArray = Array.isArray
+
+export const isRem = (str: string): boolean => isString(str) && str.endsWith('rem')
+export const isPx = (str: string): boolean => isString(str) && str.endsWith('px')

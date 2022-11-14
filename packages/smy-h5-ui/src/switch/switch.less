@@ -1,0 +1,39 @@
+.smy-switch {
+  position: relative;
+  width: auto;
+  display: inline-block;
+  background: #fff;
+  border-radius: 1000px;
+  vertical-align: bottom;
+
+  &--active {
+    .smy-switch__label {
+      left: 4px;
+      margin-left: 0;
+      color: red;
+      margin-right: 22px;
+    }
+    .smy-switch__btn {
+      background-color: var(--color-primary);
+    }
+  }
+  &__label {
+    position: relative;
+    width: auto;
+    left: 0;
+    margin-left: 20px;
+    margin-right: 3px;
+    padding: 0 2px;
+    text-align: center;
+    color: #999;
+    font-style: normal;
+    font-size: 12px;
+  }
+  &__btn {
+    position: absolute;
+    left: 0;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-sizing: border-box;
+  }
+}

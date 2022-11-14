@@ -7,6 +7,7 @@ module.exports = {
       { text: '基本介绍', type: 3, doc: 'home' },
       { text: '基础组件', type: 1 },
       { text: 'ConfigProvider 全局配置', doc: 'config-provider', type: 2 },
+      { text: 'Cell 单元格', doc: 'cell', type: 2 },
       { text: 'Icon 图标', doc: 'icon', type: 2 },
       { text: 'Loading 加载', doc: 'loading', type: 2 },
       { text: '展示组件', type: 1 },
@@ -22,8 +23,10 @@ module.exports = {
       { text: '反馈组件', type: 1 },
       { text: 'Toast 吐司气泡', doc: 'toast', type: 2 },
       { text: 'Popup 弹出层', doc: 'popup', type: 2 },
+      { text: 'Picker 选择器', doc: 'picker', type: 2 },
       { text: '表单组件', type: 1 },
       { text: 'Stepper 步进器', doc: 'stepper', type: 2 },
+      { text: 'Switch 开关', doc: 'switch', type: 2 },
     ],
   },
 }
