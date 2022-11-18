@@ -23,7 +23,7 @@ module.exports = {
       { text: '反馈组件', type: 1 },
       { text: 'Toast 吐司气泡', doc: 'toast', type: 2 },
       { text: 'Popup 弹出层', doc: 'popup', type: 2 },
-      { text: 'Picker 选择器', doc: 'picker', type: 2 },
+      { text: 'Picker 多列选择器', doc: 'picker', type: 2 },
       { text: '表单组件', type: 1 },
       { text: 'Stepper 步进器', doc: 'stepper', type: 2 },
       { text: 'Switch 开关', doc: 'switch', type: 2 },

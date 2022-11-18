@@ -1,7 +1,13 @@
 import Vue from 'vue'
 import type { ComponentOptions } from 'vue'
+import type { CombinedVueInstance } from 'vue/types/vue'
 
-export function mountComponent(component: ComponentOptions<Vue>, container = 'body', options = {}) {
+interface MountComponentApi {
+  instance: CombinedVueInstance<any, any, any, any, any>
+  unmount(): void
+}
+
+export function mountComponent(component: ComponentOptions<Vue>, container = 'body', options = {}): MountComponentApi {
   const instance = new (Vue.extend(component))(options)
   const el = instance.$mount().$el
   const wrapper = document.querySelector(container)

@@ -19,6 +19,10 @@ export function createInstall(component: any) {
   }
 }
 
+export function withInstall(component: any) {
+  return (component.install = createInstall(component))
+}
+
 export function addRouteListener(vm: any, cb: () => void) {
   const add = () => {
     window.addEventListener('hashchange', cb)

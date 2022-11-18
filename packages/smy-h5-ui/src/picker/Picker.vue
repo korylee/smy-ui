@@ -1,9 +1,22 @@
 <template>
-  <Popup :show.sync="internalShow" smy-picker-cover position="bottom" class="smy-picker__popup" @clickOverlay="cancel">
+  <Popup
+    :show.sync="internalShow"
+    :teleport="teleport"
+    :close-onclick-ovlery="closeOnClickOverlay"
+    smy-picker-cover
+    position="bottom"
+    class="smy-picker__popup"
+    @click-overlay="$emit('click-overlay')"
+    @open="$emit('open')"
+    @opened="$emit('opened')"
+    @close="$emit('close')"
+    @closed="$emit('closed')"
+    @route-change="$emit('route-change')"
+  >
     <div class="smy-picker" v-bind="$attrs">
       <div class="smy-picker__toolbar">
         <slot name="cancel">
-          <span class="smy-picker__cancel-button" smy-picker-cover @click="cancel">
+          <span class="smy-picker__cancel-button" smy-picker-cover @click="handleCancel">
             {{ cancelButtonText }}
           </span>
         </slot>
@@ -11,7 +24,7 @@
           <div class="smy-picker__title">{{ title }}</div>
         </slot>
         <slot name="confirm">
-          <span class="smy-picker__confirm-button" smy-picker-cover @click="confirm">
+          <span class="smy-picker__confirm-button" smy-picker-cover @click="handleConfirm">
             {{ confirmButtonText }}
           </span>
         </slot>
@@ -130,7 +143,7 @@ export default {
   },
 
   methods: {
-    confirm() {
+    handleConfirm() {
       this.stopScroll()
 
       const { texts, indexes } = this.getPicked()
@@ -144,7 +157,7 @@ export default {
         this.scrollTo(scrollCol, index, 200)
       })
     },
-    cancel() {
+    handleCancel() {
       this.stopScroll()
       this.initIndex()
 

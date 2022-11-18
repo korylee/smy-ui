@@ -8,7 +8,7 @@
 @picker-mask-background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4)),
   linear-gradient(0deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4));
 @picker-option-unpinked-color: #999;
-@picker-option-pinked-color: rgba(0, 0, 0, 0.9);
+@picker-option-color: rgba(0, 0, 0, 0.9);
 
 :root {
   --picker-background: @picker-background;
@@ -20,7 +20,7 @@
   --picker-toolbar-padding: @picker-toolbar-padding;
   --picker-mask-background-image: @picker-mask-background-image;
   --picker-option-unpinked-color: @picker-option-unpinked-color;
-  --picker-option-pinked-color: @picker-option-pinked-color;
+  --picker-option-color: @picker-option-color;
 }
 
 .smy-picker {
@@ -62,9 +62,9 @@
     align-items: center;
     width: 100%;
     padding: 0 4px;
-    color: var(--picker-option-unpinked-colo);
+    color: var(--picker-option-unpinked-color);
     &--picked {
-      color: var(--picker-option-pinked-colo);
+      color: var(--picker-option-pinked-color);
     }
   }
 
