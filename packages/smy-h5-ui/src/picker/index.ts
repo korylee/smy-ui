@@ -1,4 +1,4 @@
-import type { NormalColumn, PickerProps, Texts } from './props'
+import type { PickerProps, Texts } from './props'
 
 import { withInstall } from '../_utils/components'
 import SmyPicker from './Picker.vue'
@@ -86,5 +86,7 @@ Picker.close = async () => {
 }
 
 Picker.Coponent = withInstall(SmyPicker)
+
+Picker.install = SmyPicker.install
 
 export default SmyPicker

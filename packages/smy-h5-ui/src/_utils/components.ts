@@ -1,4 +1,5 @@
 import type { VueConstructor } from 'vue'
+import type { ComponentOptions } from 'vue/types/umd'
 
 function registerComponent(app: VueConstructor, name: string, component: any) {
   const registered = app.component(name)
@@ -19,8 +20,9 @@ export function createInstall(component: any) {
   }
 }
 
-export function withInstall(component: any) {
-  return (component.install = createInstall(component))
+export function withInstall<T = ComponentOptions<Vue>>(component: T) {
+  ;(component as any).install = createInstall(component)
+  return component as T & { install: ReturnType<typeof createInstall> }
 }
 
 export function addRouteListener(vm: any, cb: () => void) {

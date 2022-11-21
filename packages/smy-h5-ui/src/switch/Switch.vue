@@ -1,25 +1,17 @@
 <template>
-  <div
-    class="smy-switch"
-    :class="{ [`smy-switch--${size}`]: size, 'smy-switch--active': isActive }"
-    @click="handleToggle"
-  >
+  <div class="smy-switch" :style="{ fontSize }" :class="{ 'smy-switch--active': isActive }" @click="handleToggle">
     <div class="smy-switch__btn"></div>
     <div class="smy-switch__label">{{ isActive ? labelArr[0] : labelArr[1] }}</div>
   </div>
 </template>
 
 <script>
+import { convertToUnit } from '../_utils/shared'
+import { props } from './props'
+
 export default {
   name: 'SmySwitch',
-  props: {
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    size: String,
-    label: String,
-  },
+  props,
   computed: {
     isActive: {
       get() {
@@ -32,6 +24,9 @@ export default {
     },
     labelArr() {
       return this.label?.split?.('|') ?? []
+    },
+    fontSize() {
+      return convertToUnit(this.size)
     },
   },
   methods: {

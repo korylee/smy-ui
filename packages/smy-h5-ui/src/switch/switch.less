@@ -1,39 +1,66 @@
+@switch-color-active: #f0250f;
+@switch-color-inactive: #dadada;
+@switch-border-color-active: @switch-color-active;
+@switch-cubic-bezier: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+@switch-transition-duration: 0.2s;
+
+:root {
+  --switch-color-active: @switch-color-active;
+  --switch-border-color-active: @switch-border-color-active;
+  --switch-cubic-bezier: @switch-cubic-bezier;
+  --switch-transition-duration: @switch-transition-duration;
+  --switch-color-inactive: @switch-color-inactive;
+}
 .smy-switch {
   position: relative;
+  // font-size: 12px;
+  line-height: 1.67em;
+  height: 1.67em;
+  min-width: 3.17em;
   width: auto;
   display: inline-block;
   background: #fff;
   border-radius: 1000px;
   vertical-align: bottom;
+  box-sizing: content-box;
+  border: 2px solid var(--switch-color-inactive);
+  transition: all var(--switch-transition-duration) var(--switch-cubic-bezier);
+  cursor: pointer;
 
-  &--active {
-    .smy-switch__label {
-      left: 4px;
-      margin-left: 0;
-      color: red;
-      margin-right: 22px;
-    }
-    .smy-switch__btn {
-      background-color: var(--color-primary);
-    }
-  }
   &__label {
     position: relative;
     width: auto;
     left: 0;
-    margin-left: 20px;
-    margin-right: 3px;
-    padding: 0 2px;
+    margin-left: 1.67em;
+    margin-right: 0.25em;
+    padding: 0 0.17em;
     text-align: center;
     color: #999;
     font-style: normal;
-    font-size: 12px;
   }
   &__btn {
     position: absolute;
+    height: 1.67em;
+    width: 1.83em;
     left: 0;
     border: 2px solid #fff;
     border-radius: 50%;
+    background: var(--switch-color-inactive);
     box-sizing: border-box;
+    transition: all var(--switch-transition-duration) var(--switch-cubic-bezier);
+  }
+  &--active {
+    border-color: var(--switch-border-color-active);
+    .smy-switch__label {
+      left: 0.33em;
+      margin-left: 0;
+      color: var(--switch-color-active);
+      margin-right: 1.83em;
+    }
+    .smy-switch__btn {
+      left: 100%;
+      margin-left: -1.75em;
+      background-color: var(--switch-color-active);
+    }
   }
 }
