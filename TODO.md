@@ -36,12 +36,16 @@
 
 ### 基础组件
 
-[] StyleProvider 样式定制 / ConfigProvider 配置定制
+[]  ConfigProvider 配置定制
 [x] Loading 加载
+[x] Icon 图标
 
 ### 展示组件
 
 [x] Card 卡片
+[x] NoticeBar 通告栏
+[x] Scroller 滚动
+[x] Price 价格展示
 [] Image 图片组件
 [ ] ImgPreview 图片预览重构
 
@@ -59,10 +63,13 @@
 [] Dialog 对话框
 [x] Popup 弹出层
 [] ActionSheet 动作面板 由下面弹出的对话框
-[] Countdown 倒计时
+[x] Countdown 倒计时
+[x] Picker 多列选择器
 [] DatePicker 日期选择器
 
 ### 表单组件
 
+[x] Stepper 步进器
+[x] Switch 开关
 [] Form 表单
 [] input 输入框
