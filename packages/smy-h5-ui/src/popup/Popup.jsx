@@ -6,6 +6,7 @@ import { addRouteListener } from '../_utils/components'
 import { props } from './props'
 import Teleport from '../teleport'
 import { NOOP } from '../_utils/shared'
+import { mergeStyles } from '../_utils/vue/mergeData'
 
 import '../_styles/common.less'
 import './popup.less'
@@ -32,10 +33,11 @@ export default {
       $listeners?.['update:show']?.(false)
     },
     renderContent() {
+      const style = mergeStyles({ zIndex: this.zIndex }, this.contentStyle)
       return (
         <div
           class={['smy-popup__content', `smy-popup__content--${this.position}`, this.$attrs.class, this.contentClass]}
-          style={[{ zIndex: this.zIndex }, this.contentStyle]}
+          style={style}
           {...{ attrs: this.$attrs }}
         >
           {getSlots(this)}
@@ -56,7 +58,7 @@ export default {
       )
     },
     renderOverlay() {
-      const style = [{ zIndex: this.zIndex - 1 }, this.overlayStyle]
+      const style = mergeStyles({ zIndex: this.zIndex - 1 }, this.overlayStyle)
       return <div class={['smy-popup__overlay', this.overlayClass]} style={style} onClick={this.hidePopup}></div>
     },
   },

@@ -1,9 +1,11 @@
 import { isBool, isNill, isString, isArray, type Func, isObject, isNumber, isPx, isRem } from './is'
 
+const cameLizeRE = /-(\w)/g
+export function camelize(str: string) {
+  return str.replace(cameLizeRE, (_, c) => (c ? c.toUpperCase() : ''))
+}
 export function kebabCase(str: string): string {
-  const reg = /([^-])([A-Z])/g
-
-  return str.replace(reg, '$1-$2').replace(reg, '$1-$2').toLowerCase()
+  return (str || '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
 }
 
 export const upperFirst = (word: string) => word.charAt(0).toUpperCase() + word.slice(1)

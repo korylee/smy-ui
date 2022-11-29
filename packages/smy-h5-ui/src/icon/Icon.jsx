@@ -1,5 +1,4 @@
 import { createGetMergedProp, InjectionKey } from '../config-provider/config'
-import Vue from 'vue'
 import { getSlots } from '@smy-h5/vtools'
 import { convertToUnit } from '../_utils/shared'
 import { props } from './props'
@@ -10,7 +9,7 @@ const defaultTag = 'span'
 
 const getMergedProp = createGetMergedProp('icon')
 
-export default Vue.extend({
+export default {
   name: 'SmyIcon',
   props,
   inject: {
@@ -32,6 +31,6 @@ export default Vue.extend({
   },
   render(h) {
     const { mergedTag, mergedStyle } = this
-    return h(mergedTag, { class: 'smy-icon', style: mergedStyle }, getSlots(this))
+    return h(mergedTag, { class: 'smy-icon', style: mergedStyle, on: this.$listeners }, getSlots(this))
   },
-})
+}
