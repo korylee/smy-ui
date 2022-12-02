@@ -25,6 +25,10 @@ export const props = {
     type: Number,
     default: 100,
   },
+  pulldown: {
+    type: Boolean,
+    default: true,
+  },
   pulldownTxt: {
     type: String,
     default: '下拉刷新',
@@ -56,6 +60,7 @@ export const VERT_PROP_KEYS = [
   'stretch',
   'isUnMore',
   'isLoading',
+  'pulldown',
   'pulldownTxt',
   'loadMoreTxt',
   'loadingTxt',

@@ -15,6 +15,7 @@
 
     <div>
       <div>Toast 类型</div>
+      <button @click="handleToast">不指定类型</button>
       <button @click="create('loading')">loading 加载中</button>
       <button @click="smyLoading">smy loading</button>
     </div>
@@ -77,6 +78,9 @@ export default {
         vertical: true,
         position: 'center',
       })
+    },
+    handleToast() {
+      Toast('这里是toast')
     },
   },
 }

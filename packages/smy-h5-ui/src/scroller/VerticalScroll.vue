@@ -136,7 +136,9 @@ export default {
         }
         this.setTransform(updateMove, type, time)
       } else {
-        if (updateMove > 0 && updateMove > stretch) {
+        if (!this.pulldown && updateMove > 0) {
+          updateMove = 0
+        } else if (updateMove > 0 && updateMove > stretch) {
           updateMove = stretch
         } else if (updateMove < maxMove - stretch) {
           updateMove = maxMove - stretch
@@ -158,7 +160,7 @@ export default {
       touchParams.lastY = changedTouch.pageY
       touchParams.lastTime = event.timestamp || Date.now()
       const move = touchParams.lastY - touchParams.startY
-      if (move < 0 && this.isShowLoadMore && this.isFirstPull) {
+      if (((move < 0 && this.isShowLoadMore) || !this.pulldown) && this.isFirstPull) {
         this.isFirstPull = false
       }
       this.setMove(move)
