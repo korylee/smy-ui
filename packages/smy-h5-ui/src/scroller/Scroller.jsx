@@ -12,7 +12,7 @@ export default {
   props,
   render(h, { props, listeners, slots, scopedSlots }) {
     slots = slots()
-    if (props.type === 'vertical') {
+    if (props.direction === 'vertical') {
       return (
         <VertScroll
           {...{

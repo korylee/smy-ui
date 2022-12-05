@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 import { props as loadingProps } from '../loading/props'
 
 export const props = {
-  type: {
+  direction: {
     type: String as PropType<'vertical' | 'horizontal'>,
     default: 'vertical',
   },
