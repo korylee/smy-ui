@@ -39,15 +39,22 @@
     font-style: normal;
   }
   &__btn {
+    @btn-height: 1.68em;
     position: absolute;
-    height: 1.67em;
-    width: 1.83em;
+    height:  @btn-height;
+    width: 1.82em;
     left: 0;
     border: 2px solid #fff;
     border-radius: 50%;
     background: var(--switch-color-inactive);
     box-sizing: border-box;
     transition: all var(--switch-transition-duration) var(--switch-cubic-bezier);
+    text-align: center;
+    line-height:  @btn-height;
+
+    &-loading {
+      font-size: 1.3em;
+    }
   }
   &--active {
     border-color: var(--switch-border-color-active);

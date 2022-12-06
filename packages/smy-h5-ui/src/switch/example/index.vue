@@ -2,12 +2,13 @@
   <div class="switch-example">
     <h4>基本用法</h4>
     <Cell>
-      <smy-switch :active.sync="active" />
+      <smy-switch v-model="active" />
       <template #extra>{{ active }}</template>
     </Cell>
     <div></div>
-    <SmySwitch :active.sync="smallActive" size="10" label="开|关" />
-    <SmySwitch :active.sync="largeActive" size="14" label="开|关" />
+    <SmySwitch v-model="smallActive" size="10" inactive-label="关" active-label="开" />
+    <SmySwitch v-model="largeActive" size="14" inactive-label="关" active-label="开" />
+    <SmySwitch loading v-model="largeActive" size="14" inactive-label="关" active-label="开" />
   </div>
 </template>
 

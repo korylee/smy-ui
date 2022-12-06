@@ -1,8 +1,40 @@
+import { props as iconProps } from '../icon/props'
+
 export const props = {
-  active: {
+  value: {
+    type: [String, Number, Boolean],
+    default: false,
+  },
+  disabled: {
     type: Boolean,
     default: false,
   },
   size: { type: [String, Number], default: 12 },
-  label: String,
+  activeColor: {
+    type: String,
+    default: '',
+  },
+  inactiveColor: {
+    type: String,
+    default: '',
+  },
+  activeLabel: {
+    type: String,
+    default: '',
+  },
+  inactiveLabel: {
+    type: String,
+    default: '',
+  },
+  activeValue: {
+    type: [Number, String, Boolean],
+    default: true,
+  },
+  inactiveValue: {
+    type: [Number, String, Boolean],
+    default: false,
+  },
+  loading: Boolean,
+  loadingColor: iconProps.color,
+  loadingSize: iconProps.size,
 }
