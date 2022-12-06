@@ -12,6 +12,10 @@ import { props } from './props'
 export default {
   name: 'SmySwitch',
   props,
+  model: {
+    event: 'change',
+    prop: 'active',
+  },
   computed: {
     isActive: {
       get() {
