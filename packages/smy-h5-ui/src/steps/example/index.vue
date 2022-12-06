@@ -1,6 +1,13 @@
 <template>
   <div class="steps-example">
-    <Steps current="1" direction="vertical">
+    <div>基础使用</div>
+    <Steps current="1" direction="vertical" class="steps-wrapper">
+      <Step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
+      <Step />
+      <Step />
+    </Steps>
+    <div>点状</div>
+    <Steps current="1" direction="vertical" progress-dot class="steps-wrapper">
       <Step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
       <Step />
       <Step />
@@ -18,4 +25,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.steps-wrapper {
+  padding: 15px 30px;
+}
+</style>

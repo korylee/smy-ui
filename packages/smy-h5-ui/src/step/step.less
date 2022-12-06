@@ -10,10 +10,12 @@
 @steps-wait-header-color: #909ca4;
 @steps-wait-header-border-color: @steps-wait-header-color;
 @steps-wait-icon-text-color: #959fb1;
-@steps-primary-color: var(--color-primary);
+@steps-primary-color: #fa2c19;
+@steps-primary-color-end: #fa6419;
 
 :root {
   --steps-primary-color: @steps-primary-color;
+  --steps-primary-color-end: @steps-primary-color-end;
   --steps-line-color: @steps-line-color;
   --steps-icon-width: @steps-icon-width;
   --steps-icon-height: @steps-icon-height;
@@ -144,21 +146,23 @@
   }
 }
 
-.smy-steps-horizontal {
+.smy-steps--horizontal {
   &.smy-steps--dot {
-    .smy-step__header {
-      margin-top: 7px;
-      margin-bottom: 0;
-      &-line {
-        top: 50%;
-        bottom: -50%;
-      }
-      &-icon {
-        width: 8px;
-        height: 8px;
-        // background: var();
-        border-radius: 50%;
-        box-sizing: content-box;
+    .smy-step {
+      &__header {
+        margin-top: 7px;
+        margin-bottom: 0;
+        &-line {
+          top: 50%;
+          bottom: -50%;
+        }
+        &-icon {
+          width: 8px;
+          height: 8px;
+          // background: var();
+          border-radius: 50%;
+          box-sizing: content-box;
+        }
       }
     }
     .smy-step--wait {
@@ -235,7 +239,7 @@
             margin-top: -7px;
             width: 14px;
             height: 14px;
-            background-color: #fa6419;
+            background-color: var(--steps-primary-color-end);
             border-radius: 50%;
             opacity: 0.23;
           }

@@ -4,7 +4,7 @@
       <div class="smy-step__header-line"></div>
       <div :class="{ 'smy-step__header-icon--dot': dot }" class="smy-step__header-icon">
         <slot name="icon">
-          <div class="smy-step__header-icon__inner">{{ index }}</div>
+          <div v-if="!dot" class="smy-step__header-icon__inner">{{ index }}</div>
         </slot>
       </div>
     </div>
