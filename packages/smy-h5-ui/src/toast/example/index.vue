@@ -18,6 +18,7 @@
       <button @click="handleToast">不指定类型</button>
       <button @click="create('loading')">loading 加载中</button>
       <button @click="smyLoading">smy loading</button>
+      <button @click="smyToast">smy toast</button>
     </div>
     <div>
       <Toast :show.sync="shows.basic">{{ content }} </Toast>
@@ -77,6 +78,15 @@ export default {
         action: SMY_LOADING_HTML,
         vertical: true,
         position: 'center',
+        content: '这是一个超长的描述',
+      })
+    },
+    smyToast() {
+      Toast({
+        vertical: true,
+        position: 'center',
+        content: '这是一个超长的描述',
+        duration: 12500,
       })
     },
     handleToast() {

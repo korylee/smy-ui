@@ -9,13 +9,15 @@
 @toast-content-padding: 14px 16px;
 @toast-action-margin: 0 16px 0 0;
 @toast-vertical-width: unset;
-@toast-vertical-padding: 20px;
+@toast-vertical-padding: 10px;
+@toast-opacity: 0.9;
 
 :root {
   --toast-width: @toast-width;
   --toast-color: @toast-color;
   --toast-border-radius: @toast-border-radius;
   --toast-background: @toast-backgdround;
+  --toast-opacity: @toast-opacity;
   --toast-font-size: @toast-font-size;
   --toast-margin: @toast-margin;
   --toast-border-color: @toast-border-color;
@@ -69,6 +71,7 @@
     border-radius: var(--toast-border-radius);
     color: var(--toast-color);
     background: var(--toast-background);
+    opacity: var(--toast-opacity);
     font-size: var(--toast-font-size);
     margin: var(--toast-margin);
     align-items: center;
