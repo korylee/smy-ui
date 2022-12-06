@@ -12,7 +12,7 @@ import ora from 'ora'
 // 不懂看这 https://www.jianshu.com/p/5565536a1f82
 const releaseTypes = ['premajor', 'major', 'prepatch', 'patch', 'preminor', 'minor']
 
-const ReleasePackages = ['ui', 'eslint-config', 'vtools']
+const ReleasePackages = ['ui', 'vtools']
 
 async function isWorktreeEmpty() {
   const ret = await execa('git', ['status', '--porcelain'])
