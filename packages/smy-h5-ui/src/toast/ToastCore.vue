@@ -45,7 +45,7 @@ export default {
       return [
         baseClass,
         {
-          'smy-toast__vertical': vertical,
+          'smy-toast__wrapper--vertical': vertical,
           [`smy-toast__wrapper--${type}`]: TOAST_TYPES.includes(type),
         },
       ]

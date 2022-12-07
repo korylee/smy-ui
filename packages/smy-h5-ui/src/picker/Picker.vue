@@ -97,7 +97,7 @@ const MOMENTUM_ALLOW_DISTANCE = 15
 let sid = 0
 
 export default {
-  name: 'SmyPciker',
+  name: 'SmyPicker',
   components: { Popup },
   props,
   data: () => ({
