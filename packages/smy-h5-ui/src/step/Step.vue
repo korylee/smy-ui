@@ -34,8 +34,11 @@ export default {
     },
     status() {
       const { index, steps } = this
-      if (index < +steps.current) return 'finish'
-      return index === +steps.current ? 'process' : 'wait'
+      const length = steps.step?.length ?? 0
+      const currentIndex = steps.reverse ? length - index - 1 : index
+      const isFinish = currentIndex < +steps.current
+      if (isFinish) return 'finish'
+      return currentIndex === +steps.current ? 'process' : 'wait'
     },
     direction() {
       return this.steps.direction

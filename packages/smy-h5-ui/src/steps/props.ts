@@ -13,4 +13,5 @@ export const props = {
     type: Boolean,
     defualt: false,
   },
+  reverse: { type: Boolean, default: false },
 }
