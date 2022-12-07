@@ -1,5 +1,4 @@
 import { isNill } from '../is'
-import { removeItem } from '../shared'
 import { throwError } from '../smy'
 
 interface RelationOptions {
@@ -9,6 +8,7 @@ interface RelationOptions {
 
 function flatVNodes(subTree, vNodes = []) {
   subTree.forEach((child) => {
+    vNodes.push(child)
     if (child.componentInstance) {
       flatVNodes(child.componentInstance.$children.map((item) => item.$vnode))
     }
@@ -24,7 +24,8 @@ function sortChildren(children, parent) {
   if (!componentOptions?.children) {
     return
   }
-  const vNodes = flatVNodes(children)
+  const vNodes = flatVNodes(componentOptions.children)
+
   children.sort((a, b) => vNodes.indexOf(a.$vnode) - vNodes.indexOf(b.$vnode))
   return children
 }
