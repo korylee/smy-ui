@@ -24,25 +24,25 @@
   --steps-dot-width: @steps-dot-width;
   --steps-dot-height: @steps-dot-height;
   --steps-icon-font-size: 13px;
-  --steps-process-icon-text-color: var(--steps-primary-color);
-  --steps-process-header-color: #fff;
-  --steps-process-header-border-color: var(--steps-process-header-border-color);
   --steps-content-font-size: @steps-content-font-size;
   --steps-content-color: @steps-content-color;
   --steps-title-font-size: @steps-title-font-size;
   --steps-title-color: @steps-title-color;
   --steps-title-margin-bottom: @steps-title-margin-bottom;
 
+  --steps-process-icon-text-color: var(--steps-primary-color);
+  --steps-process-header-color: #fff;
+  --steps-process-header-border-color: var(--steps-process-header-border-color);
   --steps-process-title-color: var(--steps-primary-color);
 
   --steps-wait-header-color: @steps-wait-header-color;
   --steps-wait-header-border-color: @steps-wait-header-color;
   --steps-wait-icon-text-color: @steps-wait-icon-text-color;
+  --steps-wait-title-color: @steps-title-color;
 
   --steps-finish-header-color: var(--steps-primary-color);
   --steps-finish-header-border-color: var(--steps-finish-header-color);
   --steps-finish-icon-text-color: #fff;
-  --steps-finish-line-background: var(--steps-primary-color);
   --steps-finish-title-color: var(--steps-primary-color);
 }
 
@@ -144,7 +144,7 @@
         background-color: var(--steps-wait-icon-text-color);
       }
     }
-    .smy-step__main-content {
+    .smy-step__main-title {
       color: var(--steps-wait-title-color);
     }
   }
@@ -179,6 +179,7 @@
 
 .smy-steps--vertical {
   .smy-step {
+    position: relative;
     display: flex;
     height: 33.34%;
     &__header {

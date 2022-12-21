@@ -1,6 +1,7 @@
 module.exports = {
   highlight: { style: null },
   useMobile: true,
+  port: 8088,
   pc: {
     menu: [
       { text: '开发指南', type: 1 },
@@ -16,6 +17,7 @@ module.exports = {
       { text: 'Countdown 倒计时', doc: 'countdown', type: 2 },
       { text: 'Scroller 滚动', doc: 'scroller', type: 2 },
       { text: 'Card 卡片', doc: 'card', type: 2 },
+      { text: 'Tag 标签', doc: 'tag', type: 2 },
       { text: 'ImgPreview 图片预览', doc: 'img-preview', type: 2 },
       { text: '导航组件', type: 1 },
       { text: 'NoticeBar 通告栏', doc: 'notice-bar', type: 2 },

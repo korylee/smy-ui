@@ -1,0 +1,84 @@
+@tag-font-size: 12px;
+@tag-border-radius: 0.3333em;
+@tag-padding: 0 0.3333em;
+@tag-round-border-radius: 0.6667em;
+@tag-background-color: #000;
+@tag-color: #fff;
+@tag-primary-background-color: #3450fa;
+@tag-success-background-color: #4fc08d;
+@tag-danger-background-color: linear-gradient(
+  135deg,
+  rgba(242, 20, 12, 1) 0%,
+  rgba(232, 34, 14, 1) 69.83950099728881%,
+  rgba(242, 77, 12, 1) 100%
+);
+@tag-danger-backgroudn-color-plain: #df3526;
+@tag-warning-background-color: #f3812e;
+@tag-border-width: 1px;
+@tag-height: auto;
+@tag-plain-background-color: #fff;
+
+:root {
+  --tag-round-border-radius: @tag-round-border-radius;
+  --tag-border-radius: @tag-border-radius;
+  --tag-padding: @tag-padding;
+  --tag-height: @tag-height;
+  --tag-border-width: @tag-border-width;
+  --tag-font-size: @tag-font-size;
+  --tag-background-color: @tag-background-color;
+  --tag-color: @tag-color;
+
+  --tag-primary-background-color: @tag-primary-background-color;
+  --tag-success-background-color: @tag-success-background-color;
+  --tag-warning-background-color: @tag-warning-background-color;
+  --tag-danger-background-color: @tag-danger-background-color;
+  --tag-danger-background-color-plain: @tag-danger-backgroudn-color-plain;
+}
+
+.smy-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--tag-border-radius);
+  padding: var(--tag-padding);
+  height: var(--tag-height);
+  font-size: var(--tag-font-size);
+
+  // default
+  & {
+    color: var(--tag-color);
+    background: var(--tag-background-color);
+    border: var(--tag-border-width) solid transparent;
+    &.smy-tag--plain {
+      color: var(--tag-background-color);
+      border: var(--tag-border-width) solid var(--tag-background-color);
+    }
+  }
+
+  &--primary {
+    --tag-background-color: var(--tag-primary-background-color);
+  }
+  &--success {
+    --tag-background-color: var(--tag-success-background-color);
+  }
+  &--danger {
+    --tag-background-color: var(--tag-danger-background-color);
+    &.smy-tag--plain {
+      color: var(--tag-danger-background-color-plain);
+      border: var(--tag-border-width) solid var(--tag-danger-background-color-plain);
+    }
+  }
+  &--warning {
+    --tag-background-color: var(--tag-warning-background-color);
+  }
+  &--round {
+    --tag-border-radius: var(--tag-round-border-radius);
+  }
+  &--mark {
+    border-radius: 0 1em 1em 0;
+  }
+
+  &__close {
+    margin-left: 0.333em;
+    cursor: pointer;
+  }
+}

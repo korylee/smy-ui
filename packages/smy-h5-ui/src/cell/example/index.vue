@@ -2,7 +2,18 @@
   <div>
     <div>基础使用</div>
     <Cell>这里是cell组件</Cell>
+    <div>展示描述</div>
+    <Cell
+      >这里是cell组件
+      <template #desc>这里是描述</template>
+    </Cell>
     <div>展示图标</div>
+    <Cell
+      >这里是cell组件
+      <template #icon>
+        <Icon><CloseSvg /></Icon>
+      </template>
+    </Cell>
     <Cell
       >这里是cell组件
       <template #extra>

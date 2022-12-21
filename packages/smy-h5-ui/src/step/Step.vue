@@ -2,11 +2,13 @@
   <div class="smy-step" :class="`smy-step--${status}`" @click="handleClickStep">
     <div class="smy-step__header">
       <div class="smy-step__header-line"></div>
-      <div :class="{ 'smy-step__header-icon--dot': dot }" class="smy-step__header-icon">
-        <slot name="icon">
-          <div v-if="!dot" class="smy-step__header-icon__inner">{{ index }}</div>
-        </slot>
-      </div>
+      <slot name="header-icon">
+        <div :class="{ 'smy-step__header-icon--dot': dot }" class="smy-step__header-icon">
+          <slot name="icon">
+            <div v-if="!dot" class="smy-step__header-icon__inner">{{ index }}</div>
+          </slot>
+        </div>
+      </slot>
     </div>
     <div class="smy-step__main">
       <div class="smy-step__main-title">
