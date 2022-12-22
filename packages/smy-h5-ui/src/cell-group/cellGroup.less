@@ -1,0 +1,15 @@
+.smy-cell-group {
+  display: inherit;
+  overflow: hidden;
+  background: #fff;
+
+  &--insert {
+    box-shadow: var(--cell-insert-box-shadow);
+    border-radius: 6px;
+    & > .smy-cell {
+      box-shadow: unset;
+      border-radius: unset;
+      background: unset;
+    }
+  }
+}
