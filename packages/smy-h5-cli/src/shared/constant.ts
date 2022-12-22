@@ -33,3 +33,9 @@ export const SITE_PC_ROUTES = resolve(CWD, '.smy/pc.routes.ts')
 export const SITE_MOBILE_ROUTES = resolve(CWD, '.smy/mobile.routes.ts')
 export const SITE_PUBLIC_PATH = resolve(CWD, 'public')
 export const SITE_CONFIG = resolve(CWD, '.smy/site.config.json')
+
+// template highlight
+export const HL_COMPONENT_NAME_RE = /.*(\/|\\)(.+)(\/|\\)docs(\/|\\)/
+export const HL_DIR = resolve(CWD, 'highlight')
+export const HL_TAGS_JSON = resolve(HL_DIR, 'tags.json')
+export const HL_ATTRIBUTES_JSON = resolve(HL_DIR, 'attributes.json')
