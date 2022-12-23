@@ -51,3 +51,8 @@ export const RenderToComp = {
     return typeof props.render === 'function' ? props.render.call(parent, h, context) : props.render
   },
 }
+
+export declare class SmyCompoent {
+  static name: string
+  install: (app: VueConstructor) => void
+}
