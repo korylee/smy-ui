@@ -6,7 +6,9 @@
     <div v-if="isShow" class="smy--box smy-loading__body" :class="{ 'smy-loading__inside': hasDefaultSlots }">
       <div v-if="type === 'circle'" class="smy-loading__circle">
         <Icon class="smy-loading__circle-block" :color="color" :size="getRadius * 2">
-          <circle-loading />
+          <svg class="circle-loading-c92e" viewBox="25 25 50 50">
+            <circle cx="50" cy="50" r="20" fill="none"></circle>
+          </svg>
         </Icon>
       </div>
       <div v-else-if="currentLoadingNums" :class="`smy-loading__${type} smy-loading__${type}--${size}`">
@@ -35,12 +37,11 @@ import { props } from './props'
 import { LOADING_NUMBERS_DICT, LOADING_SIZE_DICT } from './constant'
 import { toNumber } from '../_utils/shared'
 import Icon from '../icon'
-import CircleLoading from '../_icon/CircleLoading.vue'
 
 export default {
   name: 'SmyLoading',
   mixins: [SlotsMixin],
-  components: { Icon, CircleLoading },
+  components: { Icon },
   props,
   computed: {
     hasDefaultSlots() {
