@@ -168,10 +168,52 @@ export default {
       p code,
       li code,
       table code {
+        -webkit-font-smoothing: antialiased;
         word-break: keep-all;
         font-size: 15px;
         @doc-active();
         color: var(--site-config-color-primary);
+      }
+      table {
+        width: 100%;
+        margin-top: 12px;
+        font-size: 14px;
+        line-height: 28px;
+        border-collapse: collapse;
+        border-radius: 4px;
+        color: var(--site-config-color-text);
+        background: var(--site-config-color-bar);
+        -webkit-font-smoothing: antialiased;
+
+        th {
+          padding: 8px 16px;
+          font-weight: 500;
+          text-align: left;
+          color: var(--site-config-color-sub-text);
+          font-size: 13px;
+          -webkit-font-smoothing: antialiased;
+          border-bottom: 1px solid var(--site-config-color-border);
+        }
+
+        td {
+          padding: 8px 16px;
+          font-family: Consolas, Monaco, monospace;
+          border-bottom: 1px solid var(--site-config-color-border);
+          color: var(--site-config-color-text);
+          code {
+            white-space: pre-wrap;
+            padding: 0;
+            font-size: 13px;
+          }
+        }
+
+        em {
+          color: var(--site-config-color-type);
+          font-style: normal;
+          font-size: 13px;
+          @doc-active();
+          -webkit-font-smoothing: antialiased;
+        }
       }
 
       .card {

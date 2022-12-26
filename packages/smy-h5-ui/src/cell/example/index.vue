@@ -14,12 +14,15 @@
         <smy-icon><CloseSvg /></smy-icon>
       </template>
     </smy-cell>
+    <div>右侧内容</div>
     <smy-cell
       >这里是cell组件
       <template #extra>
         <smy-icon><CloseSvg /></smy-icon>
       </template>
     </smy-cell>
+    <div>点击动画</div>
+    <smy-cell clickable>这里是cell组件</smy-cell>
     <div>卡片样式</div>
     <smy-cell insert class="insert-example"
       >这里是cell组件
@@ -28,22 +31,17 @@
       </template>
     </smy-cell>
     <div>分组用法</div>
+    <smy-cell-group>
+      <smy-cell v-for="item of 3" :key="item" border clickable
+        >这里是cell组件
+        <template #desc>这里是描述</template>
+        <template #extra>
+          <smy-icon><CloseSvg /></smy-icon>
+        </template>
+      </smy-cell>
+    </smy-cell-group>
     <smy-cell-group insert class="insert-example">
-      <smy-cell border clickable
-        >这里是cell组件
-        <template #desc>这里是描述</template>
-        <template #extra>
-          <smy-icon><CloseSvg /></smy-icon>
-        </template>
-      </smy-cell>
-      <smy-cell border clickable
-        >这里是cell组件
-        <template #desc>这里是描述</template>
-        <template #extra>
-          <smy-icon><CloseSvg /></smy-icon>
-        </template>
-      </smy-cell>
-      <smy-cell border clickable
+      <smy-cell v-for="item of 3" :key="item" border clickable
         >这里是cell组件
         <template #desc>这里是描述</template>
         <template #extra>
