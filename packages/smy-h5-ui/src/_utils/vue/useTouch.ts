@@ -28,6 +28,8 @@ export function useTouch() {
   const isVertical = () => state.direction === 'vertical'
   const isHorizontal = () => state.direction === 'horizontal'
   const reset = () => {
+    state.startX = 0
+    state.startY = 0
     state.deltaX = 0
     state.deltaY = 0
     state.offsetX = 0
@@ -55,6 +57,7 @@ export function useTouch() {
     state,
     start,
     move,
+    reset,
     isVertical,
     isHorizontal,
   })
