@@ -19,7 +19,7 @@ export const props = {
     default: 'horizontal',
     validator: (val: SwiperDirection) => SWIPER_DIRECTIIONS.includes(val),
   },
-  pagination: {
+  indicator: {
     type: Boolean,
     default: false,
   },
@@ -35,7 +35,7 @@ export const props = {
     type: [Number, String],
     default: 0,
   },
-  initPage: {
+  initialIndex: {
     type: [Number, String],
     default: 0,
   },

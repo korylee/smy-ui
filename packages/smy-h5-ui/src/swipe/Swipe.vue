@@ -23,6 +23,8 @@
 import { useTouch } from '../_utils/vue/useTouch'
 import { props } from './props'
 
+const SWIPE_OFFSET_DENOMINATOR = 2
+
 export default {
   name: 'SmySwipe',
   props,
@@ -61,7 +63,7 @@ export default {
     getRefWidth(ref) {
       return ref?.clientWidth || 0
     },
-    setoffset(deltaX) {
+    setOffset(deltaX) {
       this.position = deltaX > 0 ? 'right' : 'left'
       let offset = deltaX
       const { rightRefWidth, position, oldPosition, leftRefWidth } = this
@@ -93,29 +95,32 @@ export default {
       touch.move(event)
       if (touch.isHorizontal()) {
         this.moving = true
-        this.setoffset(touch.state.deltaX)
+        this.setOffset(touch.state.deltaX)
       }
     },
     onTouchEnd() {
       if (!this.moving) return
       this.moving = false
       this.oldPosition = this.position
+      const { rightRefWidth, leftRefWidth } = this
+      console.log(rightRefWidth, this.offset)
       switch (this.position) {
         case 'left':
-          if (Math.abs(this.offset) <= this.rightRefWidth / 2) {
+          if (Math.abs(this.offset) <= rightRefWidth / SWIPE_OFFSET_DENOMINATOR) {
             this.close()
           } else {
-            this.offset = -this.rightRefWidth
+            this.offset = -rightRefWidth
             this.open()
           }
           break
         case 'right':
-          if (Math.abs(this.offset) <= this.leftRefWidth / 2) {
+          if (Math.abs(this.offset) <= leftRefWidth / SWIPE_OFFSET_DENOMINATOR) {
             this.close()
           } else {
-            this.offset = this.leftRefWidth
+            this.offset = leftRefWidth
             this.open()
           }
+          break
       }
     },
   },

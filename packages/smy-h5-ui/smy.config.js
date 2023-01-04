@@ -18,7 +18,7 @@ module.exports = {
       { text: 'Countdown 倒计时', doc: 'countdown', type: 2 },
       { text: 'Card 卡片', doc: 'card', type: 2 },
       { text: 'Tag 标签', doc: 'tag', type: 2 },
-      { text: 'ImgPreview 图片预览', doc: 'img-preview', type: 2 },
+      { text: 'ImagePreview 图片预览', doc: 'image-preview', type: 2 },
       { text: '导航组件', type: 1 },
       { text: 'NoticeBar 通告栏', doc: 'notice-bar', type: 2 },
       { text: '功能指令', type: 1 },

@@ -38,8 +38,9 @@ export function useTouch() {
   }
   const start: EventListener = (event: TouchEvent) => {
     reset()
-    state.startX = event.touches[0].clientX
-    state.startY = event.touches[0].clientY
+    const touch = event.touches[0]
+    state.startX = touch.clientX
+    state.startY = touch.clientY
   }
   const move: EventListener = (event: TouchEvent) => {
     const touch = event.touches[0]

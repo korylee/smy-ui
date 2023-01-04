@@ -1,17 +1,17 @@
-@swiper-pagination-item-width: 8px;
-@swiper-pagination-item-height: 3px;
-@swiper-pagination-item-spacing: 6px;
-@swiper-pagination-item-border-radius: 2px;
-@swiper-pagination-item-background: #ddd;
-@swiper-pagination-item-background-active: #fff;
+@swiper-indicator-item-width: 8px;
+@swiper-indicator-item-height: 3px;
+@swiper-indicator-item-spacing: 6px;
+@swiper-indicator-item-border-radius: 2px;
+@swiper-indicator-item-background: #ddd;
+@swiper-indicator-item-background-active: #fff;
 
 :root {
-  --swiper-pagination-item-width: @swiper-pagination-item-width;
-  --swiper-pagination-item-height: @swiper-pagination-item-height;
-  --swiper-pagination-item-spacing: @swiper-pagination-item-spacing;
-  --swiper-pagination-item-border-radius: @swiper-pagination-item-border-radius;
-  --swiper-pagination-item-background: @swiper-pagination-item-background;
-  --swiper-pagination-item-background-active: @swiper-pagination-item-background-active;
+  --swiper-indicator-item-width: @swiper-indicator-item-width;
+  --swiper-indicator-item-height: @swiper-indicator-item-height;
+  --swiper-indicator-item-spacing: @swiper-indicator-item-spacing;
+  --swiper-indicator-item-border-radius: @swiper-indicator-item-border-radius;
+  --swiper-indicator-item-background: @swiper-indicator-item-background;
+  --swiper-indicator-item-background-active: @swiper-indicator-item-background-active;
 }
 .smy-swiper {
   position: relative;
@@ -28,7 +28,7 @@
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
     }
-    .smy-swiper__pagination {
+    .smy-swiper__indicator {
       top: 50%;
       left: 12px;
       bottom: auto;
@@ -36,7 +36,7 @@
       transform: translateY(-50%);
       &-item {
         &:not(:last-child) {
-          margin-bottom: var(--swiper-pagination-item-spacing);
+          margin-bottom: var(--swiper-indicator-item-spacing);
         }
       }
     }
@@ -46,23 +46,23 @@
     height: 100%;
     display: flex;
   }
-  &__pagination {
+  &__indicator {
     display: flex;
     position: absolute;
     left: 50%;
     bottom: 12px;
     transform: translateX(-50%);
     &-item {
-      width: var(--swiper-pagination-item-width);
-      height: var(--swiper-pagination-item-height);
-      border-radius: var(--swiper-pagination-item-border-radius);
-      background: var(--swiper-pagination-item-background);
+      width: var(--swiper-indicator-item-width);
+      height: var(--swiper-indicator-item-height);
+      border-radius: var(--swiper-indicator-item-border-radius);
+      background: var(--swiper-indicator-item-background);
 
       &:not(:last-child) {
-        margin-right: var(--swiper-pagination-item-spacing);
+        margin-right: var(--swiper-indicator-item-spacing);
       }
       &--active {
-        background: var(--swiper-pagination-item-background-active);
+        background: var(--swiper-indicator-item-background-active);
       }
     }
   }

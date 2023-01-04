@@ -1,6 +1,7 @@
 import { isBool, isNill, isString, isArray, type Func, isObject, isNumber, isPx, isRem } from './is'
 
 const cameLizeRE = /-(\w)/g
+
 export function camelize(str: string) {
   return str.replace(cameLizeRE, (_, c) => (c ? c.toUpperCase() : ''))
 }

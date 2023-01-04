@@ -9,13 +9,14 @@
     @touchcancel="onTouchEnd"
   >
     <div class="smy-swiper__inner" :style="style"><slot /></div>
-    <slot v-if="pagination" name="page">
-      <div class="smy-swiper__pagination">
+    <slot name="indicator" :index="activeIndex" :length="childrenCount">
+      <div v-if="indicator" class="smy-swiper__indicator">
         <i
           v-for="(item, index) of children"
-          :key="index"
-          class="smy-swiper__pagination-item"
-          :class="{ 'smy-swiper__pagination-item--active': activePagination === index }"
+          :key="item._uid"
+          :class="{ 'smy-swiper__indicator-item--active': activeIndex === index }"
+          class="smy-swiper__indicator-item"
+          @click="handleTo(index)"
         />
       </div>
     </slot>
@@ -74,7 +75,7 @@ export default {
       }
       return 0
     },
-    activePagination({ childrenCount }) {
+    activeIndex({ childrenCount }) {
       return (this.active + childrenCount) % childrenCount
     },
     delta() {
@@ -83,7 +84,7 @@ export default {
     },
   },
   watch: {
-    initPage(val) {
+    initialIndex(val) {
       this.$nextTick(() => {
         this.init(Number(val))
       })
@@ -212,7 +213,7 @@ export default {
         requestFrame(() => {
           this.moving = false
           let targetIndex
-          if (this.loop && this.childrenCount) {
+          if (this.loop && this.childrenCount === index) {
             targetIndex = this.active === 0 ? 0 : index
           } else {
             targetIndex = index % this.childrenCount
@@ -232,7 +233,7 @@ export default {
     stopAutoPlay() {
       clearTimeout(this.autoPlayTimer)
     },
-    init(active = this.initPage) {
+    init(active = this.initialIndex) {
       active = Math.min(this.childrenCount - 1, active)
       this.stopAutoPlay()
       const rect = this.$refs.container.getBoundingClientRect()
@@ -266,7 +267,7 @@ export default {
       this.active = targetActive
       this.offset = targetOffset
       if (isEmit && active !== this.active) {
-        this.$emit('change', this.activePagination)
+        this.$emit('change', this.activeIndex)
       }
       this.getStyle()
     },
