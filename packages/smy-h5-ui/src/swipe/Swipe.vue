@@ -23,8 +23,6 @@
 import { useTouch } from '../_utils/vue/useTouch'
 import { props } from './props'
 
-const SWIPE_OFFSET_DENOMINATOR = 2
-
 export default {
   name: 'SmySwipe',
   props,
@@ -103,10 +101,10 @@ export default {
       this.moving = false
       this.oldPosition = this.position
       const { rightRefWidth, leftRefWidth } = this
-      console.log(rightRefWidth, this.offset)
+      const offsetDenominator = this.opened ? 1.2 : 2
       switch (this.position) {
         case 'left':
-          if (Math.abs(this.offset) <= rightRefWidth / SWIPE_OFFSET_DENOMINATOR) {
+          if (Math.abs(this.offset) <= rightRefWidth / offsetDenominator) {
             this.close()
           } else {
             this.offset = -rightRefWidth
@@ -114,7 +112,7 @@ export default {
           }
           break
         case 'right':
-          if (Math.abs(this.offset) <= leftRefWidth / SWIPE_OFFSET_DENOMINATOR) {
+          if (Math.abs(this.offset) <= leftRefWidth / offsetDenominator) {
             this.close()
           } else {
             this.offset = leftRefWidth
