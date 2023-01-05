@@ -34,7 +34,7 @@ export function getSmyConfig(emit = false): Record<string, any> {
 }
 
 export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
-  const host = smyConfig.host
+  const { host } = smyConfig
   console.log('root: ', SITE_DIR)
 
   return {
