@@ -10,7 +10,7 @@ import Vue from 'vue'
 import { mountComponent } from '@smy-h5/vtools'
 import { TOAST_TYPES } from './props'
 import context from '../_context'
-import { throwError } from '../_utils/smy'
+import { throwError } from '../_utils/smy/warn'
 // type MutablePartial<T> = {
 //   -readonly [K in keyof T]?: T[K]
 // }

@@ -1,5 +1,5 @@
 <template>
-  <div class="smy-swiper-item" :style="style">
+  <div v-on="$listeners" class="smy-swiper-item" :style="style">
     <slot />
   </div>
 </template>

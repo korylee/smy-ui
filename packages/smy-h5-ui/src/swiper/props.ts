@@ -31,7 +31,7 @@ export const props = {
     type: [String, Number],
     default: 500,
   },
-  autoPlay: {
+  autoplay: {
     type: [Number, String],
     default: 0,
   },

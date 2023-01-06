@@ -14,7 +14,6 @@ type ImagePreviewOptions = Partial<ImagePreviewProps> & {
   onChange?: (index: number) => void
 }
 
-let imagePreviewGlobalConfig
 let singletonInstance: ImagePreviewOptions | null
 
 const ImagePreview = function ImagePreview(options: string | string[] | ImagePreviewOptions) {
