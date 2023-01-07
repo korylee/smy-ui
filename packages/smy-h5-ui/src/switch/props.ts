@@ -1,3 +1,4 @@
+import type { ExtractPropTypes } from '@smy-h5/vtools'
 import { props as loadingProps } from '../loading/props'
 
 export const props = {
@@ -38,3 +39,5 @@ export const props = {
   loadingColor: loadingProps.color,
   loadingSize: loadingProps.size,
 }
+
+export type SwtichProps = ExtractPropTypes<typeof props>

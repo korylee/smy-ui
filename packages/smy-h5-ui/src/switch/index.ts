@@ -1,4 +1,9 @@
-import { withInstall } from '../_utils/components'
-import Switch from './Switch.vue'
+import { type SmyComponent, withInstall } from '../_utils/components'
+import type { SwtichProps } from './props'
+import _Switch from './Switch.vue'
 
-export default  withInstall(Switch)
+declare class SmySwitch extends SmyComponent {
+  $props: SwtichProps
+}
+
+export default withInstall(_Switch) as SmySwitch
