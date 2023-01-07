@@ -76,12 +76,6 @@ export default {
       this.updateAfterDuration()
     },
   },
-  // mounted() {
-  //   if (this.show) {
-  //     this.$emit('open')
-  //     this.updateAfterDuration()
-  //   }
-  // },
   methods: {
     isString,
     isFunction,

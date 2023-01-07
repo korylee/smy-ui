@@ -1,5 +1,6 @@
 import type { ExtractPropTypes } from '@smy-h5/vtools'
 import type { PropType } from 'vue'
+import { props as teleportProps } from '../teleport/props'
 
 const POPUP_POSITIONS = ['top', 'bottom', 'center', 'left', 'right'] as const
 
@@ -32,7 +33,8 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  teleport: String,
+  teleport: teleportProps.to.type,
+  teleportDisabled: teleportProps.disabled,
 }
 
 export type PopupProps = ExtractPropTypes<typeof props>

@@ -1,5 +1,11 @@
-import { createInstall } from '../_utils/components'
-import Icon from './Icon'
+import type { SmyComponent } from '../_utils/components'
+import type { IconProps } from './props'
 
-;(Icon as any).install = createInstall(Icon)
-export default Icon
+import { withInstall } from '../_utils/components'
+import _Icon from './Icon'
+
+declare class SmyIcon extends SmyComponent {
+  $props: IconProps
+}
+
+export default withInstall(_Icon) as unknown as SmyIcon

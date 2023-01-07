@@ -1,19 +1,22 @@
-import { SlotsMixin } from '@smy-h5/vtools'
+import { getSlots } from '@smy-h5/vtools'
 import Vue from 'vue'
 import { props } from './props'
 
 export default {
   name: 'SmyTeleport',
-  mixins: [SlotsMixin],
   props,
   data: () => ({
     el: null,
     instance: null,
   }),
+  watch: {
+    disabled: 'transfer',
+    to: 'transfer',
+  },
   methods: {
     create() {
       const Ctor = Vue.extend({
-        render: () => <div class="smy-teleport__container">{this.getSlots()}</div>,
+        render: () => <div class="smy-teleport__container">{getSlots(this)}</div>,
       })
       this.instance = new Ctor()
       this.instance.$parent = this
@@ -42,6 +45,7 @@ export default {
   },
   beforeDestroy() {
     this.instance.$destroy()
+    this.el.parentNode?.removeChild(this.el)
   },
 
   render() {

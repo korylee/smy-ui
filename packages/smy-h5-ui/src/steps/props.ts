@@ -1,9 +1,9 @@
-import type { PropType } from 'vue'
+import type { ExtractPropTypes } from '@smy-h5/vtools'
 
 export const props = {
-  direction: {
-    type: String as PropType<'vertical' | 'horizontal'>,
-    default: 'horizontal',
+  vertical: {
+    type: Boolean,
+    default: false,
   },
   current: {
     type: [String, Number],
@@ -15,3 +15,5 @@ export const props = {
   },
   reverse: { type: Boolean, default: false },
 }
+
+export type StepsProps = ExtractPropTypes<typeof props>

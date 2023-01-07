@@ -2,7 +2,7 @@
   <div
     ref="container"
     class="smy-swiper"
-    :class="{ 'smy-swiper--vertical': isVertical }"
+    :class="{ 'smy-swiper--vertical': vertical }"
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
     @touchend="onTouchEnd"
@@ -25,12 +25,9 @@
 
 <script>
 import { createParentMixin } from '../_utils/mixins/relation'
+import { doubleRaf, toPxNum } from '../_utils/shared'
 import { useTouch } from '../_utils/vue/useTouch'
 import { props } from './props'
-
-const requestFrame = (fn) => {
-  window.requestAnimationFrame.call(window, fn)
-}
 
 const range = (num, min, max) => Math.min(Math.max(num, min), max)
 
@@ -45,22 +42,19 @@ export default {
     rect: null,
     internalWidth: 0,
     internalHeight: 0,
-    moving: 0,
+    moving: false,
     offset: 0,
     touchTime: 0,
-    autoPlayTimer: 0,
+    autoplayTimer: null,
     style: {},
   }),
   computed: {
-    isVertical() {
-      return this.direction === 'vertical'
-    },
     isCorrectDirection() {
-      return this.touch?.state.direction === this.direction
+      return this.touch?.state.direction === (this.vertical ? 'vertical' : 'horizontal')
     },
     size() {
-      if (this.isVertical) return this.height
-      return this.width
+      if (this.vertical) return toPxNum(this.height)
+      return toPxNum(this.width)
     },
     childrenCount() {
       return this.children.length
@@ -70,8 +64,8 @@ export default {
     },
     minOffset() {
       if (this.rect) {
-        const base = this.rect[this.isVertical ? 'height' : 'width']
-        return base - this.size * this.childrenCount
+        const base = this.rect[this.vertical ? 'height' : 'width']
+        return base - this.trackSize
       }
       return 0
     },
@@ -80,27 +74,23 @@ export default {
     },
     delta() {
       if (!this.touch) return 0
-      return this.touch.state[this.isVertical ? 'deltaY' : 'deltaX']
+      return this.touch.state[this.vertical ? 'deltaY' : 'deltaX']
     },
   },
   watch: {
-    initialIndex(val) {
-      this.$nextTick(() => {
-        this.init(Number(val))
-      })
+    initialIndex() {
+      this.$nextTick(this.init)
     },
     childrenCount() {
-      this.$nextTick(() => {
-        this.init()
-      })
+      this.$nextTick(this.init)
     },
-    autoPlay(val) {
-      val > 0 ? this.startAutoPlay() : this.stopAutoPlay()
+    autoplay(val) {
+      val > 0 ? this.startAutoplay() : this.stopAutoplay()
     },
   },
   created() {
-    this.$once('hook:beforeDestroy', this.stopAutoPlay)
-    this.$once('hook:deactivated', this.stopAutoPlay)
+    this.$once('hook:beforeDestroy', this.stopAutoplay)
+    this.$once('hook:deactivated', this.stopAutoplay)
   },
   methods: {
     onTouchStart(e) {
@@ -109,7 +99,7 @@ export default {
       if (!this.touchable) return
       this.touch.start(e)
       this.touchTime = Date.now()
-      this.stopAutoPlay()
+      this.stopAutoplay()
       this.resetPosition()
     },
     onTouchMove(e) {
@@ -126,7 +116,7 @@ export default {
       const isShouldMove = Math.abs(speed) > 0.3 || Math.abs(delta) > +(size / 2).toFixed(2)
       if (isShouldMove && this.isCorrectDirection) {
         let pace = 0
-        const offset = this.touch.state[this.isVertical ? 'offsetY' : 'offsetX']
+        const offset = this.touch.state[this.vertical ? 'offsetY' : 'offsetX']
         if (this.loop) {
           pace = offset > 0 ? (delta > 0 ? -1 : 1) : 0
         } else {
@@ -138,15 +128,15 @@ export default {
       }
       this.moving = false
       this.getStyle()
-      this.startAutoPlay()
+      this.startAutoplay()
     },
     getActive(pace) {
-      const { active } = this
+      const { active, childrenCount } = this
       if (pace) {
         if (this.loop) {
-          return range(active + pace, -1, this.childrenCount)
+          return range(active + pace, -1, childrenCount)
         }
-        return range(active + pace, 0, this.childrenCount - 1)
+        return range(active + pace, 0, childrenCount - 1)
       }
       return active
     },
@@ -156,6 +146,7 @@ export default {
         currentPosition = Math.min(currentPosition, -this.minOffset)
       }
       const targetOffset = offset - currentPosition
+
       if (!this.loop) {
         return range(targetOffset, this.minOffset, 0)
       }
@@ -163,98 +154,94 @@ export default {
     },
     getStyle() {
       let offset = 0
-      const { isVertical } = this
+      const { vertical, size, childrenCount } = this
       if (!this.center) {
         offset = this.offset
       } else {
-        const val = isVertical ? this.rect.height - this.size : this.rect.width - this.size
-        offset = this.offset + (this.active === this.childrenCount - 1 ? -val / 2 : val / 2)
+        const diff = vertical ? this.rect.height - size : this.rect.width - size
+        offset = this.offset + (this.active === childrenCount - 1 ? -diff / 2 : diff / 2)
       }
       this.style = {
         transitionDuration: `${this.moving ? 0 : this.duration}ms`,
-        transform: `translate${isVertical ? 'Y' : 'X'}(${offset}px)`,
-        [isVertical ? 'height' : 'width']: `${this.size * this.childrenCount}px`,
-        [isVertical ? 'width' : 'height']: `${isVertical ? this.internalWidth : this.internalHeight}px`,
+        transform: `translate${vertical ? 'Y' : 'X'}(${offset}px)`,
+        [vertical ? 'height' : 'width']: `${size * childrenCount}px`,
+        [vertical ? 'width' : 'height']: `${vertical ? this.internalWidth : this.internalHeight}px`,
       }
     },
     resetPosition() {
       this.moving = true
-      const { childrenCount } = this
-      if (this.active <= -1) {
+      const { childrenCount, active } = this
+      if (active <= -1) {
         this.move({ pace: childrenCount })
-      } else if (this.active >= childrenCount) {
+      } else if (active >= childrenCount) {
         this.move({ pace: -childrenCount })
       }
     },
     handlePrev() {
       this.resetPosition()
       this.touch.reset()
-      requestFrame(() => {
-        requestFrame(() => {
-          this.moving = false
-          this.move({ pace: -1, isEmit: true })
-        })
+      doubleRaf(() => {
+        this.moving = false
+        this.move({ pace: -1, isEmit: true })
       })
     },
     handleNext() {
       this.resetPosition()
       this.touch.reset()
-      requestFrame(() => {
-        requestFrame(() => {
-          this.moving = false
-          this.move({ pace: 1, isEmit: true })
-        })
+      doubleRaf(() => {
+        this.moving = false
+        this.move({ pace: 1, isEmit: true })
       })
     },
     handleTo(index) {
       this.resetPosition()
       this.touch.reset()
-      requestFrame(() => {
-        requestFrame(() => {
-          this.moving = false
-          let targetIndex
-          if (this.loop && this.childrenCount === index) {
-            targetIndex = this.active === 0 ? 0 : index
-          } else {
-            targetIndex = index % this.childrenCount
-          }
-          this.move({ pace: targetIndex - this.active, isEmit: true })
-        })
+      doubleRaf(() => {
+        this.moving = false
+        let targetIndex
+        if (this.loop && this.childrenCount === index) {
+          targetIndex = this.active === 0 ? 0 : index
+        } else {
+          targetIndex = index % this.childrenCount
+        }
+        this.move({ pace: targetIndex - this.active, isEmit: true })
       })
     },
-    startAutoPlay() {
-      if (this.autoPlay <= 0 || this.childrenCount <= 1) return
-      this.stopAutoPlay()
-      this.autoPlayTimer = setTimeout(() => {
+    startAutoplay() {
+      if (this.autoplay <= 0 || this.childrenCount <= 1) return
+      this.stopAutoplay()
+      this.autoplayTimer = setTimeout(() => {
         this.handleNext()
-        this.startAutoPlay()
-      }, Number(this.autoPlay))
+        this.startAutoplay()
+      }, Number(this.autoplay))
     },
-    stopAutoPlay() {
-      clearTimeout(this.autoPlayTimer)
+    stopAutoplay() {
+      clearTimeout(this.autoplayTimer)
     },
     init(active = this.initialIndex) {
-      active = Math.min(this.childrenCount - 1, active)
-      this.stopAutoPlay()
+      active = Math.min(this.childrenCount - 1, Number(active))
+      this.stopAutoplay()
       const rect = this.$refs.container.getBoundingClientRect()
       this.rect = rect
-      this.internalWidth = this.width ? +this.width : rect.width
-      this.internalHeight = this.height ? +this.height : rect.height
+      const width = toPxNum(this.width)
+      const height = toPxNum(this.height)
+      this.internalWidth = width ? width : rect.width
+      this.internalHeight = height ? height : rect.height
       this.active = active
       this.offset = this.getOffset(active)
       this.moving = true
       this.getStyle()
 
-      this.startAutoPlay()
+      this.startAutoplay()
     },
     move({ offset = 0, pace = 0, isEmit = false }) {
-      if (this.childrenCount <= 1) return
-      const { active } = this
+      const { childrenCount, active } = this
+      if (childrenCount <= 1) return
       const targetActive = this.getActive(pace)
       const targetOffset = this.getOffset(targetActive, offset)
       if (this.loop) {
         const firstChild = this.children[0]
-        const lastChild = this.children[this.childrenCount - 1]
+        const lastChild = this.children[childrenCount - 1]
         if (firstChild && targetOffset !== this.minOffset) {
           const rightBound = targetOffset < this.minOffset
           firstChild.setOffset(rightBound ? this.trackSize : 0)

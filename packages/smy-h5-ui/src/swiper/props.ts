@@ -1,9 +1,4 @@
 import type { ExtractPropTypes } from '@smy-h5/vtools'
-import type { PropType } from 'vue'
-
-const SWIPER_DIRECTIIONS = ['vertical', 'horizontal'] as const
-
-type SwiperDirection = typeof SWIPER_DIRECTIIONS[number]
 
 export const props = {
   width: {
@@ -14,10 +9,9 @@ export const props = {
     type: [Number, String],
     default: 0,
   },
-  direction: {
-    type: String as PropType<SwiperDirection>,
-    default: 'horizontal',
-    validator: (val: SwiperDirection) => SWIPER_DIRECTIIONS.includes(val),
+  vertical: {
+    type: Boolean,
+    default: false,
   },
   indicator: {
     type: Boolean,
@@ -31,7 +25,7 @@ export const props = {
     type: [String, Number],
     default: 500,
   },
-  autoPlay: {
+  autoplay: {
     type: [Number, String],
     default: 0,
   },

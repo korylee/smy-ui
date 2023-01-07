@@ -67,7 +67,7 @@ export default {
 <style lang="less" scoped>
 .cell-example {
   background-color: #f7f8fa;
-  height: 100vh;
+  height: 100%;
 }
 .insert-example {
   margin: 10px 10px;

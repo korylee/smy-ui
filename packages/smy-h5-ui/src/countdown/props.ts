@@ -1,3 +1,5 @@
+import type { ExtractPropTypes } from '@smy-h5/vtools'
+
 export const props = {
   time: {
     type: [String, Number],
@@ -12,3 +14,5 @@ export const props = {
     default: true,
   },
 }
+
+export type CountdownProps = ExtractPropTypes<typeof props>

@@ -21,7 +21,7 @@
       class="smy-image-preview__swiper"
       @change="$emit('change', $event)"
     >
-      <smy-swiper-item v-for="image of images" :key="image" class="smy-image-preview__swiper-item">
+      <smy-swiper-item v-for="(image, index) of images" :key="index" class="smy-image-preview__swiper-item">
         <div
           :style="zoomContainerStyle"
           class="smy-image-preview__zoom-container"
@@ -35,18 +35,18 @@
           </slot>
         </div>
       </smy-swiper-item>
+      <template #indicator="{ index, length }">
+        <slot name="indicator" :index="index" :length="length">
+          <div v-if="indicator && images.length" class="smy-image-preview__indicators">
+            {{ index + 1 }} / {{ length }}
+          </div>
+        </slot>
+      </template>
     </smy-swiper>
-    <template #indicator="{ index, length }">
-      <slot name="indicator" :index="index" :length="length">
-        <div v-if="indicator && images.length" class="smy-image-preview__indicators">
-          {{ index + 1 }} / {{ length }}
-        </div>
-      </slot>
-    </template>
     <slot name="close-icon">
       <smy-icon v-if="closeable" class="smy-image-preview__close-icon" @click="handleClose"></smy-icon>
     </slot>
-    <div class="smy-image-preview__extra">
+    <div v-if="$slots.extra" class="smy-image-preview__extra">
       <slot name="extra" />
     </div>
   </smy-popup>

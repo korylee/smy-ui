@@ -2,6 +2,7 @@
   <Popup
     :show.sync="internalShow"
     :teleport="teleport"
+    :teleport-disabled="teleportDisabled"
     :close-on-click-overlay="closeOnClickOverlay"
     smy-picker-cover
     position="bottom"
@@ -72,7 +73,7 @@
         <div
           class="smy-picker__mask"
           :style="{
-            backgroundSize: `100% ${(columnHeight - localOptionHeight) / 2}px`,
+            backgroundSize: `100% ${center}px`,
           }"
         ></div>
       </div>
@@ -118,8 +119,8 @@ export default {
     localOptionCount() {
       return toPxNum(this.optionCount)
     },
-    center({ localOptionHeight }) {
-      return (this.localOptionCount * localOptionHeight) / 2 - localOptionHeight / 2
+    center() {
+      return (this.columnHeight - this.localOptionHeight) / 2
     },
     columnHeight() {
       return this.localOptionCount * this.localOptionHeight

@@ -11,7 +11,7 @@
 | 参数                     | 说明                                                   | 类型                  | 默认值   |
 | ------------------------ | ------------------------------------------------------ | --------------------- | -------- |
 | `show.sync`              | 是否显示弹出层                                         | _boolean_             | `false`  |
-| `position`               | 弹出位置（`top`,`bottom`,`right`,`left`,`center`       | _string_              | `center` |
+| `position`               | 弹出位置（`top`,`bottom`,`right`,`left`,`center`)       | _string_              | `center` |
 | `overlay`                | 是否显示遮罩层                                         | _boolean_             | `true`   |
 | `overlay-class`          | 自定义遮罩层的 class                                   | _string_              | `-`      |
 | `transition`             | 过渡动画的名称                                         | _string_              | `-`      |

@@ -1,4 +1,4 @@
-import { isBool, isNill, isString, isArray, type Func, isObject, isNumber, isPx, isRem } from './is'
+import { isBool, isNill, isString, isArray, type Func, isObject, isNumber, isPx, isRem, isFunction } from './is'
 
 const cameLizeRE = /-(\w)/g
 
@@ -50,12 +50,15 @@ export function throttle<T extends Func>(method: T, mustRunDelay = 200): T {
   } as T
 }
 
-export const doubleRaf = () =>
-  new Promise((resolve) => {
+export const doubleRaf = (cb?: Func, ctx?: any) => {
+  const promise = new Promise((resolve) => {
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(resolve)
     })
   })
+  if (!isFunction(cb)) return promise
+  return promise.then(() => cb.call(ctx))
+}
 
 export function merge(target, ...args) {
   args.forEach((source = {}) => {
@@ -117,15 +120,18 @@ export function pick<T extends Record<string, any>, R extends keyof T>(source: T
   }, {} as Pick<T, R>)
 }
 
+const isNumString = (str: any): boolean => isString(str) && /^\d+$/.test(str)
+
 export function convertToUnit(str: string | number | null | undefined, unit = 'px'): string | undefined {
   if (str == null || str === '') return undefined
-  else if (isNumber(str) || /^\d+$/.test(str)) return `${Number(str)}${unit}`
+  else if (isNumber(str) || isNumString(str)) return `${Number(str)}${unit}`
   else if (isNaN(+str!)) return String(str)
   else return `${Number(str)}${unit}`
 }
 
-export function toPxNum(value) {
+export function toPxNum(value: number | string) {
   if (isNumber(value)) return value
+  if (isNumString(value)) return +value
   if (isPx(value)) {
     return +value.replace('px', '')
   }

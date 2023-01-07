@@ -1,5 +1,5 @@
 <template>
-  <div class="smy-swiper-item" :style="style">
+  <div v-on="$listeners" class="smy-swiper-item" :style="style">
     <slot />
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
   computed: {
     style() {
       const style = {}
-      const isVertical = this.swiper?.isVertical
+      const isVertical = this.swiper?.vertical
       const size = this.swiper?.size
       if (size) {
         style[isVertical ? 'height' : 'width'] = `${size}px`

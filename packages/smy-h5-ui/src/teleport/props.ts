@@ -9,6 +9,6 @@ export const props = {
     type: Boolean,
     default: false,
   },
-} as const
+}
 
 export type TeleportProps = ExtractPropTypes<typeof props>

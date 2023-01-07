@@ -40,21 +40,25 @@ declare type DefaultFactory<T> = (props: Data) => T | null | undefined
 declare type Data = Record<string, unknown>
 
 declare type RequiredKeys<T> = {
-  [K in keyof T]: T[K] extends { required: true } | { default: any } | BooleanConstructor | { type: BooleanConstructor }
-    ? T[K] extends { default: undefined | (() => undefined) }
-      ? never
-      : K
+  [K in keyof T]: T[K] extends {
+    required: true
+  }
+    ? // | {
+      //     default: any
+      //   }
+      // | BooleanConstructor
+      // | {
+      //     type: BooleanConstructor
+      //   }
+      // T[K] extends {
+      //   default: undefined | (() => undefined)
+      // }
+      // ? never
+      // :
+      K
     : never
 }[keyof T]
 
 declare type OptionalKeys<T> = Exclude<keyof T, RequiredKeys<T>>
-
-// export declare type PropType<T> = PropConstructor<T> | PropConstructor<T>[]
-
-// declare type PropConstructor<T = any> = { new (...args: any[]): T & {} } | { (): T } | PropMethod<T>
-
-// declare type PropMethod<T, TConstructor = any> = [T] extends [((...args: any) => any) | undefined]
-//   ? { new (): TConstructor; (): T; readonly prototype: TConstructor }
-//   : never
 
 export declare type IfAny<T, Y, N> = 0 extends 1 & T ? Y : N

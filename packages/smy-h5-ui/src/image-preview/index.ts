@@ -1,10 +1,17 @@
 import type { ImagePreviewProps } from './props'
+import type { SmyComponent } from '../_utils/components'
 
-import SmyImagePreview from './ImagePreview.vue'
+import _ImagePreview from './ImagePreview.vue'
 import Vue from 'vue'
-import { createInstall } from '../_utils/components'
+import { withInstall } from '../_utils/components'
 import { isArray, isInBrowser, isNill, isString } from '../_utils/is'
 import { mountComponent } from '@smy-h5/vtools'
+
+declare class SmyImagePreview extends SmyComponent {
+  $props: ImagePreviewProps
+}
+
+const SmyImgPreview = withInstall(_ImagePreview) as unknown as SmyImagePreview
 
 type ImagePreviewOptions = Partial<ImagePreviewProps> & {
   onOpen?: () => void
@@ -14,7 +21,6 @@ type ImagePreviewOptions = Partial<ImagePreviewProps> & {
   onChange?: (index: number) => void
 }
 
-let imagePreviewGlobalConfig
 let singletonInstance: ImagePreviewOptions | null
 
 const ImagePreview = function ImagePreview(options: string | string[] | ImagePreviewOptions) {
@@ -27,7 +33,7 @@ const ImagePreview = function ImagePreview(options: string | string[] | ImagePre
     ? { images: options }
     : options
 
-  const { instance, unmount } = mountComponent(SmyImagePreview, 'body', { propsData: { ...imagePreviewOptions } })
+  const { instance, unmount } = mountComponent(SmyImgPreview as any, 'body', { propsData: { ...imagePreviewOptions } })
 
   instance.show = true
 
@@ -63,10 +69,8 @@ ImagePreview.close = function () {
   })
 }
 
-ImagePreview.install = createInstall(SmyImagePreview)
+ImagePreview.install = SmyImgPreview.install
 
-SmyImagePreview.install = ImagePreview.install
-
-ImagePreview.Component = SmyImagePreview
+ImagePreview.Component = SmyImgPreview
 
 export default ImagePreview

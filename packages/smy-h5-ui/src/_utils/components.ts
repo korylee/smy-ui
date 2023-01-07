@@ -1,4 +1,5 @@
-import type { VueConstructor } from 'vue'
+import type { CreateElement, VueConstructor } from 'vue'
+import type Vue from 'vue'
 import type { ComponentOptions } from 'vue/types/umd'
 
 function registerComponent(app: VueConstructor, name: string, component: any) {
@@ -13,7 +14,7 @@ export function createInstall(component: any) {
     const { name, alias } = component
     registerComponent(app, name, component)
     if (alias) {
-      alias.forEach((alia) => {
+      alias.forEach((alia: string) => {
         registerComponent(app, alia, component)
       })
     }
@@ -46,13 +47,13 @@ export const RenderToComp = {
   props: {
     render: Function,
   },
-  render(h, context) {
+  render(h: CreateElement, context: any) {
     const { props, parent } = context
     return typeof props.render === 'function' ? props.render.call(parent, h, context) : props.render
   },
 }
 
-export declare class SmyCompoent {
+export declare class SmyComponent {
   static name: string
   install: (app: VueConstructor) => void
 }

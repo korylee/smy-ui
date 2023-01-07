@@ -1,3 +1,5 @@
+import type { ExtractPropTypes } from '@smy-h5/vtools'
+
 export const props = {
   price: {
     type: [Number, String],
@@ -16,3 +18,5 @@ export const props = {
     default: false,
   },
 }
+
+export type PriceProps = ExtractPropTypes<typeof props>

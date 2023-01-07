@@ -1,3 +1,5 @@
+import type { ExtractPropTypes } from '@smy-h5/vtools'
+
 export const props = {
   title: [String, Number],
   desc: String,
@@ -8,3 +10,5 @@ export const props = {
   clickable: Boolean,
   insert: Boolean,
 }
+
+export type CellProps = ExtractPropTypes<typeof props>

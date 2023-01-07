@@ -7,7 +7,7 @@ export const createZIndexMixin = (state: string, count = 1) => ({
   watch: {
     [state]: {
       immediate: true,
-      handler(newValue) {
+      handler(newValue: any) {
         if (!newValue) return
         context.zIndex += count
       },

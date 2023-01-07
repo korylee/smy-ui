@@ -21,7 +21,7 @@ export const props = {
     type: Boolean,
     default: false,
   },
-  ...pick(swiperProps, ['loop', 'autoPlay', 'initialIndex']),
+  ...pick(swiperProps, ['loop', 'autoplay', 'initialIndex', 'indicator']),
   ...pick(popupProps, ['lockScroll', 'teleport']),
 }
 

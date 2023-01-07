@@ -1,10 +1,11 @@
-export type { LoadingProps } from './props'
+import type { LoadingProps } from './props'
+import type { SmyComponent } from '../_utils/components'
 
-import Loading from './Loading.vue'
-import { createInstall } from '../_utils/components'
+import _Loading from './Loading.vue'
+import { withInstall } from '../_utils/components'
 
-Loading.install = createInstall(Loading)
+declare class SmyLoading extends SmyComponent {
+  $props: LoadingProps
+}
 
-export const _LoadingComponent = Loading
-
-export default Loading
+export default withInstall(_Loading) as unknown as SmyLoading
