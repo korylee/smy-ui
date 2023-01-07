@@ -5,4 +5,6 @@ export const props = {
   titleClass: String,
   descClass: String,
   extraClass: String,
+  clickable: Boolean,
+  insert: Boolean,
 }

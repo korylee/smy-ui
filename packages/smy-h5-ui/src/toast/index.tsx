@@ -156,14 +156,16 @@ const Toast = function toast(options: number | string | ReactiveToastOptions) {
   }
 }
 
-const getToast = (type: ToastType) => (options: Parameters<typeof Toast>[0]) => {
-  if (isString(options) || isNumber(options)) {
-    options = { content: String(options), type }
-  } else {
-    options.type = type
+const getToast =
+  (type: ToastType) =>
+  (options: Parameters<typeof Toast>[0] = {}) => {
+    if (isString(options) || isNumber(options)) {
+      options = { content: String(options), type }
+    } else {
+      options.type = type
+    }
+    return Toast(options)
   }
-  return Toast(options)
-}
 
 const Toasts: { [type in ToastType]: ReturnType<typeof getToast> } = TOAST_TYPES.reduce((acc, cur) => {
   acc[cur] = getToast(cur)

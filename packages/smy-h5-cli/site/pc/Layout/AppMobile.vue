@@ -33,7 +33,7 @@ iframe {
   position: sticky;
   flex: 0 0 325px;
   top: 80px;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 200px);
   margin-right: 38px;
   overflow: hidden;
   border-radius: 2px;

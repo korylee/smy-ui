@@ -1,8 +1,7 @@
 <template>
   <div class="site-mobile">
-    <header>
-      <AppBar class="app-bar">
-      </AppBar>
+    <header class="nav">
+      <AppBar class="app-bar"> </AppBar>
     </header>
     <div class="router-view__block">
       <router-view />
@@ -45,14 +44,25 @@ body {
   transition: background-color 0.25s, color 0.25s;
 }
 
-header {
+.nav {
   position: fixed;
-  z-index: 99;
+  z-index: 10;
   width: 100%;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-weight: bold;
+  // background: rgb(255, 255, 255);
+  font-size: 20px;
+  // color: rgb(51, 51, 51);
+  box-shadow: rgb(0 0 0 / 7%) 0px 4px 10px;
 }
 
 .router-view__block {
-  padding-top: 54px;
+  padding-top: var(--site-app-bar-height);
+  min-height: 100vh;
+  // background: rgb(247, 248, 250);
+  overflow: hidden auto;
+  box-sizing: border-box;
 }
 </style>

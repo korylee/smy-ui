@@ -9,8 +9,17 @@
     <div>点状</div>
     <Steps current="1" direction="vertical" progress-dot class="steps-wrapper">
       <Step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
-      <Step />
-      <Step />
+      <Step v-for="item of 3" :key="item" content="fasdfad" />
+    </Steps>
+    <div>翻转</div>
+    <Steps current="1" reverse direction="vertical" progress-dot class="steps-wrapper">
+      <Step>
+        <template #title>
+          <span>收货地址：广东省深圳市福田区梅林街道新一代产业园5栋</span>
+        </template>
+        刘一飞 18889898888
+      </Step>
+      <Step v-for="item of 3" :key="item" content="fasdfad" />
     </Steps>
   </div>
 </template>

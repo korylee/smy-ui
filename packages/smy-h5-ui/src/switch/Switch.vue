@@ -27,6 +27,10 @@ export default {
     event: 'change',
   },
   props,
+  model: {
+    event: 'change',
+    prop: 'active',
+  },
   computed: {
     isActive: {
       get() {

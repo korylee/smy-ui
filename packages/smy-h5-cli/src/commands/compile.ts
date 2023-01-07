@@ -4,6 +4,7 @@ import ora from 'ora'
 import { compileModule } from '../compiler/compileModule'
 import logger from '../shared/logger'
 import { compileTypes } from '../compiler/compileTypes'
+import { compileTemplateHighlight } from '../compiler/compileTemplateHighLight'
 
 export function removeDir() {
   return Promise.all([remove(ES_DIR), remove(TYPES_DIR), remove(LIB_DIR)])
@@ -24,7 +25,7 @@ export async function compile(cmd: { onUmd: boolean }) {
   process.env.NODE_ENV = 'compile'
 
   await removeDir()
-  await Promise.all([runTask('types', compileTypes)])
+  await Promise.all([runTask('types', compileTypes), runTask('template highlight', compileTemplateHighlight)])
   await runTask('module', compileModule)
   // await runTask('commonjs', () => compileModule('commonjs'))
 }

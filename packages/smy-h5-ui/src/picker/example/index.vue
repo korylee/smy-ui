@@ -1,7 +1,9 @@
 <template>
   <div>
     <button @click="basicShow = true">基础</button>
-    <Picker :show.sync="basicShow" :columns="columns" @cancel="basicShow = false" />
+    <button @click="multipShow = true">多数</button>
+    <Picker :show.sync="basicShow" :columns="[column]" @cancel="basicShow = false" />
+    <Picker :show.sync="multipShow" :columns="[column, column]" @cancel="basicShow = false" />
   </div>
 </template>
 
@@ -13,7 +15,8 @@ export default {
   components: { Picker },
   data: () => ({
     basicShow: false,
-    columns: [Array.from({ length: 20 }, (_, index) => index)],
+    multipShow: false,
+    column: Array.from({ length: 20 }, (_, index) => index),
   }),
 }
 </script>

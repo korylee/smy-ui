@@ -2,11 +2,13 @@
   <div class="smy-step" :class="`smy-step--${status}`" @click="handleClickStep">
     <div class="smy-step__header">
       <div class="smy-step__header-line"></div>
-      <div :class="{ 'smy-step__header-icon--dot': dot }" class="smy-step__header-icon">
-        <slot name="icon">
-          <div v-if="!dot" class="smy-step__header-icon__inner">{{ index }}</div>
-        </slot>
-      </div>
+      <slot name="header-icon">
+        <div :class="{ 'smy-step__header-icon--dot': dot }" class="smy-step__header-icon">
+          <slot name="icon">
+            <div v-if="!dot" class="smy-step__header-icon__inner">{{ index }}</div>
+          </slot>
+        </div>
+      </slot>
     </div>
     <div class="smy-step__main">
       <div class="smy-step__main-title">
@@ -34,8 +36,11 @@ export default {
     },
     status() {
       const { index, steps } = this
-      if (index < +steps.current) return 'finish'
-      return index === +steps.current ? 'process' : 'wait'
+      const length = steps.step?.length ?? 0
+      const currentIndex = steps.reverse ? length - index - 1 : index
+      const isFinish = currentIndex < +steps.current
+      if (isFinish) return 'finish'
+      return currentIndex === +steps.current ? 'process' : 'wait'
     },
     direction() {
       return this.steps.direction

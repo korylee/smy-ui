@@ -23,7 +23,8 @@ export default {
     },
   },
   created() {
-    addRouteListener(this, () => this.$listeners?.routeChange?.())
+    const routeChange = this.$listeners?.routeChange ?? this.$listeners?.['route-change']
+    addRouteListener(this, () => routeChange?.())
   },
   methods: {
     hidePopup() {

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'smy-cell--border': border }" v-on="$listeners" class="smy-cell">
+  <div :class="classes" v-on="$listeners" class="smy-cell">
     <div v-if="$slots.icon" class="smy-cell__icon">
       <slot name="icon" />
     </div>
@@ -25,6 +25,15 @@ import { props } from './props'
 export default {
   name: 'SmyCell',
   props,
+  computed: {
+    classes({ border, clickable, insert }) {
+      return {
+        'smy-cell--border': border,
+        'smy-cell--insert': insert,
+        'smy-cell--clickable': clickable,
+      }
+    },
+  },
 }
 </script>
 

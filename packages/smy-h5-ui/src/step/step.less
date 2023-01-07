@@ -1,6 +1,8 @@
 @steps-line-color: #909ca4;
 @steps-icon-width: 25px;
 @steps-icon-height: 25px;
+@steps-dot-width: 8px;
+@steps-dot-height: 8px;
 @steps-icon-font-size: 13px;
 @steps-content-font-size: 14px;
 @steps-content-color: #666;
@@ -19,26 +21,28 @@
   --steps-line-color: @steps-line-color;
   --steps-icon-width: @steps-icon-width;
   --steps-icon-height: @steps-icon-height;
+  --steps-dot-width: @steps-dot-width;
+  --steps-dot-height: @steps-dot-height;
   --steps-icon-font-size: 13px;
-  --steps-process-icon-text-color: var(--steps-primary-color);
-  --steps-process-header-color: #fff;
-  --steps-process-header-border-color: var(--steps-process-header-border-color);
   --steps-content-font-size: @steps-content-font-size;
   --steps-content-color: @steps-content-color;
   --steps-title-font-size: @steps-title-font-size;
   --steps-title-color: @steps-title-color;
   --steps-title-margin-bottom: @steps-title-margin-bottom;
 
+  --steps-process-icon-text-color: var(--steps-primary-color);
+  --steps-process-header-color: #fff;
+  --steps-process-header-border-color: var(--steps-process-header-border-color);
   --steps-process-title-color: var(--steps-primary-color);
 
   --steps-wait-header-color: @steps-wait-header-color;
   --steps-wait-header-border-color: @steps-wait-header-color;
   --steps-wait-icon-text-color: @steps-wait-icon-text-color;
+  --steps-wait-title-color: @steps-title-color;
 
   --steps-finish-header-color: var(--steps-primary-color);
   --steps-finish-header-border-color: var(--steps-finish-header-color);
   --steps-finish-icon-text-color: #fff;
-  --steps-finish-line-background: var(--steps-primary-color);
   --steps-finish-title-color: var(--steps-primary-color);
 }
 
@@ -140,7 +144,7 @@
         background-color: var(--steps-wait-icon-text-color);
       }
     }
-    .smy-step__main-content {
+    .smy-step__main-title {
       color: var(--steps-wait-title-color);
     }
   }
@@ -157,8 +161,8 @@
           bottom: -50%;
         }
         &-icon {
-          width: 8px;
-          height: 8px;
+          width: var(--steps-dot-width);
+          height: var(--steps-dot-height);
           // background: var();
           border-radius: 50%;
           box-sizing: content-box;
@@ -175,6 +179,7 @@
 
 .smy-steps--vertical {
   .smy-step {
+    position: relative;
     display: flex;
     height: 33.34%;
     &__header {
@@ -184,6 +189,8 @@
         width: 1%;
         height: 100%;
         background: #909ca4;
+        min-width: 1px;
+        transform: translateX(-50%);
       }
     }
     &__main {
@@ -201,13 +208,15 @@
           top: 7px;
           left: 50%;
           right: -50%;
+          margin-left: -50%;
         }
         &-icon {
-          width: 8px;
-          height: 8px;
+          width: var(--steps-dot-width);
+          height: var(--steps-dot-height);
           background-color: var(--steps-primary-color);
           border-radius: 50%;
           box-sizing: content-box;
+          transform: translateX(-50%);
         }
       }
       &--wait {

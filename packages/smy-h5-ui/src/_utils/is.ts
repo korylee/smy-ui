@@ -24,4 +24,7 @@ export const isObject = (val: unknown): val is object => typeof val === 'object'
 export const isArray = Array.isArray
 
 export const isRem = (str: string): boolean => isString(str) && str.endsWith('rem')
+
 export const isPx = (str: string): boolean => isString(str) && str.endsWith('px')
+
+export const isInBrowser = () => typeof window !== 'undefined'

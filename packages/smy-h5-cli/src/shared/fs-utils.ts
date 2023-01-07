@@ -5,6 +5,8 @@ import globSync from 'glob'
 
 export const isDir = (file: string): boolean => pathExistsSync(file) && lstatSync(file).isDirectory()
 
+export const isMD = (file: string): boolean => pathExistsSync(file) && extname(file) === '.md'
+
 export const isSFC = (file: string): boolean => pathExistsSync(file) && extname(file) === '.vue'
 
 export const isDTS = (file: string): boolean => pathExistsSync(file) && file.endsWith('.d.ts')

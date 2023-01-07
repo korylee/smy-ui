@@ -1,4 +1,5 @@
 @cell-color: #333;
+@cell-background: #fff;
 @cell-font-size: 14px;
 @cell-desc-font-size: 12px;
 @cell-desc-color: rgba(0, 0, 0, 0.6);
@@ -9,6 +10,7 @@
 @cell-border-right: 12px;
 @cell-icon-right: 8px;
 @cell-extra-left: 8px;
+@cell-insert-box-shadow: rgb(237 238 241) 0px 1px 7px;
 
 :root {
   --cell-color: @cell-color;
@@ -22,6 +24,8 @@
   --cell-border-right: @cell-border-right;
   --cell-icon-right: @cell-icon-right;
   --cell-extra-left: @cell-extra-left;
+  --cell--background: @cell-background;
+  --cell-insert-box-shadow: @cell-insert-box-shadow;
 }
 
 .smy-cell {
@@ -34,7 +38,54 @@
   box-sizing: border-box;
   font-size: var(--cell-font-size);
   color: var(--cell-color);
+  background: var(--cell--background);
 
+  &--border {
+    position: relative;
+    &::after {
+      position: absolute;
+      content: ' ';
+      box-sizing: border-box;
+      bottom: 0;
+      left: var(--cell-border-left);
+      right: var(--cell-border-right);
+      pointer-events: none;
+      border-bottom: 1px solid var(--cell-border-color);
+      transform: scaleY(0.5);
+    }
+    &:last-child::after {
+      display: none;
+    }
+  }
+  &--insert {
+    border-radius: 6px;
+    box-shadow: var(--cell-insert-box-shadow);
+  }
+  &--clickable {
+    cursor: pointer;
+    &:active::before {
+      opacity: 0.1;
+    }
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      border: inherit;
+      border-radius: inherit;
+      transform: translate3d(-50%, -50%, 0);
+      content: ' ';
+      opacity: 0;
+      z-index: 2;
+    }
+  }
+
+  &__icon {
+    margin-right: var(--cell-icon-right);
+    flex: 0;
+  }
   &__content {
     flex: 1;
     overflow: hidden;
@@ -44,7 +95,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  &__desc{
+  &__desc {
     font-size: var(--cell-desc-font-size);
     color: var(--cell-desc-color);
   }

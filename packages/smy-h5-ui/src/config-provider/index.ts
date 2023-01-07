@@ -1,7 +1,27 @@
+import { formatStyleVars } from '../_utils/dom'
 import { createInstall } from '../_utils/components'
-import ConfitProvider from './ConfigProvider.vue'
-export type { ConfigProviderProps, StyleVars } from './props'
+import SmyConfigProvider from './ConfigProvider.vue'
+import type { StyleVars } from './props'
 
-ConfitProvider.install = createInstall(ConfitProvider)
+export type { ConfigProviderProps } from './props'
 
-export default ConfitProvider
+export type { StyleVars }
+
+const mountedVarKeys: string[] = []
+
+const ConfigProvider = function ConfigProvider(styleVars: StyleVars | null = {}) {
+  mountedVarKeys.forEach((key) => document.documentElement.style.removeProperty(key))
+  mountedVarKeys.length = 0
+  const styles: StyleVars = formatStyleVars(styleVars)
+  Object.entries(styles).forEach(([key, value]) => {
+    document.documentElement.style.setProperty(key, value)
+    mountedVarKeys.push(key)
+  })
+}
+
+ConfigProvider.install = createInstall(SmyConfigProvider)
+ConfigProvider.Component = SmyConfigProvider
+
+SmyConfigProvider.install = ConfigProvider.install
+
+export default ConfigProvider

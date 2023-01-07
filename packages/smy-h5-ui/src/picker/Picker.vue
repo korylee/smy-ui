@@ -2,7 +2,7 @@
   <Popup
     :show.sync="internalShow"
     :teleport="teleport"
-    :close-onclick-ovlery="closeOnClickOverlay"
+    :close-on-click-overlay="closeOnClickOverlay"
     smy-picker-cover
     position="bottom"
     class="smy-picker__popup"
@@ -29,6 +29,7 @@
           </span>
         </slot>
       </div>
+      <slot name="top"></slot>
       <div class="smy-picker__columns" :style="{ height: `${columnHeight}px` }">
         <div
           class="smy-picker__column"
@@ -41,11 +42,7 @@
           <div
             class="smy-picker__scroller"
             ref="scrollEl"
-            :style="{
-              transform: `translateY(${scrollCol.translate}px)`,
-              transitionDuration: `${scrollCol.duration}ms`,
-              transitionProperty: scrollCol.duration ? 'transform' : 'none',
-            }"
+            :style="getScrollerStyle(scrollCol)"
             @transitionend="handleTransitionend(scrollCol)"
           >
             <div
@@ -54,7 +51,9 @@
               :class="{
                 'smy-picker__option--picked': textIndex === scrollCol.index,
               }"
-              :style="{ height: `${localOptionHeight}px` }"
+              :style="{
+                height: `${localOptionHeight}px`,
+              }"
               class="smy-picker__option"
             >
               <div class="smy-picker__text">
@@ -97,7 +96,7 @@ const MOMENTUM_ALLOW_DISTANCE = 15
 let sid = 0
 
 export default {
-  name: 'SmyPciker',
+  name: 'SmyPicker',
   components: { Popup },
   props,
   data: () => ({
@@ -222,6 +221,14 @@ export default {
       })
     },
 
+    getScrollerStyle(scrollCol) {
+      return {
+        transform: `translate3d(0, ${scrollCol.translate}px, 0)`,
+        transitionDuration: `${scrollCol.duration}ms`,
+        transitionProperty: scrollCol.duration ? 'transform' : 'none',
+      }
+    },
+
     limitTranslate(scrollCol) {
       const START_LIMIT = this.localOptionHeight + this.center
       const END_LIMIT = this.center - scrollCol.column.texts.length * this.localOptionHeight
@@ -276,8 +283,13 @@ export default {
       })
     },
     getPicked() {
-      const texts = this.scrollColumns.map((scrollCol) => scrollCol.column.texts[scrollCol.index])
-      const indexes = this.scrollColumns.map((scrollColumn) => scrollColumn.index)
+      const indexes = []
+      const texts = this.scrollColumns.map((scrollCol) => {
+        const { index } = scrollCol
+        indexes.push(index)
+        return scrollCol.column.texts[index]
+      })
+      // const indexes = this.scrollColumns.map((scrollColumn) => scrollColumn.index)
       return {
         texts,
         indexes,

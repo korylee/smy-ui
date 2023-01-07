@@ -51,6 +51,10 @@ export const props = {
     type: Function as PropType<(tezt: any, columnIndex: number) => any>,
     default: (text: any) => text,
   },
+  rotate: {
+    type: [Number],
+    default: 20,
+  },
   ...pick(popupProps, ['show', 'closeOnClickOverlay', 'teleport']),
 }
 

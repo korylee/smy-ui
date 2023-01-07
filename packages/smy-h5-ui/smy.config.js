@@ -1,6 +1,7 @@
 module.exports = {
   highlight: { style: null },
   useMobile: true,
+  port: 8088,
   pc: {
     menu: [
       { text: '开发指南', type: 1 },
@@ -13,10 +14,11 @@ module.exports = {
       { text: '展示组件', type: 1 },
       { text: 'Price 商品价格', doc: 'price', type: 2 },
       { text: 'Steps 步骤条', doc: 'steps', type: 2 },
+      { text: 'Swiper 轮播', doc: 'swiper', type: 2 },
       { text: 'Countdown 倒计时', doc: 'countdown', type: 2 },
-      { text: 'Scroller 滚动', doc: 'scroller', type: 2 },
       { text: 'Card 卡片', doc: 'card', type: 2 },
-      { text: 'ImgPreview 图片预览', doc: 'img-preview', type: 2 },
+      { text: 'Tag 标签', doc: 'tag', type: 2 },
+      { text: 'ImagePreview 图片预览', doc: 'image-preview', type: 2 },
       { text: '导航组件', type: 1 },
       { text: 'NoticeBar 通告栏', doc: 'notice-bar', type: 2 },
       { text: '功能指令', type: 1 },
@@ -25,6 +27,7 @@ module.exports = {
       { text: 'Toast 吐司气泡', doc: 'toast', type: 2 },
       { text: 'Popup 弹出层', doc: 'popup', type: 2 },
       { text: 'Picker 多列选择器', doc: 'picker', type: 2 },
+      { text: 'Swipe 滑动手势', doc: 'swipe', type: 2 },
       { text: '表单组件', type: 1 },
       { text: 'Stepper 步进器', doc: 'stepper', type: 2 },
       { text: 'Switch 开关', doc: 'switch', type: 2 },

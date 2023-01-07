@@ -2,20 +2,22 @@
 @toast-color: rgba(255, 255, 255, 0.87);
 @toast-border-radius: 4px;
 @toast-backgdround: #333;
-@toast-font-size: var(--fonst-size-md);
+@toast-font-size: var(--font-size-md);
 @toast-margin: 6px 24px;
 @toast-border-color: currentColor;
 @toast-success-background: var(--color-success);
 @toast-content-padding: 14px 16px;
 @toast-action-margin: 0 16px 0 0;
 @toast-vertical-width: unset;
-@toast-vertical-padding: 20px;
+@toast-vertical-padding: 10px;
+@toast-opacity: 0.9;
 
 :root {
   --toast-width: @toast-width;
   --toast-color: @toast-color;
   --toast-border-radius: @toast-border-radius;
   --toast-background: @toast-backgdround;
+  --toast-opacity: @toast-opacity;
   --toast-font-size: @toast-font-size;
   --toast-margin: @toast-margin;
   --toast-border-color: @toast-border-color;
@@ -49,26 +51,27 @@
   bottom: 0;
   transition: all 0.15s var(--cubic-bezier);
 
-  & &__vertical {
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    width: var(--toast-vertical-width);
-    padding: var(--toast-vertical-padding);
+  // & &__vertical {
+  //   flex-direction: column-reverse;
+  //   align-items: flex-start;
+  //   width: var(--toast-vertical-width);
+  //   padding: var(--toast-vertical-padding);
 
-    .smy-toast__content {
-      padding: 0;
-    }
-    .smy-toast__action {
-      margin: 0;
-      align-self: center;
-    }
-  }
+  //   .smy-toast__content {
+  //     padding: 0;
+  //   }
+  //   .smy-toast__action {
+  //     margin: 0;
+  //     align-self: center;
+  //   }
+  // }
   &__wrapper {
     width: var(--toast-width);
     display: flex;
     border-radius: var(--toast-border-radius);
     color: var(--toast-color);
     background: var(--toast-background);
+    opacity: var(--toast-opacity);
     font-size: var(--toast-font-size);
     margin: var(--toast-margin);
     align-items: center;
@@ -78,6 +81,20 @@
 
     &--success {
       background: var(--toast-success-background);
+    }
+    &--vertical {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      width: var(--toast-vertical-width);
+      padding: var(--toast-vertical-padding);
+
+      .smy-toast__content {
+        padding: 0;
+      }
+      .smy-toast__action {
+        margin: 0;
+        align-self: center;
+      }
     }
   }
   &__content {
