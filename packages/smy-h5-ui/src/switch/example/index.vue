@@ -8,7 +8,7 @@
     <div></div>
     <SmySwitch v-model="smallActive" size="10" inactive-label="关" active-label="开" />
     <SmySwitch v-model="largeActive" size="14" inactive-label="关" active-label="开" />
-    <SmySwitch loading v-model="largeActive" size="14" inactive-label="关" active-label="开" />
+    <SmySwitch v-model="largeActive" loading size="14" inactive-label="关" active-label="开" loading-size="14" />
   </div>
 </template>
 

@@ -2,9 +2,7 @@
   <div class="smy-switch" :style="style" :class="classes" @click="handleToggle">
     <div class="smy-switch__btn">
       <slot v-if="loading" name="loading">
-        <icon class="smy-switch__btn-loading" :color="loadingColor" :size="loadingSize">
-          <circle-loading />
-        </icon>
+        <smy-loading :color="loadingColor" :size="loadingSize" class="smy-switch__btn-loading" />
       </slot>
     </div>
     <div class="smy-switch__label" :class="`smy-switch__label--${isActive ? 'open' : 'close'}`">
@@ -14,23 +12,18 @@
 </template>
 
 <script>
-import CircleLoading from '../_icon/CircleLoading.vue'
 import { convertToUnit } from '../_utils/shared'
 import { props } from './props'
-import Icon from '../icon'
+import SmyLoading from '../loading'
 
 export default {
   name: 'SmySwitch',
-  components: { CircleLoading, Icon },
+  components: { SmyLoading },
   model: {
     prop: 'value',
     event: 'change',
   },
   props,
-  model: {
-    event: 'change',
-    prop: 'active',
-  },
   computed: {
     isActive: {
       get() {
@@ -68,5 +61,6 @@ export default {
 
 <style lang="less">
 @import '../_styles/common.less';
+@import '../loading/loading.less';
 @import './switch.less';
 </style>

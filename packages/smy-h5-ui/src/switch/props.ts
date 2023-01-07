@@ -1,4 +1,4 @@
-import { props as iconProps } from '../icon/props'
+import { props as loadingProps } from '../loading/props'
 
 export const props = {
   value: {
@@ -35,6 +35,6 @@ export const props = {
     default: false,
   },
   loading: Boolean,
-  loadingColor: iconProps.color,
-  loadingSize: iconProps.size,
+  loadingColor: loadingProps.color,
+  loadingSize: loadingProps.size,
 }

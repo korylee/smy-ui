@@ -1,4 +1,16 @@
-import { isBool, isNill, isString, isArray, type Func, isObject, isNumber, isPx, isRem, isFunction } from './is'
+import {
+  isBool,
+  isNill,
+  isString,
+  isArray,
+  type Func,
+  isObject,
+  isNumber,
+  isPx,
+  isRem,
+  isFunction,
+  isNumString,
+} from './is'
 
 const cameLizeRE = /-(\w)/g
 
@@ -60,7 +72,7 @@ export const doubleRaf = (cb?: Func, ctx?: any) => {
   return promise.then(() => cb.call(ctx))
 }
 
-export function merge(target, ...args) {
+export function merge(target: any, ...args: any[]) {
   args.forEach((source = {}) => {
     Reflect.ownKeys(source).forEach((prop) => {
       const value = source[prop]
@@ -119,8 +131,6 @@ export function pick<T extends Record<string, any>, R extends keyof T>(source: T
     return res
   }, {} as Pick<T, R>)
 }
-
-const isNumString = (str: any): boolean => isString(str) && /^\d+$/.test(str)
 
 export function convertToUnit(str: string | number | null | undefined, unit = 'px'): string | undefined {
   if (str == null || str === '') return undefined

@@ -28,3 +28,5 @@ export const isRem = (str: string): boolean => isString(str) && str.endsWith('re
 export const isPx = (str: string): boolean => isString(str) && str.endsWith('px')
 
 export const isInBrowser = () => typeof window !== 'undefined'
+
+export const isNumString = (str: unknown): boolean => isString(str) && /^\d+$/.test(str)
