@@ -16,7 +16,7 @@ export default {
   computed: {
     style() {
       const style = {}
-      const isVertical = this.swiper?.isVertical
+      const isVertical = this.swiper?.vertical
       const size = this.swiper?.size
       if (size) {
         style[isVertical ? 'height' : 'width'] = `${size}px`

@@ -13,7 +13,7 @@
       </smy-notice-bar>
       <h4>竖向</h4>
       <smy-notice-bar closable :scrollable="false">
-        <smy-swiper direction="vertical" class="notice-swipe" :autoplay="3000" height="40">
+        <smy-swiper vertical class="notice-swipe" :autoplay="3000" height="40">
           <smy-swiper-item>内容 1</smy-swiper-item>
           <smy-swiper-item>内容 2</smy-swiper-item>
           <smy-swiper-item>内容 3</smy-swiper-item>

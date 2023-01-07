@@ -7,7 +7,7 @@
       </smy-swiper-item>
     </smy-swiper>
     <div>垂直</div>
-    <smy-swiper :initial-index="2" indicator autoplay="2000" direction="vertical" height="150" style="height: 150px">
+    <smy-swiper :initial-index="2" indicator autoplay="2000" vertical height="150" style="height: 150px">
       <smy-swiper-item v-for="item of list" :key="item">
         <img :src="item" alt="" />
       </smy-swiper-item>

@@ -1,10 +1,9 @@
 import type { ExtractPropTypes } from '@smy-h5/vtools'
-import type { PropType } from 'vue'
 
 export const props = {
-  direction: {
-    type: String as PropType<'vertical' | 'horizontal'>,
-    default: 'horizontal',
+  vertical: {
+    type: Boolean,
+    default: false,
   },
   current: {
     type: [String, Number],

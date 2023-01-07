@@ -3,11 +3,8 @@ import Vue from 'vue'
 const MIN_DISTANCE = 10
 
 function getDirection(x: number, y: number) {
-  if (x > y && x > MIN_DISTANCE) {
-    return 'horizontal'
-  } else if (y > x && y > MIN_DISTANCE) {
-    return 'vertical'
-  }
+  if (x > y && x > MIN_DISTANCE) return 'horizontal'
+  else if (y > x && y > MIN_DISTANCE) return 'vertical'
   return ''
 }
 
@@ -36,13 +33,14 @@ export function useTouch() {
     state.offsetY = 0
     state.direction = ''
   }
-  const start: EventListener = (event: TouchEvent) => {
+  const start = ((event: TouchEvent) => {
     reset()
     const touch = event.touches[0]
     state.startX = touch.clientX
     state.startY = touch.clientY
-  }
-  const move: EventListener = (event: TouchEvent) => {
+  }) as EventListener
+
+  const move = ((event: TouchEvent) => {
     const touch = event.touches[0]
     state.deltaX = touch.clientX - state.startX
     state.deltaY = touch.clientY - state.startY
@@ -53,7 +51,7 @@ export function useTouch() {
     if (!state.direction) {
       state.direction = getDirection(state.offsetX, state.offsetY)
     }
-  }
+  }) as EventListener
   return Object.freeze({
     state,
     start,

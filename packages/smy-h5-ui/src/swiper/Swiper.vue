@@ -2,7 +2,7 @@
   <div
     ref="container"
     class="smy-swiper"
-    :class="{ 'smy-swiper--vertical': isVertical }"
+    :class="{ 'smy-swiper--vertical': vertical }"
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
     @touchend="onTouchEnd"
@@ -49,14 +49,11 @@ export default {
     style: {},
   }),
   computed: {
-    isVertical() {
-      return this.direction === 'vertical'
-    },
     isCorrectDirection() {
-      return this.touch?.state.direction === this.direction
+      return this.touch?.state.direction === (this.vertical ? 'vertical' : 'horizontal')
     },
     size() {
-      if (this.isVertical) return toPxNum(this.height)
+      if (this.vertical) return toPxNum(this.height)
       return toPxNum(this.width)
     },
     childrenCount() {
@@ -67,7 +64,7 @@ export default {
     },
     minOffset() {
       if (this.rect) {
-        const base = this.rect[this.isVertical ? 'height' : 'width']
+        const base = this.rect[this.vertical ? 'height' : 'width']
         return base - this.trackSize
       }
       return 0
@@ -77,7 +74,7 @@ export default {
     },
     delta() {
       if (!this.touch) return 0
-      return this.touch.state[this.isVertical ? 'deltaY' : 'deltaX']
+      return this.touch.state[this.vertical ? 'deltaY' : 'deltaX']
     },
   },
   watch: {
@@ -119,7 +116,7 @@ export default {
       const isShouldMove = Math.abs(speed) > 0.3 || Math.abs(delta) > +(size / 2).toFixed(2)
       if (isShouldMove && this.isCorrectDirection) {
         let pace = 0
-        const offset = this.touch.state[this.isVertical ? 'offsetY' : 'offsetX']
+        const offset = this.touch.state[this.vertical ? 'offsetY' : 'offsetX']
         if (this.loop) {
           pace = offset > 0 ? (delta > 0 ? -1 : 1) : 0
         } else {
@@ -157,18 +154,18 @@ export default {
     },
     getStyle() {
       let offset = 0
-      const { isVertical, size, childrenCount } = this
+      const { vertical, size, childrenCount } = this
       if (!this.center) {
         offset = this.offset
       } else {
-        const diff = isVertical ? this.rect.height - size : this.rect.width - size
+        const diff = vertical ? this.rect.height - size : this.rect.width - size
         offset = this.offset + (this.active === childrenCount - 1 ? -diff / 2 : diff / 2)
       }
       this.style = {
         transitionDuration: `${this.moving ? 0 : this.duration}ms`,
-        transform: `translate${isVertical ? 'Y' : 'X'}(${offset}px)`,
-        [isVertical ? 'height' : 'width']: `${size * childrenCount}px`,
-        [isVertical ? 'width' : 'height']: `${isVertical ? this.internalWidth : this.internalHeight}px`,
+        transform: `translate${vertical ? 'Y' : 'X'}(${offset}px)`,
+        [vertical ? 'height' : 'width']: `${size * childrenCount}px`,
+        [vertical ? 'width' : 'height']: `${vertical ? this.internalWidth : this.internalHeight}px`,
       }
     },
     resetPosition() {

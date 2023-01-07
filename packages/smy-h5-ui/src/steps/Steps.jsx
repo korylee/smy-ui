@@ -16,6 +16,9 @@ export default {
         'smy-steps--dot': this.progressDot,
       }
     },
+    direction() {
+      return this.vertical ? 'vertical' : 'horizontal'
+    },
   },
   render() {
     return <div class={this.classes}>{getSlots(this)}</div>
