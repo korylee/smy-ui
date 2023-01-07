@@ -1,6 +1,11 @@
-import { createInstall } from '../_utils/components'
-import Countdown from './Countdown.vue'
+import type { SmyComponent } from '../_utils/components'
+import type { CountdownProps } from './props'
 
-Countdown.install = createInstall(Countdown)
+import { withInstall } from '../_utils/components'
+import _Countdown from './Countdown.vue'
 
-export default Countdown
+declare class SmyCountdown extends SmyComponent {
+  $props: CountdownProps
+}
+
+export default withInstall(_Countdown) as SmyCountdown

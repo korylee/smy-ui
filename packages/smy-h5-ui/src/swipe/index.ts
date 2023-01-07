@@ -1,10 +1,10 @@
 import { withInstall } from '../_utils/components'
 import _Swipe from './Swipe.vue'
 
-import type { SmyCompoent } from '../_utils/components'
+import type { SmyComponent } from '../_utils/components'
 import type { SwipeProps } from './props'
 
-declare class Swipe extends SmyCompoent {
+declare class Swipe extends SmyComponent {
   $props: SwipeProps
 }
 

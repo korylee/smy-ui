@@ -1,9 +1,11 @@
-export type { CardProps } from './props'
+import type { CardProps } from './props'
+import type { SmyComponent } from '../_utils/components'
 
-import Card from './Card.vue'
-import { createInstall } from '../_utils/components'
+import _Card from './Card.vue'
+import { withInstall } from '../_utils/components'
 
-Card.install = createInstall(Card)
-export const _CardComponent = Card
+declare class SmyCard extends SmyComponent {
+  $props: CardProps
+}
 
-export default Card
+export default withInstall(_Card) as SmyCard

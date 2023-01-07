@@ -1,6 +1,6 @@
 import type { ExtractPropTypes } from '@smy-h5/vtools'
 import type { PropType } from 'vue'
-import { props as LoadingProps } from '../loading/props'
+import { props as loadingProps } from '../loading/props'
 
 export const TOAST_TYPES = ['loading', 'success', 'warning', 'info', 'error'] as const
 export type ToastType = typeof TOAST_TYPES[number]
@@ -53,8 +53,8 @@ export const props = {
   customUpdate: {
     type: String,
   },
-  loadingType: LoadingProps.type,
-  loadingSize: LoadingProps.size,
+  loadingType: loadingProps.type,
+  loadingSize: loadingProps.size,
   action: [String, Function, Object],
 }
 export type ToastProps = ExtractPropTypes<typeof props>

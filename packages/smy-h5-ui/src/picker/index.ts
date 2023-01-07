@@ -1,16 +1,18 @@
 import type { PickerProps, Texts } from './props'
+import type { SmyComponent } from '../_utils/components'
 
 import { withInstall } from '../_utils/components'
-import SmyPicker from './Picker.vue'
+import _Picker from './Picker.vue'
 import { isArray, isNill } from '../_utils/is'
 import Vue from 'vue'
 import { mountComponent } from '@smy-h5/vtools'
 
-type OmitPartial<T, K extends keyof T> = Partial<Omit<T, K>> & {
-  [P in K]: T[P]
-}
+type PartialRequired<T, R extends keyof T> = Omit<T, R> &
+  Required<{
+    [O in R]: T[O]
+  }>
 
-type PickerOptions = OmitPartial<PickerProps, 'columns'> & {
+type PickerOptions = PartialRequired<PickerProps, 'columns'> & {
   onOpen?: () => void
   onOpened?: () => void
   onClose?: () => void
@@ -28,13 +30,19 @@ interface PickerResolvedData {
   indexes?: number[]
 }
 
+declare class SmyPicker extends SmyComponent {
+  $props: PickerProps
+}
+
+const _SmyPicker = withInstall(_Picker) as unknown as SmyPicker
+
 let singletonInstance: PickerOptions | null
 
 const Picker = function Picker(options: PickerOptions | Texts[]): Promise<PickerResolvedData> {
   return new Promise((resolve) => {
     Picker.close()
     const pickerOptions: PickerOptions = isArray(options) ? { columns: options } : options
-    const { instance, unmount } = mountComponent(SmyPicker, 'body', {
+    const { instance, unmount } = mountComponent(_SmyPicker as any, 'body', {
       propsData: pickerOptions,
     })
     instance.show = true
@@ -44,7 +52,7 @@ const Picker = function Picker(options: PickerOptions | Texts[]): Promise<Picker
     instance.$on('open', () => pickerOptions.onOpen?.())
     instance.$on('opened', () => pickerOptions.onOpened?.())
     instance.$on('close', () => {
-      pickerOptions.onClose()
+      pickerOptions.onClose?.()
       resolve({ state: 'close' })
       clearSingletonInstance()
     })
@@ -63,7 +71,7 @@ const Picker = function Picker(options: PickerOptions | Texts[]): Promise<Picker
       instance.show = false
       clearSingletonInstance()
     })
-    instance.$on('cancel', (texts, indexes: number[]) => {
+    instance.$on('cancel', (texts: Texts, indexes: number[]) => {
       pickerOptions.onCancel?.(texts, indexes)
       resolve({ state: 'cancel', texts, indexes })
       instance.show = false
@@ -85,8 +93,8 @@ Picker.close = async () => {
   preSingletonInstance.show = false
 }
 
-Picker.Coponent = withInstall(SmyPicker)
+Picker.Component = withInstall(SmyPicker)
 
-Picker.install = SmyPicker.install
+Picker.install = _SmyPicker.install
 
-export default SmyPicker
+export default Picker

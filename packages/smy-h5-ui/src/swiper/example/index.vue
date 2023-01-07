@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import SmySwiper from '../Swiper.vue'
+import SmySwiper from '../'
 import SmySwiperItem from '../../swiper-item'
 
 export default {

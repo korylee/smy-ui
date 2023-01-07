@@ -1,6 +1,11 @@
-import { createInstall } from '../_utils/components'
-import NoticeBar from './NoticeBar.vue'
+import type { SmyComponent } from '../_utils/components'
+import type { NoticeBarProps } from './props'
 
-NoticeBar.install = createInstall(NoticeBar)
+import { withInstall } from '../_utils/components'
+import _NoticeBar from './NoticeBar.vue'
 
-export default NoticeBar
+declare class NoticeBar extends SmyComponent {
+  $props: NoticeBarProps
+}
+
+export default withInstall(_NoticeBar) as unknown as NoticeBar

@@ -2,8 +2,8 @@
   <div>
     <button @click="basicShow = true">基础</button>
     <button @click="multipShow = true">多数</button>
-    <Picker :show.sync="basicShow" :columns="[column]" @cancel="basicShow = false" />
-    <Picker :show.sync="multipShow" :columns="[column, column]" @cancel="basicShow = false" />
+    <smy-picker :show.sync="basicShow" :columns="[column]" @cancel="basicShow = false" />
+    <smy-picker :show.sync="multipShow" :columns="[column, column]" @cancel="basicShow = false" />
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import Picker from '../'
 
 export default {
   name: 'PickerExample',
-  components: { Picker },
+  components: { SmyPicker: Picker.Component },
   data: () => ({
     basicShow: false,
     multipShow: false,

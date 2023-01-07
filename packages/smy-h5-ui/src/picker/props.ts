@@ -12,9 +12,8 @@ export interface NormalColumn {
 
 export const props = {
   title: String,
-  // dynamic: Boolean,
   columns: {
-    type: Array as PropType<NormalColumn[] | Texts[]>,
+    type: Array as PropType<NormalColumn[] | Texts>,
     default: () => [],
   },
   textKey: {
@@ -39,9 +38,11 @@ export const props = {
   },
   confirmButtonTextColor: {
     type: String,
+    default: '',
   },
   cancelButtonTextColor: {
     type: String,
+    default: '',
   },
   toolbar: {
     type: Boolean,
@@ -55,7 +56,7 @@ export const props = {
     type: [Number],
     default: 20,
   },
-  ...pick(popupProps, ['show', 'closeOnClickOverlay', 'teleport']),
+  ...pick(popupProps, ['show', 'closeOnClickOverlay', 'teleport', 'teleportDisabled']),
 }
 
 export type PickerProps = ExtractPropTypes<typeof props>

@@ -1,3 +1,4 @@
+import type { ExtractPropTypes } from '@smy-h5/vtools'
 import type { PropType } from 'vue'
 
 const TAG_TYPES = ['primary', 'success', 'danger', 'warning'] as const
@@ -28,3 +29,5 @@ export const props = {
     default: false,
   },
 }
+
+export type TagProps = ExtractPropTypes<typeof props>

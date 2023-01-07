@@ -1,6 +1,10 @@
+import type { SmyComponent } from '../_utils/components'
+
 import { withInstall } from '../_utils/components'
 import _SwiperItem from './SwiperItem.vue'
 
-const SmySwiperItem = withInstall(_SwiperItem)
+declare class SmySwiperItem extends SmyComponent {
+  $props: Record<string, never>
+}
 
-export default SmySwiperItem
+export default withInstall(_SwiperItem) as SmySwiperItem

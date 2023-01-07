@@ -7,11 +7,11 @@ export function resolveLock() {
   lockCounts <= 0 ? bodyClassList.remove('m--lock') : bodyClassList.add('m--lock')
 }
 
-export function addLock(uid) {
+export function addLock(uid: string) {
   Vue.set(context.locks, uid, 1)
 }
 
-export function releaseLock(uid) {
+export function releaseLock(uid: string) {
   Vue.delete(context.locks, uid)
   resolveLock()
 }
@@ -19,11 +19,11 @@ export function releaseLock(uid) {
 export function createLockMixin(state: string, use: string) {
   const propWatcher = use
     ? {
-        [use](newValue) {
+        [use](newValue: any) {
           if (!newValue) {
-            releaseLock(this._uid)
-          } else if (newValue && this[state]) {
-            addLock(this._uid)
+            releaseLock((this as any)._uid)
+          } else if (newValue && (this as any)[state]) {
+            addLock((this as any)._uid)
           }
         },
       }
@@ -32,31 +32,32 @@ export function createLockMixin(state: string, use: string) {
     watch: {
       ...propWatcher,
       [state](newValue: boolean) {
-        if (use && !this[use]) return
+        if (use && !(this as any)[use]) return
         if (newValue) {
-          addLock(this._uid)
+          addLock((this as any)._uid)
         } else {
-          releaseLock(this._uid)
+          releaseLock((this as any)._uid)
         }
       },
     },
     beforeCreate() {
+      const vm = this as any
       const add = () => {
-        if (use && !this[use]) return
-        if (this[state]) {
-          addLock(this._uid)
+        if (use && !vm[use]) return
+        if (vm[state]) {
+          addLock(vm._uid)
         }
       }
       const release = () => {
-        if (use && !this[use]) return
-        if (this[state]) {
-          releaseLock(this._uid)
+        if (use && !vm[use]) return
+        if (vm[state]) {
+          releaseLock(vm._uid)
         }
       }
-      this.$once('hook:beforeMount', add)
-      this.$once('hook:beforeDestroy', release)
-      this.$once('hook:activated', add)
-      this.$once('hook:deactivated', release)
+      vm.$once('hook:beforeMount', add)
+      vm.$once('hook:beforeDestroy', release)
+      vm.$once('hook:activated', add)
+      vm.$once('hook:deactivated', release)
     },
   }
 }

@@ -1,6 +1,11 @@
-import { createInstall } from '../_utils/components'
-import Popup from './Popup'
+import type { PopupProps } from './props'
+import type { SmyComponent } from '../_utils/components'
 
-Popup.install = createInstall(Popup)
+import { withInstall } from '../_utils/components'
+import _Popup from './Popup'
 
-export default Popup
+declare class Popup extends SmyComponent {
+  $props: PopupProps
+}
+
+export default withInstall(_Popup) as unknown as Popup

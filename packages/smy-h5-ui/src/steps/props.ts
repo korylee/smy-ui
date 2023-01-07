@@ -1,3 +1,4 @@
+import type { ExtractPropTypes } from '@smy-h5/vtools'
 import type { PropType } from 'vue'
 
 export const props = {
@@ -15,3 +16,5 @@ export const props = {
   },
   reverse: { type: Boolean, default: false },
 }
+
+export type StepsProps = ExtractPropTypes<typeof props>

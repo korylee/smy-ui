@@ -1,6 +1,11 @@
-import { createInstall } from '../_utils/components'
-import Price from './Price.vue'
+import type { SmyComponent } from '../_utils/components'
+import type { PriceProps } from './props'
 
-Price.install = createInstall(Price)
+import { withInstall } from '../_utils/components'
+import _Price from './Price.vue'
 
-export default Price
+declare class SmyPrice extends SmyComponent {
+  $props: PriceProps
+}
+
+export default withInstall(_Price) as SmyPrice

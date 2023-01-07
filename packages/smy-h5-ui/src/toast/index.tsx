@@ -1,8 +1,9 @@
 import type { ToastPosition, ToastProps, ToastType } from './props'
 import type { CreateElement } from 'vue'
+import type { SmyComponent } from '../_utils/components'
 
-import { createInstall } from '../_utils/components'
-import SmyToast from './Toast.vue'
+import { withInstall } from '../_utils/components'
+import _Toast from './Toast.vue'
 import SmyToastCore from './ToastCore.vue'
 import { toNumber } from '../_utils/shared'
 import { isNumber, isPlainObject, isString } from '../_utils/is'
@@ -11,9 +12,12 @@ import { mountComponent } from '@smy-h5/vtools'
 import { TOAST_TYPES } from './props'
 import context from '../_context'
 import { throwError } from '../_utils/smy/warn'
-// type MutablePartial<T> = {
-//   -readonly [K in keyof T]?: T[K]
-// }
+
+declare class SmyToast extends SmyComponent {
+  $props: ToastProps
+}
+
+const _SmyToast = withInstall(_Toast) as unknown as SmyToast
 
 export type ReactiveToastOptions = Partial<ToastProps> & {
   onOpen?: () => void
@@ -71,7 +75,7 @@ function getCoreVNode(h: CreateElement, option: UniqToastOptionItem) {
     top: getTop(reactiveToastOptions.position),
   }
   const on = {
-    'update:show': (value) => {
+    'update:show': (value: boolean) => {
       reactiveToastOptions.show = value
     },
     open: () => {
@@ -91,7 +95,7 @@ function getCoreVNode(h: CreateElement, option: UniqToastOptionItem) {
 }
 
 const TransitionGroupHost = {
-  render(h) {
+  render(h: CreateElement) {
     let isPointerAuto = false
     const toastList = uniqToastOptions.value.map(({ id, reactiveToastOptions, customUpdate }) => {
       if (reactiveToastOptions.forbidClick || reactiveToastOptions.type === 'loading') {
@@ -126,13 +130,13 @@ const Toast = function toast(options: number | string | ReactiveToastOptions) {
   const toastOptions = isString(options) || isNumber(options) ? { content: String(options) } : options
   const reactiveToastOptions = Vue.observable({
     ...currentOptions,
-    ...defaultOptionsMap[toastOptions.type],
+    ...(toastOptions.type && defaultOptionsMap[toastOptions.type]),
     ...toastOptions,
   })
   Vue.set(reactiveToastOptions, 'show', true)
   if (!isMount) {
     isMount = true
-    unmount = mountComponent(TransitionGroupHost).unmount
+    unmount = mountComponent(TransitionGroupHost as any).unmount
   }
   const { length } = uniqToastOptions.value
   const uniqToastOptionItem = {
@@ -167,10 +171,10 @@ const getToast =
     return Toast(options)
   }
 
-const Toasts: { [type in ToastType]: ReturnType<typeof getToast> } = TOAST_TYPES.reduce((acc, cur) => {
+const Toasts = TOAST_TYPES.reduce((acc, cur) => {
   acc[cur] = getToast(cur)
   return acc
-}, {} as any)
+}, {} as { [type in ToastType]: ReturnType<typeof getToast> })
 
 Toast.allowMultiple = function (bool = false) {
   if (!bool !== isAllowMultiple) {
@@ -211,8 +215,6 @@ Toast.resetDefaultOptions = function resetDefaultOptions(type: ToastType) {
     defaultOptionsMap = {}
   }
 }
-
-Toast.Component = SmyToast
 
 function opened(el: HTMLElement) {
   const id = el.getAttribute('data-id')
@@ -262,12 +264,10 @@ function getTop(position: ToastPosition = 'top') {
   }
 }
 
-const install = createInstall(SmyToast)
+Toast.Component = _SmyToast
 
-SmyToast.install = install
+Toast.install = _SmyToast.install
 
-Toast.install = install
-
-export { SmyToast, Toasts }
+export { _SmyToast as SmyToast, Toasts }
 
 export default Object.assign(Toast, Toasts)

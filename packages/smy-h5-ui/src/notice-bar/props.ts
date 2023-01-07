@@ -1,3 +1,5 @@
+import { ExtractPropTypes } from "@smy-h5/vtools"
+
 export const props = {
   text: {
     type: String,
@@ -24,3 +26,5 @@ export const props = {
     default: 50,
   },
 }
+
+export type NoticeBarProps = ExtractPropTypes<typeof props>
