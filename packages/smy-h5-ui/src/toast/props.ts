@@ -26,7 +26,7 @@ export const props = {
     type: Number,
     default: 3000,
   },
-  // 是否将消息内容堆叠在操作上
+  // 横版样式
   vertical: {
     type: Boolean,
     default: false,

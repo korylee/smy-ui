@@ -84,6 +84,9 @@ function getCoreVNode(h: CreateElement, option: UniqToastOptionItem) {
     close: () => {
       reactiveToastOptions?.onClose?.()
     },
+    'route-change': () => {
+      reactiveToastOptions.show = false
+    }
   }
   return h(SmyToastCore as any, {
     key: id,

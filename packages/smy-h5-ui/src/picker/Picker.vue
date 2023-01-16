@@ -2,7 +2,6 @@
   <Popup
     :show.sync="internalShow"
     :teleport="teleport"
-    :teleport-disabled="teleportDisabled"
     :close-on-click-overlay="closeOnClickOverlay"
     smy-picker-cover
     position="bottom"

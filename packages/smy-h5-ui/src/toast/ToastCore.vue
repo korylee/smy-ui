@@ -13,25 +13,25 @@
           <RenderToComp v-else-if="isFunction(action)" :render="action" />
           <component v-else :is="action" />
         </template>
-        <Loading v-else-if="type === 'loading'" :type="loadingType" :size="loadingSize" />
+        <smy-loading v-else-if="type === 'loading'" :type="loadingType" :size="loadingSize" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Loading from '../loading'
+import SmyLoading from '../loading'
 import { props, TOAST_TYPES } from './props'
 import { createZIndexMixin } from '../_context/mixins/zIndex'
 import { createLockMixin } from '../_context/mixins/lock'
 import { SlotsMixin } from '@smy-h5/vtools'
 import { isString, isFunction } from '../_utils/is'
-import { RenderToComp } from '../_utils/components'
+import { addRouteListener, RenderToComp } from '../_utils/components'
 
 export default {
   name: 'SmyToastCore',
   components: {
-    Loading,
+    SmyLoading,
     RenderToComp,
   },
   mixins: [SlotsMixin, createZIndexMixin('show'), createLockMixin('show', 'lockScroll')],
@@ -75,6 +75,9 @@ export default {
       clearTimeout(this.timer)
       this.updateAfterDuration()
     },
+  },
+  created() {
+    addRouteListener(this, () => this.$emit('route-change'))
   },
   methods: {
     isString,

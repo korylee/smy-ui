@@ -34,7 +34,7 @@ declare class SmyPicker extends SmyComponent {
   $props: PickerProps
 }
 
-const _SmyPicker = withInstall(_Picker) as unknown as SmyPicker
+const _SmyPicker = withInstall(_Picker) as SmyPicker
 
 let singletonInstance: PickerOptions | null
 
@@ -93,7 +93,7 @@ Picker.close = async () => {
   preSingletonInstance.show = false
 }
 
-Picker.Component = withInstall(SmyPicker)
+Picker.Component = _SmyPicker
 
 Picker.install = _SmyPicker.install
 

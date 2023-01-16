@@ -8,4 +8,4 @@ declare class Popup extends SmyComponent {
   $props: PopupProps
 }
 
-export default withInstall(_Popup) as unknown as Popup
+export default withInstall(_Popup) as Popup

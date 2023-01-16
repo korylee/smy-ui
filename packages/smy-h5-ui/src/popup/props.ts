@@ -34,7 +34,6 @@ export const props = {
     default: true,
   },
   teleport: teleportProps.to.type,
-  teleportDisabled: teleportProps.disabled,
 }
 
 export type PopupProps = ExtractPropTypes<typeof props>

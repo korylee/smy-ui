@@ -6,4 +6,4 @@ declare class SmySwitch extends SmyComponent {
   $props: SwtichProps
 }
 
-export default withInstall(_Switch) as SmySwitch
+export default withInstall(_Switch) as unknown as SmySwitch

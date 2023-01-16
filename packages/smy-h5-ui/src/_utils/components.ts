@@ -1,15 +1,15 @@
 import type { CreateElement, VueConstructor } from 'vue'
-import type Vue from 'vue'
-import type { ComponentOptions } from 'vue/types/umd'
 
-function registerComponent(app: VueConstructor, name: string, component: any) {
+type Component = any
+
+function registerComponent(app: VueConstructor, name: string, component: Component) {
   const registered = app.component(name)
   if (!registered) {
     app.component(name, component)
   }
 }
 
-export function createInstall(component: any) {
+export function createInstall(component: Component) {
   return function install(app: VueConstructor) {
     const { name, alias } = component
     registerComponent(app, name, component)
@@ -21,9 +21,9 @@ export function createInstall(component: any) {
   }
 }
 
-export function withInstall<T = ComponentOptions<Vue>>(component: T) {
-  ;(component as any).install = createInstall(component)
-  return component as T & { install: ReturnType<typeof createInstall> }
+export function withInstall(component: Component): Component {
+  component.install = createInstall(component)
+  return component
 }
 
 export function addRouteListener(vm: any, cb: () => void) {

@@ -8,4 +8,4 @@ declare class SmyPrice extends SmyComponent {
   $props: PriceProps
 }
 
-export default withInstall(_Price) as SmyPrice
+export default withInstall(_Price) as unknown as SmyPrice

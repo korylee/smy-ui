@@ -1,9 +1,9 @@
 <template>
   <div :class="classes" :style="style" @click="$emit('click', $event)">
     <slot></slot>
-    <Icon v-if="closeable" size="12" @click.stop="$emit('close', $event)" class="smy-tag__close"
+    <smy-icon v-if="closeable" size="12" @click.stop="$emit('close', $event)" class="smy-tag__close"
       ><slot name="icon"><CloseSvg /></slot
-    ></Icon>
+    ></smy-icon>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ import CloseSvg from '../_icon/CloseSvg.vue'
 
 export default {
   name: 'SmyTag',
-  components: { Icon, CloseSvg },
+  components: { [Icon.name]: Icon, CloseSvg },
   props,
   computed: {
     classes() {

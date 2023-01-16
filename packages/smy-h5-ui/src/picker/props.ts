@@ -56,7 +56,7 @@ export const props = {
     type: [Number],
     default: 20,
   },
-  ...pick(popupProps, ['show', 'closeOnClickOverlay', 'teleport', 'teleportDisabled']),
+  ...pick(popupProps, ['show', 'closeOnClickOverlay', 'teleport']),
 }
 
 export type PickerProps = ExtractPropTypes<typeof props>

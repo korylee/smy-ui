@@ -1,4 +1,5 @@
 module.exports = {
+  namespace: 'smy',
   highlight: { style: null },
   useMobile: true,
   port: 8088,

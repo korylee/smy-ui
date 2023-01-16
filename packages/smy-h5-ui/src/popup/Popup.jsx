@@ -23,15 +23,13 @@ export default {
     },
   },
   created() {
-    const routeChange = this.$listeners?.routeChange ?? this.$listeners?.['route-change']
-    addRouteListener(this, () => routeChange?.())
+    addRouteListener(this, () => this.$emit('route-change'))
   },
   methods: {
     hidePopup() {
-      const { $listeners } = this
-      ;($listeners?.clickOverlay ?? $listeners?.['click-overlay'])?.()
+      this.$emit('click-overlay')
       if (!this.closeOnClickOverlay) return
-      $listeners?.['update:show']?.(false)
+      this.$emit('update:show', false)
     },
     renderContent() {
       const style = mergeStyles({ zIndex: this.zIndex }, this.contentStyle)
