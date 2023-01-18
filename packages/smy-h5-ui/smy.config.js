@@ -14,6 +14,7 @@ module.exports = {
       { text: 'Loading 加载', doc: 'loading', type: 2 },
       { text: '展示组件', type: 1 },
       { text: 'Price 商品价格', doc: 'price', type: 2 },
+      { text: 'Ellipsis 文本省略', doc: 'ellipsis', type: 2 },
       { text: 'Steps 步骤条', doc: 'steps', type: 2 },
       { text: 'Swiper 轮播', doc: 'swiper', type: 2 },
       { text: 'Countdown 倒计时', doc: 'countdown', type: 2 },

@@ -1,0 +1,142 @@
+<template>
+  <div ref="root" class="smy-ellipsis" @click="$emit('click', $event)">
+    <template v-if="!exceeded">{{ content }}</template>
+    <template v-else>
+      <template v-if="!expanded"
+        >{{ ellipsis.leading
+        }}<span v-if="expandText" class="smy-ellipsis__text" @click.stop="handleTriggerExpand">{{
+          expandText
+        }}</span></template
+      >
+      <template v-else
+        >{{ content
+        }}<span v-if="collapseText" class="smy-ellipssis__text" @click.stop="handleTriggerExpand">{{
+          collapseText
+        }}</span></template
+      >
+    </template>
+  </div>
+</template>
+
+<script>
+import { toPxNum } from '../_utils/shared'
+import { props } from './props'
+
+export default {
+  name: 'SmyEllipsis',
+  props,
+  data: () => ({
+    exceeded: false,
+    expanded: false,
+    ellipsis: {
+      leading: undefined,
+      tailing: undefined,
+    },
+  }),
+  created() {
+    let container = null
+    let maxHeight = 0
+    const clacEllipsis = () => {
+      if (container.offsetHeight <= maxHeight) {
+        this.exceeded = false
+        document.body.removeChild(container)
+      } else {
+        this.exceeded = true
+        const end = this.content.length
+        const middle = Math.floor((0 + end) / 2)
+        const ellipsised = this.direction === 'middle' ? tailorMiddle([0, middle], [middle, end]) : tailor(0, end)
+        this.ellipsis = ellipsised
+
+        document.body.removeChild(container)
+      }
+    }
+    const createContainer = () => {
+      const { root } = this.$refs
+      if (!root) return
+      container = document.createElement('div')
+      const originStyle = window.getComputedStyle(root)
+      const styleNames = Array.prototype.slice.apply(originStyle)
+      const containerStyle = container.style
+      styleNames.forEach((name) => {
+        containerStyle.setProperty(name, originStyle.getPropertyValue(name))
+      })
+      containerStyle.position = 'fixed'
+      containerStyle.left = '9999999px'
+      containerStyle.top = '9999999px'
+      containerStyle.zIndex = '-10000'
+      containerStyle.height = 'auto'
+      containerStyle.minHeight = 'auto'
+      containerStyle.maxHeight = 'auto'
+      containerStyle.textOverflow = 'clip'
+      containerStyle.whiteSpace = 'normal'
+      containerStyle.webkitLineClamp = 'unset'
+      containerStyle.display = 'block'
+      const lineHeight = toPxNum(originStyle.lineHeight === 'normal' ? this.lineHeight : originStyle.lineHeight)
+      maxHeight = Math.floor(
+        lineHeight * (Number(this.rows) + 0.5) + toPxNum(originStyle.paddingTop) + toPxNum(originStyle.paddingBottom)
+      )
+      container.innerText = this.content
+      document.body.appendChild(container)
+      clacEllipsis()
+    }
+    const tailor = (left, right) => {
+      const { content } = this
+      const actionText = this.expanded ? this.collapseText : this.expandText
+      const end = content.length
+      if (right - left <= 1) {
+        if (this.direction === 'end') {
+          return { leading: content.slice(0, left) + this.symbol }
+        } else {
+          return { tailing: this.symbol + content.slice(right, end) }
+        }
+      }
+      const middle = Math.round((left + right) / 2)
+      if (this.direction === 'end') {
+        container.innerText = content.slice(0, middle) + this.symbol + actionText
+      } else {
+        container.innerText = actionText + this.symbol + content.slice(middle, end)
+      }
+      if (container.offsetHeight <= maxHeight) {
+        if (this.direction === 'end') return tailor(middle, right)
+        return tailor(left, middle)
+      } else {
+        if (this.direction === 'end') return tailor(left, middle)
+        return tailor(middle, right)
+      }
+    }
+    const tailorMiddle = (leftPart, rightPart) => {
+      const { content } = this
+      const actionText = this.expanded ? this.collapseText : this.expandText
+      const end = this.content.length
+      const [leftPartStart, leftPartEnd] = leftPart
+      const [rightPartStart, rightPartEnd] = rightPart
+      if (leftPartEnd - leftPartStart <= 1 && rightPartEnd - rightPartStart <= 1) {
+        return {
+          leading: content.slice(0, leftPartStart) + this.symbol,
+          trailing: this.symbol + content.slice(rightPartEnd, end),
+        }
+      }
+      const leftPartMiddle = Math.floor((leftPartStart + leftPartEnd) / 2)
+      const rightPartMiddle = Math.floor((rightPartStart + rightPartEnd) / 2)
+
+      container.innerText =
+        content.slice(0, leftPartMiddle) + this.symbol + actionText + this.symbol + content.slice(rightPartStart, end)
+
+      if (container.offsetHeight <= maxHeight) {
+        return tailorMiddle([leftPartMiddle, leftPartEnd], [rightPartStart, rightPartMiddle])
+      }
+      return tailorMiddle([leftPartStart, leftPartMiddle], [rightPartMiddle, rightPartEnd])
+    }
+    this.$once('hook:mounted', createContainer)
+    this.$watch('content', (val, oldVal) => val != oldVal && createContainer())
+  },
+  methods: {
+    handleTriggerExpand() {
+      this.expanded = !this.expanded
+      this.$emit('change', this.expanded)
+    },
+  },
+}
+</script>
+
+<style></style>
