@@ -13,7 +13,7 @@ export const props = {
   },
   size: {
     type: [String, Number],
-    default: 'var(--font-size-lg)',
+    default: '',
   },
   color: {
     type: String,

@@ -11,10 +11,12 @@
   --loading-height: @loading-height;
   --loading-opacity: @loading-opacity;
   --loading-desc-margin: @loading-desc-margin;
+  --loading-font-size: @loading-font-size;
 }
 
 .smy-loading {
   position: relative;
+  font-size: var(--loading-font-size);
 
   &__content {
     transition: opacity 0.3s;
@@ -47,7 +49,7 @@
     display: flex;
     &-block {
       display: inline-block;
-      font-size: 1.4em;
+      // font-size: 1em;
       svg.circle-loading {
         @keyframes circle {
           from {

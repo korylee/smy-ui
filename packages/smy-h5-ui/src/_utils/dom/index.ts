@@ -1,11 +1,11 @@
-import { doubleRaf, kebabCase } from './shared'
+import { doubleRaf, kebabCase } from '../shared'
 
 export function formatStyleVars(styleVars: Record<string, string>) {
   return Object.entries(styleVars).reduce((styles, [key, value]) => {
     const cssVar = key.startsWith('--') ? key : `--${kebabCase(key)}`
     styles[cssVar] = value
     return styles
-  }, {})
+  }, {} as Record<string, any>)
 }
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
@@ -18,9 +18,11 @@ export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Windo
   return allParentScroller
 }
 
-export function getParentScroller(el: HTMLElement): HTMLElement | Window {
+type ScrollerElement = HTMLElement | Window
+
+export function getParentScroller(el: HTMLElement, root: ScrollerElement = window): HTMLElement | Window {
   let element = el
-  while (element) {
+  while (element && el !== root) {
     if (!element.parentNode) break
     element = element.parentNode as HTMLElement
     if (element === document.body || element === document.documentElement) {
@@ -32,7 +34,7 @@ export function getParentScroller(el: HTMLElement): HTMLElement | Window {
       return element
     }
   }
-  return window
+  return root
 }
 
 /**
@@ -47,3 +49,6 @@ export async function inViewport(el: HTMLElement): Promise<boolean> {
 
   return xInViewport && yInViewport
 }
+
+export const getScrollTopRoot = () =>
+  window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0

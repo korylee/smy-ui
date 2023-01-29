@@ -54,7 +54,7 @@ export const props = {
     type: String,
   },
   loadingType: loadingProps.type,
-  loadingSize: loadingProps.size,
+  loadingSize: { type: loadingProps.size.type, default: '1.4em' },
   action: [String, Function, Object],
 }
 export type ToastProps = ExtractPropTypes<typeof props>

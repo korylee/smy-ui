@@ -17,6 +17,9 @@
       <div>Toast 类型</div>
       <button @click="handleToast">不指定类型</button>
       <button @click="create('loading')">loading 加载中</button>
+    </div>
+    <div>
+      <div>旧smy 风格</div>
       <button @click="smyLoading">smy loading</button>
       <button @click="smyToast">smy toast</button>
     </div>

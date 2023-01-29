@@ -1,5 +1,5 @@
 import { isNill } from '../is'
-import { throwError } from '../smy/warn'
+import { throwError } from '../warn'
 
 interface RelationOptions {
   children?: string

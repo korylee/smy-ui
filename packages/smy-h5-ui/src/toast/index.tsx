@@ -11,7 +11,7 @@ import Vue from 'vue'
 import { mountComponent } from '@smy-h5/vtools'
 import { TOAST_TYPES } from './props'
 import context from '../_context'
-import { throwError } from '../_utils/smy/warn'
+import { throwError } from '../_utils/warn'
 
 declare class SmyToast extends SmyComponent {
   $props: ToastProps
@@ -49,7 +49,7 @@ const defaultOptions: ReactiveToastOptions = {
   vertical: false,
   contentClass: undefined,
   loadingType: 'circle',
-  loadingSize: 'normal',
+  loadingSize: undefined,
   lockScroll: false,
   teleport: 'body',
   forbidClick: false,
