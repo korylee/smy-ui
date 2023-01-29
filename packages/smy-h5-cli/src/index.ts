@@ -6,7 +6,9 @@ import { compile } from './commands/compile'
 import { dev } from './commands/dev'
 import { lint } from './commands/lint'
 import { preview } from './commands/preview'
+import { publish } from './commands/publish'
 import { release } from './commands/release'
+import { updateVersion } from './commands/update-version'
 import { CLI_PACKAGE_JSON } from './shared/constant'
 import logger from './shared/logger'
 
@@ -41,6 +43,14 @@ program
   .option('-r --remote <remote>', 'Remote name')
   .description('Release all packages and generate changelogs')
   .action(release)
+
+program
+  .command('publish')
+  .option('-r --remote <remote>', 'Remote name')
+  .description('publish all packages and generate changelogs')
+  .action(publish)
+
+program.command('update-version').description('Update all packages version').action(updateVersion)
 
 program.on('command:*', ([cwd]) => {
   program.outputHelp()

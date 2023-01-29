@@ -34,7 +34,7 @@ export default {
         this.cycle++
         if (this.cycle > 2) this.hasMore = false
         this.infinityValue = false
-      }, 80000)
+      }, 1000)
     },
   },
 }
