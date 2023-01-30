@@ -10,7 +10,7 @@
       >
       <template v-else
         >{{ content
-        }}<span v-if="collapseText" class="smy-ellipssis__text" @click.stop="handleTriggerExpand">{{
+        }}<span v-if="collapseText" class="smy-ellipsis__text" @click.stop="handleTriggerExpand">{{
           collapseText
         }}</span></template
       >
@@ -139,4 +139,6 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="less">
+@import './ellipsis.less';
+</style>
