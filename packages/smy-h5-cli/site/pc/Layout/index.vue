@@ -54,7 +54,7 @@ export default {
     async init() {
       const { name } = this.$route
       await this.$nextTick()
-      const children = document.querySelector('.smy-site-sidebar')?.getElementsByClassName('smy-site-cell')
+      const children = document.querySelector('.smy-site-sidebar')?.getElementsByClassName('smy-site-sidebar__item')
       if (!children) return
       const index = this.menu.findIndex((item) => item.doc === name)
       if (index === -1) return

@@ -1,7 +1,7 @@
 <template>
   <div class="site-mobile">
     <header class="nav">
-      <AppBar class="app-bar"> </AppBar>
+      <AppBar class="app-bar" :title="title"> </AppBar>
     </header>
     <div class="router-view__block">
       <router-view />
@@ -10,14 +10,16 @@
 </template>
 
 <script>
+import { upperFirst } from 'lodash-es'
 import AppBar from './components/AppBar'
 
 export default {
   components: { AppBar },
+  data: () => ({ title: '' }),
   watch: {
     '$route.path'(to) {
       const componentName = to.slice(1)
-      console.log(componentName)
+      this.title = upperFirst(componentName)
     },
   },
 }

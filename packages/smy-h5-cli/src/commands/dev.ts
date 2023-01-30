@@ -1,5 +1,4 @@
 import { ensureDirSync, pathExistsSync } from 'fs-extra'
-import { merge } from 'lodash'
 import { createServer, ViteDevServer } from 'vite'
 import { compileSiteEntry } from '../compiler/compileSiteEntry'
 import { getDevConfig, getSmyConfig } from '../config/getConfig'
@@ -24,10 +23,13 @@ async function startServer(cmd: DevOptions) {
   await compileSiteEntry(siteLink)
   const config = getSmyConfig()
   const devConfig = getDevConfig(config)
-  const inlineConfig = merge(devConfig, force ? { server: { force: true } } : {})
+  if (force) {
+    ;(devConfig.optimizeDeps ?? (devConfig.optimizeDeps = {})).force = true
+  }
+  // const inlineConfig = merge(devConfig, force ? { server: { force: true } } : {})
 
   // create all instance
-  server = await createServer(inlineConfig)
+  server = await createServer(devConfig)
   await server.listen()
   server.printUrls()
 

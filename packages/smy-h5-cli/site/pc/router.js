@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import config from '@config'
 // @ts-ignore
 import routes from '@pc-routes'
+import { isPhone } from '../utils'
 const originalReplace = VueRouter.prototype.replace
 
 VueRouter.prototype.replace = function replace(location, onResolve, onReject) {
@@ -28,6 +29,15 @@ if (redirect) {
 const router = new VueRouter({
   scrollBehavior: () => ({ x: 0, y: 0 }),
   routes,
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.path === from.path) return
+  if (isPhone()) {
+    window.location.href = `./mobile.html#${to.path}`
+    return
+  }
+  next()
 })
 
 Object.defineProperty(window, 'onMobileRouteChange', {

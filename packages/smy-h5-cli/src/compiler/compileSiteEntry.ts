@@ -40,14 +40,18 @@ const getComponentRouteName = (examplePath: string) => examplePath.match(COMPONE
 const findRootDocs = () => glob(`${ROOT_DOCS_DIR}/*.md`)
 
 async function findRoot(): Promise<string[]> {
-  const userPages = await glob(`${ROOT_PAGES_DIR}/**`)
   const basePages = await glob(`${SITE}/pc/pages/**/index.+(vue|ts|tsx|js|jsx)`)
+  const userPages = await glob(`${ROOT_PAGES_DIR}/**/index.+(vue|ts|tsx|js|jsx)`)
 
   // filter
   const filterMap = new Map()
   basePages.forEach((page) => {
     const [, routePath, ext] = page.match(ROOT_PAGE_RE) ?? []
     filterMap.set(routePath, slash(`${SITE_PC_DIR}/pages/${routePath}/index.${ext}`))
+  })
+  userPages.forEach((page) => {
+    const [, routePath] = page.match(ROOT_PAGE_RE) ?? []
+    filterMap.set(routePath, page)
   })
   return Array.from(filterMap.values())
 }
