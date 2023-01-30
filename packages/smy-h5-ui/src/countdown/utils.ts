@@ -1,3 +1,5 @@
+import { warn } from '../_utils/warn'
+
 export type TimeData = {
   days: number
   hours: number
@@ -7,7 +9,8 @@ export type TimeData = {
 }
 
 export function parseTime(format: string, time: TimeData): string {
-  const scannedTimes = Object.values(time)
+  const { days, hours, minutes, seconds, milliseconds } = time
+  const scannedTimes = [days, hours, minutes, seconds, milliseconds]
   const scannedFormats = ['DD', 'HH', 'mm', 'ss']
   const padValues = [24, 60, 60, 1000]
 
@@ -27,4 +30,16 @@ export function parseTime(format: string, time: TimeData): string {
     format = format.replace(msReg, ms.slice(0, msMatch[0].length))
   }
   return format
+}
+
+export function getDate(time?: string | number) {
+  if (!time) return
+  let t = time
+  t = t > 0 ? +t : t.toString().replace(/-/g, '/')
+  const date = new Date(t)
+  if (date.toString() === 'Invalid Date') {
+    warn('getDate', `${time} is invalid date`)
+    return
+  }
+  return date
 }

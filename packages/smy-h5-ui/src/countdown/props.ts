@@ -13,6 +13,10 @@ export const props = {
     type: Boolean,
     default: true,
   },
+  paused: {
+    type: Boolean,
+    default: false,
+  },
 }
 
 export type CountdownProps = ExtractPropTypes<typeof props>

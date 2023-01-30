@@ -1,8 +1,6 @@
 <template>
   <div class="smy-countdown">
-    <slot v-bind="timeData">
-      {{ showTime }}
-    </slot>
+    <slot v-bind="timeData" :timestamp="pauseTime"> {{ parseTime(format, timeData) }}</slot>
   </div>
 </template>
 
@@ -17,15 +15,14 @@ const HOUR = 60 * MINUTE
 const DAY = 24 * HOUR
 
 export default {
-  name: 'SmyCountDown',
+  name: 'SmyCountdown',
   props,
 
-  data: () => ({
-    endTime: 0,
+  data: (vm) => ({
+    realEndTime: 0,
     isStart: false,
-    showTime: '',
-    handle: 0,
-    pauseTime: 0,
+    timer: 0,
+    pauseTime: 0, // 倒计时剩余时间
     timeData: {
       days: 0,
       hours: 0,
@@ -36,15 +33,19 @@ export default {
   }),
 
   watch: {
-    time: {
-      immediate: true,
-      handler() {
-        this.reset()
-      },
+    time: 'reset',
+    paused(val, oldVal) {
+      const { isStart } = this
+      if (!oldVal && isStart) this.pause()
+      else if (oldVal && !isStart) this.start()
     },
   },
-
+  mounted() {
+    if (this.autoStart) this.start()
+    else this.reset()
+  },
   methods: {
+    parseTime,
     formatTime(durationTime) {
       const days = Math.floor(durationTime / DAY)
       const hours = Math.floor((durationTime % DAY) / HOUR)
@@ -60,38 +61,39 @@ export default {
         milliseconds,
       }
       this.timeData = time
-      this.$listeners.change?.(time)
-      this.showTime = parseTime(this.format, time)
+      this.$emit('change', time)
     },
     countdown() {
-      const { time, autoStart, isStart } = this
+      const { time, isStart } = this
       const now = Date.now()
 
-      if (!this.endTime) this.endTime = now + toNumber(time)
-      let durationTime = this.endTime - now
+      if (!this.realEndTime) this.realEndTime = now + toNumber(time)
+      let durationTime = this.realEndTime - now
       if (durationTime < 0) durationTime = 0
       this.pauseTime = durationTime
-
       this.formatTime(durationTime)
       if (durationTime === 0) {
-        this.$emit('end')
-        return
+        return void this.$emit('end')
       }
-      if (autoStart || isStart) this.handle = requestAnimationFrame(this.countdown)
+      if (isStart) this.timer = requestAnimationFrame(this.countdown)
     },
     start() {
       if (this.isStart) return
       this.isStart = true
-      this.endTime = Date.now() + (this.pauseTime || toNumber(this.time))
+      this.realEndTime = Date.now() + (this.pauseTime || toNumber(this.time))
+      this.$emit('start', this.pauseTime)
+      this.$emit('update:paused', false)
       this.countdown()
     },
     pause() {
+      this.$emit('pause', this.pauseTime)
+      this.$emit('update:paused', true)
       this.isStart = false
     },
     reset() {
-      this.endTime = 0
+      this.realEndTime = 0
       this.isStart = false
-      cancelAnimationFrame(this.handle)
+      cancelAnimationFrame(this.timer)
       this.countdown()
     },
   },
