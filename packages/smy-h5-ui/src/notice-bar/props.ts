@@ -1,4 +1,4 @@
-import { ExtractPropTypes } from "@smy-h5/vtools"
+import { type ExtractPropTypes } from '@smy-h5/vtools'
 
 export const props = {
   text: {
@@ -22,6 +22,7 @@ export const props = {
     default: true,
   },
   speed: {
+    // px/s
     type: Number,
     default: 50,
   },

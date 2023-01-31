@@ -309,5 +309,6 @@ export default {
 </script>
 
 <style lang="less">
+@import '../popup/popup.less';
 @import './picker.less';
 </style>

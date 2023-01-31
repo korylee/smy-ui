@@ -13,7 +13,7 @@ declare class SmyImagePreview extends SmyComponent {
 
 const SmyImgPreview = withInstall(_ImagePreview) as unknown as SmyImagePreview
 
-type ImagePreviewOptions = Partial<ImagePreviewProps> & {
+type ImagePreviewOptions = ImagePreviewProps & {
   onOpen?: () => void
   onOpened?: () => void
   onClose?: () => void

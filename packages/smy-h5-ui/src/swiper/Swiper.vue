@@ -16,16 +16,17 @@
           :key="item._uid"
           :class="{ 'smy-swiper__indicator-item--active': activeIndex === index }"
           class="smy-swiper__indicator-item"
-          @click="handleTo(index)"
+          @click="to(index)"
         />
       </div>
     </slot>
+    <slot name="extra" />
   </div>
 </template>
 
 <script>
 import { createParentMixin } from '../_utils/mixins/relation'
-import { doubleRaf, toPxNum } from '../_utils/shared'
+import { doubleRaf, toNumber, toPxNum } from '../_utils/shared'
 import { useTouch } from '../_utils/vue/useTouch'
 import { props } from './props'
 
@@ -38,7 +39,6 @@ export default {
   data: () => ({
     touch: useTouch(),
     active: 0,
-    num: 0,
     rect: null,
     internalWidth: 0,
     internalHeight: 0,
@@ -177,7 +177,7 @@ export default {
         this.move({ pace: -childrenCount })
       }
     },
-    handlePrev() {
+    prev() {
       this.resetPosition()
       this.touch.reset()
       doubleRaf(() => {
@@ -185,7 +185,7 @@ export default {
         this.move({ pace: -1, isEmit: true })
       })
     },
-    handleNext() {
+    next() {
       this.resetPosition()
       this.touch.reset()
       doubleRaf(() => {
@@ -193,7 +193,7 @@ export default {
         this.move({ pace: 1, isEmit: true })
       })
     },
-    handleTo(index) {
+    to(index) {
       this.resetPosition()
       this.touch.reset()
       doubleRaf(() => {
@@ -211,9 +211,9 @@ export default {
       if (this.autoplay <= 0 || this.childrenCount <= 1) return
       this.stopAutoplay()
       this.autoplayTimer = setTimeout(() => {
-        this.handleNext()
+        this.next()
         this.startAutoplay()
-      }, Number(this.autoplay))
+      }, toNumber(this.autoplay))
     },
     stopAutoplay() {
       clearTimeout(this.autoplayTimer)

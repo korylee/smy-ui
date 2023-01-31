@@ -4,9 +4,8 @@
     <template v-else>
       <template v-if="!expanded"
         >{{ ellipsis.leading
-        }}<span v-if="expandText" class="smy-ellipsis__text" @click.stop="handleTriggerExpand">{{
-          expandText
-        }}</span></template
+        }}<span v-if="expandText" class="smy-ellipsis__text" @click.stop="handleTriggerExpand">{{ expandText }}</span
+        >{{ ellipsis.tailing }}</template
       >
       <template v-else
         >{{ content
@@ -36,7 +35,7 @@ export default {
   created() {
     let container = null
     let maxHeight = 0
-    const clacEllipsis = () => {
+    const calcEllipsis = () => {
       if (container.offsetHeight <= maxHeight) {
         this.exceeded = false
         document.body.removeChild(container)
@@ -77,24 +76,24 @@ export default {
       )
       container.innerText = this.content
       document.body.appendChild(container)
-      clacEllipsis()
+      calcEllipsis()
     }
     const tailor = (left, right) => {
-      const { content } = this
+      const { content, symbol } = this
       const actionText = this.expanded ? this.collapseText : this.expandText
       const end = content.length
       if (right - left <= 1) {
         if (this.direction === 'end') {
-          return { leading: content.slice(0, left) + this.symbol }
+          return { leading: content.slice(0, left) + symbol }
         } else {
-          return { tailing: this.symbol + content.slice(right, end) }
+          return { tailing: symbol + content.slice(right, end) }
         }
       }
       const middle = Math.round((left + right) / 2)
       if (this.direction === 'end') {
-        container.innerText = content.slice(0, middle) + this.symbol + actionText
+        container.innerText = content.slice(0, middle) + symbol + actionText
       } else {
-        container.innerText = actionText + this.symbol + content.slice(middle, end)
+        container.innerText = actionText + symbol + content.slice(middle, end)
       }
       if (container.offsetHeight <= maxHeight) {
         if (this.direction === 'end') return tailor(middle, right)
@@ -105,23 +104,23 @@ export default {
       }
     }
     const tailorMiddle = (leftPart, rightPart) => {
-      const { content } = this
-      const actionText = this.expanded ? this.collapseText : this.expandText
-      const end = this.content.length
+      const { content, symbol } = this
       const [leftPartStart, leftPartEnd] = leftPart
       const [rightPartStart, rightPartEnd] = rightPart
+      const actionText = this.expanded ? this.collapseText : this.expandText
+      const end = content.length
+
       if (leftPartEnd - leftPartStart <= 1 && rightPartEnd - rightPartStart <= 1) {
         return {
-          leading: content.slice(0, leftPartStart) + this.symbol,
-          trailing: this.symbol + content.slice(rightPartEnd, end),
+          leading: content.slice(0, leftPartStart) + symbol,
+          tailing: symbol + content.slice(rightPartEnd, end),
         }
       }
       const leftPartMiddle = Math.floor((leftPartStart + leftPartEnd) / 2)
       const rightPartMiddle = Math.floor((rightPartStart + rightPartEnd) / 2)
 
       container.innerText =
-        content.slice(0, leftPartMiddle) + this.symbol + actionText + this.symbol + content.slice(rightPartStart, end)
-
+        content.slice(0, leftPartMiddle) + symbol + actionText + symbol + content.slice(rightPartMiddle, end)
       if (container.offsetHeight <= maxHeight) {
         return tailorMiddle([leftPartMiddle, leftPartEnd], [rightPartStart, rightPartMiddle])
       }

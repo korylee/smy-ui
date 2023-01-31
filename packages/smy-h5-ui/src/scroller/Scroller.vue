@@ -89,5 +89,6 @@ export default {
 </script>
 
 <style lang="less">
+@import '../loading/loading.less';
 @import './scroller.less';
 </style>

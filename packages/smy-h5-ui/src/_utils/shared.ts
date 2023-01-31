@@ -62,7 +62,7 @@ export function throttle<T extends Func>(method: T, mustRunDelay = 200): T {
   } as T
 }
 
-export const doubleRaf = (cb?: Func, ctx?: any) => {
+export const doubleRaf = (cb?: FrameRequestCallback, ctx?: any) => {
   const promise = new Promise((resolve) => {
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(resolve)

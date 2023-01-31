@@ -15,11 +15,11 @@ export const props = {
   },
   loadText: {
     type: String,
-    default: '',
+    default: '加载中...',
   },
   loadMoreText: {
     type: String,
-    default: '',
+    default: '哎呀，这里是底部了啦',
   },
   useCapture: {
     type: Boolean,
