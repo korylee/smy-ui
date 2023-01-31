@@ -20,11 +20,11 @@ Vue.use(Countdown)
   <smy-countdown :time="time" />
 </template>
 <script>
-export default {
-  data: () => ({
-    time: 30 * 60 * 60 * 1000,
-  }),
-}
+  export default {
+    data: () => ({
+      time: 30 * 60 * 60 * 1000,
+    }),
+  }
 </script>
 ```
 

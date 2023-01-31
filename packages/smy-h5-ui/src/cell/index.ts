@@ -1,7 +1,7 @@
-import type { SmyComponent } from '../_utils/components'
+import type { SmyComponent } from '../_utils/smy/component'
 import type { CellProps } from './props'
 
-import { withInstall } from '../_utils/components'
+import { withInstall } from '../_utils/vue/component'
 import _Cell from './Cell.vue'
 
 declare class SmyCell extends SmyComponent {

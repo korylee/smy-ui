@@ -177,6 +177,6 @@ export {}
 `
   await Promise.all([
     writeFile(resolve(TYPES_DIR, 'index.d.ts'), template),
-    writeFile(resolve(TYPES_DIR, 'volar.d.ts'), globalTemplate),
+    writeFile(resolve(TYPES_DIR, 'global.d.ts'), globalTemplate),
   ])
 }

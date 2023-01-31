@@ -1,7 +1,7 @@
 import { pick } from '../_utils/shared'
 import { props as popupProps } from '../popup/props'
 import type { PropType } from 'vue'
-import type { ExtractPropTypes } from '@smy-h5/vtools'
+import type { ExtractPropTypes } from '../_utils/vue/props'
 
 export type Texts = any[]
 

@@ -1,4 +1,4 @@
-import { getSlots } from '@smy-h5/vtools'
+import { getSlots } from '../_utils/vue/slots'
 import Vue from 'vue'
 import { props } from './props'
 

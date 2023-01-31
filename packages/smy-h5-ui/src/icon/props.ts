@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from '@smy-h5/vtools'
+import type { ExtractPropTypes } from '../_utils/vue/props'
 
 export const props = {
   size: [String, Number],

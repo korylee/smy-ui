@@ -1,8 +1,8 @@
 import type { LoadingProps } from './props'
-import type { SmyComponent } from '../_utils/components'
+import type { SmyComponent } from '../_utils/smy/component'
 
 import _Loading from './Loading.vue'
-import { withInstall } from '../_utils/components'
+import { withInstall } from '../_utils/vue/component'
 
 declare class SmyLoading extends SmyComponent {
   $props: LoadingProps

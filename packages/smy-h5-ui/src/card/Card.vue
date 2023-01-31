@@ -20,7 +20,7 @@
 
 <script>
 import { props } from './props'
-import { SlotsMixin } from '@smy-h5/vtools'
+import { SlotsMixin } from '../_utils/vue/slots'
 
 export default {
   name: 'SmyCard',

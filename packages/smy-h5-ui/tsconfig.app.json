@@ -1,21 +1,12 @@
 {
-  "exclude": [
-    "src/**/__tests__/*",
-    "node_modules",
-    "es",
-    "site"
-  ],
-  "include": [
-    "src/**/*",
-    "global.d.ts",
-    "*/**.vue"
-  ],
+  "exclude": ["src/**/__tests__/*", "node_modules", "es", "site"],
+  "include": ["src/**/*", "global.d.ts", "*/**.vue"],
   "compilerOptions": {
     "allowJs": true,
     "target": "ES2016",
     "module": "esnext",
     "composite": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "outDir": "./es",
     "strict": true,
     "downlevelIteration": true,
@@ -24,7 +15,7 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "isolatedModules": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node"
   },
   "vueCompilerOptions": {
     "experimentalDisableTemplateSupport": true

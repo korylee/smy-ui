@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import { SlotsMixin } from '@smy-h5/vtools'
-import { createChildrenMixin } from '../_utils/mixins/relation'
+import { createChildrenMixin } from '../_mixins/relation'
+import { SlotsMixin } from '../_utils/vue/slots'
 import { props } from './props'
 
 export default {

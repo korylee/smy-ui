@@ -1,6 +1,8 @@
-import { type SmyComponent, withInstall } from '../_utils/components'
-import Scroller from './Scroller.vue'
 import { type ScrollerProps } from './props'
+import type { SmyComponent } from '../_utils/smy/component'
+
+import Scroller from './Scroller.vue'
+import { withInstall } from '../_utils/vue/component'
 
 declare class SmyScroller extends SmyComponent {
   $props: ScrollerProps

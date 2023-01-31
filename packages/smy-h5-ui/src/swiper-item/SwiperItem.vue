@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { createChildrenMixin } from '../_utils/mixins/relation'
+import { createChildrenMixin } from '../_mixins/relation'
 
 export default {
   name: 'SmySwiperItem',

@@ -1,5 +1,5 @@
-import { getSlots } from '@smy-h5/vtools'
-import { createParentMixin } from '../_utils/mixins/relation'
+import { getSlots } from '../_utils/vue/slots'
+import { createParentMixin } from '../_mixins/relation'
 import { props } from './props'
 
 import './steps.less'

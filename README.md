@@ -16,10 +16,6 @@
 基础组件库本体，不要写业务逻辑! 便于后面维护
 @smy-h5/js 等不要打包进去，避免出现重复打包的情况
 
-### @smy-h5/vtools
-
-vue 的一些工具方法或混入
-
 ### @smy-h5/eslint-config
 
 eslint config

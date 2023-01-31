@@ -1,11 +1,10 @@
 import type { PickerProps, Texts } from './props'
-import type { SmyComponent } from '../_utils/components'
+import type { SmyComponent } from '../_utils/smy/component'
 
-import { withInstall } from '../_utils/components'
+import { mountComponent, withInstall } from '../_utils/vue/component'
 import _Picker from './Picker.vue'
 import { isArray, isNill } from '../_utils/is'
 import Vue from 'vue'
-import { mountComponent } from '@smy-h5/vtools'
 
 type PartialRequired<T, R extends keyof T> = Omit<T, R> &
   Required<{

@@ -24,9 +24,9 @@ import SmyLoading from '../loading'
 import { props, TOAST_TYPES } from './props'
 import { createZIndexMixin } from '../_context/mixins/zIndex'
 import { createLockMixin } from '../_context/mixins/lock'
-import { SlotsMixin } from '@smy-h5/vtools'
 import { isString, isFunction } from '../_utils/is'
-import { addRouteListener, RenderToComp } from '../_utils/components'
+import { addRouteListener, RenderToComp } from '../_utils/vue/component'
+import { SlotsMixin } from '../_utils/vue/slots'
 
 export default {
   name: 'SmyToastCore',

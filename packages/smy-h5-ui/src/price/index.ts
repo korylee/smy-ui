@@ -1,7 +1,7 @@
-import type { SmyComponent } from '../_utils/components'
+import type { SmyComponent } from '../_utils/smy/component'
 import type { PriceProps } from './props'
 
-import { withInstall } from '../_utils/components'
+import { withInstall } from '../_utils/vue/component'
 import _Price from './Price.vue'
 
 declare class SmyPrice extends SmyComponent {

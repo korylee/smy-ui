@@ -1,11 +1,11 @@
 import type { ImagePreviewProps } from './props'
-import type { SmyComponent } from '../_utils/components'
+import type { SmyComponent } from '../_utils/smy/component'
 
+import { mountComponent, withInstall } from '../_utils/vue/component'
 import _ImagePreview from './ImagePreview.vue'
 import Vue from 'vue'
-import { withInstall } from '../_utils/components'
-import { isArray, isInBrowser, isNill, isString } from '../_utils/is'
-import { mountComponent } from '@smy-h5/vtools'
+import { isArray, isNill, isString } from '../_utils/is'
+import { inBrowser } from '../_utils/env'
 
 declare class SmyImagePreview extends SmyComponent {
   $props: ImagePreviewProps
@@ -24,7 +24,7 @@ type ImagePreviewOptions = ImagePreviewProps & {
 let singletonInstance: ImagePreviewOptions | null
 
 const ImagePreview = function ImagePreview(options: string | string[] | ImagePreviewOptions) {
-  if (!isInBrowser()) return
+  if (!inBrowser()) return
   ImagePreview.close()
 
   const imagePreviewOptions: ImagePreviewOptions = isString(options)

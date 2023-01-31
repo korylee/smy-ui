@@ -1,17 +1,16 @@
 import type { ToastPosition, ToastProps, ToastType } from './props'
 import type { CreateElement } from 'vue'
-import type { SmyComponent } from '../_utils/components'
+import type { SmyComponent } from '../_utils/smy/component'
 
-import { withInstall } from '../_utils/components'
+import { mountComponent, withInstall } from '../_utils/vue/component'
 import _Toast from './Toast.vue'
 import SmyToastCore from './ToastCore.vue'
 import { toNumber } from '../_utils/shared'
 import { isNumber, isPlainObject, isString } from '../_utils/is'
 import Vue from 'vue'
-import { mountComponent } from '@smy-h5/vtools'
 import { TOAST_TYPES } from './props'
 import context from '../_context'
-import { throwError } from '../_utils/warn'
+import { throwError } from '../_utils/smy/warn'
 
 declare class SmyToast extends SmyComponent {
   $props: ToastProps
@@ -86,7 +85,7 @@ function getCoreVNode(h: CreateElement, option: UniqToastOptionItem) {
     },
     'route-change': () => {
       reactiveToastOptions.show = false
-    }
+    },
   }
   return h(SmyToastCore as any, {
     key: id,

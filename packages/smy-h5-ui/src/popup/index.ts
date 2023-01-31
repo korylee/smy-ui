@@ -1,7 +1,7 @@
 import type { PopupProps } from './props'
-import type { SmyComponent } from '../_utils/components'
+import type { SmyComponent } from '../_utils/smy/component'
 
-import { withInstall } from '../_utils/components'
+import { withInstall } from '../_utils/vue/component'
 import _Popup from './Popup'
 
 declare class Popup extends SmyComponent {

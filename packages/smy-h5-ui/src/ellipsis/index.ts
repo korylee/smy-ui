@@ -1,7 +1,7 @@
-import type { SmyComponent } from '../_utils/components'
+import type { SmyComponent } from '../_utils/smy/component'
 import type { EllipsisProps } from './props'
 
-import { withInstall } from '../_utils/components'
+import { withInstall } from '../_utils/vue/component'
 import Ellipsis from './Ellipsis.vue'
 
 declare class SmyEllipsis extends SmyComponent {

@@ -9,6 +9,12 @@
     "tags": "highlight/tags.json",
     "attributes": "highlight/attributes.json"
   },
+  "exports": {
+    ".": {
+      "import": "./es/index.js",
+      "require": "./lib/index.js"
+    }
+  },
   "keywords": [
     "vue2",
     "UI"
@@ -31,7 +37,6 @@
   },
   "devDependencies": {
     "@smy-h5/cli": "workspace:*",
-    "@smy-h5/vtools": "workspace:*",
     "@types/jsdom": "^16.2.14",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^16.11.45",
@@ -53,7 +58,6 @@
     "vue-tsc": "^0.38.8"
   },
   "peerDependencies": {
-    "@smy-h5/vtools": "workspace:*",
     "vue": ">= 2.6.0"
   },
   "sideEffects": [

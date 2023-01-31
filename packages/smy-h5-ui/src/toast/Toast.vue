@@ -13,7 +13,7 @@
 
 <script>
 import Teleport from '../teleport'
-import { teleportMixin } from '../_context/mixins/teleport'
+import { teleportMixin } from '../_mixins/teleport'
 import { props } from './props'
 import ToastCore from './ToastCore.vue'
 

@@ -30,10 +30,10 @@
 </template>
 
 <script>
-import { SlotsMixin } from '@smy-h5/vtools'
 import { props } from './props'
 import CloseIcon from '../_icon/CloseSvg.vue'
 import SmyIcon from '../icon'
+import { SlotsMixin } from '../_utils/vue/slots'
 
 export default {
   name: 'SmyNoticeBar',

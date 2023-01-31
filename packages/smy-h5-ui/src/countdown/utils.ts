@@ -1,4 +1,4 @@
-import { warn } from '../_utils/warn'
+import { warn } from '../_utils/smy/warn'
 
 export type TimeData = {
   days: number

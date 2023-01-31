@@ -1,7 +1,7 @@
-import type { SmyComponent } from '../_utils/components'
+import type { SmyComponent } from '../_utils/smy/component'
 import type { CountdownProps } from './props'
 
-import { withInstall } from '../_utils/components'
+import { withInstall } from '../_utils/vue/component'
 import _Countdown from './Countdown.vue'
 export { getDate } from './utils'
 

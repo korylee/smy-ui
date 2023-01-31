@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { useTouch } from '../_utils/vue/useTouch'
+import { useTouch } from '../_utils/composable/useTouch'
 import { props } from './props'
 
 export default {

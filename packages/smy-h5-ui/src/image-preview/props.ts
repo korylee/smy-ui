@@ -2,7 +2,7 @@ import type { PropType } from 'vue'
 import { pick } from '../_utils/shared'
 import { props as swiperProps } from '../swiper/props'
 import { props as popupProps } from '../popup/props'
-import { ExtractPropTypes } from '@smy-h5/vtools'
+import type { ExtractPropTypes } from '../_utils/vue/props'
 
 export const props = {
   show: {

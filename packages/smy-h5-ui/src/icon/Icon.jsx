@@ -1,9 +1,8 @@
 import { createGetMergedProp, InjectionKey } from '../config-provider/config'
-import { getSlots } from '@smy-h5/vtools'
 import { convertToUnit } from '../_utils/shared'
 import { props } from './props'
-
 import './icon.less'
+import { getSlots } from '../_utils/vue/slots'
 
 const defaultTag = 'span'
 

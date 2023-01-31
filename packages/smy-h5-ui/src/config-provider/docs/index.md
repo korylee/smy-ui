@@ -6,8 +6,8 @@
 
 后续会扩展支持除 css 样式变量外的配置，如 confirm 组件的默认文案等
 
-样式通过css3变量覆盖实现
-其余通过inject、provide依赖注入实现
+样式通过 css3 变量覆盖实现
+其余通过 inject、provide 依赖注入实现
 
 ### 基本样式变量
 

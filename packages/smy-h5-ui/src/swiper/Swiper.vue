@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import { createParentMixin } from '../_utils/mixins/relation'
+import { createParentMixin } from '../_mixins/relation'
 import { doubleRaf, toNumber, toPxNum } from '../_utils/shared'
-import { useTouch } from '../_utils/vue/useTouch'
+import { useTouch } from '../_utils/composable/useTouch'
 import { props } from './props'
 
 const range = (num, min, max) => Math.min(Math.max(num, min), max)

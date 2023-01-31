@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import { SlotsMixin } from '@smy-h5/vtools'
 import { props } from './props'
 import { LOADING_NUMBERS_DICT } from './constant'
 import SmyIcon from '../icon'
 import { isNumber, isNumString } from '../_utils/is'
+import { SlotsMixin } from '../_utils/vue/slots'
 
 export default {
   name: 'SmyLoading',

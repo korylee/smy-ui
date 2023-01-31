@@ -36,7 +36,7 @@
 
 ### 基础组件
 
-[]  ConfigProvider 配置定制
+[] ConfigProvider 配置定制
 [x] Loading 加载
 [x] Icon 图标
 
