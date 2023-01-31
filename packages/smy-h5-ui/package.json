@@ -9,12 +9,6 @@
     "tags": "highlight/tags.json",
     "attributes": "highlight/attributes.json"
   },
-  "exports": {
-    ".": {
-      "import": "./es/index.js",
-      "require": "./lib/index.js"
-    }
-  },
   "keywords": [
     "vue2",
     "UI"
