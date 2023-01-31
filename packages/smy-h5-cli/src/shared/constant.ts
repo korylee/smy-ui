@@ -36,6 +36,10 @@ export const SITE_CONFIG = resolve(CWD, '.smy/site.config.json')
 
 // template highlight
 export const HL_COMPONENT_NAME_RE = /.*(\/|\\)(.+)(\/|\\)docs(\/|\\)/
+export const HL_API_RE = /##\s*API\n+/
+export const HL_TITLE_ATTRIBUTES_RE = /###\s*属性|Props\s*\n+/
+export const HL_TITLE_EVENTS_RE = /###\s*事件|Events\s*\n+/
+export const HL_TITLE_SLOTS_RE = /###\s*插槽|Slots\s*\n+/
 export const HL_DIR = resolve(CWD, 'highlight')
 export const HL_TAGS_JSON = resolve(HL_DIR, 'tags.json')
 export const HL_ATTRIBUTES_JSON = resolve(HL_DIR, 'attributes.json')
