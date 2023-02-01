@@ -1,4 +1,4 @@
-import { copy, readdir, remove, removeSync } from 'fs-extra'
+import { copy, readdir, removeSync } from 'fs-extra'
 import { build } from 'vite'
 import { getESMBundleConfig, getUMDConfig } from '../config'
 import { getSmyConfig } from '../config/getConfig'

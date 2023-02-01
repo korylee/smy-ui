@@ -1,7 +1,7 @@
 import { transformAsync } from '@babel/core'
 import { writeFileSync, readFileSync, removeSync, writeFile, existsSync } from 'fs-extra'
 import { camelCase, upperFirst } from 'lodash'
-import { isDir, replaceExt } from '../shared/fs-utils'
+import { replaceExt } from '../shared/fs-utils'
 import { extractStyleDependencies } from './compileStyle'
 import { resolve } from 'path'
 import logger from '../shared/logger'
@@ -106,7 +106,7 @@ function install(app) {
 
   const indexTemplate = `\
 ${imports.join('\n')}\n
-const version = '${version}';
+const version = '${version}';\n
 ${install}
 export {
   install,
@@ -123,7 +123,7 @@ export default {
   const umdIndexTemplate = `\
 ${imports.join('\n')}\n
 ${cssImports.join('\n')}\n
-const version = '${version}';
+const version = '${version}'\n
 ${install}
 export {
   install,
@@ -134,7 +134,6 @@ export {
 export default {
   install,
   version,
-  ${publicComponents.join(',\n  ')}
 }
 `
 
@@ -159,6 +158,8 @@ export async function compileCommonJSEntry(dir: string, publicDirs: string[]) {
   const cssRequires: string[] = []
   const lessRequires: string[] = []
   const publicComponents: string[] = []
+  const version = require(UI_PACKAGE_JSON).version
+
   publicDirs.forEach((dirname) => {
     if (dirname.startsWith('_')) return
     if (!existsSync(resolve(dir, `./${dirname}/style`))) return
@@ -172,18 +173,24 @@ export async function compileCommonJSEntry(dir: string, publicDirs: string[]) {
   const install = `\
 const installTargets = [];
 function install(app) {
-  if (~installTargets.indexOf(app)) return;
-  installTargets.push(app);
+  if (~installTargets.indexOf(app)) return
+  installTargets.push(app)
   ${plugins.join('\n  ')}
-}
-`
+}`
 
   const indexTemplate = `\
 ${requires.join('\n')}\n
 ${install}
 
+const version = '${version}';
+
 module.exports = {
+  default: {
+    install,
+    version,
+  },
   install,
+  version,
   ${publicComponents.join(',\n  ')}
 }
 `
