@@ -8,6 +8,10 @@ import { clearEmptyLine, compileLess, extractStyleDependencies, STYLE_IMPORT_RE 
 
 const EXPORT_START_RE = /export\s+default\s+{/
 const DEFINE_EXPORT_START_RE = /export\s+default\s+defineComponent\s*\(\s*{/
+export const EMPRY_COMMIT_RE = /\/\/\s*\n+/g
+
+// 移除空行注释
+const clearEmptyComment = (str: string) => str.replace(EMPRY_COMMIT_RE, '')
 
 export async function compileSFCFile(sfc: string) {
   const source: string = await readFile(sfc, 'utf-8')
@@ -51,7 +55,8 @@ export async function compileSFCFile(sfc: string) {
       self: true,
       reg: STYLE_IMPORT_RE,
     })
-    writeFileSync(file, clearEmptyLine(code), 'utf-8')
+    code = clearEmptyLine(code)
+    writeFileSync(file, code, 'utf-8')
 
     style.lang === 'less' && (await compileLess(file))
   }
@@ -59,6 +64,8 @@ export async function compileSFCFile(sfc: string) {
 
 export function injectRender(script: string, render: string): string {
   script = script.trim()
+  script = clearEmptyComment(script)
+
   if (DEFINE_EXPORT_START_RE.test(script)) {
     return script.replace(
       DEFINE_EXPORT_START_RE,

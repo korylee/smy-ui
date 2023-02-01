@@ -16,7 +16,11 @@ const program = new Command()
 
 program.version(`smy-cli ${require(CLI_PACKAGE_JSON).version}`).usage('<command> [options]')
 
-program.command('compile').description('Compile Smy components library code').action(compile)
+program
+  .command('compile')
+  .description('Compile Smy components library code')
+  .option('-nu, --noUmd', 'Do not compile umd target code')
+  .action(compile)
 
 program.command('build').description('Build site for production').action(build)
 

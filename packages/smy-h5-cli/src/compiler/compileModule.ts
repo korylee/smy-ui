@@ -1,6 +1,6 @@
 import { copy, readdir, remove, removeSync } from 'fs-extra'
 import { build } from 'vite'
-import { getESMBundleConfig, getUMDCOnfig } from '../config'
+import { getESMBundleConfig, getUMDConfig } from '../config'
 import { getSmyConfig } from '../config/getConfig'
 import {
   DOCS_DIR_NAME,
@@ -16,6 +16,7 @@ import { isDir, isDTS, isLess, isPublicDir, isScript, isSFC } from '../shared/fs
 import { compileSFCFile } from './compileSFC'
 import { compileCommonJSEntry, compileESEntry, compileScriptFile } from './compileScript'
 import { compileLess } from './compileStyle'
+import { comipleDtsEntry, compileDts } from './compileTypes'
 
 export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boolean = false) {
   if (moduleType === 'umd') {
@@ -33,51 +34,50 @@ export async function compileModule(moduleType: 'umd' | 'esm' | 'commonjs' | boo
 
   const dest = isCjs ? LIB_DIR : ES_DIR
   await copy(SRC_DIR, dest)
-  await remove(resolve(SRC_DIR, 'index.d.ts'))
+  const files = await getAllCompileFiles(dest)
 
+  await Promise.all([compileDts(files, dest), comipleDtsEntry(dest, publicDirs)])
+  await Promise.all(files.map((file) => compileFile(file)))
+
+  if (isCjs) {
+    await compileCommonJSEntry(dest, publicDirs)
+  } else {
+    await compileESEntry(dest, publicDirs)
+  }
+}
+
+async function getAllCompileFiles(dir: string, files: string[] = []) {
+  const entryDir = await readdir(dir)
   await Promise.all(
-    moduleDir.map((filename: string) => {
-      const file: string = resolve(dest, filename)
-      return isDir(file) ? compileDir(file) : null
+    entryDir.map(async (filename) => {
+      const file = resolve(dir, filename)
+      if ([EXAMPLE_DIR_NAME, DOCS_DIR_NAME, TESTS_DIR_NAME, STYLE_DIR_NAME].includes(filename)) {
+        return removeSync(file)
+      }
+      if (isDir(file)) return await getAllCompileFiles(file, files)
+      else if (isDTS(file) || filename === STYLE_DIR_NAME) return
+      else files.push(file)
     })
   )
-
-  await (isCjs ? compileCommonJSEntry(dest, publicDirs) : compileESEntry(dest, publicDirs))
+  return files
 }
 
 export function compileUMD() {
-  const config = getUMDCOnfig(getSmyConfig())
+  const config = getUMDConfig(getSmyConfig())
   return build(config)
     .then(() => Promise.resolve())
-    .catch(() => Promise.reject())
+    .catch((err) => Promise.reject(err))
 }
 
 export function compileESMBundle() {
   const config = getESMBundleConfig(getSmyConfig())
   return build(config)
     .then(() => Promise.resolve())
-    .catch(() => Promise.reject())
-}
-
-export async function compileDir(dir: string) {
-  const dirs = await readdir(dir)
-  await Promise.all(
-    dirs.map((filename) => {
-      const file = resolve(dir, filename)
-      const uncompileFiles = [EXAMPLE_DIR_NAME, DOCS_DIR_NAME, TESTS_DIR_NAME, STYLE_DIR_NAME]
-      if (uncompileFiles.includes(filename)) {
-        removeSync(file)
-        return
-      }
-      if (isDTS(file)) return
-      return compileFile(file)
-    })
-  )
+    .catch((err) => Promise.reject(err))
 }
 
 export async function compileFile(file: string) {
   isSFC(file) && (await compileSFCFile(file))
   isScript(file) && (await compileScriptFile(file))
   isLess(file) && (await compileLess(file))
-  isDir(file) && (await compileDir(file))
 }

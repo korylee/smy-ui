@@ -1,5 +1,5 @@
 import { transformAsync } from '@babel/core'
-import { writeFileSync, readFileSync, removeSync, writeFile, pathExistsSync } from 'fs-extra'
+import { writeFileSync, readFileSync, removeSync, writeFile, existsSync } from 'fs-extra'
 import { camelCase, upperFirst } from 'lodash'
 import { isDir, replaceExt } from '../shared/fs-utils'
 import { extractStyleDependencies } from './compileStyle'
@@ -82,6 +82,7 @@ export async function compileESEntry(dir: string, publicDirs: string[]) {
 
   publicDirs.forEach((dirname: string) => {
     if (dirname.startsWith('_')) return
+    if (!existsSync(resolve(dir, `./${dirname}/style`))) return
     const publicComponent = upperFirst(camelCase(dirname))
     publicComponents.push(publicComponent)
     imports.push(`import ${publicComponent} from './${dirname}'`)
@@ -89,17 +90,14 @@ export async function compileESEntry(dir: string, publicDirs: string[]) {
     //   `export const _${publicComponent}Component = ${publicComponent}Module._${publicComponent}Component || {}`
     // )
     plugins.push(`app.use(${publicComponent})`)
-    const styleDir = resolve(dir, `./${dirname}/style`)
-    if (isDir(styleDir)) {
-      cssImports.push(`import './${dirname}/style'`)
-      lessImports.push(`import './${dirname}/style/less'`)
-    }
+    cssImports.push(`import './${dirname}/style'`)
+    lessImports.push(`import './${dirname}/style/less'`)
   })
 
   const install = `
 const installTargets = [];
 function install(app) {
-  if (installTargets.includes(app)) return;
+  if (~installTargets.indexOf(app)) return;
   installTargets.push(app);
   ${plugins.join('\n  ')}
 }
@@ -108,6 +106,23 @@ function install(app) {
 
   const indexTemplate = `\
 ${imports.join('\n')}\n
+const version = '${version}';
+${install}
+export {
+  install,
+  version,
+  ${publicComponents.join(',\n  ')}
+}
+
+export default {
+  install,
+  version,
+}
+`
+
+  const umdIndexTemplate = `\
+${imports.join('\n')}\n
+${cssImports.join('\n')}\n
 const version = '${version}';
 ${install}
 export {
@@ -132,6 +147,7 @@ ${lessImports.join('\n')}
 `
   await Promise.all([
     writeFile(resolve(dir, 'index.js'), indexTemplate, 'utf-8'),
+    writeFile(resolve(dir, 'umdIndex.js'), umdIndexTemplate, 'utf-8'),
     writeFile(resolve(dir, 'style.js'), styleTemplate, 'utf-8'),
     writeFile(resolve(dir, 'less.js'), lessTemplate, 'utf-8'),
   ])
@@ -145,6 +161,7 @@ export async function compileCommonJSEntry(dir: string, publicDirs: string[]) {
   const publicComponents: string[] = []
   publicDirs.forEach((dirname) => {
     if (dirname.startsWith('_')) return
+    if (!existsSync(resolve(dir, `./${dirname}/style`))) return
     const publicComponent = upperFirst(camelCase(dirname))
     publicComponents.push(publicComponent)
     requires.push(`var ${publicComponent} = require('./${dirname}')['default']`)
@@ -152,8 +169,11 @@ export async function compileCommonJSEntry(dir: string, publicDirs: string[]) {
     cssRequires.push(`require('./${dirname}/style')`)
     lessRequires.push(`require('./${dirname}/style/less')`)
   })
-  const install = `
+  const install = `\
+const installTargets = [];
 function install(app) {
+  if (~installTargets.indexOf(app)) return;
+  installTargets.push(app);
   ${plugins.join('\n  ')}
 }
 `

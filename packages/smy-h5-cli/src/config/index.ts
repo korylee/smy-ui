@@ -40,7 +40,7 @@ export function getESMBundleConfig(config: Record<string, any>): InlineConfig {
   }
 }
 
-export function getUMDCOnfig(smyConfig: Record<string, any>): InlineConfig {
+export function getUMDConfig(smyConfig: Record<string, any>): InlineConfig {
   const name = get(smyConfig, 'name')
   const filename = `${kebabCase(name)}.js`
 

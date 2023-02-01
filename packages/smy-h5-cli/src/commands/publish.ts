@@ -4,7 +4,7 @@ import logger from '../shared/logger'
 import { changelog } from './changelog'
 import ora from 'ora'
 
-const ReleasePackages = ['ui', 'vtools']
+const ReleasePackages = ['ui']
 
 async function doPublish(preRelease: boolean) {
   const s = ora().start('Publishing all packages')
