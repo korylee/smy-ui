@@ -76,10 +76,11 @@ export async function compileDts(files: string[], outDir = TYPES_DIR) {
       }
     })
   )
-  // const diagnostics = project.getPreEmitDiagnostics()
+  const diagnostics = project.getPreEmitDiagnostics()
 
-  // // 输出解析过程中的错误信息
-  // console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
+  const errorLog = project.formatDiagnosticsWithColorAndContext(diagnostics)
+  // 输出解析过程中的错误信息
+  errorLog && console.log(errorLog)
 
   project.emitToMemory()
 
@@ -87,12 +88,20 @@ export async function compileDts(files: string[], outDir = TYPES_DIR) {
   for (const sourceFile of sourceFiles) {
     const emitOutput = sourceFile.getEmitOutput()
 
-    for (const outputFile of emitOutput.getOutputFiles()) {
-      const filePath = outputFile.getFilePath()
+    await Promise.all(
+      emitOutput.getOutputFiles().map(async (outputFile) => {
+        const filePath = outputFile.getFilePath()
 
-      await fs.promises.mkdir(dirname(filePath), { recursive: true })
-      await fs.promises.writeFile(filePath, outputFile.getText(), 'utf8')
-    }
+        await fs.promises.mkdir(dirname(filePath), { recursive: true })
+        await fs.promises.writeFile(filePath, outputFile.getText(), 'utf8')
+      })
+    )
+    // for (const outputFile of emitOutput.getOutputFiles()) {
+    //   const filePath = outputFile.getFilePath()
+
+    //   await fs.promises.mkdir(dirname(filePath), { recursive: true })
+    //   await fs.promises.writeFile(filePath, outputFile.getText(), 'utf8')
+    // }
   }
 }
 

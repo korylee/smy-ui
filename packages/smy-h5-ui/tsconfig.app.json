@@ -6,7 +6,6 @@
     "target": "ES2016",
     "module": "esnext",
     "composite": true,
-    "baseUrl": "./",
     "outDir": "./es",
     "strict": true,
     "downlevelIteration": true,
@@ -18,6 +17,6 @@
     "moduleResolution": "node"
   },
   "vueCompilerOptions": {
-    "experimentalDisableTemplateSupport": true
+    "target": 2,
   }
 }

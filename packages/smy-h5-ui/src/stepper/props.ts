@@ -1,3 +1,5 @@
+import { type ExtractPropTypes } from '../_utils/vue/props'
+
 export const props = {
   simple: {
     type: Boolean,
@@ -36,3 +38,5 @@ export const props = {
     default: 0,
   },
 }
+
+export type StepperProps = ExtractPropTypes<typeof props>
