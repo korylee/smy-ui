@@ -5,8 +5,10 @@ import { withInstall } from '../_utils/vue/component'
 import _Countdown from './Countdown.vue'
 export { getDate } from './utils'
 
-declare class SmyCountdown extends SmyComponent {
-  $props: CountdownProps
+declare interface SmyCountdown extends SmyComponent {
+  new (): {
+    $props: CountdownProps
+  }
 }
 
 export default withInstall(_Countdown) as SmyCountdown

@@ -1,5 +1,4 @@
 declare module '*.vue' {
-  import type { SmyComponent } from './src/_utils/smy/component'
-  const component: SmyComponent
+  const component: any
   export default component
 }

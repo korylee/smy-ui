@@ -1,6 +1,11 @@
-import { createInstall } from '../_utils/vue/component'
+import type { SmyComponent } from '../_utils/smy/component'
+import { withInstall } from '../_utils/vue/component'
+import type { StepperProps } from './props'
 import Stepper from './Stepper.vue'
 
-Stepper.install = createInstall(Stepper)
-
-export default Stepper
+declare interface SmyStepper extends SmyComponent {
+  new (): {
+    $props: StepperProps
+  }
+}
+export default withInstall(Stepper) as SmyStepper

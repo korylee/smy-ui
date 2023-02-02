@@ -7,8 +7,10 @@ import Vue from 'vue'
 import { isArray, isNill, isString } from '../_utils/is'
 import { inBrowser } from '../_utils/env'
 
-declare class SmyImagePreview extends SmyComponent {
-  $props: ImagePreviewProps
+declare interface SmyImagePreview extends SmyComponent {
+  new (): {
+    $props: ImagePreviewProps
+  }
 }
 
 const SmyImgPreview = withInstall(_ImagePreview) as unknown as SmyImagePreview

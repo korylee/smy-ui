@@ -29,8 +29,10 @@ interface PickerResolvedData {
   indexes?: number[]
 }
 
-declare class SmyPicker extends SmyComponent {
-  $props: PickerProps
+declare interface SmyPicker extends SmyComponent {
+  new (): {
+    $props: PickerProps
+  }
 }
 
 const _SmyPicker = withInstall(_Picker) as SmyPicker

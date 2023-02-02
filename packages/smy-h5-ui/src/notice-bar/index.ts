@@ -4,8 +4,10 @@ import type { SmyComponent } from '../_utils/smy/component'
 import { withInstall } from '../_utils/vue/component'
 import _NoticeBar from './NoticeBar.vue'
 
-declare class NoticeBar extends SmyComponent {
-  $props: NoticeBarProps
+declare interface SmyNoticeBar extends SmyComponent {
+  new (): {
+    $props: NoticeBarProps
+  }
 }
 
-export default withInstall(_NoticeBar) as unknown as NoticeBar
+export default withInstall(_NoticeBar) as unknown as SmyNoticeBar

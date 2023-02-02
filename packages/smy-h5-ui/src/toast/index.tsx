@@ -12,8 +12,10 @@ import { TOAST_TYPES } from './props'
 import context from '../_context'
 import { throwError } from '../_utils/smy/warn'
 
-declare class SmyToast extends SmyComponent {
-  $props: ToastProps
+declare interface SmyToast extends SmyComponent {
+  new (): {
+    $props: ToastProps
+  }
 }
 
 const _SmyToast = withInstall(_Toast) as unknown as SmyToast
