@@ -4,13 +4,15 @@ import { props as swiperProps } from '../swiper/props'
 import { props as popupProps } from '../popup/props'
 import type { ExtractPropTypes } from '../_utils/vue/props'
 
+export type Image = string
+
 export const props = {
   show: {
     type: Boolean,
     defualt: false,
   },
   images: {
-    type: Array as PropType<string[]>,
+    type: Array as PropType<Image[]>,
     default: () => [],
   },
   zoom: {

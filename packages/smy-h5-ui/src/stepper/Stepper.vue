@@ -4,7 +4,7 @@
       <MinusSvg />
     </div>
     <input
-      :value="maxv(intervalValue, minNum, max)"
+      :value="maxv(internal, minNum, max)"
       :min="minNum"
       :max="max"
       :readonly="readonly || !isLegal"
@@ -32,26 +32,26 @@ export default {
   components: { MinusSvg, PlusSvg },
   data: (vm) => ({
     focusing: false,
-    intervalValue: vm.value,
+    internal: vm.value,
     minNum: vm.min,
     isLegal: true, // 是否合法
   }),
   computed: {
     minusable() {
-      return (this.focusing ? this.tempNum : this.intervalValue) - this.step >= this.min
+      return (this.focusing ? this.tempNum : this.internal) - this.step >= this.min
     },
     plusable() {
-      return !this.max || Number(this.intervalValue) + this.step <= this.max
+      return !this.max || Number(this.internal) + this.step <= this.max
     },
   },
   watch: {
     value: {
       immediate: true,
       handler(v) {
-        if (v === this.intervalValue) return
+        if (v === this.internal) return
         v = this.maxv(v, this.minNum, this.max)
-        this.intervalValue = v > 0 ? this.fixedDecimalPlaces(v) : v
-        this.$emit('change', this.intervalValue)
+        this.internal = v > 0 ? this.fixedDecimalPlaces(v) : v
+        this.$emit('change', this.internal)
       },
     },
     min: {
@@ -83,35 +83,35 @@ export default {
     },
     handleFocus(e) {
       if (this.readonly || this.isLegal || this.disabled) return
-      const v = this.intervalValue
+      const v = this.internal
       this.tempNum = v
       this.minNum = ''
       this.focusing = true
-      this.$emit('focus', e, this.intervalValue)
+      this.$emit('focus', e, this.internal)
     },
     handlePlus() {
       if (this.disabled) return
-      this.intervalValue = Number(this.intervalValue)
-      if (this.intervalValue <= this.max - this.step && this.max > this.minNum) {
-        const [n1, n2] = this.fixedDecimalPlaces(this.intervalValue + Number(this.step)).split('.')
+      this.internal = Number(this.internal)
+      if (this.internal <= this.max - this.step && this.max > this.minNum) {
+        const [n1, n2] = this.fixedDecimalPlaces(this.internal + Number(this.step)).split('.')
         const fixedLen = n2?.length ?? 0
-        this.intervalValue = parseFloat(n1 + (n2 ? `.${n2}` : '')).toFixed(fixedLen)
-        this.$emit('update:value', this.intervalValue)
-        this.$emit('plus', this.intervalValue)
+        this.internal = parseFloat(n1 + (n2 ? `.${n2}` : '')).toFixed(fixedLen)
+        this.$emit('update:value', this.internal)
+        this.$emit('plus', this.internal)
       } else {
         this.$emit('plus-no-allow')
       }
     },
     handleMinus() {
       if (this.disabled) return
-      const { intervalValue } = this
-      if (intervalValue - this.step >= this.minNum) {
-        const [n1, n2] = this.fixedDecimalPlaces(intervalValue - Number(this.step)).split('.')
+      const { internal } = this
+      if (internal - this.step >= this.minNum) {
+        const [n1, n2] = this.fixedDecimalPlaces(internal - Number(this.step)).split('.')
         const fixedLen = n2?.length ?? 0
-        this.intervalValue = parseFloat(n1 + (n2 ? `.${n2}` : n2)).toFixed(fixedLen)
+        this.internal = parseFloat(n1 + (n2 ? `.${n2}` : n2)).toFixed(fixedLen)
 
-        this.$emit('update:value', this.intervalValue)
-        this.$emit('minus', this.intervalValue)
+        this.$emit('update:value', this.internal)
+        this.$emit('minus', this.internal)
       } else {
         this.$emit('minus-no-allow')
       }
@@ -120,7 +120,7 @@ export default {
       const { value } = e.target
       const v = this.maxv(value, this.minNum, this.max)
       e.target.value = v
-      this.intervalValue = v
+      this.internal = v
       this.$emit('update:value', v)
       this.$emit('change', v)
     },
@@ -129,18 +129,18 @@ export default {
       this.focusing = false
       const v = this.maxv(value, this.minNum, this.max)
       e.target.value = v
-      this.intervalValue = v
+      this.internal = v
     },
     handleBlur(e) {
       if (this.readonly || !this.isLegal || !this.disabled) {
-        return this.$emit('blur', e, this.intervalValue)
+        return this.$emit('blur', e, this.internal)
       }
       const { value } = e.target.value
       this.minNum = this.min
       this.focusing = false
       const v = value ? this.maxv(value, this.minNum, this.max) : this.tempNum
 
-      this.intervalValue = v
+      this.internal = v
       this.$emit('update:value', v)
       this.$emit('blur', v)
     },

@@ -7,6 +7,10 @@ import Ellipsis from './Ellipsis.vue'
 declare interface SmyEllipsis extends SmyComponent {
   new (): {
     $props: EllipsisProps
+    $emit: {
+      (event: 'change', data: boolean): void
+      (event: 'click', data: Event): void
+    }
   }
 }
 

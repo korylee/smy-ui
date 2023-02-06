@@ -19,8 +19,8 @@
           :class="`smy-loading__${type}-item`"
         ></div>
       </div>
-      <div v-if="hasSlots('description') || description" :style="{ color }" class="smy-loading__description">
-        <slot name="description">{{ description }}</slot>
+      <div v-if="hasSlots('desc') || desc" :style="{ color }" class="smy-loading__desc">
+        <slot name="desc">{{ desc }}</slot>
       </div>
     </div>
   </div>

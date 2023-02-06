@@ -10,7 +10,7 @@
     <div>
       <div>包裹</div>
       <button @click="loading = !loading">开关loading</button>
-      <smy-loading description="loading..." :loading="loading">
+      <smy-loading desc="loading..." :loading="loading">
         <smy-card title="介绍" content="北极星的眼泪，哒哒哒哒哒哒" />
       </smy-loading>
     </div>

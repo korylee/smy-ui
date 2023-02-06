@@ -149,9 +149,19 @@ async function comipleTypes() {
   })
 
   const globalTemplate = `\
+interface AllModules {
+  ${declares.join('\n  ')}
+}
+
 declare module 'vue' {
-  export interface GlobalComponents {
-    ${declares.join('\n    ')}
+  type ExtractComponent<T> = T extends { Component?: infer S } ? (S extends void ? T : S) : T
+  type DirectiveKeys<T> = {
+    [K in keyof T]: T[K] extends import('vue').DirectiveOptions ? K : never
+  }[keyof T]
+
+  export type GlobalDirectives = Pick<AllModules, DirectiveKeys<AllModules>>
+  export type GlobalComponents = {
+    [P in Exclude<keyof AllModules, DirectiveKeys<AllModules>>]: ExtractComponent<AllModules[P]>
   }
 }
 

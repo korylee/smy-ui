@@ -1,4 +1,6 @@
-module.exports = {
+const { defineConfig } = require('@smy-h5/cli')
+
+module.exports = defineConfig({
   namespace: 'smy',
   highlight: { style: null },
   useMobile: true,
@@ -36,4 +38,4 @@ module.exports = {
       { text: 'Switch 开关', doc: 'switch', type: 2 },
     ],
   },
-}
+})

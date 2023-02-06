@@ -14,21 +14,23 @@
     @route-change="$emit('route-change')"
   >
     <div class="smy-picker" v-bind="$attrs">
-      <div class="smy-picker__toolbar">
-        <slot name="cancel">
-          <span class="smy-picker__cancel-button" smy-picker-cover @click="handleCancel">
-            {{ cancelButtonText }}
-          </span>
-        </slot>
-        <slot name="title">
-          <div class="smy-picker__title">{{ title }}</div>
-        </slot>
-        <slot name="confirm">
-          <span class="smy-picker__confirm-button" smy-picker-cover @click="handleConfirm">
-            {{ confirmButtonText }}
-          </span>
-        </slot>
-      </div>
+      <slot name="toolbar">
+        <div class="smy-picker__toolbar">
+          <slot name="cancel">
+            <span class="smy-picker__cancel-button" smy-picker-cover @click="handleCancel">
+              {{ cancelButtonText }}
+            </span>
+          </slot>
+          <slot name="title">
+            <div class="smy-picker__title">{{ title }}</div>
+          </slot>
+          <slot name="confirm">
+            <span class="smy-picker__confirm-button" smy-picker-cover @click="handleConfirm">
+              {{ confirmButtonText }}
+            </span>
+          </slot>
+        </div>
+      </slot>
       <slot name="top"></slot>
       <div class="smy-picker__columns" :style="{ height: `${columnHeight}px` }">
         <div
@@ -57,7 +59,7 @@
               class="smy-picker__option"
             >
               <div class="smy-picker__text">
-                {{ textFormatter(text, scrollCol.columnIndex) }}
+                <slot name="item" :text="text">{{ textFormatter(text, scrollCol.columnIndex) }}</slot>
               </div>
             </div>
           </div>

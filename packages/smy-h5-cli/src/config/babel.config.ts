@@ -1,6 +1,6 @@
 import type { ConfigAPI } from '@babel/core'
 
-module.exports = (api?: ConfigAPI) => {
+export default function preset(api?: ConfigAPI) {
   if (api) {
     api.cache.never()
   }

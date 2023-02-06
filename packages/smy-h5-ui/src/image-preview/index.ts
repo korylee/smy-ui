@@ -1,15 +1,28 @@
-import type { ImagePreviewProps } from './props'
+import type { Image, ImagePreviewProps } from './props'
 import type { SmyComponent } from '../_utils/smy/component'
 
 import { mountComponent, withInstall } from '../_utils/vue/component'
 import _ImagePreview from './ImagePreview.vue'
-import Vue from 'vue'
+import Vue, { type VNode } from 'vue'
 import { isArray, isNill, isString } from '../_utils/is'
 import { inBrowser } from '../_utils/env'
 
 declare interface SmyImagePreview extends SmyComponent {
   new (): {
     $props: ImagePreviewProps
+    $scopeSlots: {
+      image: (data: { image: Image }) => VNode
+      indicator: (data: { index: number; length: number }) => VNode
+      'close-icon': () => VNode
+      extra: () => VNode
+    }
+    $emit: {
+      (event: 'open'): void
+      (event: 'opened'): void
+      (event: 'close'): void
+      (event: 'closed'): void
+      (event: 'route-change'): void
+    }
   }
 }
 

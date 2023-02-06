@@ -1,10 +1,10 @@
-import type { PickerProps, Texts } from './props'
+import type { PickerProps, Text, Texts } from './props'
 import type { SmyComponent } from '../_utils/smy/component'
 
 import { mountComponent, withInstall } from '../_utils/vue/component'
 import _Picker from './Picker.vue'
 import { isArray, isNill } from '../_utils/is'
-import Vue from 'vue'
+import Vue, { type VNode } from 'vue'
 
 type PartialRequired<T, R extends keyof T> = Omit<T, R> &
   Required<{
@@ -32,6 +32,24 @@ interface PickerResolvedData {
 declare interface SmyPicker extends SmyComponent {
   new (): {
     $props: PickerProps
+    $scopeSlots: {
+      toolbar: () => VNode
+      cancel: () => VNode
+      title: () => VNode
+      confirm: () => VNode
+      top: () => VNode
+      item: (data: { text: Text }) => VNode
+    }
+    $emit: {
+      (event: 'open'): void
+      (event: 'opened'): void
+      (event: 'close'): void
+      (event: 'closed'): void
+      (event: 'route-change'): void
+      (event: 'confirm', texts: Texts, indexes: number[]): void
+      (event: 'cancel', texts: Texts, indexes: number[]): void
+      (event: 'change', texts: Texts, indexes: number[]): void
+    }
   }
 }
 

@@ -3,7 +3,9 @@ import { props as popupProps } from '../popup/props'
 import type { PropType } from 'vue'
 import type { ExtractPropTypes } from '../_utils/vue/props'
 
-export type Texts = any[]
+export type Text = any
+
+export type Texts = Text[]
 
 export interface NormalColumn {
   texts: Texts
