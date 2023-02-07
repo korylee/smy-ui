@@ -10,5 +10,4 @@ declare interface SmyIcon extends SmyComponent {
   }
 }
 
-
 export default withInstall(_Icon) as unknown as SmyIcon

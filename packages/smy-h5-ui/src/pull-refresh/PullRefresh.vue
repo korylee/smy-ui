@@ -1,6 +1,11 @@
 <template>
-  <div class="smy-pull-refresh" ref="scroller" @touchstart="onTouchStart" @touchmove="onTouchMove"
-    @touchend="onTouchEnd">
+  <div
+    class="smy-pull-refresh"
+    ref="scroller"
+    @touchstart="onTouchStart"
+    @touchmove="onTouchMove"
+    @touchend="onTouchEnd"
+  >
     <div class="smy-pull-refresh-control" :style="style">
       <slot name="header" :status="status" :distance="distance">
         <div class="smy-pull-refresh-control__header" :style="headerStyle">
@@ -21,10 +26,10 @@
   </div>
 </template>
 <script>
-import { useTouch } from '../_utils/composable/useTouch';
-import { getParentScroller, getScrollTopRoot } from '../_utils/dom';
-import { toPxNum, convertToUnit } from '../_utils/shared';
-import { props } from './props';
+import { useTouch } from '../_utils/composable/useTouch'
+import { getParentScroller, getScrollTopRoot } from '../_utils/dom'
+import { toPxNum, convertToUnit } from '../_utils/shared'
+import { props } from './props'
 import SmyLoading from '../loading'
 
 export default {
@@ -36,15 +41,15 @@ export default {
     status: 'normal',
     scrollParent: null,
     isPullRefresh: false,
-    distance: 0
+    distance: 0,
   }),
   computed: {
     style: ({ duration, distance }) => ({
       transitionDuration: `${duration}s`,
-      transform: distance ? `translate3d(0, ${distance}px, 0)` : ''
+      transform: distance ? `translate3d(0, ${distance}px, 0)` : '',
     }),
     headerStyle: ({ headerHeight }) => ({ height: convertToUnit(headerHeight) }),
-    isCanTouch: ({ status }) => !['loading'].includes(status)
+    isCanTouch: ({ status }) => !['loading'].includes(status),
   },
   watch: {
     value(val) {
@@ -53,13 +58,13 @@ export default {
       } else {
         this.setPullStatus(0)
       }
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.scrollParent = getParentScroller(this.$refs.scroller)
   },
   methods: {
-    timing (distance) {
+    timing(distance) {
       const pullDistance = toPxNum(this.pullDistance || this.headerHeight)
       let moveDistance = distance
       if (distance > pullDistance) {
@@ -71,19 +76,19 @@ export default {
       }
       return Math.round(moveDistance)
     },
-    setPullStatus (distance, isLoading) {
+    setPullStatus(distance, isLoading) {
       const pullDistance = toPxNum(this.pullDistance || this.headerHeight)
       this.distance = distance
       const status = isLoading ? 'loading' : distance === 0 ? 'normal' : distance < pullDistance ? 'pulling' : 'loosing'
       this.status = status
       this.$emit('change', { status, distance })
     },
-    isScrollTop () {
+    isScrollTop() {
       const { scrollParent } = this
       if (scrollParent === window) return getScrollTopRoot() === 0
       return scrollParent?.scrollTop === 0
     },
-    onTouchStart (event) {
+    onTouchStart(event) {
       if (!this.isCanTouch) return
       if (this.isScrollTop()) {
         this.touch.start(event)
@@ -93,7 +98,7 @@ export default {
         this.isPullRefresh = false
       }
     },
-    onTouchMove (event) {
+    onTouchMove(event) {
       if (!this.isCanTouch) return
       const { touch } = this
       touch.move(event)
@@ -101,11 +106,11 @@ export default {
         state: { deltaY },
       } = touch
       if (touch.isVertical() && deltaY > 0 && this.isPullRefresh) {
-        event.preventDefault();
+        event.preventDefault()
         this.setPullStatus(this.timing(deltaY))
       }
     },
-    onTouchEnd () {
+    onTouchEnd() {
       if (!this.isPullRefresh || !this.isCanTouch || !this.touch.state.deltaY) return
       if (this.status === 'loosing') {
         this.setPullStatus(toPxNum(this.headerHeight), true)
@@ -115,8 +120,8 @@ export default {
         this.setPullStatus(0)
       }
       requestAnimationFrame(() => this.touch.reset())
-    }
-  }
+    },
+  },
 }
 </script>
 

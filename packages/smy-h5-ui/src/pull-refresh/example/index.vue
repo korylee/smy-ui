@@ -14,16 +14,16 @@ export default {
   name: 'PullRefreshExample',
   components: { SmyPullRefresh },
   data: () => ({
-    refresh: false
+    refresh: false,
   }),
   methods: {
-    onRefresh () {
+    onRefresh() {
       setTimeout(() => {
         this.refresh = false
         toast('刷新成功！')
       }, 2000)
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="less" scoped>

@@ -17,6 +17,6 @@
     "moduleResolution": "node"
   },
   "vueCompilerOptions": {
-    "target": 2,
+    "target": 2
   }
 }

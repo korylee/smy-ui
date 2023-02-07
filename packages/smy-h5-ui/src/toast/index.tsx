@@ -13,7 +13,7 @@ import context from '../_context'
 import { throwError } from '../_utils/smy/warn'
 
 declare interface SmyToast extends SmyComponent {
-  new(): {
+  new (): {
     $props: ToastProps
     $scopeSlots: {
       default: () => VNode
@@ -174,14 +174,14 @@ const Toast = function toast(options: number | string | ReactiveToastOptions) {
 
 const getToast =
   (type: ToastType) =>
-    (options: Parameters<typeof Toast>[0] = {}) => {
-      if (isString(options) || isNumber(options)) {
-        options = { content: String(options), type }
-      } else {
-        options.type = type
-      }
-      return Toast(options)
+  (options: Parameters<typeof Toast>[0] = {}) => {
+    if (isString(options) || isNumber(options)) {
+      options = { content: String(options), type }
+    } else {
+      options.type = type
     }
+    return Toast(options)
+  }
 
 const Toasts = TOAST_TYPES.reduce((acc, cur) => {
   acc[cur] = getToast(cur)

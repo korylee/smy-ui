@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from "../_utils/vue/props"
+import type { ExtractPropTypes } from '../_utils/vue/props'
 
 export const props = {
   insert: Boolean,

@@ -7,16 +7,16 @@ import { type VNode } from 'vue'
 
 type PullRefreshStatus = 'normal' | 'loading' | 'loosing' | 'pulling'
 interface SmyPullRefresh extends SmyComponent {
-  new(): {
+  new (): {
     $props: PullRefreshProps
     $scopeSlots: {
       default: () => VNode
-      header: (data: { status: PullRefreshStatus, distance: number }) => VNode
+      header: (data: { status: PullRefreshStatus; distance: number }) => VNode
     }
     $emit: {
       (event: 'input', data: true): void
       (event: 'refresh'): void
-      (event: 'change', data: { status: PullRefreshStatus, distance: number }): void
+      (event: 'change', data: { status: PullRefreshStatus; distance: number }): void
     }
   }
 }
