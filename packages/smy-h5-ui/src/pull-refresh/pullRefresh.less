@@ -1,16 +1,16 @@
-@pull-refresh-header-text-color: #808080;
-@pull-refresh-header-font-size: var(--font-size-md);
+@pull-refresh-control-text-color: #808080;
+@pull-refresh-control-font-size: var(--font-size-md);
 
 :root {
-  --pull-refresh-header-text-color: @pull-refresh-header-text-color;
-  --pull-refresh-header-font-size: @pull-refresh-header-font-size;
+  --pull-refresh-control-text-color: @pull-refresh-control-text-color;
+  --pull-refresh-control-font-size: @pull-refresh-control-font-size;
 }
 
 .smy-pull-refresh {
   height: 100%;
   overflow: hidden;
 
-  &-container {
+  &-control {
     position: relative;
     height: 100%;
 
@@ -24,14 +24,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--pull-refresh-header-font-size);
+      font-size: var(--pull-refresh-control-font-size);
 
       &-icon {
-        margin-right: 4px;
+        margin-right: 0.2em;
       }
 
       &-text {
-        color: var(--pull-refresh-header-text-color);
+        color: var(--pull-refresh-control-text-color);
       }
     }
   }

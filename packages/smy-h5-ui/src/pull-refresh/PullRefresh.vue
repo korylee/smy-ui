@@ -1,18 +1,18 @@
 <template>
   <div class="smy-pull-refresh" ref="scroller" @touchstart="onTouchStart" @touchmove="onTouchMove"
     @touchend="onTouchEnd">
-    <div class="smy-pull-refresh-container" :style="style">
+    <div class="smy-pull-refresh-control" :style="style">
       <slot name="header" :status="status" :distance="distance">
-        <div class="smy-pull-refresh-container__header" :style="headerStyle">
+        <div class="smy-pull-refresh-control__header" :style="headerStyle">
           <slot v-if="status === 'pulling'" name="pulling">
-            <div class="smy-pull-refresh-container__header-text">{{ pullingText }}</div>
+            <div class="smy-pull-refresh-control__header-text">{{ pullingText }}</div>
           </slot>
           <slot v-else-if="status === 'loosing'" name="loosing">
-            <div class="smy-pull-refresh-container__header-text">{{ loosingText }}</div>
+            <div class="smy-pull-refresh-control__header-text">{{ loosingText }}</div>
           </slot>
           <slot v-else-if="status === 'loading'" name="loading">
-            <smy-loading class="smy-pull-refresh-container__header-icon" />
-            <div class="smy-pull-refresh-container__header-text">{{ loadingText }}</div>
+            <smy-loading class="smy-pull-refresh-control__header-icon" />
+            <div class="smy-pull-refresh-control__header-text">{{ loadingText }}</div>
           </slot>
         </div>
       </slot>
