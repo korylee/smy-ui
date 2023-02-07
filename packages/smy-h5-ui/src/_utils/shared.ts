@@ -134,9 +134,9 @@ export function pick<T extends Record<string, any>, R extends keyof T>(source: T
 
 export function convertToUnit(str: string | number | null | undefined, unit = 'px'): string | undefined {
   if (str == null || str === '') return undefined
-  else if (isNumber(str) || isNumString(str)) return `${Number(str)}${unit}`
-  else if (isNaN(+str!)) return String(str)
-  else return `${Number(str)}${unit}`
+  if (isNumber(str) || isNumString(str)) return `${Number(str)}${unit}`
+  if (isNaN(+str!)) return String(str)
+  return `${Number(str)}${unit}`
 }
 
 export function toPxNum(value: number | string) {

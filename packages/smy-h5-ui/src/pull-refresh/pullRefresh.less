@@ -1,0 +1,38 @@
+@pull-refresh-header-text-color: #808080;
+@pull-refresh-header-font-size: var(--font-size-md);
+
+:root {
+  --pull-refresh-header-text-color: @pull-refresh-header-text-color;
+  --pull-refresh-header-font-size: @pull-refresh-header-font-size;
+}
+
+.smy-pull-refresh {
+  height: 100%;
+  overflow: hidden;
+
+  &-container {
+    position: relative;
+    height: 100%;
+
+    &__header {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      transform: translateY(-100%);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--pull-refresh-header-font-size);
+
+      &-icon {
+        margin-right: 4px;
+      }
+
+      &-text {
+        color: var(--pull-refresh-header-text-color);
+      }
+    }
+  }
+}

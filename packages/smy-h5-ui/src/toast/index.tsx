@@ -1,5 +1,5 @@
 import type { ToastPosition, ToastProps, ToastType } from './props'
-import type { CreateElement } from 'vue'
+import type { CreateElement, VNode } from 'vue'
 import type { SmyComponent } from '../_utils/smy/component'
 
 import { mountComponent, withInstall } from '../_utils/vue/component'
@@ -13,8 +13,19 @@ import context from '../_context'
 import { throwError } from '../_utils/smy/warn'
 
 declare interface SmyToast extends SmyComponent {
-  new (): {
+  new(): {
     $props: ToastProps
+    $scopeSlots: {
+      default: () => VNode
+      action: () => VNode
+    }
+    $emit: {
+      (event: 'open'): void
+      (event: 'opened'): void
+      (event: 'close'): void
+      (event: 'closed'): void
+      (event: 'route-change'): void
+    }
   }
 }
 
@@ -84,9 +95,6 @@ function getCoreVNode(h: CreateElement, option: UniqToastOptionItem) {
     },
     close: () => {
       reactiveToastOptions?.onClose?.()
-    },
-    'route-change': () => {
-      reactiveToastOptions.show = false
     },
   }
   return h(SmyToastCore as any, {
@@ -166,14 +174,14 @@ const Toast = function toast(options: number | string | ReactiveToastOptions) {
 
 const getToast =
   (type: ToastType) =>
-  (options: Parameters<typeof Toast>[0] = {}) => {
-    if (isString(options) || isNumber(options)) {
-      options = { content: String(options), type }
-    } else {
-      options.type = type
+    (options: Parameters<typeof Toast>[0] = {}) => {
+      if (isString(options) || isNumber(options)) {
+        options = { content: String(options), type }
+      } else {
+        options.type = type
+      }
+      return Toast(options)
     }
-    return Toast(options)
-  }
 
 const Toasts = TOAST_TYPES.reduce((acc, cur) => {
   acc[cur] = getToast(cur)

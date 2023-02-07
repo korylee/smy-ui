@@ -19,7 +19,7 @@ export const props = {
     type: String,
     default: 'currentColor',
   },
-  description: String,
+  desc: String,
   loading: {
     type: Boolean,
     default: false,
