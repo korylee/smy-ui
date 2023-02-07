@@ -47,11 +47,11 @@
 [x] Scroller 滚动
 [x] Price 价格展示
 [] Image 图片组件
-[ ] ImgPreview 图片预览重构
+[x] ImgPreview 图片预览重构
 
 ### 导航组件
 
-[] Tab 选项卡
+[x] Tab 选项卡
 
 ### 功能指令
 

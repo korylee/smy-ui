@@ -13,22 +13,27 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@smy-h5/cli": "workspace:*",
-    "@smy-h5/eslint-config": "workspace:*",
-    "@types/node": "^16.11.45",
-    "execa": "5",
-    "lint-staged": "^13.0.3",
-    "ora": "5",
-    "rimraf": "^3.0.2",
-    "stylelint": "^14.11.0",
-    "typescript": "~4.7.4",
-    "vite": "^3.0.8"
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged --allow-empty --concurrent false",
+    "commit-msg": "smy-h5-cli lint-commit $1"
   },
   "lint-staged": {
     "*.{ts,tsx,js,vue,less}": "prettier --write",
     "*.{ts,tsx,js,vue}": "eslint --fix",
     "*.{vue,css,less}": "stylelint --fix"
+  },
+  "devDependencies": {
+    "@smy-h5/cli": "workspace:*",
+    "@smy-h5/eslint-config": "workspace:*",
+    "@types/node": "^16.11.45",
+    "execa": "5",
+    "ora": "5",
+    "lint-staged": "^10.5.0",
+    "simple-git-hooks": "^2.7.0",
+    "rimraf": "^3.0.2",
+    "stylelint": "^14.11.0",
+    "typescript": "~4.7.4",
+    "vite": "^3.0.8"
   },
   "eslintConfig": {
     "root": true,

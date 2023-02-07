@@ -12,7 +12,12 @@ export async function lint() {
     spinner.succeed('prettier success')
 
     spinner = ora('eslint starting...').start()
-    const eslintPatterns: string[] = ['./src', './packages/varlet-markdown-vite-plugin']
+    const eslintPatterns: string[] = [
+      './src',
+      './packages/smy-h5-cli/src',
+      './packages/smy-h5-ui/src',
+      './packages/smy-h5-markdown-vite-plugin',
+    ]
     const { stdout } = await execa('eslint', [
       ...eslintPatterns.filter((pattern) => isDir(resolve(CWD, pattern))),
       '--fix',

@@ -5,6 +5,7 @@ import { changelog } from './commands/changelog'
 import { compile } from './commands/compile'
 import { dev } from './commands/dev'
 import { lint } from './commands/lint'
+import { lintCommit } from './commands/lintCommit'
 import { preview } from './commands/preview'
 import { publish } from './commands/publish'
 import { release } from './commands/release'
@@ -55,6 +56,8 @@ program
   .action(publish)
 
 program.command('update-version').description('Update all packages version').action(updateVersion)
+
+program.command('lint-commit <gitParams>').description('Lint commit message').action(lintCommit)
 
 program.on('command:*', ([cwd]) => {
   program.outputHelp()
