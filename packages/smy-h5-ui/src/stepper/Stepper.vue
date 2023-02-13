@@ -96,7 +96,7 @@ export default {
         const [n1, n2] = this.fixedDecimalPlaces(this.internal + Number(this.step)).split('.')
         const fixedLen = n2?.length ?? 0
         this.internal = parseFloat(n1 + (n2 ? `.${n2}` : '')).toFixed(fixedLen)
-        this.$emit('update:value', this.internal)
+        this.$emit('input', this.internal)
         this.$emit('plus', this.internal)
       } else {
         this.$emit('plus-no-allow')
@@ -110,7 +110,7 @@ export default {
         const fixedLen = n2?.length ?? 0
         this.internal = parseFloat(n1 + (n2 ? `.${n2}` : n2)).toFixed(fixedLen)
 
-        this.$emit('update:value', this.internal)
+        this.$emit('input', this.internal)
         this.$emit('minus', this.internal)
       } else {
         this.$emit('minus-no-allow')
@@ -121,7 +121,7 @@ export default {
       const v = this.maxv(value, this.minNum, this.max)
       e.target.value = v
       this.internal = v
-      this.$emit('update:value', v)
+      this.$emit('input', v)
       this.$emit('change', v)
     },
     handleKeyup(e) {
@@ -141,7 +141,7 @@ export default {
       const v = value ? this.maxv(value, this.minNum, this.max) : this.tempNum
 
       this.internal = v
-      this.$emit('update:value', v)
+      this.$emit('input', v)
       this.$emit('blur', v)
     },
   },
