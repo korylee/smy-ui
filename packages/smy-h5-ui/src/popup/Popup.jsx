@@ -14,7 +14,7 @@ import './popup.less'
 export default {
   name: 'SmyPopup',
   inheritAttrs: false,
-  mixins: [createZIndexMixin('show', 3), teleportMixin, createLockMixin('lock', 'lockScroll')],
+  mixins: [createZIndexMixin('show', 3), teleportMixin, createLockMixin('show', 'lockScroll')],
   props,
   watch: {
     show(newValue) {

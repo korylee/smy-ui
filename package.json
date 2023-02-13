@@ -19,8 +19,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,vue,less}": "prettier --write",
-    "*.{ts,tsx,js,vue}": "eslint --fix",
-    "*.{vue,css,less}": "stylelint --fix"
+    "*.{ts,tsx,js,vue}": "eslint --fix"
   },
   "devDependencies": {
     "@smy-h5/cli": "workspace:*",

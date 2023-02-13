@@ -4,11 +4,12 @@ import Vue from 'vue'
 export function resolveLock() {
   const lockCounts = Object.keys(context.locks).length
   const bodyClassList = document.body.classList
-  lockCounts <= 0 ? bodyClassList.remove('m--lock') : bodyClassList.add('m--lock')
+  lockCounts <= 0 ? bodyClassList.remove('smy--lock') : bodyClassList.add('smy--lock')
 }
 
 export function addLock(uid: string) {
   Vue.set(context.locks, uid, 1)
+  resolveLock()
 }
 
 export function releaseLock(uid: string) {

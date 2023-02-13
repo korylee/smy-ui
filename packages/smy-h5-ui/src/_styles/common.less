@@ -1,4 +1,5 @@
 @import './var.less';
+
 .smy {
   &--box {
     box-sizing: border-box;
@@ -11,25 +12,35 @@
   &--relative {
     position: relative;
   }
+
   &--absolute {
     position: absolute;
   }
-  &--hidden,
+
+  &--hidden {
+    overflow: hidden;
+  }
+
   &--lock {
     overflow: hidden;
   }
+
   &--block {
     display: block;
   }
+
   &--inline-block {
     display: inline-block;
   }
+
   &--flex {
     display: flex;
   }
+
   &--inline-flex {
     display: inline-flex;
   }
+
   &--ellipsis {
     overflow-x: hidden;
     text-overflow: ellipsis;
