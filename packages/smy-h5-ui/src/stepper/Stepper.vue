@@ -1,6 +1,10 @@
 <template>
   <div class="smy-stepper" :class="{ 'smy-stepper--simple': simple }">
-    <div :class="{ 'smy-stepper-grey': !minusable || disabled }" class="smy-stepper-icon" @click="handleMinus">
+    <div
+      :class="{ 'smy-stepper-grey': !minusable || disabledMinus || disabled }"
+      class="smy-stepper-icon"
+      @click="handleMinus"
+    >
       <MinusSvg />
     </div>
     <input
@@ -15,7 +19,11 @@
       @blur="handleBlur"
       @input="handleInput"
     />
-    <span :class="{ 'smy-stepper-grey': !plusable || disabled }" class="smy-stepper-icon" @click="handlePlus">
+    <span
+      :class="{ 'smy-stepper-grey': !plusable || disabledPlus || disabled }"
+      class="smy-stepper-icon"
+      @click="handlePlus"
+    >
       <PlusSvg />
     </span>
   </div>
@@ -90,7 +98,7 @@ export default {
       this.$emit('focus', e, this.internal)
     },
     handlePlus() {
-      if (this.disabled) return
+      if (this.disabled || this.disabledPlus) return
       this.internal = Number(this.internal)
       if (this.internal <= this.max - this.step && this.max > this.minNum) {
         const [n1, n2] = this.fixedDecimalPlaces(this.internal + Number(this.step)).split('.')
@@ -103,7 +111,7 @@ export default {
       }
     },
     handleMinus() {
-      if (this.disabled) return
+      if (this.disabled || this.disabledMinus) return
       const { internal } = this
       if (internal - this.step >= this.minNum) {
         const [n1, n2] = this.fixedDecimalPlaces(internal - Number(this.step)).split('.')

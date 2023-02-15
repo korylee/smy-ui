@@ -2,9 +2,10 @@
   <div>
     <div>默认用法</div>
     <div>
-      <Stepper v-model="val1" :max="12" :step="0.1" :decimalPlaces="1" />
+      <Stepper v-model="val1" :max="12" :step="0.1" :decimal-places="1" />
     </div>
     <Stepper v-model="val2" :max="12" :step="1" />
+    <Stepper v-model="val2" :max="12" :step="1" :simple="false" />
   </div>
 </template>
 

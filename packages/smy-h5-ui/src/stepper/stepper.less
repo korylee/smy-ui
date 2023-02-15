@@ -2,19 +2,23 @@
 @stepperbar-color: #333;
 @stepper-color: #333;
 @stepper-width: 100px;
+@stepper-height: 30px;
+@stepper-border-radius: 4px;
 :root {
   --stepperbar-width: @stepperbar-width;
+  --stepper-height: @stepper-height;
   --stepperbar-color: @stepperbar-color;
   --stepper-color: @stepper-color;
   --stepper-width: @stepper-width;
+  --stepper-border-radius: @stepper-border-radius;
 }
 
 .smy-stepper {
   width: var(--stepper-width);
-  height: 30px;
-  line-height: 30px;
+  height: var(--stepper-height);
+  line-height: var(--stepper-height);
   display: flex;
-  border-radius: 4px;
+  border-radius: var(--stepper-border-radius);
   position: relative;
   overflow: hidden;
 

@@ -1,6 +1,10 @@
 import { type ExtractPropTypes } from '../_utils/vue/props'
 
 export const props = {
+  value: {
+    type: [String, Number],
+    required: true,
+  },
   simple: {
     type: Boolean,
     default: true,
@@ -25,13 +29,13 @@ export const props = {
     type: Boolean,
     default: false,
   },
-  transition: {
+  disabledPlus: {
     type: Boolean,
-    default: true,
+    default: false,
   },
-  value: {
-    type: [String, Number],
-    required: true,
+  disabledMinus: {
+    type: Boolean,
+    default: false,
   },
   decimalPlaces: {
     type: Number,
