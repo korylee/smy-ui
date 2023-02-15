@@ -4,9 +4,12 @@
 @site-cell-padding: 10px 12px;
 @site-cell-min-height: 40px;
 @site-cell-desc-color: rgba(0, 0, 0, 0.6);
+@site-cell-desc-font-size: var(--site-font-size-sm);
+@site-cell-desc-color: rgba(0, 0, 0, 0.6);
 @site-cell-border-color: #bcc2cb;
 @site-cell-border-left: 12px;
 @site-cell-border-right: 12px;
+@site-cell-extra-left: 8px;
 
 :root {
   --site-cell-font-size: @site-cell-font-size;
@@ -15,6 +18,9 @@
   --site-cell-border-color: @site-cell-border-color;
   --site-cell-border-left: @site-cell-border-left;
   --site-cell-border-right: @site-cell-border-right;
+  --site-cell-desc-font-size: @site-cell-desc-font-size;
+  --site-cell-desc-color: @site-cell-desc-color;
+  --site-cell-extra-left: @site-cell-extra-left;
 }
 
 .smy-site-cell {
@@ -47,5 +53,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  &__desc {
+    font-size: var(--site-cell-desc-font-size);
+    color: var(--site-cell-desc-color);
+  }
+
+  &__extra {
+    flex: 0;
+    margin-left: var(--site-cell-extra-left);
   }
 }

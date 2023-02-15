@@ -1,4 +1,4 @@
-# Card 卡片 <qr-code name="card"/>
+# Card 卡片
 
 场景太单一了，感觉没啥用，打算删了它
 

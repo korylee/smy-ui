@@ -24,7 +24,7 @@
 
 <script>
 import Cell from '../../components/cell'
-import { MenuTypes } from '../common'
+import { MenuTypes } from '../../constant'
 
 export default {
   name: 'AppSidebar',

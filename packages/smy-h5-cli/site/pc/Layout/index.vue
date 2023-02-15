@@ -19,7 +19,7 @@ import AppHeader from './AppHeader.vue'
 import AppSidebar from './AppSidebar.vue'
 import AppMobile from './AppMobile.vue'
 import config from '@config'
-import { MenuTypes } from '../common'
+import { MenuTypes } from '../../constant'
 
 export default {
   name: 'Layout',

@@ -43,8 +43,7 @@ router.beforeEach((to, from, next) => {
 Object.defineProperty(window, 'onMobileRouteChange', {
   value(path, replace) {
     if (path === mobileRedirect) {
-      router.replace(`/${replace}`)
-      return
+      return void  router.replace(`/${replace}`)
     }
     router.replace(path)
   },
@@ -52,7 +51,7 @@ Object.defineProperty(window, 'onMobileRouteChange', {
 
 Object.defineProperty(window, 'scrollToMenu', {
   value: (docName) => {
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       const cell = document.getElementById(docName)
       const scroller = cell?.parentNode
       if (!cell || !scroller) return

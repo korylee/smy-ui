@@ -5,6 +5,15 @@ import Vue from 'vue'
 import { get } from 'lodash-es'
 import { inIframe, isPhone } from '../utils'
 
+const originalReplace = VueRouter.prototype.replace
+
+Vue.prototype.replace = function replace(location, onResolve, onReject) {
+  if(onReject || onResolve) {
+    return originalReplace.call(this, location, onResolve, onReject)
+  }
+  return originalReplace.call(this,location).catch(err => err)
+}
+
 Vue.use(VueRouter)
 
 const redirect = get(config, 'mobile.redirect')
@@ -22,7 +31,6 @@ routes.push({
   component: () => import('./components/AppHome.vue'),
 })
 
-console.log(routes)
 const router = new VueRouter({
   scrollBehavior: () => ({ x: 0, y: 0 }),
   routes,
