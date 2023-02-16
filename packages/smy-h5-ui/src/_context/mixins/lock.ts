@@ -57,8 +57,8 @@ export function createLockMixin(state: string, use: string) {
       }
       vm.$once('hook:beforeMount', add)
       vm.$once('hook:beforeDestroy', release)
-      vm.$once('hook:activated', add)
-      vm.$once('hook:deactivated', release)
+      vm.$on('hook:activated', add)
+      vm.$on('hook:deactivated', release)
     },
   }
 }

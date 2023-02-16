@@ -90,7 +90,7 @@ export default {
   },
   created() {
     this.$once('hook:beforeDestroy', this.stopAutoplay)
-    this.$once('hook:deactivated', this.stopAutoplay)
+    this.$on('hook:deactivated', this.stopAutoplay)
   },
   methods: {
     onTouchStart(e) {
