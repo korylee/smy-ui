@@ -8,11 +8,12 @@
       <template #desc>这里是描述</template>
     </smy-cell>
     <div>展示图标</div>
-    <smy-cell border
+    <smy-cell
       >这里是cell组件
       <template #icon>
         <smy-icon><CloseSvg /></smy-icon>
       </template>
+      <template #desc>这里是描述</template>
     </smy-cell>
     <div>右侧内容</div>
     <smy-cell
@@ -40,6 +41,7 @@
         </template>
       </smy-cell>
     </smy-cell-group>
+    <div>分组卡片样式</div>
     <smy-cell-group insert class="insert-example">
       <smy-cell v-for="item of 3" :key="item" border clickable
         >这里是cell组件

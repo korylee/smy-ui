@@ -4,10 +4,10 @@
       <slot name="icon" />
     </div>
     <div class="smy-cell__content">
-      <div class="smy-cell__title" :class="[titleClass ? titleClass : null]">
+      <div class="smy-cell__title" :class="titleClass">
         <slot>{{ title }}</slot>
       </div>
-      <div class="smy-cell__desc" :class="[descClass ? descClass : null]" v-if="$slots.desc || desc">
+      <div v-if="$slots.desc || desc" class="smy-cell__desc" :class="descClass">
         <slot name="desc">
           {{ desc }}
         </slot>

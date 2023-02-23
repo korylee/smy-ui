@@ -1,9 +1,11 @@
 <template>
   <div class="smy-price">
-    <span v-if="needSymbol" class="smy-price__symbol">￥</span>
-    <span class="smy-price__big">{{ humpPrice.big }}</span>
-    <span class="smy-price__point">.</span>
-    <span class="smy-price__small">{{ humpPrice.small }}</span>
+    <slot v-bind="humpPrice">
+      <span v-if="needSymbol" class="smy-price__symbol">￥</span>
+      <span class="smy-price__big">{{ humpPrice.big }}</span>
+      <span class="smy-price__point">.</span>
+      <span class="smy-price__small">{{ humpPrice.small }}</span>
+    </slot>
   </div>
 </template>
 

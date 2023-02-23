@@ -11,6 +11,9 @@ declare interface SmySteps extends SmyComponent {
     $scopeSlots: {
       default: () => VNode
     }
+    $emits: {
+      (event: 'click-step', index: number): void
+    }
   }
 }
 

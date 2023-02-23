@@ -1,6 +1,6 @@
 import type { ExtractPropTypes } from '../_utils/vue/props'
 import type { PropType } from 'vue'
-export type StyleVars = Record<string, string>
+import type { StyleVars } from '../_utils/style'
 
 export const props = {
   styleVars: {

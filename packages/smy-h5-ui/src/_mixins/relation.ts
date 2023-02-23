@@ -1,3 +1,5 @@
+import type Vue from 'vue'
+import { type VNode } from 'vue'
 import { isNill } from '../_utils/is'
 import { throwError } from '../_utils/smy/warn'
 
@@ -6,7 +8,7 @@ interface RelationOptions {
   index?: string
 }
 
-function flatVNodes(subTree, vNodes = []) {
+function flatVNodes(subTree: VNode[], vNodes: VNode[] = []) {
   subTree.forEach((child) => {
     vNodes.push(child)
     if (child.componentInstance) {
@@ -19,7 +21,7 @@ function flatVNodes(subTree, vNodes = []) {
   return vNodes
 }
 
-function sortChildren(children, parent) {
+function sortChildren(children: Vue[], parent: Vue) {
   const { componentOptions } = parent.$vnode
   if (!componentOptions?.children) {
     return
@@ -47,26 +49,29 @@ export function createChildrenMixin(parent: string, { index = 'index', children 
       },
     },
     computed: {
-      [index]() {
-        return this[parent]?.[children]?.indexOf(this)
+      [index as any]() {
+        return (this as any)[parent]?.[children]?.indexOf(this)
       },
     },
     watch: {
       [`${parent}.${children}`]: {
         immediate: true,
         async handler() {
+          const vm = this as any
           await (this as any).$nextTick()
-          if (!this[parent]) return throwError('relation-mixin', `该组件必须为${parent}子组件`)
+          const parentVNode = vm[parent]
+          if (!parentVNode) return throwError('relation-mixin', `该组件必须为${parent}子组件`)
 
-          const childrenList = this[parent][children]
+          const childrenList = parentVNode[children]
           if (~childrenList.indexOf(this)) return
-          this[parent][children] = sortChildren([...childrenList, this], this[parent])
+          parentVNode[children] = sortChildren([...childrenList, this], parentVNode)
         },
       },
     },
     beforeDestroy() {
-      const currentIndex = this[index]
-      isNill(currentIndex) || this[parent]?.[children]?.splice(currentIndex, 1)
+      const vm = this as any
+      const currentIndex = vm[index]
+      isNill(currentIndex) || vm[parent]?.[children]?.splice(currentIndex, 1)
     },
   }
 }

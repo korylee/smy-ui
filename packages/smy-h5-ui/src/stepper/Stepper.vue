@@ -5,7 +5,9 @@
       class="smy-stepper-icon"
       @click="handleMinus"
     >
-      <MinusSvg />
+      <slot name="left-icon">
+        <MinusSvg />
+      </slot>
     </div>
     <input
       :value="maxv(internal, minNum, max)"
@@ -24,7 +26,9 @@
       class="smy-stepper-icon"
       @click="handlePlus"
     >
-      <PlusSvg />
+      <slot name="right-icon">
+        <PlusSvg />
+      </slot>
     </span>
   </div>
 </template>
@@ -95,22 +99,22 @@ export default {
       this.tempNum = v
       this.minNum = ''
       this.focusing = true
-      this.$emit('focus', e, this.internal)
+      this.$emit('focus', e)
     },
-    handlePlus() {
+    handlePlus(e) {
       if (this.disabled || this.disabledPlus) return
       this.internal = Number(this.internal)
       if (this.internal <= this.max - this.step && this.max > this.minNum) {
         const [n1, n2] = this.fixedDecimalPlaces(this.internal + Number(this.step)).split('.')
         const fixedLen = n2?.length ?? 0
         this.internal = parseFloat(n1 + (n2 ? `.${n2}` : '')).toFixed(fixedLen)
-        this.$emit('input', this.internal)
-        this.$emit('plus', this.internal)
+        this.$emit('input', this.internal, e)
+        this.$emit('plus', e)
       } else {
         this.$emit('plus-no-allow')
       }
     },
-    handleMinus() {
+    handleMinus(e) {
       if (this.disabled || this.disabledMinus) return
       const { internal } = this
       if (internal - this.step >= this.minNum) {
@@ -118,8 +122,8 @@ export default {
         const fixedLen = n2?.length ?? 0
         this.internal = parseFloat(n1 + (n2 ? `.${n2}` : n2)).toFixed(fixedLen)
 
-        this.$emit('input', this.internal)
-        this.$emit('minus', this.internal)
+        this.$emit('input', this.internal, e)
+        this.$emit('minus', e)
       } else {
         this.$emit('minus-no-allow')
       }
@@ -129,7 +133,7 @@ export default {
       const v = this.maxv(value, this.minNum, this.max)
       e.target.value = v
       this.internal = v
-      this.$emit('input', v)
+      this.$emit('input', v, e)
       this.$emit('change', v)
     },
     handleKeyup(e) {
@@ -141,7 +145,7 @@ export default {
     },
     handleBlur(e) {
       if (this.readonly || !this.isLegal || !this.disabled) {
-        return this.$emit('blur', e, this.internal)
+        return this.$emit('blur', e)
       }
       const { value } = e.target.value
       this.minNum = this.min
@@ -149,8 +153,8 @@ export default {
       const v = value ? this.maxv(value, this.minNum, this.max) : this.tempNum
 
       this.internal = v
-      this.$emit('input', v)
-      this.$emit('blur', v)
+      this.$emit('input', v, e)
+      this.$emit('blur', e)
     },
   },
 }

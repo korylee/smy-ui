@@ -1,12 +1,4 @@
-import { doubleRaf, kebabCase } from '../shared'
-
-export function formatStyleVars(styleVars: Record<string, string>) {
-  return Object.entries(styleVars).reduce((styles, [key, value]) => {
-    const cssVar = key.startsWith('--') ? key : `--${kebabCase(key)}`
-    styles[cssVar] = value
-    return styles
-  }, {} as Record<string, any>)
-}
+import { doubleRaf } from '../shared'
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
   const allParentScroller: Array<HTMLElement | Window> = []

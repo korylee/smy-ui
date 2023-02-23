@@ -1,10 +1,11 @@
 import type { PopupProps } from './props'
 import type { SmyComponent } from '../_utils/smy/component'
+import { type VNode } from 'vue'
 
 import { withInstall } from '../_utils/vue/component'
 import _Popup from './Popup'
 
-declare interface Popup extends SmyComponent {
+declare interface SmyPopup extends SmyComponent {
   new (): {
     $props: PopupProps
     $emit: {
@@ -16,7 +17,10 @@ declare interface Popup extends SmyComponent {
       (event: 'click-overlay'): void
       (event: 'update:show', data: boolean): void
     }
+    $scopeSlots: {
+      default: () => VNode
+    }
   }
 }
 
-export default withInstall(_Popup) as Popup
+export default withInstall(_Popup) as SmyPopup

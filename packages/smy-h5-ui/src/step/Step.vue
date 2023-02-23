@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     handleClickStep() {
-      this.steps?.$listeners?.['clickStep']?.(this.index)
+      this.steps?.$listeners?.['click-step']?.(this.index)
     },
   },
 }
