@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     mergedTag() {
-      return getMergedProp(this, 'tag') ?? defaultTag
+      return getMergedProp(this, 'tag', defaultTag)
     },
     mergedStyle() {
       const size = getMergedProp(this, 'size')

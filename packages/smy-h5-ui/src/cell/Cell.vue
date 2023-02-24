@@ -13,7 +13,7 @@
         </slot>
       </div>
     </div>
-    <div v-if="$slots.extra" class="smy-cell__extra">
+    <div v-if="$slots.extra" :class="extraClass" class="smy-cell__extra">
       <slot name="extra" />
     </div>
   </div>
