@@ -26,9 +26,10 @@
 
 <script>
 import { createParentMixin } from '../_mixins/relation'
-import { doubleRaf, toNumber, toPxNum } from '../_utils/shared'
+import { toNumber, toPxNum } from '../_utils/shared'
 import { useTouch } from '../_utils/composable/useTouch'
 import { props } from './props'
+import { doubleRaf } from '../_utils/dom'
 
 const range = (num, min, max) => Math.min(Math.max(num, min), max)
 

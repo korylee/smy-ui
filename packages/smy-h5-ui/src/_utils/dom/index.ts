@@ -1,4 +1,4 @@
-import { doubleRaf } from '../shared'
+import { isFunction } from '../is'
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
   const allParentScroller: Array<HTMLElement | Window> = []
@@ -27,6 +27,16 @@ export function getParentScroller(el: HTMLElement, root: ScrollerElement = windo
     }
   }
   return root
+}
+
+export const doubleRaf = (cb?: FrameRequestCallback, ctx?: any) => {
+  const promise = new Promise((resolve) => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(resolve)
+    })
+  })
+  if (!isFunction(cb)) return promise
+  return promise.then(() => cb.call(ctx))
 }
 
 /**

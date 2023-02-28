@@ -92,7 +92,7 @@ export default {
     zoomContainerStyle() {
       const { transitionTimingFunction, transitionDuration } = this
       return {
-        transform: `scale(${this.scale}) translate3d(${this.translateX}px, ${this.translateY}px, 0)`,
+        transform: `scale(${this.scale}) translate(${this.translateX}px, ${this.translateY}px) translateZ(0)`,
         transitionTimingFunction,
         transitionDuration,
       }

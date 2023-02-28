@@ -1,11 +1,11 @@
 <template>
   <div class="smy-lazy-example">
     <div>基础使用</div>
-    <img class="cat" v-lazy="'https://varlet-vue2.vercel.app/cat.jpg'" />
-    <img class="cat" v-lazy="'https://varlet-vue2.vercel.app/cat.jpg'" />
-    <img class="cat" v-lazy="'https://varlet-vue2.vercel.app/cat.jpg'" />
-    <img class="cat" v-lazy="'https://varlet-vue2.vercel.app/cat.jpg'" />
-    <img class="cat" v-lazy="'https://varlet-vue2.vercel.app/cat.jpg'" />
+    <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
+    <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
+    <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
+    <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
+    <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
   </div>
 </template>
 

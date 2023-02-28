@@ -62,16 +62,6 @@ export function throttle<T extends Func>(method: T, mustRunDelay = 200): T {
   } as T
 }
 
-export const doubleRaf = (cb?: FrameRequestCallback, ctx?: any) => {
-  const promise = new Promise((resolve) => {
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(resolve)
-    })
-  })
-  if (!isFunction(cb)) return promise
-  return promise.then(() => cb.call(ctx))
-}
-
 export function merge(target: any, ...args: any[]) {
   args.forEach((source = {}) => {
     Reflect.ownKeys(source).forEach((prop) => {
