@@ -32,6 +32,7 @@ import SmySwipe from '../Swipe.vue'
 import SmyCell from '../../cell'
 
 export default {
+  name: 'SwipeExpamle',
   components: { SmySwipe, SmyCell },
 }
 </script>
