@@ -1,4 +1,4 @@
-import { kebabCase } from '../shared'
+import { kebabCase } from './shared'
 
 export type StyleVars = Record<string, string>
 

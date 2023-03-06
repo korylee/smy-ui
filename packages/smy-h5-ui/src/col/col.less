@@ -1,0 +1,19 @@
+.smy-col {
+  transition: all 0.25s;
+}
+
+@portion: 24;
+
+.create-col(@i) when (@i <= @portion) {
+  .smy-col--span-@{i} {
+    flex: 0 0 @i * (100% / @portion);
+  }
+
+  .smy-col--offset-@{i} {
+    margin-left: @i * (100% / @portion);
+  }
+
+  .create-col(@i + 1);
+}
+
+.create-col(1);

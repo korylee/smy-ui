@@ -1,6 +1,7 @@
 const { defineConfig } = require('@smy-h5/cli')
 
 module.exports = defineConfig({
+  name: 'smy',
   namespace: 'smy',
   highlight: { style: null },
   useMobile: true,
@@ -15,6 +16,7 @@ module.exports = defineConfig({
       { text: 'Icon 图标', doc: 'icon', type: 2 },
       { text: 'Loading 加载', doc: 'loading', type: 2 },
       { text: '展示组件', type: 1 },
+      { text: 'Layout 布局', doc: 'row', type: 2 },
       { text: 'Price 商品价格', doc: 'price', type: 2 },
       { text: 'Ellipsis 文本省略', doc: 'ellipsis', type: 2 },
       { text: 'Steps 步骤条', doc: 'steps', type: 2 },
