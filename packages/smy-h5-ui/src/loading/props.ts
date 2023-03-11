@@ -3,13 +3,13 @@ import type { PropType } from 'vue'
 
 const loadingTypes = ['circle', 'wave', 'cube', 'disappear'] as const
 
-type LoadingTypes = typeof loadingTypes[number]
+type LoadingType = typeof loadingTypes[number]
 
 export const props = {
   type: {
-    type: String as PropType<LoadingTypes>,
+    type: String as PropType<LoadingType>,
     default: 'circle',
-    validator: (type: LoadingTypes) => loadingTypes.includes(type),
+    validator: (type: LoadingType) => loadingTypes.includes(type),
   },
   size: {
     type: [String, Number],

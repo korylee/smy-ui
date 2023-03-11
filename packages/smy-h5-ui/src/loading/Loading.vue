@@ -1,17 +1,13 @@
 <template>
-  <div class="smy-loading" :style="{ fontSize }">
+  <div class="smy-loading">
     <div v-if="hasDefaultSlots" :class="{ 'smy-loading__content--active': loading }" class="smy-loading__content">
       <slot />
     </div>
     <div v-if="isShow" class="smy--box smy-loading__body" :class="{ 'smy-loading__inside': hasDefaultSlots }">
-      <div v-if="type === 'circle'" class="smy-loading__circle">
-        <smy-icon class="smy-loading__circle-block" :color="color">
-          <svg class="circle-loading" viewBox="25 25 50 50">
-            <circle cx="50" cy="50" r="20" fill="none"></circle>
-          </svg>
-        </smy-icon>
-      </div>
-      <div v-else-if="currentLoadingNums" :class="`smy-loading__${type}`">
+      <svg v-if="type === 'circle'" class="smy-loading__circle" :style="{ color, fontSize }" viewBox="25 25 50 50">
+        <circle cx="50" cy="50" r="20" fill="none"></circle>
+      </svg>
+      <div v-else-if="currentLoadingNums" :class="`smy-loading__${type}`" :style="{ fontSize }">
         <div
           v-for="num in currentLoadingNums"
           :key="num"
@@ -19,7 +15,7 @@
           :class="`smy-loading__${type}-item`"
         ></div>
       </div>
-      <div v-if="hasSlots('desc') || desc" :style="{ color }" class="smy-loading__desc">
+      <div v-if="hasSlots('desc') || desc" class="smy-loading__desc">
         <slot name="desc">{{ desc }}</slot>
       </div>
     </div>
@@ -29,14 +25,12 @@
 <script>
 import { props } from './props'
 import { LOADING_NUMBERS_DICT } from './constant'
-import SmyIcon from '../icon'
 import { isNumber, isNumString } from '../_utils/is'
 import { SlotsMixin } from '../_utils/vue/slots'
 
 export default {
   name: 'SmyLoading',
   mixins: [SlotsMixin],
-  components: { SmyIcon },
   props,
   computed: {
     hasDefaultSlots() {

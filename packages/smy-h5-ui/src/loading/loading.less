@@ -1,10 +1,12 @@
 @import '../_styles/var.less';
 
 @loading-opacity: 0.38;
-@loading-font-size: 15px;
+@loading-font-size: 16px;
 @loading-width: 3.333em;
 @loading-height: 1em;
 @loading-desc-margin: 8px 0 0;
+@loading-desc-color: #555;
+@loading-desc-font-size: @font-size-md;
 
 :root {
   --loading-width: @loading-width;
@@ -12,6 +14,8 @@
   --loading-opacity: @loading-opacity;
   --loading-desc-margin: @loading-desc-margin;
   --loading-font-size: @loading-font-size;
+  --loading-desc-color: @loading-desc-color;
+  --loading-desc-font-size: @loading-desc-font-size;
 }
 
 .smy-loading {
@@ -40,49 +44,27 @@
     transform: translate(-50%, -50%);
     z-index: 1;
   }
-  &__description {
-    color: currentColor;
+  &__desc {
+    display: inline-block;
+    color: var(--loading-desc-color);
     margin: var(--loading-desc-margin);
-    font-size: 0.8em;
+    font-size: var(--loading-desc-font-size);
+    vertical-align: middle;
   }
   &__circle {
     display: flex;
-    &-block {
-      display: inline-block;
-      // font-size: 1em;
-      svg.circle-loading {
-        @keyframes circle {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-        @keyframes circular {
-          0% {
-            stroke-dasharray: 1, 200;
-            stroke-dashoffset: 0;
-          }
-          50% {
-            stroke-dasharray: 90, 150;
-            stroke-dashoffset: -40;
-          }
-          100% {
-            stroke-dasharray: 90, 150;
-            stroke-dashoffset: -120;
-          }
-        }
+    animation: circle 1.8s linear infinite;
+    vertical-align: middle;
+    width: 1em;
+    height: 1em;
+    max-width: 100%;
+    max-height: 100%;
 
-        display: block;
-        animation: circle 1.8s linear infinite;
-        circle {
-          animation: circular 1.5s ease-in-out infinite;
-          stroke: currentColor;
-          stroke-width: 3;
-          stroke-linecap: round;
-        }
-      }
+    circle {
+      animation: smy-circular 1.5s ease-in-out infinite;
+      stroke: currentColor;
+      stroke-width: 3;
+      stroke-linecap: round;
     }
   }
   &__wave {
@@ -167,7 +149,6 @@
       }
     }
   }
-
   &__disappear {
     display: flex;
     justify-content: space-around;
@@ -198,5 +179,29 @@
         opacity: 0;
       }
     }
+  }
+}
+
+@keyframes circle {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes smy-circular {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -40;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -120;
   }
 }

@@ -44,6 +44,11 @@ export default {
     if (this.autoStart) this.start()
     else this.reset()
   },
+
+  beforeDestroy() {
+    this.pause()
+  },
+
   methods: {
     parseTime,
     formatTime(durationTime) {
