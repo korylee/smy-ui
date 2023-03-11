@@ -84,7 +84,7 @@
 
 <script>
 import Popup from '../popup'
-import { toPxNum } from '../_utils/shared'
+import { toPxNum } from '../_utils/dom'
 import { props } from './props'
 
 function getTranslate(el) {

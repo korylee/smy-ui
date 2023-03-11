@@ -1,0 +1,74 @@
+@import '../_styles/var.less';
+
+@badge-background: linear-gradient(135deg, @color-primary 0%, @color-primary-end 100%);
+@badge-color: #fff;
+@badge-font-size: @font-size-sm;
+@badge-border-radius: 14px;
+@badge-padding: 0 5px;
+@badge-transform: translate(50%, -50%);
+@badge-z-index: 1;
+@badge-dot-width: 7px;
+@badge-dot-height: 7px;
+@badge-dot-border-radius: 7px;
+@badge-dot-padding: 0;
+
+:root {
+  --badge-background: @badge-background;
+  --badge-color: @badge-color;
+  --badge-font-size: @badge-font-size;
+  --badge-border-radius: @badge-border-radius;
+  --badge-padding: @badge-padding;
+  --badge-transform: @badge-transform;
+  --badge-z-index: @badge-z-index;
+  --badge-dot-width: @badge-dot-width;
+  --badge-dot-height: @badge-dot-height;
+  --badge-dot-border-radius: @badge-dot-border-radius;
+  --badge-dot-padding: @badge-dot-padding;
+}
+
+.smy-badge {
+  position: relative;
+  display: inline-block;
+
+  &__icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    line-height: normal;
+    text-align: center;
+    transform: var(--badge-transform);
+    background: var(--badge-background);
+    padding: var(--badge-padding);
+    border-radius: var(--badge-border-radius);
+    z-index: var(--badge-z-index);
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    transform: var(--badge-transform);
+
+    &--sup {
+      position: absolute;
+      z-index: var(--badge-z-index);
+      padding: var(--badge-padding);
+      text-align: center;
+      color: var(--badge-color);
+      background: var(--badge-background);
+      border-radius: var(--badge-border-radius);
+      font-weight: normal;
+      font-size: var(--badge-font-size);
+    }
+
+    &--dot {
+      width: var(--badge-dot-width);
+      height: var(--badge-dot-height);
+      padding: var(--badge-dot-padding);
+      border-radius: var(--badge-dot-border-radius);
+    }
+
+    &--bubble {
+      border-bottom-left-radius: 0;
+    }
+  }
+}

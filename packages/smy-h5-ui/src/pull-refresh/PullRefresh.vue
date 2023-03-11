@@ -27,8 +27,7 @@
 </template>
 <script>
 import { useTouch } from '../_utils/composable/useTouch'
-import { getParentScroller, getScrollTopRoot } from '../_utils/dom'
-import { toPxNum, convertToUnit } from '../_utils/shared'
+import { getParentScroller, getScrollTopRoot, requestAnimationFrame, toPxNum, convertToUnit } from '../_utils/dom'
 import { props } from './props'
 import SmyLoading from '../loading'
 

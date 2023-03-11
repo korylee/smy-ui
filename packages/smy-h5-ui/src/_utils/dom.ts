@@ -1,4 +1,5 @@
-import { isFunction } from '../is'
+import { inBrowser } from './env'
+import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh } from './is'
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
   const allParentScroller: Array<HTMLElement | Window> = []
@@ -29,11 +30,17 @@ export function getParentScroller(el: HTMLElement, root: ScrollerElement = windo
   return root
 }
 
-export const doubleRaf = (cb?: FrameRequestCallback, ctx?: any) => {
-  const promise = new Promise((resolve) => {
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(resolve)
-    })
+export function requestAnimationFrame(fn: FrameRequestCallback): number {
+  return inBrowser ? globalThis.requestAnimationFrame(fn) : setTimeout(fn, 1000 / 60)
+}
+
+export function cancelAnimationFrame(handle: number): void {
+  return inBrowser ? globalThis.cancelAnimationFrame(handle) : clearTimeout(handle)
+}
+
+export const doubleRaf = (cb?: FrameRequestCallback, ctx?: any): Promise<void> => {
+  const promise = new Promise<void>((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
   })
   if (!isFunction(cb)) return promise
   return promise.then(() => cb.call(ctx))
@@ -54,3 +61,31 @@ export async function inViewport(el: HTMLElement): Promise<boolean> {
 
 export const getScrollTopRoot = () =>
   window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+
+export function convertToUnit(str: string | number | null | undefined, unit = 'px'): string | undefined {
+  if (str == null || str === '') return undefined
+  if (isNumber(str) || isNumString(str)) return `${Number(str)}${unit}`
+  if (isNaN(+str!)) return String(str)
+  return `${Number(str)}${unit}`
+}
+
+export function toPxNum(value: number | string) {
+  if (isNumber(value)) return value
+  if (isNumString(value)) return +value
+  if (isPx(value)) {
+    return +value.replace('px', '')
+  }
+  if (isVw(value)) {
+    return (+value.replace('vw', '') * globalThis.innerWidth) / 100
+  }
+  if (isVh(value)) {
+    return (+value.replace('vh', '') * globalThis.innerHeight) / 100
+  }
+  if (isRem(value)) {
+    const num = +value.replace('rem', '')
+    const rootFontSize = window.getComputedStyle(document.documentElement).fontSize
+    return num * parseFloat(rootFontSize)
+  }
+  // % and other
+  return 0
+}

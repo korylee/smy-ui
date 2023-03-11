@@ -39,7 +39,7 @@ type ImagePreviewOptions = ImagePreviewProps & {
 let singletonInstance: ImagePreviewOptions | null
 
 const ImagePreview = function ImagePreview(options: string | string[] | ImagePreviewOptions) {
-  if (!inBrowser()) return
+  if (!inBrowser) return
   ImagePreview.close()
 
   const imagePreviewOptions: ImagePreviewOptions = isString(options)

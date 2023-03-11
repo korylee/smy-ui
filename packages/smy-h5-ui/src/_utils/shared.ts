@@ -1,16 +1,4 @@
-import {
-  isBool,
-  isNill,
-  isString,
-  isArray,
-  type Func,
-  isObject,
-  isNumber,
-  isPx,
-  isRem,
-  isFunction,
-  isNumString,
-} from './is'
+import { isBool, isNill, isString, isArray, type Func, isObject } from './is'
 
 const cameLizeRE = /-(\w)/g
 
@@ -120,25 +108,4 @@ export function pick<T extends Record<string, any>, R extends keyof T>(source: T
     }
     return res
   }, {} as Pick<T, R>)
-}
-
-export function convertToUnit(str: string | number | null | undefined, unit = 'px'): string | undefined {
-  if (str == null || str === '') return undefined
-  if (isNumber(str) || isNumString(str)) return `${Number(str)}${unit}`
-  if (isNaN(+str!)) return String(str)
-  return `${Number(str)}${unit}`
-}
-
-export function toPxNum(value: number | string) {
-  if (isNumber(value)) return value
-  if (isNumString(value)) return +value
-  if (isPx(value)) {
-    return +value.replace('px', '')
-  }
-  if (isRem(value)) {
-    const num = +value.replace('rem', '')
-    const rootFontSize = window.getComputedStyle(document.documentElement).fontSize
-    return num * parseFloat(rootFontSize)
-  }
-  return 0
 }

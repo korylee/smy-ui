@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { cancelAnimationFrame, requestAnimationFrame } from '../_utils/dom'
 import { toNumber } from '../_utils/shared'
 import { props } from './props'
 import { parseTime } from './utils'

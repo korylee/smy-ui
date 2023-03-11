@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { toPxNum } from '../_utils/shared'
+import { toPxNum } from '../_utils/dom'
 import { props } from './props'
 
 export default {

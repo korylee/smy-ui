@@ -13,7 +13,7 @@
 </template>
 <script>
 import { createChildrenMixin } from '../_mixins/relation'
-import { convertToUnit } from '../_utils/shared'
+import { convertToUnit } from '../_utils/dom'
 import { props } from './props'
 
 export default {

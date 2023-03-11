@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { getParentScroller, getScrollTopRoot } from '../_utils/dom'
+import { getParentScroller, getScrollTopRoot, requestAnimationFrame } from '../_utils/dom'
 import { props } from './props'
 import SmyLoading from '../loading'
 

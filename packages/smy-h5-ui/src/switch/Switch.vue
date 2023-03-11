@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { convertToUnit } from '../_utils/shared'
+import { convertToUnit } from '../_utils/dom'
 import { props } from './props'
 import SmyLoading from '../loading'
 

@@ -21,15 +21,17 @@ const mountedVarKeys: string[] = []
 
 const ConfigProvider = function ConfigProvider(opts: Omit<ConfigProviderProps, 'tag'> = {}) {
   const { styleVars = {} } = opts
-  mountedVarKeys.forEach((key) => document.documentElement.style.removeProperty(key))
+  const rootDom = document.documentElement
+  mountedVarKeys.forEach((key) => rootDom.style.removeProperty(key))
   mountedVarKeys.length = 0
   const styles: StyleVars = formatStyleVars(styleVars)
   Object.entries(styles).forEach(([key, value]) => {
-    document.documentElement.style.setProperty(key, value)
+    rootDom.style.setProperty(key, value)
     mountedVarKeys.push(key)
   })
 }
 const _SmyConfigProvider = withInstall(_ConfigProvider) as SmyConfigProvider
+
 ConfigProvider.Component = _SmyConfigProvider
 
 ConfigProvider.install = _SmyConfigProvider.install
