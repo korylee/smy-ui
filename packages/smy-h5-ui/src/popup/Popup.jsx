@@ -1,4 +1,4 @@
-import { getSlots } from '../_utils/vue/slots'
+import { getSlot } from '../_utils/vue/slots'
 import { createZIndexMixin } from '../_context/mixins/zIndex'
 import { teleportMixin } from '../_mixins/teleport'
 import { createLockMixin } from '../_context/mixins/lock'
@@ -39,7 +39,7 @@ export default {
           style={style}
           {...{ attrs: this.$attrs }}
         >
-          {getSlots(this)}
+          {getSlot(this)}
         </div>
       )
     },

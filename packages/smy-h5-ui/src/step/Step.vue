@@ -12,7 +12,7 @@
       <div class="smy-step__main-title">
         <slot name="title">{{ title }}</slot>
       </div>
-      <div v-if="content || hasSlots()" class="smy-step__main-content">
+      <div v-if="content || hasSlot()" class="smy-step__main-content">
         <slot><span v-html="content"></span></slot>
       </div>
     </div>

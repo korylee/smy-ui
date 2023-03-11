@@ -7,7 +7,7 @@
         </slot>
       </div>
       <div class="smy-toast__action">
-        <slot v-if="hasSlots('action')" name="action" />
+        <slot v-if="hasSlot('action')" name="action" />
         <template v-else-if="action">
           <span v-if="isString(action)" v-html="action"></span>
           <RenderToComp v-else-if="isFunction(action)" :render="action" />

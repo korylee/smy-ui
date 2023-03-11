@@ -1,6 +1,6 @@
 <template>
   <div class="smy-badge">
-    <div v-show="!hidden && !dot && hasSlots('icon')" :style="style" class="smy-badge__icon">
+    <div v-show="!hidden && !dot && hasSlot('icon')" :style="style" class="smy-badge__icon">
       <slot name="icon"></slot>
     </div>
     <slot></slot>

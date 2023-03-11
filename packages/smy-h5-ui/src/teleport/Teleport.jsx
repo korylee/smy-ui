@@ -1,4 +1,4 @@
-import { getSlots } from '../_utils/vue/slots'
+import { getSlot } from '../_utils/vue/slots'
 import Vue from 'vue'
 import { props } from './props'
 
@@ -16,7 +16,7 @@ export default {
   methods: {
     create() {
       const Ctor = Vue.extend({
-        render: () => <div class="smy-teleport__container">{getSlots(this)}</div>,
+        render: () => <div class="smy-teleport__container">{getSlot(this)}</div>,
       })
       this.instance = new Ctor()
       this.instance.$parent = this

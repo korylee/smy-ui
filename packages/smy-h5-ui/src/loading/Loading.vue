@@ -15,7 +15,7 @@
           :class="`smy-loading__${type}-item`"
         ></div>
       </div>
-      <div v-if="hasSlots('desc') || desc" class="smy-loading__desc">
+      <div v-if="hasSlot('desc') || desc" class="smy-loading__desc">
         <slot name="desc">{{ desc }}</slot>
       </div>
     </div>
@@ -34,7 +34,7 @@ export default {
   props,
   computed: {
     hasDefaultSlots() {
-      return this.hasSlots()
+      return this.hasSlot()
     },
     isShow() {
       if (!this.hasDefaultSlots) return true

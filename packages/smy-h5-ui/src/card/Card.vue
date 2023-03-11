@@ -12,7 +12,7 @@
     <slot name="content">
       <div v-if="content" class="smy-card__content">{{ content }}</div>
     </slot>
-    <div v-if="hasSlots('footer')" class="smy-card__footer">
+    <div v-if="hasSlot('footer')" class="smy-card__footer">
       <slot name="footer" />
     </div>
   </div>

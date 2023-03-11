@@ -1,4 +1,4 @@
-import { getSlots } from '../_utils/vue/slots'
+import { getSlot } from '../_utils/vue/slots'
 import { createParentMixin } from '../_mixins/relation'
 import { props } from './props'
 
@@ -21,6 +21,6 @@ export default {
     },
   },
   render() {
-    return <div class={this.classes}>{getSlots(this)}</div>
+    return <div class={this.classes}>{getSlot(this)}</div>
   },
 }
