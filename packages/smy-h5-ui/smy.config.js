@@ -1,7 +1,7 @@
 const { defineConfig } = require('@smy-h5/cli')
 
 module.exports = defineConfig({
-  name: 'smy',
+  name: 'Smy',
   namespace: 'smy',
   highlight: { style: null },
   useMobile: true,

@@ -1,5 +1,5 @@
 <template>
-  <Popup
+  <smy-popup
     :show.sync="internalShow"
     :teleport="teleport"
     :close-on-click-overlay="closeOnClickOverlay"
@@ -79,11 +79,11 @@
         ></div>
       </div>
     </div>
-  </Popup>
+  </smy-popup>
 </template>
 
 <script>
-import Popup from '../popup'
+import SmyPopup from '../popup'
 import { toPxNum } from '../_utils/dom'
 import { props } from './props'
 
@@ -99,7 +99,7 @@ let sid = 0
 
 export default {
   name: 'SmyPicker',
-  components: { Popup },
+  components: { SmyPopup },
   props,
   data: () => ({
     scrollColumns: [],
@@ -297,7 +297,7 @@ export default {
         indexes,
       }
     },
-    change(scrollColumn) {
+    change() {
       const hasScrolling = this.scrollColumns.some((scrollColumn) => scrollColumn.scrolling)
       if (hasScrolling) return
       const { texts, indexes } = this.getPicked()

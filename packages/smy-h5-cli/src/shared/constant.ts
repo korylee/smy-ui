@@ -43,3 +43,8 @@ export const HL_TITLE_SLOTS_RE = /###\s*插槽|Slots\s*\n+/
 export const HL_DIR = resolve(CWD, 'highlight')
 export const HL_TAGS_JSON = resolve(HL_DIR, 'tags.json')
 export const HL_ATTRIBUTES_JSON = resolve(HL_DIR, 'attributes.json')
+
+// jest
+export const JEST_CONFIG = resolve(__dirname, '../config/jest.config.js')
+export const JEST_MEDIA_MOCK = resolve(__dirname, '../config/jest.media.mock.js')
+export const JEST_STYLE_MOCK = resolve(__dirname, '../config/jest.style.mock.js')

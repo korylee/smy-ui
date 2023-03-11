@@ -11,7 +11,7 @@
     <smy-cell
       >这里是cell组件
       <template #icon>
-        <smy-icon><CloseSvg /></smy-icon>
+        <smy-icon><close-svg /></smy-icon>
       </template>
       <template #desc>这里是描述</template>
     </smy-cell>
@@ -19,7 +19,7 @@
     <smy-cell
       >这里是cell组件
       <template #extra>
-        <smy-icon><CloseSvg /></smy-icon>
+        <smy-icon><close-svg /></smy-icon>
       </template>
     </smy-cell>
     <div>点击动画</div>
@@ -28,7 +28,7 @@
     <smy-cell insert class="insert-example"
       >这里是cell组件
       <template #extra>
-        <smy-icon><CloseSvg /></smy-icon>
+        <smy-icon><close-svg /></smy-icon>
       </template>
     </smy-cell>
     <div>分组用法</div>
@@ -37,7 +37,7 @@
         >这里是cell组件
         <template #desc>这里是描述</template>
         <template #extra>
-          <smy-icon><CloseSvg /></smy-icon>
+          <smy-icon><close-svg /></smy-icon>
         </template>
       </smy-cell>
     </smy-cell-group>
@@ -47,7 +47,7 @@
         >这里是cell组件
         <template #desc>这里是描述</template>
         <template #extra>
-          <smy-icon><CloseSvg /></smy-icon>
+          <smy-icon><close-svg /></smy-icon>
         </template>
       </smy-cell>
     </smy-cell-group>

@@ -25,11 +25,11 @@
     "build": "smy-h5-cli build",
     "compile": "smy-h5-cli compile",
     "preview": "smy-h5-cli preview",
-    "test:unit": "vitest --environment jsdom",
-    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false"
+    "jest": "smy-h5-cli jest"
   },
   "devDependencies": {
     "@smy-h5/cli": "workspace:*",
+    "@types/jest": "^29.4.0",
     "@types/jsdom": "^16.2.14",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^16.11.45",
@@ -44,7 +44,6 @@
     "prettier": "^2.5.1",
     "typescript": "~4.7.4",
     "vite": "^3.0.8",
-    "vitest": "^0.18.1",
     "vue": "2.6.14",
     "vue-router": "^3.5.3",
     "vue-template-compiler": "2.6.14",

@@ -4,6 +4,7 @@ import { build } from './commands/build'
 import { changelog } from './commands/changelog'
 import { compile } from './commands/compile'
 import { dev } from './commands/dev'
+import { jest } from './commands/jest'
 import { lint } from './commands/lint'
 import { lintCommit } from './commands/lintCommit'
 import { preview } from './commands/preview'
@@ -58,6 +59,15 @@ program
 program.command('update-version').description('Update all packages version').action(updateVersion)
 
 program.command('lint-commit <gitParams>').description('Lint commit message').action(lintCommit)
+
+program
+  .command('jest')
+  .description('Run Jest in work directory')
+  .option('-w, --watch', 'Watch files for changes and rerun tests related to changed files')
+  .option('-wa, --watchAll', 'Watch files for changes and rerun all tests when something changes')
+  .option('-c, --component <componentName>', 'Test a specific component')
+  .option('-cc --clearCache', 'Clear test cache')
+  .action(jest)
 
 program.on('command:*', ([cwd]) => {
   program.outputHelp()

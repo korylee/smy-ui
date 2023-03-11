@@ -1,5 +1,5 @@
 {
-  "exclude": ["src/**/__tests__/*", "node_modules", "es", "site"],
+  "exclude": ["node_modules", "es", "site"],
   "include": ["src/**/*", "global.d.ts", "*/**.vue"],
   "compilerOptions": {
     "allowJs": true,
