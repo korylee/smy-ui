@@ -24,7 +24,6 @@ const calculateTopPosition = (el) => (!el ? 0 : el.offsetTop + calculateTopPosit
 
 export default {
   name: 'SmyScroller',
-  alias: ['SmyInfiniteLoading'],
   components: { SmyLoading },
   props,
   data: () => ({

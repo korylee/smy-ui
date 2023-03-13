@@ -13,13 +13,8 @@ function registerComponent(app: VueConstructor, name: string, component: Compone
 
 export function createInstall(component: Component) {
   return function install(app: VueConstructor) {
-    const { name, alias } = component
+    const { name } = component
     registerComponent(app, name, component)
-    if (alias) {
-      alias.forEach((alia: string) => {
-        registerComponent(app, alia, component)
-      })
-    }
   }
 }
 
