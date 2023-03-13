@@ -1,6 +1,6 @@
 {
   "exclude": ["node_modules", "es", "site"],
-  "include": ["src/**/*", "global.d.ts", "*/**.vue"],
+  "include": ["src/**/*", "jest-utils/**/*", "global.d.ts", "*/**.vue"],
   "compilerOptions": {
     "allowJs": true,
     "target": "ES2016",

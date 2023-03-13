@@ -51,7 +51,7 @@ export const props = {
     default: true,
   },
   textFormatter: {
-    type: Function as PropType<(tezt: any, columnIndex: number) => any>,
+    type: Function as PropType<(text: any, columnIndex: number) => any>,
     default: (text: any) => text,
   },
   rotate: {

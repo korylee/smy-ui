@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test popup show 1`] = `
+"<transition-stub name=\\"smy-fade\\">
+  <div class=\\"smy--box smy-popup\\" style=\\"z-index: 998; display: none;\\">
+    <div class=\\"smy-popup__overlay\\" style=\\"z-index: 999;\\"></div>
+    <transition-stub name=\\"smy-pop-center\\"></transition-stub>
+  </div>
+</transition-stub>"
+`;
+
+exports[`test popup show 2`] = `
+"<transition-stub name=\\"smy-fade\\">
+  <div class=\\"smy--box smy-popup\\" style=\\"z-index: 1001;\\">
+    <div class=\\"smy-popup__overlay\\" style=\\"z-index: 1002;\\"></div>
+    <transition-stub name=\\"smy-pop-center\\">
+      <div class=\\"smy-popup__content smy-popup__content--center\\" style=\\"z-index: 1003;\\">default slot content</div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;
+
+exports[`test popup show 3`] = `
+"<transition-stub name=\\"smy-fade\\">
+  <div class=\\"smy--box smy-popup\\" style=\\"z-index: 1001; display: none;\\">
+    <div class=\\"smy-popup__overlay\\" style=\\"z-index: 1002;\\"></div>
+    <transition-stub name=\\"smy-pop-center\\"></transition-stub>
+  </div>
+</transition-stub>"
+`;
