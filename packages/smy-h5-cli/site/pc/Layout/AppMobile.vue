@@ -31,9 +31,10 @@ iframe {
 
 .smy-site-mobile {
   position: sticky;
-  flex: 0 0 325px;
+  flex: 0 0 375px;
   top: 80px;
   height: calc(100vh - 200px);
+  min-height: 667px;
   margin-right: 38px;
   overflow: hidden;
   border-radius: 2px;

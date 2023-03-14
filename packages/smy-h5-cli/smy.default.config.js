@@ -15,6 +15,10 @@ module.exports = {
     redirect: '/index',
     menu: [],
     title: 'Smy h5',
+    fold: {
+      height: 50,
+      default: false,
+    },
   },
   mobile: {
     redirect: '/home',
@@ -41,5 +45,15 @@ module.exports = {
     'color-sidebar-active-background': '#3a7afe1a',
     'color-hl-background': '#fafafa',
     'color-hl-code': '#58727e',
+    'color-hl-border': '#f3f3f3',
+    'color-hl-group-a': '#7c7c7c',
+    'color-hl-group-b': '#2196f3',
+    'color-hl-group-c': '#ff9422',
+    'color-hl-group-d': '#58c193',
+    'color-hl-group-e': '#ff9422',
+    'color-hl-group-f': '#ff9422',
+    'color-hl-group-g': '#ff9422',
+    'color-hl-group-h': '#06a6e9',
+    'color-hl-group-i': '#f23733',
   },
 }

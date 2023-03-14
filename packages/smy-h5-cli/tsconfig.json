@@ -12,5 +12,8 @@
     "lib": ["esnext", "dom"],
     "paths": {}
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "site/**/*"],
+  "vueCompilerOptions": {
+    "target": 2
+  }
 }

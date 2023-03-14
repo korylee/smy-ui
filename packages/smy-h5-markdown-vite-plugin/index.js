@@ -41,16 +41,20 @@ function htmlWrapper(html) {
   return cardGroup.replace(/<code>/g, '<code v-pre>')
 }
 
+function injectCodeExample(source) {
+  const codeRE = /(<pre class="hljs">(.|\r|\n)*?<\/pre>)/g
+  return source.replace(codeRE, '<smy-site-code-example>$1</smy-site-code-example>')
+}
+
 function highlight(str, lang, style) {
   let link = ''
   if (style) {
     link = `<link class="hljs-style" rel="stylesheet" href="${style}" />`
   }
   if (lang && hljs.getLanguage(lang)) {
-    return `
-    <pre class="hljs"><code>
-    ${link}${hljs.highlight(str, { language: lang, ignoreIllegals: true }).value}
-    </code></pre>`
+    return `<pre class="hljs"><code>${link}${
+      hljs.highlight(str, { language: lang, ignoreIllegals: true }).value
+    }</code></pre>`
   }
   return ''
 }
@@ -66,9 +70,9 @@ function markdownToVue(source, options) {
   templateString = templateString
     .replace(/process.env/g, '<span>process.env</span>')
     .replace(/require/g, '<span>require</span>')
+  templateString = injectCodeExample(templateString)
 
-  return `
-  <template><div class="smy-site-doc">${templateString}</div></template>
+  return `<template><div class="smy-site-doc">${templateString}</div></template>
   <script>
   ${imports.join('\n')}
 
