@@ -11,11 +11,14 @@
 @badge-dot-height: 7px;
 @badge-dot-border-radius: 7px;
 @badge-dot-padding: 0;
+@badge-cubic-bezier: @cubic-bezier;
+@badge-border: 2px #fff solid;
 
 :root {
   --badge-background: @badge-background;
   --badge-color: @badge-color;
   --badge-font-size: @badge-font-size;
+  --badge-border: @badge-border;
   --badge-border-radius: @badge-border-radius;
   --badge-padding: @badge-padding;
   --badge-z-index: @badge-z-index;
@@ -23,6 +26,7 @@
   --badge-dot-height: @badge-dot-height;
   --badge-dot-border-radius: @badge-dot-border-radius;
   --badge-dot-padding: @badge-dot-padding;
+  --badge-cubic-bezier: @badge-cubic-bezier;
 }
 
 .smy-badge {
@@ -60,7 +64,7 @@
 
   &__position {
     position: absolute;
-    border: 2px #fff solid;
+    border: var(--badge-border);
     z-index: var(--badge-z-index);
   }
 
@@ -90,7 +94,7 @@
 
   &-fade-enter-active,
   &-fade-leave-active {
-    transition: opacity 0.15s var(--cubic-bezier);
+    transition: opacity 0.15s var(--badge-cubic-bezier);
   }
 
   &-fade-enter,

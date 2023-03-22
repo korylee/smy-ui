@@ -46,6 +46,10 @@ export const props = {
     default: 'right-top',
     validator: (val: PositionType) => BADGE_POSITIONS.includes(val),
   },
+  transition: {
+    type: String,
+    default: 'smy-badge-fade',
+  },
 }
 
 export type BadgeProps = ExtractPropTypes<typeof props>
