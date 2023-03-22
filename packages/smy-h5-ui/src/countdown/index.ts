@@ -5,7 +5,6 @@ import type { VNode } from 'vue'
 
 import { withInstall } from '../_utils/vue/component'
 import _Countdown from './Countdown.vue'
-export { getDate } from './utils'
 
 declare interface SmyCountdown extends SmyComponent {
   new (): {

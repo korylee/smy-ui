@@ -1,5 +1,3 @@
-import { warn } from '../_utils/smy/warn'
-
 export type TimeData = {
   days: number
   hours: number
@@ -30,16 +28,4 @@ export function parseTime(format: string, time: TimeData): string {
     format = format.replace(msReg, ms.slice(0, msMatch[0].length))
   }
   return format
-}
-
-export function getDate(time?: string | number) {
-  if (!time) return
-  let t = time
-  t = t > 0 ? +t : t.toString().replace(/-/g, '/')
-  const date = new Date(t)
-  if (date.toString() === 'Invalid Date') {
-    warn('getDate', `${time} is invalid date`)
-    return
-  }
-  return date
 }

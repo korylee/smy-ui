@@ -19,7 +19,7 @@ export default {
   name: 'SmyCountdown',
   props,
 
-  data: (vm) => ({
+  data: () => ({
     realEndTime: 0,
     isStart: false,
     timer: 0,
@@ -41,8 +41,9 @@ export default {
       else if (oldVal && !isStart) this.start()
     },
   },
-  mounted() {
-    if (this.autoStart) this.start()
+
+  created() {
+    if (this.autoStart && !this.paused) this.start()
     else this.reset()
   },
 

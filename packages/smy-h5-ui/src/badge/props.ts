@@ -1,7 +1,12 @@
+import { type PropType } from 'vue'
 import { type ExtractPropTypes } from '../_utils/vue/props'
 
+const BADGE_POSITIONS = ['right-top', 'right-bottom', 'left-top', 'left-bottom'] as const
+
+type PositionType = typeof BADGE_POSITIONS[number]
+
 export const props = {
-  content: [String, Number],
+  value: [String, Number],
   max: {
     type: [Number, String],
     defualt: 10000,
@@ -21,11 +26,11 @@ export const props = {
   },
   top: {
     type: [String, Number],
-    default: 0,
+    default: undefined,
   },
   right: {
     type: [String, Number],
-    default: 0,
+    default: undefined,
   },
   zIndex: {
     type: [String, Number],
@@ -33,7 +38,13 @@ export const props = {
   },
   color: {
     type: String,
-    default: '',
+    default: undefined,
+  },
+  // 定位位置
+  position: {
+    type: String as PropType<PositionType>,
+    default: 'right-top',
+    validator: (val: PositionType) => BADGE_POSITIONS.includes(val),
   },
 }
 

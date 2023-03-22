@@ -1,19 +1,12 @@
 <template>
-  <div class="smy-badge">
-    <div v-show="!hidden && !dot && hasSlot('icon')" :style="style" class="smy-badge__icon">
-      <slot name="icon"></slot>
-    </div>
-    <slot></slot>
-    <div
-      v-show="!hidden && (internalContent || dot)"
-      v-text="internalContent"
-      :style="style"
-      :class="{
-        'smy-badge__content--dot': dot,
-        'smy-badge__content--bubble': !dot && bubble,
-      }"
-      class="smy-badge__content smy-badge__content--sup"
-    ></div>
+  <div class="smy-badge smy--box">
+    <transition name="var-badge-fade">
+      <span v-bind="$attrs" v-show="!hidden" :style="contentStyle" :class="contentClass" class="smy-badge__content">
+        <slot v-if="hasSlot('icon') && !dot" name="icon"></slot>
+        <template v-else>{{ internalContent }}</template>
+      </span>
+    </transition>
+    <slot />
   </div>
 </template>
 <script>
@@ -26,10 +19,11 @@ const isNum = (num) => isNumber(num) || isNumString(num)
 
 export default {
   name: 'SmyBadge',
+  inheritAttrs: false,
   mixins: [SlotsMixin],
   props,
   computed: {
-    style({ zIndex, color }) {
+    contentStyle({ zIndex, color }) {
       return {
         top: convertToUnit(this.top),
         right: convertToUnit(this.right),
@@ -37,18 +31,29 @@ export default {
         background: color,
       }
     },
+    contentClass() {
+      const { dot, bubble, position, hasSlot } = this
+
+      return {
+        'smy-badge__content--dot': dot,
+        'smy-badge__content--bubble': !dot && bubble,
+        'smy-badg__content--icon': !dot && hasSlot('icon'),
+        [`smy-badge__position smy-badge--${position}`]: hasSlot(),
+      }
+    },
     internalContent() {
       if (this.dot) return
-      const { content, max } = this
-      if (isNum(content) && isNum(max)) {
-        return max < +content ? `${max}+` : content
+      const { value, max } = this
+      if (isNum(value) && isNum(max)) {
+        return max < +value ? `${max}+` : value
       }
-      return content
+      return value
     },
   },
 }
 </script>
 
 <style lang="less">
+@import '../_styles/common.less';
 @import './badge.less';
 </style>

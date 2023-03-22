@@ -12,11 +12,11 @@
         </div>
         <div class="base-description">{{ description }}</div>
         <div class="button-group">
-          <SiteButton class="common-button primary-button" @click="getStart">
+          <div class="common-button primary-button" @click="getStart">
             <div class="block-button-content">
               <span>起步</span>
             </div>
-          </SiteButton>
+          </div>
         </div>
       </div>
     </div>
@@ -26,10 +26,8 @@
 <script>
 import { get } from 'lodash-es'
 import config from '@config'
-import SiteButton from '../../components/button'
 
 export default {
-  components: { SiteButton },
   data: () => ({
     github: get(config, 'pc.header.gihub'),
     title: get(config, 'title'),
