@@ -11,7 +11,7 @@
     <smy-cell
       >这里是cell组件
       <template #icon>
-        <smy-icon><close-svg /></smy-icon>
+        <smy-icon><window-close /></smy-icon>
       </template>
       <template #desc>这里是描述</template>
     </smy-cell>
@@ -19,7 +19,7 @@
     <smy-cell
       >这里是cell组件
       <template #extra>
-        <smy-icon><close-svg /></smy-icon>
+        <smy-icon><window-close /></smy-icon>
       </template>
     </smy-cell>
     <div>点击动画</div>
@@ -28,7 +28,7 @@
     <smy-cell insert class="insert-example"
       >这里是cell组件
       <template #extra>
-        <smy-icon><close-svg /></smy-icon>
+        <smy-icon><window-close /></smy-icon>
       </template>
     </smy-cell>
     <div>分组用法</div>
@@ -37,7 +37,7 @@
         >这里是cell组件
         <template #desc>这里是描述</template>
         <template #extra>
-          <smy-icon><close-svg /></smy-icon>
+          <smy-icon><window-close /></smy-icon>
         </template>
       </smy-cell>
     </smy-cell-group>
@@ -47,7 +47,7 @@
         >这里是cell组件
         <template #desc>这里是描述</template>
         <template #extra>
-          <smy-icon><close-svg /></smy-icon>
+          <smy-icon><window-close /></smy-icon>
         </template>
       </smy-cell>
     </smy-cell-group>
@@ -58,11 +58,11 @@
 import Cell from '../'
 import Icon from '../../icon'
 import CellGroup from '../../cell-group'
-import CloseSvg from '../../_icon/CloseSvg.vue'
+import WindowClose from '@smy-h5/icons/WindowClose'
 
 export default {
   name: 'CellExample',
-  components: { [Cell.name]: Cell, [CellGroup.name]: CellGroup, [Icon.name]: Icon, CloseSvg },
+  components: { [Cell.name]: Cell, [CellGroup.name]: CellGroup, [Icon.name]: Icon, WindowClose },
 }
 </script>
 

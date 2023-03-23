@@ -1,0 +1,41 @@
+{
+  "name": "@smy-h5/icons",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/vue/lib/index.js",
+  "module": "dist/vue/es/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue/es/index.js",
+      "module": "./dist/vue/es/index.js",
+      "require": "./dist/vue/lib/index.js"
+    },
+    "./*": {
+      "import": "./dist/vue/es/*",
+      "module": "./dist/vue/es/*",
+      "require": "./dist/vue/lib/*"
+    },
+    "./vue/*": {
+      "import": "./dist/vue/es/*",
+      "require": "./dist/vue/lib/*"
+    },
+    "./css": {
+      "default": "./dist/css/smy-h5-icons.css"
+    },
+    "./fonts/*": {
+      "default": "./dist/fonts/*"
+    }
+  },
+  "files": [
+    "dist",
+    "svg"
+  ],
+  "scripts": {
+    "build": "smy-h5-cli build:icons"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@smy-h5/cli": "workspace:^0.0.1"
+  }
+}

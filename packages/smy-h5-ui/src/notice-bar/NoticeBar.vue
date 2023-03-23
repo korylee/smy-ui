@@ -23,7 +23,7 @@
     </div>
     <div v-if="closable || $slots['right-icon']" class="smy-notice-bar__right-icon">
       <slot name="right-icon">
-        <smy-icon @click.stop="handleClickClose"><close-icon /></smy-icon>
+        <smy-icon @click.stop="handleClickClose"><window-close /></smy-icon>
       </slot>
     </div>
   </div>
@@ -31,14 +31,14 @@
 
 <script>
 import { props } from './props'
-import CloseIcon from '../_icon/CloseSvg.vue'
+import WindowClose from '@smy-h5/icons/WindowClose'
 import SmyIcon from '../icon'
 import { SlotsMixin } from '../_utils/vue/slots'
 
 export default {
   name: 'SmyNoticeBar',
   mixins: [SlotsMixin],
-  components: { CloseIcon, SmyIcon },
+  components: { WindowClose, SmyIcon },
   props,
   data: () => ({
     wrapWidth: 0,

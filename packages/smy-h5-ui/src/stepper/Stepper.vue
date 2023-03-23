@@ -6,7 +6,7 @@
       @click="handleMinus"
     >
       <slot name="left-icon">
-        <MinusSvg />
+        <smy-icon><minus /></smy-icon>
       </slot>
     </div>
     <input
@@ -27,7 +27,7 @@
       @click="handlePlus"
     >
       <slot name="right-icon">
-        <PlusSvg />
+        <smy-icon><plus /></smy-icon>
       </slot>
     </span>
   </div>
@@ -35,13 +35,14 @@
 
 <script>
 import { props } from './props'
-import MinusSvg from '../_icon/MinusSvg.vue'
-import PlusSvg from '../_icon/PlusSvg.vue'
+import Plus from '@smy-h5/icons/Plus'
+import Minus from '@smy-h5/icons/Minus'
+import SmyIcon from '../icon'
 
 export default {
   name: 'SmyStepper',
   props,
-  components: { MinusSvg, PlusSvg },
+  components: { Plus, Minus, SmyIcon },
   data: (vm) => ({
     focusing: false,
     internal: vm.value,

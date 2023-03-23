@@ -48,3 +48,15 @@ export const HL_ATTRIBUTES_JSON = resolve(HL_DIR, 'attributes.json')
 export const JEST_CONFIG = resolve(__dirname, '../config/jest.config.js')
 export const JEST_MEDIA_MOCK = resolve(__dirname, '../config/jest.media.mock.js')
 export const JEST_STYLE_MOCK = resolve(__dirname, '../config/jest.style.mock.js')
+
+// icons
+export const ICONS_DIST_DIR = resolve(CWD, 'dist')
+export const ICONS_CSS_DIR = resolve(ICONS_DIST_DIR, 'css')
+export const ICONS_PNG_DIR = resolve(ICONS_DIST_DIR, 'png')
+export const ICONS_FONTS_DIR = resolve(ICONS_DIST_DIR, 'fonts')
+export const ICONS_COMPONENTS_DIR = resolve(ICONS_DIST_DIR, 'vue')
+export const ICONS_SVG_DIR_NAME = 'svg'
+export const ICONS_SVG_DIR = resolve(CWD, ICONS_SVG_DIR_NAME)
+// 自定义uincode从e601开始
+export const START_UNICODE_NUM = 0xe601
+export const MAX_UNICODE_NUM = 1048576

@@ -1,11 +1,12 @@
-@stepperbar-width: 11px;
+@stepperbar-font-size: 14px;
 @stepperbar-color: #333;
 @stepper-color: #333;
 @stepper-width: 100px;
 @stepper-height: 30px;
 @stepper-border-radius: 4px;
+
 :root {
-  --stepperbar-width: @stepperbar-width;
+  --stepperbar-font-size: @stepperbar-font-size;
   --stepper-height: @stepper-height;
   --stepperbar-color: @stepperbar-color;
   --stepper-color: @stepper-color;
@@ -33,10 +34,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    svg {
-      vertical-align: top;
-      width: var(--stepperbar-width);
-      fill: var(--stepperbar-color);
+    .smy-icon {
+      font-size: var(--stepperbar-font-size);
+      color: var(--stepperbar-color);
     }
   }
   &-input {

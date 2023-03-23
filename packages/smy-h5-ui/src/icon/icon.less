@@ -4,6 +4,9 @@
   display: inline-flex;
   vertical-align: -0.2em;
   overflow: hidden;
+  justify-content: center;
+  align-items: center;
+
   svg,
   img {
     width: 1em;
@@ -12,5 +15,24 @@
     &:not([fill]) {
       fill: currentColor;
     }
+  }
+
+  &--set {
+    vertical-align: bottom;
+
+    &::before {
+      position: relative;
+      display: inline-block;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      font-weight: normal;
+      font-style: normal;
+      line-height: 1;
+    }
+  }
+
+  &--shrinking {
+    transform: scale(0);
   }
 }

@@ -56,4 +56,12 @@ module.exports = {
     'color-hl-group-h': '#06a6e9',
     'color-hl-group-i': '#f23733',
   },
+  icons: {
+    name: 'smy-h5-icons',
+    namespace: 'smy-icon',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    fontFamilyClassName: 'smy-icon--set',
+    base64: true,
+  },
 }

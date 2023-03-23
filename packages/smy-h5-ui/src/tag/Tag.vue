@@ -2,7 +2,7 @@
   <div :class="classes" :style="style" @click="$emit('click', $event)">
     <slot></slot>
     <smy-icon v-if="closeable" size="12" @click.stop="$emit('close', $event)" class="smy-tag__close"
-      ><slot name="icon"><CloseSvg /></slot
+      ><slot name="icon"><window-close /></slot
     ></smy-icon>
   </div>
 </template>
@@ -10,11 +10,11 @@
 <script>
 import { props } from './props'
 import Icon from '../icon'
-import CloseSvg from '../_icon/CloseSvg.vue'
+import WindowClose from '@smy-h5/icons/WindowClose'
 
 export default {
   name: 'SmyTag',
-  components: { [Icon.name]: Icon, CloseSvg },
+  components: { [Icon.name]: Icon, WindowClose },
   props,
   computed: {
     classes() {

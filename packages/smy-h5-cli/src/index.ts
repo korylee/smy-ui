@@ -4,6 +4,7 @@ import { build } from './commands/build'
 import { changelog } from './commands/changelog'
 import { compile } from './commands/compile'
 import { dev } from './commands/dev'
+import { icons } from './commands/icons'
 import { jest } from './commands/jest'
 import { lint } from './commands/lint'
 import { lintCommit } from './commands/lintCommit'
@@ -68,6 +69,8 @@ program
   .option('-c, --component <componentName>', 'Test a specific component')
   .option('-cc --clearCache', 'Clear test cache')
   .action(jest)
+
+program.command('build:icons').description('Build icons').action(icons)
 
 program.on('command:*', ([cwd]) => {
   program.outputHelp()

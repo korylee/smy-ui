@@ -3,7 +3,7 @@ import type { IconProps } from './props'
 import { type VNode } from 'vue'
 
 import { withInstall } from '../_utils/vue/component'
-import _Icon from './Icon'
+import _Icon from './Icon.vue'
 
 declare interface SmyIcon extends SmyComponent {
   new (): {
