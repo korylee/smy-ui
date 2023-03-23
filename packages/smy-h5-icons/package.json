@@ -18,7 +18,8 @@
     },
     "./font": {
       "default": "./dist/font/smy-h5-icons-webfont.ttf"
-    }
+    },
+    "./*": "./*"
   },
   "files": [
     "dist",
