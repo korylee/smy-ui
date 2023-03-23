@@ -2,9 +2,9 @@
   "name": "@smy-h5/cli",
   "version": "0.0.1",
   "description": "",
-  "main": "lib/exports.js",
+  "main": "lib/index.js",
   "bin": {
-    "smy-h5-cli": "./lib/index.js"
+    "smy-h5-cli": "./lib/lib.js"
   },
   "scripts": {
     "dev": "tsc --watch",

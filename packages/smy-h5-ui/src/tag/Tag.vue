@@ -10,7 +10,7 @@
 <script>
 import { props } from './props'
 import Icon from '../icon'
-import WindowClose from '@smy-h5/icons/WindowClose'
+import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 
 export default {
   name: 'SmyTag',

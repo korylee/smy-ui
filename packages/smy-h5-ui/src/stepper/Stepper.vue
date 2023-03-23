@@ -35,8 +35,8 @@
 
 <script>
 import { props } from './props'
-import Plus from '@smy-h5/icons/Plus'
-import Minus from '@smy-h5/icons/Minus'
+import Plus from '@smy-h5/icons/dist/es/Plus'
+import Minus from '@smy-h5/icons/dist/es/Minus'
 import SmyIcon from '../icon'
 
 export default {

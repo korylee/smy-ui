@@ -1,7 +1,7 @@
 import { ensureDir, writeFile, readdirSync, readFileSync } from 'fs-extra'
 import { get } from 'lodash'
 import { resolve } from 'path'
-import { getSmyConfig } from '../config/getConfig'
+import { getSmyConfig } from '../config/smyConfig'
 import {
   CLI_PACKAGE_JSON,
   HL_API_RE,

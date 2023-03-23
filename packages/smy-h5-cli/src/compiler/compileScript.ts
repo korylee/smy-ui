@@ -6,7 +6,7 @@ import { extractStyleDependencies } from './compileStyle'
 import { resolve } from 'path'
 import logger from '../shared/logger'
 import { UI_PACKAGE_JSON } from '../shared/constant'
-import { getSmyConfig } from '../config/getConfig'
+import { getSmyConfig } from '../config/smyConfig'
 
 export const IMPORT_VUE_PATH_RE = /((?<!['"`])import\s+.+from\s+['"]\s*\.{1,2}\/.+)\.vue(\s*['"`]);?(?!\s*['"`])/g
 export const IMPORT_TS_PATH_RE = /((?<!['"`])import\s+.+from\s+['"]\s*\.{1,2}\/.+)\.ts(\s*['"`]);?(?!\s*['"`])/g

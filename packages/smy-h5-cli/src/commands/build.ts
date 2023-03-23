@@ -1,8 +1,9 @@
 import { ensureDirSync } from 'fs-extra'
 import { compileSiteEntry } from '../compiler/compileSiteEntry'
-import { getBuildConfig, getSmyConfig } from '../config/getConfig'
+import { getBuildConfig } from '../config/viteConfig'
 import { SRC_DIR } from '../shared/constant'
 import { build as buildVite } from 'vite'
+import { getSmyConfig } from '../config/smyConfig'
 
 export async function build() {
   process.env.ENV = 'production'

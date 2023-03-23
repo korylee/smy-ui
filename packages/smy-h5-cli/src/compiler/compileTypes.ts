@@ -1,7 +1,7 @@
 import type { SourceFile } from 'ts-morph'
 
 import { ensureDir, pathExistsSync, readdir, writeFile } from 'fs-extra'
-import { getSmyConfig } from '../config/getConfig'
+import { getSmyConfig } from '../config/smyConfig'
 import { UI_PACKAGE_JSON, TS_CONFIG, TS_TYPES_CONFIG, SRC_DIR, TYPES_DIR } from '../shared/constant'
 import { resolve, dirname } from 'path'
 import { camelCase, upperFirst } from 'lodash'

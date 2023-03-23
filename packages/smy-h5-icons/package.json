@@ -2,28 +2,22 @@
   "name": "@smy-h5/icons",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/vue/lib/index.js",
-  "module": "dist/vue/es/index.js",
+  "main": "dist/lib/index.js",
+  "module": "dist/es/index.js",
   "exports": {
     ".": {
-      "import": "./dist/vue/es/index.js",
-      "module": "./dist/vue/es/index.js",
-      "require": "./dist/vue/lib/index.js"
-    },
-    "./*": {
-      "import": "./dist/vue/es/*",
-      "module": "./dist/vue/es/*",
-      "require": "./dist/vue/lib/*"
-    },
-    "./vue/*": {
-      "import": "./dist/vue/es/*",
-      "require": "./dist/vue/lib/*"
+      "import": "./dist/es/index.js",
+      "module": "./dist/es/index.js",
+      "require": "./dist/lib/index.js"
     },
     "./css": {
-      "default": "./dist/css/smy-h5-icons.css"
+      "default": "./dist/style/smy-h5-icons.css"
     },
-    "./fonts/*": {
-      "default": "./dist/fonts/*"
+    "./less": {
+      "default": "./dist/style/smy-h5-icons.less"
+    },
+    "./font": {
+      "default": "./dist/font/smy-h5-icons-webfont.ttf"
     }
   },
   "files": [

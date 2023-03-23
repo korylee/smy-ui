@@ -31,7 +31,7 @@
 
 <script>
 import { props } from './props'
-import WindowClose from '@smy-h5/icons/WindowClose'
+import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 import SmyIcon from '../icon'
 import { SlotsMixin } from '../_utils/vue/slots'
 

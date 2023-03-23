@@ -1,11 +1,10 @@
 import { ensureDir, removeSync, readdirSync, writeFile, readFile, mkdir, unlink, remove } from 'fs-extra'
-import { getSmyConfig } from '../config/getConfig'
+import { getSmyConfig } from '../config/smyConfig'
 import {
   CWD,
-  ICONS_COMPONENTS_DIR,
-  ICONS_CSS_DIR,
+  ICONS_STYLE_DIR,
   ICONS_DIST_DIR,
-  ICONS_FONTS_DIR,
+  ICONS_FONT_DIR,
   ICONS_PNG_DIR,
   ICONS_SVG_DIR,
   ICONS_SVG_DIR_NAME,
@@ -20,12 +19,7 @@ import execa from 'execa'
 
 async function removeDir() {
   removeSync(ICONS_DIST_DIR)
-  await Promise.all([
-    ensureDir(ICONS_FONTS_DIR),
-    ensureDir(ICONS_CSS_DIR),
-    ensureDir(ICONS_PNG_DIR),
-    ensureDir(ICONS_COMPONENTS_DIR),
-  ])
+  await Promise.all([ensureDir(ICONS_FONT_DIR), ensureDir(ICONS_STYLE_DIR), ensureDir(ICONS_PNG_DIR)])
 }
 
 function buildWebFont(name: string) {
@@ -134,7 +128,7 @@ export default { name: "${componentName}" }
     include: [`${tempPath}/**/*`],
     compilerOptions: {
       ...compilerOptionsBase,
-      outDir: `${ICONS_COMPONENTS_DIR}/lib`,
+      outDir: `${ICONS_DIST_DIR}/lib`,
       module: 'CommonJS',
     },
   })
@@ -142,7 +136,7 @@ export default { name: "${componentName}" }
     include: [`${tempPath}/**/*`],
     compilerOptions: {
       ...compilerOptionsBase,
-      outDir: `${ICONS_COMPONENTS_DIR}/es`,
+      outDir: `${ICONS_DIST_DIR}/es`,
       module: 'ESNext',
     },
   })
@@ -196,9 +190,9 @@ ${svgFiles
 
     await Promise.all([
       buildComponents(svgFiles),
-      writeFile(resolve(ICONS_FONTS_DIR, `${name}-webfont.ttf`), ttf),
-      writeFile(resolve(ICONS_CSS_DIR, `${name}.css`), cssTemplate),
-      writeFile(resolve(ICONS_CSS_DIR, `${name}.less`), cssTemplate),
+      writeFile(resolve(ICONS_FONT_DIR, `${name}-webfont.ttf`), ttf),
+      writeFile(resolve(ICONS_STYLE_DIR, `${name}.css`), cssTemplate),
+      writeFile(resolve(ICONS_STYLE_DIR, `${name}.less`), cssTemplate),
     ])
     logger.success('build success!')
   } catch (e: any) {

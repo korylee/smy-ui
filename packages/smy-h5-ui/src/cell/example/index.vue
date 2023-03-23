@@ -58,7 +58,7 @@
 import Cell from '../'
 import Icon from '../../icon'
 import CellGroup from '../../cell-group'
-import WindowClose from '@smy-h5/icons/WindowClose'
+import { WindowClose } from '@smy-h5/icons'
 
 export default {
   name: 'CellExample',

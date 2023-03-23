@@ -1,10 +1,11 @@
 import { ensureDirSync, pathExistsSync } from 'fs-extra'
 import { createServer, ViteDevServer } from 'vite'
 import { compileSiteEntry } from '../compiler/compileSiteEntry'
-import { getDevConfig, getSmyConfig } from '../config/getConfig'
+import { getDevConfig } from '../config/viteConfig'
 import { SMY_CONFIG, SRC_DIR } from '../shared/constant'
 import logger from '../shared/logger'
 import chokidar, { FSWatcher } from 'chokidar'
+import { getSmyConfig } from '../config/smyConfig'
 
 let server: ViteDevServer | undefined
 let watcher: FSWatcher | undefined

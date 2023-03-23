@@ -51,9 +51,9 @@ export const JEST_STYLE_MOCK = resolve(__dirname, '../config/jest.style.mock.js'
 
 // icons
 export const ICONS_DIST_DIR = resolve(CWD, 'dist')
-export const ICONS_CSS_DIR = resolve(ICONS_DIST_DIR, 'css')
+export const ICONS_STYLE_DIR = resolve(ICONS_DIST_DIR, 'style')
 export const ICONS_PNG_DIR = resolve(ICONS_DIST_DIR, 'png')
-export const ICONS_FONTS_DIR = resolve(ICONS_DIST_DIR, 'fonts')
+export const ICONS_FONT_DIR = resolve(ICONS_DIST_DIR, 'font')
 export const ICONS_COMPONENTS_DIR = resolve(ICONS_DIST_DIR, 'vue')
 export const ICONS_SVG_DIR_NAME = 'svg'
 export const ICONS_SVG_DIR = resolve(CWD, ICONS_SVG_DIR_NAME)

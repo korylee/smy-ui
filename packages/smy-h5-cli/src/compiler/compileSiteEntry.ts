@@ -1,5 +1,5 @@
 import { copy, ensureDir, link, readdir, remove } from 'fs-extra'
-import { getSmyConfig } from '../config/getConfig'
+import { getSmyConfig } from '../config/smyConfig'
 import {
   EXAMPLE_DIR_NAME,
   SITE,
