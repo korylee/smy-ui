@@ -13,7 +13,7 @@ declare interface SmyStepper extends SmyComponent {
       'left-icon': () => VNode
     }
     $emit: {
-      (event: 'input', value: number, data: Event): void
+      (event: 'input', value: number): void
       (event: 'change', value: number): void
       (event: 'blur', data: Event): void
       (event: 'focus', data: Event): void

@@ -52,9 +52,7 @@ export default {
   },
   watch: {
     value(val) {
-      if (val) {
-        this.$nextTick(() => this.$emit('refresh'))
-      } else {
+      if (val === false) {
         this.setPullStatus(0)
       }
     },

@@ -110,7 +110,7 @@ export default {
         this.move({ offset: this.delta })
       }
     },
-    onTouchEnd(e) {
+    onTouchEnd() {
       if (!this.touchable || !this.moving) return
       const { delta, size } = this
       const speed = delta / (Date.now() - this.touchTime)
