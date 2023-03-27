@@ -1,7 +1,6 @@
-import { ensureDir, removeSync, readdirSync, writeFile, readFile, mkdir, unlink, remove } from 'fs-extra'
+import { ensureDir, removeSync, readdirSync, writeFile, readFile, mkdir, remove } from 'fs-extra'
 import { getSmyConfig } from '../config/smyConfig'
 import {
-  CWD,
   ICONS_STYLE_DIR,
   ICONS_DIST_DIR,
   ICONS_FONT_DIR,
@@ -14,8 +13,8 @@ import webfont from 'webfont'
 import { resolve } from 'path'
 import logger from '../shared/logger'
 import { camelCase, upperFirst } from 'lodash'
-import v2s from 'v2s'
-import execa from 'execa'
+import { compileSFCFile } from '../compiler/compileSFC'
+import { tsc } from '../compiler/compileScript'
 
 async function removeDir() {
   removeSync(ICONS_DIST_DIR)
@@ -52,28 +51,6 @@ const formatSvgName = (svgName: string) => {
     name: svgName.slice(index + 1, extIndex),
     HEXCode,
   }
-}
-
-const compilerOptionsBase = {
-  forceConsistentCasingInFileNames: true,
-  moduleResolution: 'node',
-  target: 'ES6',
-  lib: ['ESNext', 'DOM'],
-  allowJs: true,
-  checkJs: false,
-}
-
-async function tsc(config: Record<string, any>) {
-  const tsConfigPath = resolve(CWD, 'tsconfig.json')
-  await writeFile(tsConfigPath, JSON.stringify(config, undefined, 2))
-  const { stdout, stderr } = await execa('npx', ['tsc', '-p', tsConfigPath], {
-    cwd: CWD,
-  })
-  stdout && logger.info(stdout)
-  if (stderr) {
-    throw new Error(stderr)
-  }
-  await unlink(tsConfigPath)
 }
 
 async function generateIndex(names: string[], indexExt: string, componentExt: string, outPath: string) {
@@ -119,11 +96,17 @@ export default { name: "${componentName}" }
   await generateIndex(names, '.js', '', tempPath)
   await generateAsyncIndex(names, '.js', '', tempPath)
 
-  await v2s(paths, {
-    deleteSource: true,
-    refactorVueImport: true,
-    vue2: true,
-  })
+  await Promise.all(paths.map((path) => compileSFCFile(path)))
+
+  const compilerOptionsBase = {
+    forceConsistentCasingInFileNames: true,
+    moduleResolution: 'node',
+    target: 'ES6',
+    lib: ['ESNext', 'DOM'],
+    allowJs: true,
+    checkJs: false,
+  }
+
   await tsc({
     include: [`${tempPath}/**/*`],
     compilerOptions: {

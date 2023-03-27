@@ -1,12 +1,13 @@
 import { transformAsync } from '@babel/core'
-import { writeFileSync, readFileSync, removeSync, writeFile, existsSync } from 'fs-extra'
+import { writeFileSync, readFileSync, removeSync, writeFile, existsSync, unlink } from 'fs-extra'
 import { camelCase, upperFirst } from 'lodash'
 import { replaceExt } from '../shared/fs-utils'
 import { extractStyleDependencies } from './compileStyle'
 import { resolve } from 'path'
 import logger from '../shared/logger'
-import { UI_PACKAGE_JSON } from '../shared/constant'
+import { CWD, UI_PACKAGE_JSON } from '../shared/constant'
 import { getSmyConfig } from '../config/smyConfig'
+import execa from 'execa'
 
 export const IMPORT_VUE_PATH_RE = /((?<!['"`])import\s+.+from\s+['"]\s*\.{1,2}\/.+)\.vue(\s*['"`]);?(?!\s*['"`])/g
 export const IMPORT_TS_PATH_RE = /((?<!['"`])import\s+.+from\s+['"]\s*\.{1,2}\/.+)\.ts(\s*['"`]);?(?!\s*['"`])/g
@@ -86,9 +87,6 @@ export async function compileESEntry(dir: string, publicDirs: string[]) {
     const publicComponent = upperFirst(camelCase(dirname))
     publicComponents.push(publicComponent)
     imports.push(`import ${publicComponent} from './${dirname}'`)
-    // internalComponents.push(
-    //   `export const _${publicComponent}Component = ${publicComponent}Module._${publicComponent}Component || {}`
-    // )
     plugins.push(`app.use(${publicComponent})`)
     cssImports.push(`import './${dirname}/style'`)
     lessImports.push(`import './${dirname}/style/less'`)
@@ -102,7 +100,6 @@ function install(app) {
   ${plugins.join('\n  ')}
 }
 `
-  // ${internalComponents.join('\n')}\n
 
   const indexTemplate = `\
 ${imports.join('\n')}\n
@@ -206,4 +203,17 @@ ${lessRequires.join('\n')}
     writeFile(resolve(dir, 'style.js'), styleTemplate, 'utf-8'),
     writeFile(resolve(dir, 'less.js'), lessTemplate, 'utf-8'),
   ])
+}
+
+export async function tsc(config: Record<string, any>) {
+  const tsConfigPath = resolve(CWD, '_tsconfig.json')
+  await writeFile(tsConfigPath, JSON.stringify(config, undefined, 2))
+  const { stdout, stderr } = await execa('npx', ['tsc', '-p', tsConfigPath], {
+    cwd: CWD,
+  })
+  stdout && logger.info(stdout)
+  if (stderr) {
+    throw new Error(stderr)
+  }
+  await unlink(tsConfigPath)
 }

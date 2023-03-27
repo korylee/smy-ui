@@ -96,12 +96,6 @@ export async function compileDts(files: string[], outDir = TYPES_DIR) {
         await fs.promises.writeFile(filePath, outputFile.getText(), 'utf8')
       })
     )
-    // for (const outputFile of emitOutput.getOutputFiles()) {
-    //   const filePath = outputFile.getFilePath()
-
-    //   await fs.promises.mkdir(dirname(filePath), { recursive: true })
-    //   await fs.promises.writeFile(filePath, outputFile.getText(), 'utf8')
-    // }
   }
 }
 

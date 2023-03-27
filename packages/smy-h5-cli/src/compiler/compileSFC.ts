@@ -1,6 +1,7 @@
 import { readFile, writeFileSync } from 'fs-extra'
-import * as compileUtils from '@vue/component-compiler-utils'
 import * as compiler from 'vue-template-compiler'
+import * as compilerSfc from '@vue/compiler-sfc'
+import stripWith from 'vue-template-es2015-compiler'
 import hash from 'hash-sum'
 import { compileScript } from './compileScript'
 import { replaceExt } from '../shared/fs-utils'
@@ -15,19 +16,18 @@ const clearEmptyComment = (str: string) => str.replace(EMPRY_COMMIT_RE, '')
 
 export async function compileSFCFile(sfc: string) {
   const source: string = await readFile(sfc, 'utf-8')
-  const descriptor = compileUtils.parse({ source, compiler, needMap: false } as any)
+  const { descriptor } = compilerSfc.parse(source, { sourceMap: false })
   const { script, template, styles } = descriptor
 
-  const hasScope = styles.some((style) => style.scoped)
-  const id = hash(source)
-  const scopeId = hasScope ? `data-v-${id}` : ''
   let content = script?.content ?? `export default {  }`
 
-  const render = template && compileTemplate(template.content)
-  if (render) {
-    content = injectRender(content, render)
+  if (template) {
+    const { render, staticRenderFns } = compileTemplate(template.content)
+    content = injectRender(content, render + staticRenderFns)
   }
 
+  const hasScope = styles.some((style) => style.scoped)
+  const scopeId = hasScope ? `data-v-${hash(source)}` : ''
   if (scopeId) {
     content = injectScopeId(content, scopeId)
   }
@@ -36,13 +36,13 @@ export async function compileSFCFile(sfc: string) {
 
   for (let index = 0; index < styles.length; index++) {
     const style = styles[index]
-    const lang = (style.lang || 'css') as 'css' | 'less'
+    const lang = style.lang as undefined | 'less'
     const file = replaceExt(sfc, `Sfc${index || ''}.${lang}`)
     let code = style.content.trim()
 
     if (scopeId) {
-      ;({ code } = compileUtils.compileStyle({
-        source: style.content,
+      ;({ code } = compilerSfc.compileStyle({
+        source: code,
         filename: file,
         id: scopeId,
         scoped: style.scoped,
@@ -58,7 +58,7 @@ export async function compileSFCFile(sfc: string) {
     code = clearEmptyLine(code)
     writeFileSync(file, code, 'utf-8')
 
-    style.lang === 'less' && (await compileLess(file))
+    style.lang === 'less' && compileLess(file)
   }
 }
 
@@ -71,7 +71,8 @@ export function injectRender(script: string, render: string): string {
       DEFINE_EXPORT_START_RE,
       `
 ${render}\nexport default defineComponent({
-render,\
+render: __sfc_render,\
+staticRenderFns: __sfc_staticRenderFns,\
 `
     )
   }
@@ -80,8 +81,9 @@ render,\
     return script.replace(
       EXPORT_START_RE,
       `${render}\nexport default {
-      render,\
-    `
+render: __sfc_render,\
+staticRenderFns: __sfc_staticRenderFns,\
+`
     )
   }
 
@@ -102,11 +104,12 @@ _scopeId: '${scopeId}',\
 }
 
 function compileTemplate(template: string) {
-  const result = compileUtils.compileTemplate({
-    compiler,
-    source: template,
-    isProduction: true,
-  } as any)
+  const { render, staticRenderFns } = compiler.compile(template)
 
-  return result.code
+  return {
+    render: stripWith(`function __sfc_render () { ${render} }`) + '__sfc_render._withStripped = true\n',
+    staticRenderFns: `const __sfc_staticRenderFns = [${staticRenderFns
+      .map((staticRenderFn) => stripWith(`function _() { ${staticRenderFn} }`))
+      .join(',\n')}]`,
+  }
 }
