@@ -20,7 +20,7 @@ export function useTouch() {
     deltaY: 0,
     offsetX: 0,
     offsetY: 0,
-    direction: '',
+    direction: '' as Direction,
   })
   const isVertical = () => state.direction === 'vertical'
   const isHorizontal = () => state.direction === 'horizontal'
