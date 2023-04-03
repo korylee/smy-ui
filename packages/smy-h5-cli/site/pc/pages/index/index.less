@@ -1,102 +1,60 @@
-.home-page {
+.smy-doc-index {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
   box-sizing: border-box;
-  min-width: 1200px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
+  padding-bottom: 110px;
+  min-width: 1050px;
+  background: var(--site-config-color-index-page-background);
 
-.slash-box {
-  position: absolute;
-  width: 30px;
-  bottom: -70%;
-  top: -130%;
-  right: 52%;
-  transform-origin: bottom right;
-  box-shadow: -20px 0 20px var(--site-config-color-home-page-slash);
-}
-
-.profile-container {
-  height: 100vh;
-  padding-left: 10vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .container-box {
-    width: 35vw;
-    min-width: 500px;
-    .description-conatiner {
-      display: flex;
-      margin-bottom: 35px;
-    }
-
-    .logo-container {
-      margin-right: 20px;
-    }
-
-    .button-group {
-      display: flex;
-      margin-top: 25px;
-      align-items: center;
-    }
-    .block-button-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .common-button {
-      height: 52px;
-      font-size: 18px;
-      transition: all 0.25s;
-      animation: fade-in 0.75s forwards;
-      text-align: center;
-    }
-    .extra-button {
-      flex-shrink: 0;
-      background-color: var(--site-config-color-home-page-extra-button-background);
-    }
-
-    .github-button {
-      background-color: var(--site-config-color-home-page-github-button-background);
-      color: #fff;
-    }
-
-    .primary-button {
-      background-color: var(--site-config-color-home-page-primary-button-background);
-    }
-
-    .base-title {
-      font-size: 60px;
-      line-height: 72px;
-      font-weight: 500;
-      margin-top: 8px;
-      animation: fade-in 0.75s forwards;
-    }
-
-    .base-description {
-      font-size: 16px;
-      line-height: 28px;
-      padding-left: 4px;
-      font-weight: 500;
-      margin-bottom: 45px;
-      letter-spacing: 1px;
-      animation: fade-in 0.75s forwards;
-    }
+  &__layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 110px 0;
+    max-width: 1200px;
   }
-}
 
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
+  &__title {
+    font-size: 54px;
+    margin-top: 60px;
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+
+  &__link-button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+  }
+
+  &__link-button {
+    height: 44px;
+    font-size: 18px;
+    transition: all .2s;
+    margin: 0 10px;
+  }
+
+  &__features {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 70px;
+  }
+
+  &__feature {
+    width: 280px;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    background: var(--site-config-color-index-page-feature-background);
+  }
+
+  &__feature-description {
+    color: var(--site-config-color-index-page-second-text-color);
+    font-size: 14px;
+    margin-top: 10px;
+    line-height: 1.5;
   }
 }

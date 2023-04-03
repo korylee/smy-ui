@@ -25,6 +25,11 @@ export interface SmyConfig {
   port?: number
   pc?: {
     menu?: PcMenu[]
+    indexPage?: {
+      description?: string
+      started?: string
+      features?: { name?: string; description?: string }[]
+    }
   }
   [k: string]: any
 }

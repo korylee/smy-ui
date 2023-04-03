@@ -3,8 +3,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import CodeExample from './components/code-example'
+import Button from '../components/button'
 
-Vue.use(CodeExample)
+Vue.use(Button).use(CodeExample)
 
 new Vue({
   router,

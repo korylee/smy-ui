@@ -7,6 +7,33 @@ module.exports = defineConfig({
   useMobile: true,
   port: 8088,
   pc: {
+    indexPage: {
+      description:
+        'Smy-h5 是一个基于Vue2开发的组件库，全面拥抱Vue2生态，由萨摩耶C端团队维护。支持TypeScript、按需引入、主题定制。',
+      started: '起步',
+      features: [
+        {
+          name: '组件丰富',
+          description: '提供20+个高质量通用组件（增加中）',
+        },
+        {
+          name: '按需引入',
+          description: '每一个组件都可单独引入，并有着良好的 tree-shaking 优化',
+        },
+        {
+          name: '主题定制',
+          description: '支持组件的样式自定义',
+        },
+        {
+          name: '支持TypeScript',
+          description: '使用 Typescript 构建，提供良好的组件类型系统',
+        },
+        {
+          name: 'IDE支持',
+          description: '支持在 vscode 中的组件语法高亮',
+        },
+      ],
+    },
     menu: [
       { text: '开发指南', type: 1 },
       { text: '基本介绍', type: 3, doc: 'home' },

@@ -1,6 +1,6 @@
 <template>
   <div class="smy-site-header">
-    <div class="smy-site-header__lead">
+    <div class="smy-site-header__lead" @click="handleBackRoot">
       <div v-if="title" class="smy-site-header__title">{{ title }}</div>
     </div>
   </div>
@@ -19,9 +19,13 @@ export default {
     currentThemes: getBrowserThemes(get(config, 'themesKey')),
   }),
   created() {
-    console.log(this.currentThemes)
     setThemes(config, this.currentThemes)
   },
+  methods: {
+    handleBackRoot () {
+      this.$router.replace(`/${this.redirect}`)
+    }
+  }
 }
 </script>
 

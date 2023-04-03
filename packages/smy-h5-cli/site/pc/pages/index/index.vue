@@ -1,40 +1,38 @@
 <template>
-  <div class="home-page">
-    <div class="slash-box box-1"></div>
-    <div class="slash-box box-2"></div>
-    <div class="slash-box box-3"></div>
-    <div class="slash-box box-4"></div>
-    <div class="slash-box box-5"></div>
-    <div class="profile-container">
-      <div class="container-box">
-        <div class="description-container">
-          <div class="base-title">{{ title }}</div>
+  <div class="smy-doc-index">
+    <div class="smy-doc-index__layout">
+      <div class="smy-doc-index__logo-container">
+        <div class="smy-doc-index__logo-background-mask"></div>
+      </div>
+      <div class="smy-doc-index__title">{{ title }}</div>
+      <div v-if="indexPage.description" class="smy-doc-index__description">{{ indexPage.description }}</div>
+      <div class="smy-doc-index__link-button-group">
+        <smy-site-button type="primary" style="line-height: 1.2" class="smy-doc-index__link-button" @click="getStart">
+          <span class="smy-doc-index__link-button-text">{{ indexPage.started || '起步' }}</span>
+        </smy-site-button>
+      </div>
+      <div v-if="indexPage.features" class="smy-doc-index__features">
+        <div v-for="(feature, index) of indexPage.features" :key="index" class="smy-doc-index__feature">
+          <div class="smy-doc-index__feature-name">{{ feature.name }}</div>
+          <div class="smy-doc-index__feature-name">{{ feature.description }}</div>
         </div>
-        <div class="base-description">{{ description }}</div>
-        <div class="button-group">
-          <div class="common-button primary-button" @click="getStart">
-            <div class="block-button-content">
-              <span>起步</span>
-            </div>
-          </div>
-        </div>
+      </div>
+      <div class="smy-doc-index__footer">
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { get } from 'lodash-es'
 import config from '@config'
 
 export default {
   data: () => ({
-    github: get(config, 'pc.header.gihub'),
-    title: get(config, 'title'),
-    description: get(config, 'description'),
+    title: config?.title,
+    indexPage: config?.pc?.indexPage ?? {},
   }),
   methods: {
-    getStart() {
+    getStart () {
       this.$router.push('/home')
     },
   },
