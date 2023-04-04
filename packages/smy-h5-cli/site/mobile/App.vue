@@ -1,7 +1,7 @@
 <template>
   <div class="site-mobile">
     <header class="nav">
-      <AppBar class="app-bar" :title="title"> </AppBar>
+      <app-bar class="app-bar" :title="title"> </app-bar>
     </header>
     <div class="router-view__block">
       <router-view />
@@ -11,16 +11,26 @@
 
 <script>
 import { upperFirst } from 'lodash-es'
-import AppBar from './components/AppBar'
+import AppBar from './components/app-bar'
+import { getBrowserTheme, setTheme } from '../utils/theme'
+import config from '@config'
+
+const themeKey = config?.themeKey
 
 export default {
   components: { AppBar },
-  data: () => ({ title: '' }),
+  data: () => ({
+    title: '',
+    currentTheme: getBrowserTheme(themeKey),
+  }),
   watch: {
-    '$route.path'(to) {
+    '$route.path' (to) {
       const componentName = to.slice(1)
       this.title = upperFirst(componentName)
     },
+  },
+  created() {
+    setTheme(config, this.currentTheme)
   },
 }
 </script>
@@ -29,6 +39,7 @@ export default {
 * {
   -webkit-font-smoothing: antialiased;
 }
+
 ::-webkit-scrollbar {
   display: none;
   width: 0;

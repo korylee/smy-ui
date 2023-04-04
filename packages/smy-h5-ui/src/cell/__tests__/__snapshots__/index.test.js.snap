@@ -2,7 +2,7 @@
 
 exports[`test cell example 1`] = `
 "<div class=\\"cell-example\\">
-  <div>基础使用</div>
+  <div class=\\"app-demo-title\\">基础使用</div>
   <div class=\\"smy-cell\\">
     <!---->
     <div class=\\"smy-cell__content\\">
@@ -11,7 +11,7 @@ exports[`test cell example 1`] = `
     </div>
     <!---->
   </div>
-  <div>展示描述</div>
+  <div class=\\"app-demo-title\\">展示描述</div>
   <div class=\\"smy-cell\\">
     <!---->
     <div class=\\"smy-cell__content\\">
@@ -21,7 +21,7 @@ exports[`test cell example 1`] = `
     </div>
     <!---->
   </div>
-  <div>展示图标</div>
+  <div class=\\"app-demo-title\\">展示图标</div>
   <div class=\\"smy-cell\\">
     <div class=\\"smy-cell__icon\\"><span class=\\"smy-icon\\" style=\\"transition: transform 0ms;\\"><svg xmlns=\\"http://www.w3.org/2000/svg\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" version=\\"1.1\\" width=\\"24\\" height=\\"24\\" viewBox=\\"0 0 24 24\\"><path d=\\"M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z\\"></path></svg></span></div>
     <div class=\\"smy-cell__content\\">
@@ -31,7 +31,7 @@ exports[`test cell example 1`] = `
     </div>
     <!---->
   </div>
-  <div>右侧内容</div>
+  <div class=\\"app-demo-title\\">右侧内容</div>
   <div class=\\"smy-cell\\">
     <!---->
     <div class=\\"smy-cell__content\\">
@@ -41,7 +41,7 @@ exports[`test cell example 1`] = `
     </div>
     <div class=\\"smy-cell__extra\\"><span class=\\"smy-icon\\" style=\\"transition: transform 0ms;\\"><svg xmlns=\\"http://www.w3.org/2000/svg\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" version=\\"1.1\\" width=\\"24\\" height=\\"24\\" viewBox=\\"0 0 24 24\\"><path d=\\"M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z\\"></path></svg></span></div>
   </div>
-  <div>点击动画</div>
+  <div class=\\"app-demo-title\\">点击动画</div>
   <div class=\\"smy-cell smy-cell--clickable\\">
     <!---->
     <div class=\\"smy-cell__content\\">
@@ -50,7 +50,7 @@ exports[`test cell example 1`] = `
     </div>
     <!---->
   </div>
-  <div>卡片样式</div>
+  <div class=\\"app-demo-title\\">卡片样式</div>
   <div class=\\"smy-cell insert-example smy-cell--insert\\">
     <!---->
     <div class=\\"smy-cell__content\\">
@@ -60,7 +60,7 @@ exports[`test cell example 1`] = `
     </div>
     <div class=\\"smy-cell__extra\\"><span class=\\"smy-icon\\" style=\\"transition: transform 0ms;\\"><svg xmlns=\\"http://www.w3.org/2000/svg\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" version=\\"1.1\\" width=\\"24\\" height=\\"24\\" viewBox=\\"0 0 24 24\\"><path d=\\"M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z\\"></path></svg></span></div>
   </div>
-  <div>分组用法</div>
+  <div class=\\"app-demo-title\\">分组用法</div>
   <div class=\\"smy-cell-group\\">
     <div class=\\"smy-cell smy-cell--border smy-cell--clickable\\">
       <!---->
@@ -90,7 +90,7 @@ exports[`test cell example 1`] = `
       <div class=\\"smy-cell__extra\\"><span class=\\"smy-icon\\" style=\\"transition: transform 0ms;\\"><svg xmlns=\\"http://www.w3.org/2000/svg\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" version=\\"1.1\\" width=\\"24\\" height=\\"24\\" viewBox=\\"0 0 24 24\\"><path d=\\"M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z\\"></path></svg></span></div>
     </div>
   </div>
-  <div>分组卡片样式</div>
+  <div class=\\"app-demo-title\\">分组卡片样式</div>
   <div class=\\"smy-cell-group insert-example smy-cell-group--insert\\">
     <div class=\\"smy-cell smy-cell--border smy-cell--clickable\\">
       <!---->

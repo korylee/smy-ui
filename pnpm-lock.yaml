@@ -38,7 +38,6 @@ importers:
       '@babel/types': ^7.19.0
       '@smy-h5/icons': workspace:^1.0.0
       '@smy-h5/markdown-vite-plugin': workspace:*
-      '@smy-h5/ui': workspace:^0.0.1
       '@types/babel__core': ^7.1.19
       '@types/fs-extra': ^9.0.13
       '@types/glob': ^7.2.0
@@ -93,7 +92,6 @@ importers:
       '@babel/preset-env': 7.19.3_@babel+core@7.19.3
       '@babel/preset-typescript': 7.18.6_@babel+core@7.19.3
       '@smy-h5/icons': link:../smy-h5-icons
-      '@smy-h5/ui': link:../smy-h5-ui
       '@vue/babel-helper-vue-jsx-merge-props': 1.4.0
       '@vue/babel-preset-jsx': 1.4.0_76uwputr6txv3zbv2nnvhvxpgu
       '@vue/compiler-sfc': 3.2.47

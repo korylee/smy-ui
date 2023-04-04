@@ -1,14 +1,14 @@
 <template>
   <div class="ellipsis-example">
-    <div>头部省略</div>
+    <div class="app-demo-title">头部省略</div>
     <smy-ellipsis :content="content" direction="start" />
-    <div>尾部省略</div>
+    <div class="app-demo-title">尾部省略</div>
     <smy-ellipsis :content="content" direction="end" />
-    <div>居中省略</div>
+    <div class="app-demo-title">居中省略</div>
     <smy-ellipsis :content="content" direction="middle" />
-    <div>多行展示</div>
+    <div class="app-demo-title">多行展示</div>
     <smy-ellipsis :content="content" rows="2" />
-    <div>展开收起</div>
+    <div class="app-demo-title">展开收起</div>
     <smy-ellipsis :content="content" direction="start" expandText="展开" collapse-text="收起" />
     <smy-ellipsis :content="content" direction="middle" expandText="展开" collapse-text="收起" />
     <smy-ellipsis :content="content" expandText="展开" collapse-text="收起" />
@@ -30,4 +30,13 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.app-type {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #909ca4;
+  padding: 0 10px;
+  font-weight: 400;
+}
+</style>

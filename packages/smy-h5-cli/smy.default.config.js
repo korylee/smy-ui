@@ -4,7 +4,7 @@ module.exports = {
   host: 'localhost',
   port: 8080,
   title: 'SMY UI',
-  themesKey: 'SMY_THEMES',
+  themeKey: 'SMY_THEMES',
   highlight: {
     /**
      * @see https://highlightjs.org/
@@ -23,7 +23,7 @@ module.exports = {
   mobile: {
     redirect: '/home',
   },
-  themes: {
+  lightTheme: {
     'color-body': '#fff',
     'color-bar': '#fff',
     'color-home-page-background': '#fff',

@@ -1,19 +1,19 @@
 <template>
   <div class="smy-countdown-example">
-    <div>基础使用</div>
+    <app-demo-title>基础使用</app-demo-title>
     <smy-countdown time="10800000" />
-    <div>自定义格式化</div>
+    <app-demo-title>自定义格式化</app-demo-title>
     <smy-countdown time="10800000" format="DD 天 HH 时 mm 分 ss 秒" />
-    <div>展示毫秒</div>
+    <app-demo-title>展示毫秒</app-demo-title>
     <smy-countdown time="108000000" format="HH : mm : ss : SSS" />
-    <div>控制开始和暂停的倒计时</div>
+    <app-demo-title>控制开始和暂停的倒计时</app-demo-title>
     <smy-cell
       ><smy-countdown :paused.sync="paused" time="10800000" @pause="onpause" @start="onstart" />
       <template #extra>
         <button @click="togglePaused">{{ paused ? 'start' : 'stop' }}</button></template
       ></smy-cell
     >
-    <div>自定义样式</div>
+    <app-demo-title>自定义样式</app-demo-title>
     <smy-countdown time="108000000">
       <template #default="timeData">
         <span class="block">{{ timeData.hours }}</span>
@@ -23,7 +23,7 @@
         <span class="block">{{ timeData.seconds }}</span>
       </template>
     </smy-countdown>
-    <div>手动控制</div>
+    <app-demo-title>手动控制</app-demo-title>
     <smy-countdown ref="countdown" time="3000" :auto-start="false" format="ss : SSS" @end="onEnd" @change="onChange" />
     <div class="btn-container">
       <button @click="$refs.countdown.start()">start</button>

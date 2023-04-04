@@ -1,26 +1,26 @@
 <template>
   <div class="icon-example">
-    图标尺寸
+    <div class="app-demo-title">图标尺寸</div>
     <div>
       <smy-icon size="15" name="window-close" />
       <smy-icon size="30" name="window-close" />
     </div>
-    图标颜色
+    <div class="app-demo-title">图标颜色</div>
     <div>
       <smy-icon color="#2979ff" size="15" name="window-close" />
       <smy-icon color="#2979ff" size="30" name="window-close" />
     </div>
-    使用图片
+    <div class="app-demo-title">使用图片</div>
     <div>
       <smy-icon color="#2979ff" size="30">
         <img src="https://korylee.github.io/blog/avatar.png" />
       </smy-icon>
     </div>
-    图标切换动画(仅iconfont方式)
+    <div class="app-demo-title">图标切换动画(仅iconfont方式)</div>
     <div>
       <smy-icon color="#2979ff" size="30" :transition="300" :name="iconName" @click="toggle" />
     </div>
-    组件引入使用
+    <div class="app-demo-title">组件引入使用</div>
     <div class="icon-example__icons">
       <div
         class="icon-example__icon smy-elevation--2"
@@ -33,7 +33,7 @@
         </smy-icon>
       </div>
     </div>
-    iconfont使用
+    <div class="app-demo-title">iconfont使用</div>
     <div class="icon-example__icons">
       <div
         class="icon-example__icon smy-elevation--2"

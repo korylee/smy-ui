@@ -1,4 +1,4 @@
-import { kebabCase, get } from 'lodash-es'
+import { kebabCase } from 'lodash-es'
 
 const mountedVarKeys = []
 
@@ -20,20 +20,20 @@ function formatStyleVars(styleVars) {
   }, {})
 }
 
-export function setThemes(config, name) {
-  const themes = get(config, name, {})
-  const styleVars = Object.entries(themes).reduce((styleVar, [key, value]) => {
+export function setTheme(config, name) {
+  const theme = config?.[name] ?? {}
+  const styleVars = Object.entries(theme).reduce((styleVar, [key, value]) => {
     styleVar[`--site-config-${key}`] = value
     return styleVar
   }, {})
   StyleProvider(styleVars)
 }
 
-export function getBrowserThemes(themes = 'SMY_THEME') {
-  let currentThemes = window.localStorage.getItem(themes)
+export function getBrowserTheme(themeStorageKey = 'SMY_THEME') {
+  let currentThemes = window.localStorage.getItem(themeStorageKey)
   if (!currentThemes) {
-    currentThemes = window.matchMedia?.('(prefers-color-scheme:dark)').matches ? 'darkThemes' : 'themes'
-    window.localStorage.setItem(themes, currentThemes)
+    currentThemes = window.matchMedia?.('(prefers-color-scheme:dark)').matches ? 'darkTheme' : 'lightTheme'
+    window.localStorage.setItem(themeStorageKey, currentThemes)
   }
   return currentThemes
 }

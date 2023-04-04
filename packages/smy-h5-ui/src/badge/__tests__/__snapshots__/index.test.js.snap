@@ -3,7 +3,7 @@
 exports[`test badge example 1`] = `
 "<div class=\\"badge-example\\">
   <div>
-    <div>基础用法</div>
+    <div class=\\"app-demo-title\\">基础用法</div>
     <div>
       <div class=\\"smy-badge smy--box\\">
         <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__position smy-badge--right-top\\">8</span></transition-stub> <span class=\\"title\\">标题</span>
@@ -22,7 +22,7 @@ exports[`test badge example 1`] = `
       </div>
     </div>
   </div>
-  <div>最大值</div>
+  <div class=\\"app-demo-title\\">最大值</div>
   <div>
     <div class=\\"smy-badge smy--box\\">
       <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__position smy-badge--right-top\\">9+</span></transition-stub> <span class=\\"title\\">标题</span>
@@ -34,7 +34,7 @@ exports[`test badge example 1`] = `
       <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__position smy-badge--right-top\\">99+</span></transition-stub> <span class=\\"title\\">标题</span>
     </div>
   </div>
-  <div>不同定位</div>
+  <div class=\\"app-demo-title\\">不同定位</div>
   <div>
     <div class=\\"smy-badge smy--box\\">
       <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__position smy-badge--right-top\\">200</span></transition-stub> <span class=\\"title\\">右上</span>
@@ -49,11 +49,11 @@ exports[`test badge example 1`] = `
       <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__position smy-badge--left-bottom\\">200</span></transition-stub> <span class=\\"title\\">左下</span>
     </div>
   </div>
-  <div>是否显示</div> <button>点击改变状态</button>
+  <div class=\\"app-demo-title\\">是否显示</div> <button>点击改变状态</button>
   <div class=\\"smy-badge smy--box\\">
     <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__position smy-badge--right-top\\">8</span></transition-stub> <span class=\\"title\\">标题</span>
   </div>
-  <div>自定义颜色</div>
+  <div class=\\"app-demo-title\\">自定义颜色</div>
   <div class=\\"smy-badge smy--box\\">
     <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__position smy-badge--right-top\\">8</span></transition-stub> <span class=\\"title\\">标题</span>
   </div>
@@ -70,7 +70,7 @@ exports[`test badge example 1`] = `
     <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--dot smy-badge__position smy-badge--right-top\\"></span></transition-stub> <span class=\\"title\\">标题</span>
   </div>
   <div>
-    <div>自定义位置</div>
+    <div class=\\"app-demo-title\\">自定义位置</div>
     <div class=\\"smy-badge smy--box\\">
       <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__position smy-badge--right-top\\" style=\\"top: 5px; right: 10px;\\">200</span></transition-stub> <span class=\\"title\\">标题</span>
     </div>

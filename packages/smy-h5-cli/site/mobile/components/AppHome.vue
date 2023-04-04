@@ -21,10 +21,11 @@
 import config from "@config"
 import { MenuTypes } from "../../constant";
 import { inIframe, isPhone } from "../../utils";
+import SmySiteCell from '../../components/cell'
 
-console.log(config);
 export default {
   name: 'AppHome',
+  components: { SmySiteCell },
   data: () => ({
     platform: 'mobile',
   }),

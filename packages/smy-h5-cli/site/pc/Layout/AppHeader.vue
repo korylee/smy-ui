@@ -8,18 +8,20 @@
 
 <script>
 import config from '@config'
-import { get } from 'lodash-es'
-import { setThemes, getBrowserThemes } from '../../utils'
+import { setTheme, getBrowserTheme } from '../../utils'
+
+const themeKey = config?.themeKey
 
 export default {
   name: 'AppHeader',
   data: () => ({
-    title: get(config, 'title'),
-    redirect: get(config, 'pc.redirect'),
-    currentThemes: getBrowserThemes(get(config, 'themesKey')),
+    title: config?.title,
+    redirect: config?.pc?.redirect,
+    currentTheme: getBrowserTheme(themeKey),
   }),
   created() {
-    setThemes(config, this.currentThemes)
+    console.log('currentTheme', this.currentTheme);
+    setTheme(config, this.currentTheme)
   },
   methods: {
     handleBackRoot () {

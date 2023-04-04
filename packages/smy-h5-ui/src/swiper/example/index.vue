@@ -1,30 +1,30 @@
 <template>
   <div>
-    <div>基本用法</div>
+    <app-demo-title>基本用法</app-demo-title>
     <smy-swiper :initial-index="2" indicator autoplay="2000">
       <smy-swiper-item v-for="item of list" :key="item">
         <img :src="item" alt="" />
       </smy-swiper-item>
     </smy-swiper>
-    <div>异步动态加载(3s)</div>
+    <app-demo-title>异步动态加载(3s)</app-demo-title>
     <smy-swiper :initial-index="2" indicator autoplay="2000">
       <smy-swiper-item v-for="item of asyncList" :key="item">
         <img :src="item" alt="" />
       </smy-swiper-item>
     </smy-swiper>
-    <div>垂直</div>
+    <app-demo-title>垂直</app-demo-title>
     <smy-swiper :initial-index="2" indicator autoplay="2000" vertical height="150" style="height: 150px">
       <smy-swiper-item v-for="item of list" :key="item">
         <img :src="item" alt="" />
       </smy-swiper-item>
     </smy-swiper>
-    <div>自定义大小</div>
+    <app-demo-title>自定义大小</app-demo-title>
     <smy-swiper :initial-index="2" indicator autoplay="2000" width="300">
       <smy-swiper-item v-for="item of list" :key="item">
         <img :src="item" alt="" />
       </smy-swiper-item>
     </smy-swiper>
-    <div>手动切换</div>
+    <app-demo-title>手动切换</app-demo-title>
     <smy-swiper ref="swiper" :initial-index="2" indicator>
       <smy-swiper-item v-for="item of list" :key="item">
         <img :src="item" alt="" />
