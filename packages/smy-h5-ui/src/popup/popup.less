@@ -11,28 +11,34 @@
   &-leave-to {
     opacity: 0;
   }
+
   &-enter-active,
   &-leave-active {
     transition: opacity 0.25s;
   }
 }
 
-.transition-mixin(center, scale(0.3));
-.transition-mixin(bottom, translateY(100%));
-.transition-mixin(top, translateY(-100%));
-.transition-mixin(left, translateX(-100%));
-.transition-mixin(right, translateX(100%));
+.pop-transition(center, scale(0.3));
+.pop-transition(bottom, translateY(100%));
+.pop-transition(top, translateY(-100%));
+.pop-transition(left, translateX(-100%));
+.pop-transition(right, translateX(100%));
 
-.transition-mixin(@position, @transform) {
+.pop-transition(@position, @transform) {
   .smy-pop-@{position} {
-    &-enter,
-    &-leave-to {
-      transform: @transform;
-    }
-    &-enter-active,
-    &-leave-active {
-      transition: all 0.25s;
-    }
+    .transition-mixin(@transform);
+  }
+}
+
+.transition-mixin(@transform, @transition-duration: 0.25s, @transition-timing-function: ease) {
+  &-enter,
+  &-leave-to {
+    transform: @transform;
+  }
+
+  &-enter-active,
+  &-leave-active {
+    transition: all @transition-timing-function @transition-duration;
   }
 }
 
@@ -58,19 +64,23 @@
     background-color: var(--popup-overlay-background-color);
     transition: all 0.25s;
   }
+
   &__content {
     overflow: auto;
     background-color: var(--popup-content-background-color);
     transition: all 0.25s;
+
     &--center {
       position: relative;
     }
+
     &--top {
       min-width: 100%;
       position: absolute;
       left: 0;
       top: 0;
     }
+
     &--left {
       min-height: 100%;
       min-height: 100%;
@@ -78,18 +88,21 @@
       left: 0;
       top: 0;
     }
+
     &--right {
       min-height: 100%;
       position: absolute;
       right: 0;
       top: 0;
     }
+
     &--bottom {
       min-width: 100%;
       position: absolute;
       left: 0;
       bottom: 0;
     }
+
     &--top {
       min-width: 100%;
       position: absolute;

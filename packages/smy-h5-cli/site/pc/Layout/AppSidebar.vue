@@ -1,5 +1,5 @@
 <template>
-  <div class="smy-site-sidebar smy-elevation--3">
+  <div class="smy-site-sidebar">
     <Cell
       v-for="(item, index) of menu"
       :id="item.docs"

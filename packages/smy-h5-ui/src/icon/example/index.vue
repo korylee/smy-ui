@@ -22,12 +22,7 @@
     </div>
     <div class="app-demo-title">组件引入使用</div>
     <div class="icon-example__icons">
-      <div
-        class="icon-example__icon smy-elevation--2"
-        v-for="icon of iconList"
-        :key="icon.name"
-        @click="handleCopySvgIcon(icon.name)"
-      >
+      <div class="icon-example__icon" v-for="icon of iconList" :key="icon.name" @click="handleCopySvgIcon(icon.name)">
         <smy-icon size="35">
           <component :is="icon.value" />
         </smy-icon>
@@ -35,12 +30,7 @@
     </div>
     <div class="app-demo-title">iconfont使用</div>
     <div class="icon-example__icons">
-      <div
-        class="icon-example__icon smy-elevation--2"
-        v-for="icon of iconList"
-        :key="icon.name"
-        @click="handleCopyIconFont(icon.name)"
-      >
+      <div class="icon-example__icon" v-for="icon of iconList" :key="icon.name" @click="handleCopyIconFont(icon.name)">
         <smy-icon :name="icon.name" size="35" />
       </div>
     </div>

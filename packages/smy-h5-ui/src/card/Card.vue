@@ -1,5 +1,5 @@
 <template>
-  <div class="smy-card" :class="`smy-elevation--${elevation || 2}`" @click="handleClick">
+  <div class="smy-card" @click="handleClick">
     <slot name="image">
       <img v-if="src" class="smy-card__image" :src="src" :alt="alt" :style="{ objectFit: fit, height: height }" />
     </slot>
@@ -38,6 +38,5 @@ export default {
 
 <style lang="less">
 @import '../_styles/common.less';
-@import '../_styles/elevation.less';
 @import './card.less';
 </style>

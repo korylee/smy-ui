@@ -20,13 +20,9 @@ export const props = {
   title: String,
   subtitle: String,
   content: String,
-  elevation: [Number, String],
   // ripple: {
   //   type: Boolean,
   //   default: false,
-  // },
-  // onClick: {
-  //   type: Function as PropType<(e: Event) => void>,
   // },
 } as const
 

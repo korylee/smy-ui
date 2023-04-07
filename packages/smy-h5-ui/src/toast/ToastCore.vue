@@ -10,7 +10,7 @@
         <slot v-if="hasSlot('action')" name="action" />
         <template v-else-if="action">
           <span v-if="isString(action)" v-html="action"></span>
-          <RenderToComp v-else-if="isFunction(action)" :render="action" />
+          <render-to-comp v-else-if="isFunction(action)" :render="action" />
           <component v-else :is="action" />
         </template>
         <smy-loading v-else-if="type === 'loading'" :type="loadingType" :size="loadingSize" />
@@ -41,7 +41,7 @@ export default {
   }),
   computed: {
     toastWrapClass({ position, vertical, type }) {
-      const baseClass = `smy-toast__wrapper smy-toast__wrapper--${position} smy-elevation--4`
+      const baseClass = `smy-toast__wrapper smy-toast__wrapper--${position}`
       return [
         baseClass,
         {
