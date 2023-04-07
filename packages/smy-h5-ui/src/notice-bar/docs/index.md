@@ -1,5 +1,64 @@
 # NoticeBar 通告栏
 
+### 介绍
+
+用于循环播放一组消息通知
+
+### 引入
+
+```js
+import { NoticeBar } from '@smy-h5/ui'
+import Vue from 'vue'
+
+Vue.use(NoticeBar)
+```
+
+### 基础用法
+
+```html
+<smy-notice-bar
+  text="华为畅享9新品即将上市，活动期间0元预约可参与抽奖，赢HUAWEI WATCH等好礼，更多产品信息请持续关注！"
+/>
+```
+
+### 可关闭
+
+```html
+<smy-notice-bar
+  text="华为畅享9新品即将上市，活动期间0元预约可参与抽奖，赢HUAWEI WATCH等好礼，更多产品信息请持续关注！"
+  closable
+/>
+```
+
+### 链接模式
+
+```html
+<smy-notice-bar closable>
+  <a href="https://www.github.com">github</a>
+</smy-notice-bar>
+```
+
+### 多行展示
+
+```html
+<smy-notice-bar
+  text="华为畅享9新品即将上市，活动期间0元预约可参与抽奖，赢HUAWEI WATCH等好礼，更多产品信息请持续关注！"
+  wrapable
+/>
+```
+
+### 纵向滚动
+
+```html
+<smy-notice-bar closable :scrollable="false">
+  <smy-swiper vertical class="notice-swipe" :autoplay="3000" height="40">
+    <smy-swiper-item>内容 1</smy-swiper-item>
+    <smy-swiper-item>内容 2</smy-swiper-item>
+    <smy-swiper-item>内容 3</smy-swiper-item>
+  </smy-swiper>
+</smy-notice-bar>
+```
+
 ## API
 
 ### 属性
@@ -15,10 +74,10 @@
 
 ### 事件
 
-| 事件名 | 说明             | 参数           |
-| ------ | ---------------- | -------------- |
-| click  | 外层点击事件回调 | `event: Event` |
-| close  | 关闭通知栏时触发 | `event: Event` |
+| 事件名  | 说明             | 参数           |
+| ------- | ---------------- | -------------- |
+| `click` | 外层点击事件回调 | `event: Event` |
+| `close` | 关闭通知栏时触发 | `event: Event` |
 
 ### 插槽
 

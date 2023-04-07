@@ -62,20 +62,13 @@ export function merge(target: any, ...args: any[]) {
   return target
 }
 
-export interface LRUCacheInstance<T, R> {
-  cache: Map<T, R>
-  has(key: T): boolean
-  put(key: T, value: R): void
-  get(key: T): R | undefined
-  delete(key: T): boolean
-}
-
-export function createLRUCache<T, R>(max: number, cache = new Map()): LRUCacheInstance<T, R> {
+export function createLRUCache<T, R>(max: number, cache: Map<T, R> = new Map()) {
   const has = (key: T) => cache.has(key)
   const deleteItem = (key: T) => cache.delete(key)
   const get = (key: T) => {
     if (!has(key)) return undefined
     const temp = cache.get(key)
+    if (!temp) return undefined
     cache.delete(key)
     cache.set(key, temp)
     return temp
@@ -114,7 +107,7 @@ export function pick<T extends Record<string, any>, R extends keyof T>(source: T
 export function getDate(time?: string | number) {
   if (!time) return
   let t = time
-  t = t > 0 ? +t : t.toString().replace(/-/g, '/')
+  t = +t > 0 ? +t : t.toString().replace(/-/g, '/')
   const date = new Date(t)
   if (date.toString() === 'Invalid Date') {
     warn('getDate', `${time} is invalid date`)

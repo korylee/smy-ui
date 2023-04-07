@@ -1,6 +1,6 @@
 <template>
   <div class="smy-popup-example">
-    <div>弹出位置</div>
+    <app-demo-title>弹出位置</app-demo-title>
     <button @click="center = true">居中弹出</button>
     <button @click="bottom = true">下方弹出</button>
     <button @click="top = true">上方弹出</button>
@@ -23,7 +23,7 @@
       <div class="block">{{ text }}</div>
     </smy-popup>
 
-    <div>注册事件</div>
+    <app-demo-title>注册事件</app-demo-title>
     <button @click="event = true">注册事件</button>
     <smy-popup :show.sync="event" @open="popupOpen" @opened="popupOpened" @close="popupClose" @closed="popupClosed">
       <div class="block">{{ text }}</div>

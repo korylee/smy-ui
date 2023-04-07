@@ -1,17 +1,19 @@
 <template>
   <div>
     <div>
-      <h4>基础使用</h4>
+      <app-demo-title>基础使用</app-demo-title>
       <smy-notice-bar :text="text" />
-      <h4>禁用滚动</h4>
+      <app-demo-title>禁用滚动</app-demo-title>
       <smy-notice-bar :text="text" :scrollable="false" />
-      <h4>可关闭</h4>
+      <app-demo-title>可关闭</app-demo-title>
       <smy-notice-bar :text="text" closable />
-      <h4>链接模式</h4>
+      <app-demo-title>链接模式</app-demo-title>
       <smy-notice-bar :text="text" closable>
         <a href="https://www.github.com">github</a>
       </smy-notice-bar>
-      <h4>竖向</h4>
+      <app-demo-title>多行展示</app-demo-title>
+      <smy-notice-bar :text="text" closable wrapable />
+      <app-demo-title>竖向</app-demo-title>
       <smy-notice-bar closable :scrollable="false">
         <template #left-icon>12</template>
         <smy-swiper vertical class="notice-swipe" :autoplay="3000" height="40">

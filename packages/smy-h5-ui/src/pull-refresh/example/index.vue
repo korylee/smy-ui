@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div>基础</div>
     <smy-pull-refresh v-model="refresh" @refresh="onRefresh">
-      <div class="pull-block">内容</div>
+      <div class="pull-block">下拉刷新</div>
     </smy-pull-refresh>
   </div>
 </template>

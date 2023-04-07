@@ -1,7 +1,7 @@
 <template>
   <div
     v-show="showNoticeBar"
-    :class="{ 'nut-noticebar--close': closable, 'nut-noticebar--wrapable': wrapable }"
+    :class="{ 'smy-notice-bar--closable': closable, 'smy-notice-bar--wrapable': wrapable }"
     class="smy-notice-bar"
     role="alert"
     @click="$emit('click', $event)"

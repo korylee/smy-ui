@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div>函数调用</div>
+    <app-demo-title>函数调用</app-demo-title>
     <button @click="show">基本使用</button>
-    <div>组件调用</div>
+    <app-demo-title>组件调用</app-demo-title>
     <button @click="show1 = true">基本使用</button>
     <smy-image-preview :show.sync="show1" indicator :images="images" />
   </div>

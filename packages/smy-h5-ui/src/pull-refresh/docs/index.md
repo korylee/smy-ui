@@ -1,5 +1,62 @@
 # PullRefresh 下拉刷新
 
+### 介绍
+
+用于提供下拉刷新的交互操作
+
+### 引入
+
+```js
+import Vue from 'vue'
+import { PullRefresh } from '@smy-h5/ui'
+
+Vue.use(PullRefresh)
+```
+
+### 基础用法
+
+下拉时触发 refresh 事件，在回调事件中可进行异步操作刷新数据，擦偶哦完成后将 v-model 设置为 false，即刷新完成。
+
+```html
+<template>
+  <div>
+    <smy-pull-refresh v-model="refresh" @refresh="onRefresh">
+      <div class="pull-block">下拉刷新</div>
+    </smy-pull-refresh>
+  </div>
+</template>
+<script>
+  import { PullRefresh, Toast } from '@smy-h5/ui'
+
+  export default {
+    components: { SmyPullRefresh: PullRefresh },
+    data: () => ({
+      refresh: false,
+    }),
+    methods: {
+      onRefresh() {
+        setTimeout(() => {
+          this.refresh = false
+          Toast('刷新成功！')
+        }, 2000)
+      },
+    },
+  }
+</script>
+<style lang="less" scoped>
+  .pull-block {
+    text-align: center;
+    color: #999;
+    font-size: 16px;
+    padding-top: 60px;
+  }
+
+  .smy-pull-refresh {
+    height: calc(100vh - 110px);
+  }
+</style>
+```
+
 ## API
 
 ### 属性

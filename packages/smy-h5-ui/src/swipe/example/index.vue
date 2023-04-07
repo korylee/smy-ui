@@ -1,20 +1,20 @@
 <template>
   <div>
-    <div>基础用法</div>
+    <app-demo-title>基础用法</app-demo-title>
     <smy-swipe>
       <smy-cell title="基本用法" insert></smy-cell>
       <template #right>
         <div class="delete-btn btn">删除</div>
       </template>
     </smy-swipe>
-    <div>禁用滑动</div>
+    <app-demo-title>禁用滑动</app-demo-title>
     <smy-swipe disabled>
       <smy-cell title="禁用滑动" insert></smy-cell>
       <template #right>
         <div class="delete-btn btn">删除</div>
       </template>
     </smy-swipe>
-    <div>左滑右滑</div>
+    <app-demo-title>左右滑动</app-demo-title>
     <smy-swipe>
       <smy-cell title="左滑右滑" insert></smy-cell>
       <template #left>
