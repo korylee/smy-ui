@@ -50,7 +50,6 @@ module.exports = defineConfig({
       { text: 'Steps 步骤条', doc: 'steps', type: 2 },
       { text: 'Swiper 轮播', doc: 'swiper', type: 2 },
       { text: 'Countdown 倒计时', doc: 'countdown', type: 2 },
-      { text: 'Card 卡片', doc: 'card', type: 2 },
       { text: 'Tag 标签', doc: 'tag', type: 2 },
       { text: 'ImagePreview 图片预览', doc: 'image-preview', type: 2 },
       { text: '导航组件', type: 1 },
