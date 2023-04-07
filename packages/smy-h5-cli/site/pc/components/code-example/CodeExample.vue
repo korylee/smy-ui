@@ -12,9 +12,7 @@
         </smy-site-icon>
       </smy-site-button>
     </div>
-    <div ref="code" :class="{ 'smy-site-code-example--scroller': disabledFold }" :style="{
-      height: height >= 0 ? `${height}px` : undefined,
-    }" class="smy-site-code-example__code">
+    <div ref="code" :class="codeClass" :style="codeStyle" class="smy-site-code-example__code">
       <slot />
     </div>
   </div>
@@ -22,7 +20,6 @@
 
 <script>
 import config from '@config'
-import { get } from 'lodash-es'
 import { handleCopy } from './utils'
 import Copy from "@smy-h5/icons/dist/es/Copy"
 import Xml from "@smy-h5/icons/dist/es/Xml"
@@ -46,11 +43,25 @@ export default {
     SmySiteIcon
   },
   data: () => ({
-    clipboard: get(config, 'pc.clipboard', true),
-    fold: get(config, 'pc.fold'),
+    clipboard: config?.pc?.clipboard ?? true,
+    fold: config?.pc?.fold,
     height: -1,
     disabledFold: false,
   }),
+  computed: {
+    codeClass ({ disabledFold, fold, height }) {
+      console.log(fold?.foldHeight, height);
+      return {
+        'smy-site-code-example__code--singleline': disabledFold,
+        'smy-site-code-example__code--scrollable': fold?.height !== height,
+      }
+    },
+    codeStyle ({ height }) {
+      return {
+        height: height >= 0 ? `${height}px` : undefined,
+      }
+    }
+  },
   mounted () {
     const { offsetHeight } = this.$refs.code
     const { height, default: defaultFold } = this.fold

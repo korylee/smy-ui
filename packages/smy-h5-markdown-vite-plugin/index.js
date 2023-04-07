@@ -36,7 +36,7 @@ function extractComponents(source) {
 function htmlWrapper(html) {
   const hGroup = html.replace(/<h3/g, ':::<h3').replace(/<h2/g, ':::<h2').split(':::')
   const cardGroup = hGroup
-    .map((fragment) => (fragment.includes('<h3') ? `<div class="card">${fragment}</div>` : fragment))
+    .map((fragment) => (fragment.includes('<h3') ? `<div class="doc-card">${fragment}</div>` : fragment))
     .join('')
   return cardGroup.replace(/<code>/g, '<code v-pre>')
 }
