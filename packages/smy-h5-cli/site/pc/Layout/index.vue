@@ -1,14 +1,14 @@
 <template>
   <div class="smy-site">
-    <AppHeader />
+    <app-header />
 
     <div class="smy-site-content">
-      <AppSidebar :menu="menu" :menu-name="menuName" @change="handleSidebarChange" />
+      <app-sidebar :menu="menu" :menu-name="menuName" @change="handleSidebarChange" />
       <div class="smy-site-doc-container" ref="doc" :class="[!useMobile && 'smy-site-doc-container--pc-only']">
         <router-view />
       </div>
 
-      <AppMobile v-show="useMobile" :component-name="componentName" :replace="menuName" />
+      <app-mobile v-show="useMobile" :component-name="componentName" :replace="menuName" />
     </div>
   </div>
 </template>
@@ -84,15 +84,18 @@ export default {
   &-component-preview {
     margin-top: 20px;
   }
+
   &-site {
     min-width: 1200px;
     padding: 60px 0 0;
+
     &-content {
       display: flex;
       margin-left: 240px;
       min-height: calc(100vh - 60px);
       background: var(--site-config-color-body);
     }
+
     &-doc-container {
       flex: 1 0 0;
       min-width: 500px;
@@ -102,10 +105,12 @@ export default {
       &::-webkit-scrollbar {
         display: none;
       }
+
       &--pc-only {
         padding: 0 90px 0 30px;
       }
     }
+
     &-doc {
       a {
         -webkit-font-smoothing: antialiased;
@@ -154,6 +159,7 @@ export default {
       pre {
         margin: 0;
       }
+
       code {
         position: relative;
         display: block;
@@ -165,6 +171,7 @@ export default {
         word-wrap: break-word;
         color: var(--site-config-color-hl-code);
       }
+
       p code,
       li code,
       table code {
@@ -174,6 +181,7 @@ export default {
         @doc-active();
         color: var(--site-config-color-primary);
       }
+
       table {
         width: 100%;
         margin-top: 12px;
@@ -200,6 +208,7 @@ export default {
           font-family: Consolas, Monaco, monospace;
           border-bottom: 1px solid var(--site-config-color-border);
           color: var(--site-config-color-text);
+
           code {
             white-space: pre-wrap;
             padding: 0;

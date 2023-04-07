@@ -1,22 +1,15 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./lib",
-    "target": "es5",
-    "module": "CommonJS",
-    "strict": true,
-    "declaration": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
-    "jsx": "preserve",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "moduleResolution": "node"
+    "allowJs": true,
   },
   "include": [
-    "src/**/*"
-  ]
+    "src/**/*",
+    "site/**/*",
+    "*/**.vue",
+    "module.d.ts",
+  ],
+  "vueCompilerOptions": {
+    "target": 2
+  }
 }

@@ -1,5 +1,5 @@
 packages/smy-h5-cli/lib/**
-packages/smy-h5-cli/site/**
+# packages/smy-h5-cli/site/**
 
 packages/smy-h5-icons/dist/**
 

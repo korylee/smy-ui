@@ -1,6 +1,6 @@
 <template>
   <div class="smy-site-sidebar">
-    <Cell
+    <smy-site-cell
       v-for="(item, index) of menu"
       :id="item.docs"
       :key="index"
@@ -18,17 +18,17 @@
         }"
         >{{ item.text }}</span
       >
-    </Cell>
+    </smy-site-cell>
   </div>
 </template>
 
 <script>
-import Cell from '../../components/cell'
+import SmySiteCell from '../../components/cell'
 import { MenuTypes } from '../../constant'
 
 export default {
   name: 'AppSidebar',
-  components: { Cell },
+  components: { SmySiteCell },
   props: {
     menu: Array,
     menuName: String,

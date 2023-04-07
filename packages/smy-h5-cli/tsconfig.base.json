@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "outDir": "./lib",
+    "target": "es5",
+    "module": "CommonJS",
     "strict": true,
     "declaration": true,
     "skipLibCheck": true,
@@ -12,10 +14,6 @@
       "esnext",
       "dom"
     ],
-    "module": "esnext",
     "moduleResolution": "node"
   },
-  "vueCompilerOptions": {
-    "target": 2
-  }
 }

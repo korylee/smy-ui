@@ -34,20 +34,5 @@
     "typescript": "~4.7.4",
     "vite": "^3.0.8"
   },
-  "eslintConfig": {
-    "root": true,
-    "ignorePatterns": [
-      "packages/smy-h5-cli/lib/**",
-      "packages/smy-h5-cli/site/**",
-      "packages/smy-h5-ui/lib/**",
-      "packages/smy-h5-ui/es/**",
-      "packages/smy-h5-ui/umd/**",
-      "packages/smy-h5-ui/site/**",
-      "packages/smy-h5-ui/public/**"
-    ],
-    "extends": [
-      "@smy-h5"
-    ]
-  },
   "packageManager": "pnpm@7.8.0"
 }

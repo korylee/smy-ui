@@ -21,11 +21,11 @@
 <script>
 import config from '@config'
 import { handleCopy } from './utils'
-import Copy from "@smy-h5/icons/dist/es/Copy"
-import Xml from "@smy-h5/icons/dist/es/Xml"
+import Copy from '@smy-h5/icons/dist/es/Copy'
+import Xml from '@smy-h5/icons/dist/es/Xml'
 import SmySiteIcon from '../../../components/icon'
 
-function doubleRaf () {
+function doubleRaf() {
   return new Promise((resolve) => {
     requestAnimationFrame(() => {
       requestAnimationFrame(resolve)
@@ -40,7 +40,7 @@ export default {
   components: {
     Copy,
     Xml,
-    SmySiteIcon
+    SmySiteIcon,
   },
   data: () => ({
     clipboard: config?.pc?.clipboard ?? true,
@@ -49,20 +49,19 @@ export default {
     disabledFold: false,
   }),
   computed: {
-    codeClass ({ disabledFold, fold, height }) {
-      console.log(fold?.foldHeight, height);
+    codeClass({ disabledFold, fold, height }) {
       return {
         'smy-site-code-example__code--singleline': disabledFold,
         'smy-site-code-example__code--scrollable': fold?.height !== height,
       }
     },
-    codeStyle ({ height }) {
+    codeStyle({ height }) {
       return {
         height: height >= 0 ? `${height}px` : undefined,
       }
-    }
+    },
   },
-  mounted () {
+  mounted() {
     const { offsetHeight } = this.$refs.code
     const { height, default: defaultFold } = this.fold
 
@@ -70,7 +69,7 @@ export default {
     this.height = defaultFold ? height : -1
   },
   methods: {
-    async handleToggle () {
+    async handleToggle() {
       const { height: foldHeight } = this.fold
       if (this.height === foldHeight) {
         this.height = -1
@@ -86,14 +85,14 @@ export default {
         this.height = foldHeight
       }
     },
-    handleCopy () {
+    handleCopy() {
       const res = handleCopy(this.$refs.code.innerText)
       res && alert('复制成功')
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="less">
-@import "./codeExample.less";
+@import './codeExample.less';
 </style>
