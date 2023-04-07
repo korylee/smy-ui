@@ -1,18 +1,18 @@
 <template>
-  <Teleport :to="teleport" :disabled="teleportDisabled">
+  <smy-teleport :to="teleport" :disabled="teleportDisabled">
     <transition name="smy-toast-fade" @after-enter="$emit('opened')" @after-leave="$emit('closed')">
-      <ToastCore v-show="show" v-bind="$props" class="smy-toast-transition" v-on="$listeners">
+      <toast-core v-show="show" v-bind="$props" class="smy-toast-transition" v-on="$listeners">
         <slot></slot>
         <template #action>
           <slot name="action" />
         </template>
-      </ToastCore>
+      </toast-core>
     </transition>
-  </Teleport>
+  </smy-teleport>
 </template>
 
 <script>
-import Teleport from '../teleport'
+import SmyTeleport from '../teleport'
 import { teleportMixin } from '../_mixins/teleport'
 import { props } from './props'
 import ToastCore from './ToastCore.vue'
@@ -20,7 +20,7 @@ import ToastCore from './ToastCore.vue'
 export default {
   name: 'SmyToast',
   mixins: [teleportMixin],
-  components: { Teleport, ToastCore },
+  components: { SmyTeleport, ToastCore },
   props,
 }
 </script>
