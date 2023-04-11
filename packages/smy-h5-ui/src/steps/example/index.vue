@@ -1,57 +1,58 @@
 <template>
   <div class="steps-example">
-    <div>基础使用</div>
+    <app-demo-title>基础使用</app-demo-title>
     <smy-steps :current="current1" class="steps-wrapper">
-      <Step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
-      <Step />
-      <Step />
+      <smy-step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
+      <smy-step />
+      <smy-step />
     </smy-steps>
     <div class="steps-button">
       <button @click="handleStep('current1')">下一步</button>
     </div>
-    <div>基础使用(点状)</div>
+    <app-demo-title>基础使用(点状)</app-demo-title>
     <smy-steps :current="current1" progress-dot class="steps-wrapper">
-      <Step />
-      <Step />
-      <Step />
+      <smy-step />
+      <smy-step />
+      <smy-step />
     </smy-steps>
     <div class="steps-button">
       <button @click="handleStep('current1')">下一步</button>
     </div>
-    <div>竖向</div>
+    <app-demo-title>竖向</app-demo-title>
     <smy-steps :current="current2" vertical class="steps-wrapper">
-      <Step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
-      <Step />
-      <Step />
+      <smy-step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
+      <smy-step />
+      <smy-step />
     </smy-steps>
     <div class="steps-button">
       <button @click="handleStep('current2')">下一步</button>
     </div>
-    <div>点状</div>
+    <app-demo-title>点状</app-demo-title>
     <smy-steps current="1" vertical progress-dot class="steps-wrapper">
-      <Step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
-      <Step v-for="item of 3" :key="item" content="fasdfad" />
+      <smy-step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
+      <smy-step v-for="item of 3" :key="item" content="fasdfad" />
     </smy-steps>
-    <div>翻转</div>
+    <app-demo-title>翻转</app-demo-title>
     <smy-steps current="1" reverse vertical progress-dot class="steps-wrapper">
-      <Step>
+      <smy-step>
         <template #title>
           <span>收货地址：广东省深圳市福田区梅林街道新一代产业园5栋</span>
         </template>
         刘一飞 18889898888
-      </Step>
-      <Step v-for="item of 3" :key="item" content="fasdfad" />
+      </smy-step>
+      <smy-step v-for="item of 3" :key="item" content="fasdfad" />
     </smy-steps>
   </div>
 </template>
 
 <script>
 import SmySteps from '..'
-import Step from '../../step'
+import SmyStep from '../../step'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'StepsExample',
-  components: { SmySteps, Step },
+  components: { SmySteps, SmyStep, AppDemoTitle },
   data: () => ({
     current1: 0,
     current2: 0,

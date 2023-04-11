@@ -10,11 +10,13 @@
 
 <script>
 import ImagePreview from '../index'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'ImagePreviewExample',
   components: {
     SmyImagePreview: ImagePreview.Component,
+    AppDemoTitle,
   },
   data: () => ({
     show1: false,

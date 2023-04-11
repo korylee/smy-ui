@@ -38,7 +38,7 @@ export function cancelAnimationFrame(handle: number): void {
   return inBrowser ? globalThis.cancelAnimationFrame(handle) : clearTimeout(handle)
 }
 
-export const doubleRaf = (cb?: FrameRequestCallback, ctx?: any): Promise<void> => {
+export const doubleRaf = (cb?: () => void, ctx?: any): Promise<void> => {
   const promise = new Promise<void>((resolve) => {
     requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
   })

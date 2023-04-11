@@ -37,7 +37,7 @@ export default {
       return {
         'smy-badge__content--dot': dot,
         'smy-badge__content--bubble': !dot && bubble,
-        'smy-badg__content--icon': !dot && hasSlot('icon'),
+        'smy-badge__content--icon': !dot && hasSlot('icon'),
         [`smy-badge__position smy-badge--${position}`]: hasSlot(),
       }
     },

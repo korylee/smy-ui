@@ -1,7 +1,7 @@
 <template>
   <div class="badge-example">
     <div>
-      <div class="app-demo-title">基础用法</div>
+      <app-demo-title>基础用法</app-demo-title>
       <div>
         <smy-badge value="8"> <span class="title">标题</span> </smy-badge>
         <smy-badge value="76"> <span class="title">标题</span> </smy-badge>
@@ -30,19 +30,19 @@
     </smy-badge>
 
     <div class="app-demo-title">自定义颜色</div>
-    <smy-badge value="8" :color="color">
+    <smy-badge value="8" color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
       <span class="title">标题</span>
     </smy-badge>
-    <smy-badge value="76" :color="color">
+    <smy-badge value="76" color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
       <span class="title">标题</span>
     </smy-badge>
-    <smy-badge value="NEW" :color="color">
+    <smy-badge value="NEW" color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
       <span class="title">标题</span>
     </smy-badge>
-    <smy-badge value="NEW" bubble :color="color">
+    <smy-badge value="NEW" bubble color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
       <span class="title">标题</span>
     </smy-badge>
-    <smy-badge value="NEW" dot :color="color">
+    <smy-badge value="NEW" dot color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
       <span class="title">标题</span>
     </smy-badge>
     <div>
@@ -51,16 +51,25 @@
       <smy-badge value="200" right="-10"> <span class="title">标题</span> </smy-badge>
       <smy-badge value="200"> <span class="title">标题</span> </smy-badge>
     </div>
+    <div class="app-demo-title">自定义徽标内容</div>
+    <smy-badge>
+      <span class="title">标题</span>
+      <template #icon>
+        <smy-icon><xml /></smy-icon>
+      </template>
+    </smy-badge>
   </div>
 </template>
 <script>
 import SmyBadge from '../'
+import SmyIcon from '../../icon'
+import { Xml } from '@smy-h5/icons'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'BadgeExample',
-  components: { SmyBadge },
+  components: { SmyBadge, SmyIcon, Xml, AppDemoTitle },
   data: () => ({
-    color: 'linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)',
     hidden: false,
   }),
 }
@@ -70,11 +79,22 @@ export default {
 .badge-example {
   .title {
     display: inline-block;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 14px;
+    line-height: 40px;
+    width: 40px;
+    height: 40px;
+    background: rgb(238, 238, 238);
+    color: rgb(102, 102, 102);
+    text-align: center;
+    border-radius: 3px;
   }
   .smy-badge {
-    margin-left: 16px;
+    &:not(:first-child) {
+      margin-left: 30px;
+    }
+    &:first-child {
+      margin-left: 10px;
+    }
   }
 }
 </style>

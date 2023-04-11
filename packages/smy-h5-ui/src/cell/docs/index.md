@@ -1,4 +1,13 @@
-# Cell 单元格
+# 单元格
+
+### 引入
+
+```js
+import Vue from 'vue'
+import { Cell } from '@smy-h5/ui'
+
+Vue.use(Cell)
+```
 
 ## API
 

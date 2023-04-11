@@ -30,10 +30,11 @@
 <script>
 import SmySwipe from '../Swipe.vue'
 import SmyCell from '../../cell'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'SwipeExpamle',
-  components: { SmySwipe, SmyCell },
+  components: { SmySwipe, SmyCell, AppDemoTitle },
 }
 </script>
 

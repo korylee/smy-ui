@@ -1,14 +1,14 @@
 <template>
   <div class="ellipsis-example">
-    <div class="app-demo-title">头部省略</div>
+    <app-demo-title>头部省略</app-demo-title>
     <smy-ellipsis :content="content" direction="start" />
-    <div class="app-demo-title">尾部省略</div>
+    <app-demo-title>尾部省略</app-demo-title>
     <smy-ellipsis :content="content" direction="end" />
-    <div class="app-demo-title">居中省略</div>
+    <app-demo-title>居中省略</app-demo-title>
     <smy-ellipsis :content="content" direction="middle" />
-    <div class="app-demo-title">多行展示</div>
+    <app-demo-title>多行展示</app-demo-title>
     <smy-ellipsis :content="content" rows="2" />
-    <div class="app-demo-title">展开收起</div>
+    <app-demo-title>展开收起</app-demo-title>
     <smy-ellipsis :content="content" direction="start" expandText="展开" collapse-text="收起" />
     <smy-ellipsis :content="content" direction="middle" expandText="展开" collapse-text="收起" />
     <smy-ellipsis :content="content" expandText="展开" collapse-text="收起" />
@@ -17,11 +17,13 @@
 
 <script>
 import SmyEllipsis from '../'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'EllipsisExample',
   components: {
     SmyEllipsis,
+    AppDemoTitle,
   },
   data: () => ({
     content:

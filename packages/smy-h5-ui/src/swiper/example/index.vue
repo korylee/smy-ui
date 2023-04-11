@@ -42,10 +42,11 @@
 <script>
 import SmySwiper from '../'
 import SmySwiperItem from '../../swiper-item'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'SwiperExample',
-  components: { SmySwiper, SmySwiperItem },
+  components: { SmySwiper, SmySwiperItem, AppDemoTitle },
   data: () => ({
     page: 2,
     list: [

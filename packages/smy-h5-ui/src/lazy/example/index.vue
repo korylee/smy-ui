@@ -1,6 +1,6 @@
 <template>
   <div class="smy-lazy-example">
-    <div>基础使用</div>
+    <app-demo-title>基础使用</app-demo-title>
     <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
     <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
     <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
@@ -11,9 +11,12 @@
 
 <script>
 import Lazy from '..'
+import { AppDemoTitle } from '@smy-h5/cli/client'
+
 export default {
   name: 'LazyExample',
   directives: { Lazy },
+  components: { AppDemoTitle },
 }
 </script>
 

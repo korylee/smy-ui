@@ -19,7 +19,8 @@
     "site",
     "tsconfig.json",
     "smy.default.config.js",
-    "preset.js"
+    "preset.js",
+    "client"
   ],
   "author": "",
   "license": "ISC",

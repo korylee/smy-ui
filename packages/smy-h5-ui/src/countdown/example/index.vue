@@ -36,10 +36,11 @@
 <script>
 import SmyCountdown from '../'
 import SmyCell from '../../cell'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'CountdownExample',
-  components: { SmyCountdown, SmyCell },
+  components: { SmyCountdown, SmyCell, AppDemoTitle },
   data: () => ({
     end: Date.now() + 60 * 1000,
     paused: true,

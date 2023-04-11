@@ -61,10 +61,11 @@
 <script>
 import SmyRow from '../'
 import SmyCol from '../../col'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'LayoutExample',
-  components: { SmyRow, SmyCol },
+  components: { SmyRow, SmyCol, AppDemoTitle },
 }
 </script>
 <style lang="less" scoped>

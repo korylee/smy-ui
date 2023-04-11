@@ -34,10 +34,11 @@
 <script>
 import Popup from '../'
 import Toast from '../../toast'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'PopupExample',
-  components: { [Popup.name]: Popup },
+  components: { [Popup.name]: Popup, AppDemoTitle },
   data: () => ({
     text: '素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。',
     center: false,

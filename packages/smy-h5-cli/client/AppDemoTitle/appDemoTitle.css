@@ -1,0 +1,7 @@
+.app-demo-title {
+  width: 100%;
+  padding: 15px 10px;
+  color: var(--site-config-color-sub-text);
+  font-size: 14px;
+  box-sizing: border-box;
+}
