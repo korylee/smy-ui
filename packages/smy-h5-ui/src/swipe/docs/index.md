@@ -4,6 +4,15 @@
 
 常用于单元格左右滑删除等手势操作
 
+### 引入
+```js
+import Vue from 'vue'
+import { Swipe } from '@smy-h5/ui'
+
+Vue.use(Swipe)
+```
+
+
 ### 基础用法
 
 ```html

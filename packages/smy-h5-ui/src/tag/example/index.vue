@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-demo-title>基础用法</app-demo-title>
     <smy-tag>12151</smy-tag>
     <smy-tag type="primary">12151</smy-tag>
     <smy-tag type="success">12151</smy-tag>
