@@ -1,5 +1,4 @@
-import { isBool, isNill, isString, isArray, type Func, isObject } from './is'
-import { warn } from './smy/warn'
+import { isBool, isNill, isString, isArray, type Func, isObject, isRegExp, isDate } from './is'
 
 const cameLizeRE = /-(\w)/g
 
@@ -29,36 +28,47 @@ export const removeItem = (arr: Array<unknown>, item: unknown) => {
   if (~index) return arr.splice(index, 1)
 }
 
-export function throttle<T extends Func>(method: T, mustRunDelay = 200): T {
-  let timer: number
+export function throttle<T extends Func>(fn: T, delay = 200): T {
+  let timer: NodeJS.Timeout | undefined
   let start = 0
   return function loop(this: unknown, ...args: any[]) {
     const now = Date.now()
     const elapsed = now - start
+    const timeout = delay - elapsed
 
-    if (!start) start = now
-    if (timer) {
-      window.clearTimeout(timer)
-    }
-    if (elapsed >= mustRunDelay) {
-      method.apply(this, args)
+    if (!timer && timeout <= 0) {
+      fn.apply(this, args)
       start = now
     } else {
-      timer = window.setTimeout(() => {
-        loop.apply(this, args)
-      }, mustRunDelay - elapsed)
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        fn.apply(this, args)
+        timer = undefined
+        start = Date.now()
+      }, timeout)
     }
   } as T
 }
 
-export function merge(target: any, ...args: any[]) {
-  args.forEach((source = {}) => {
-    Reflect.ownKeys(source).forEach((prop) => {
-      const value = source[prop]
-      if (value == undefined) return
-      target[prop] = value
-    })
-  })
+type AnyObject = Record<string, any>
+
+const isMergeableObject = (val: unknown) => isObject(val) && !isRegExp(val) && !isDate(val)
+
+export function merge<T extends AnyObject>(target: T, ...sources: AnyObject[]): T {
+  if (!sources.length) return target
+  for (const source of sources) {
+    if (!isMergeableObject(source)) {
+      continue
+    }
+    for (const key of Object.keys(source)) {
+      const sourceValue = source[key]
+      const targetValue = target[key]
+      const mergedValue = isMergeableObject(sourceValue)
+        ? merge(isMergeableObject(targetValue) ? targetValue : {}, sourceValue)
+        : sourceValue
+      ;(target[key] as any) = mergedValue
+    }
+  }
   return target
 }
 
@@ -102,16 +112,4 @@ export function pick<T extends Record<string, any>, R extends keyof T>(source: T
     }
     return res
   }, {} as Pick<T, R>)
-}
-
-export function getDate(time?: string | number) {
-  if (!time) return
-  let t = time
-  t = +t > 0 ? +t : t.toString().replace(/-/g, '/')
-  const date = new Date(t)
-  if (date.toString() === 'Invalid Date') {
-    warn('getDate', `${time} is invalid date`)
-    return
-  }
-  return date
 }

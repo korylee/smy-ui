@@ -89,7 +89,7 @@ exports[`test step event 1`] = `
 
 exports[`test steps example 1`] = `
 "<div class=\\"steps-example\\">
-  <div>基础使用</div>
+  <div class=\\"app-demo-title\\">基础使用</div>
   <div class=\\"steps-wrapper smy-steps smy-steps--horizontal\\">
     <div class=\\"smy-step smy-step--finish\\">
       <div class=\\"smy-step__header\\">
@@ -129,7 +129,7 @@ exports[`test steps example 1`] = `
     </div>
   </div>
   <div class=\\"steps-button\\"><button>下一步</button></div>
-  <div>基础使用(点状)</div>
+  <div class=\\"app-demo-title\\">基础使用(点状)</div>
   <div class=\\"steps-wrapper smy-steps smy-steps--horizontal smy-steps--dot\\">
     <div class=\\"smy-step smy-step--finish\\">
       <div class=\\"smy-step__header\\">
@@ -169,7 +169,7 @@ exports[`test steps example 1`] = `
     </div>
   </div>
   <div class=\\"steps-button\\"><button>下一步</button></div>
-  <div>竖向</div>
+  <div class=\\"app-demo-title\\">竖向</div>
   <div class=\\"steps-wrapper smy-steps smy-steps--vertical\\">
     <div class=\\"smy-step smy-step--finish\\">
       <div class=\\"smy-step__header\\">
@@ -209,7 +209,7 @@ exports[`test steps example 1`] = `
     </div>
   </div>
   <div class=\\"steps-button\\"><button>下一步</button></div>
-  <div>点状</div>
+  <div class=\\"app-demo-title\\">点状</div>
   <div class=\\"steps-wrapper smy-steps smy-steps--vertical smy-steps--dot\\">
     <div class=\\"smy-step smy-step--finish\\">
       <div class=\\"smy-step__header\\">
@@ -260,7 +260,7 @@ exports[`test steps example 1`] = `
       </div>
     </div>
   </div>
-  <div>翻转</div>
+  <div class=\\"app-demo-title\\">翻转</div>
   <div class=\\"steps-wrapper smy-steps smy-steps--vertical smy-steps--dot\\">
     <div class=\\"smy-step smy-step--finish\\">
       <div class=\\"smy-step__header\\">

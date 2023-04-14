@@ -3,23 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/lib/index.js",
+  "node": "dist/lib/index.js",
   "module": "dist/es/index.js",
+  "browser": "dist/es/index.js",
   "exports": {
     ".": {
       "import": "./dist/es/index.js",
       "module": "./dist/es/index.js",
-      "require": "./dist/lib/index.js"
+      "require": "./dist/lib/index.js",
+      "node": "./dist/lib/index.js",
+      "browser": "./dist/es/index.js"
     },
-    "./css": {
-      "default": "./dist/style/smy-h5-icons.css"
-    },
-    "./less": {
-      "default": "./dist/style/smy-h5-icons.less"
-    },
-    "./font": {
-      "default": "./dist/font/smy-h5-icons-webfont.ttf"
-    },
-    "./*": "./*"
+    "./css": "./dist/style/smy-h5-icons.css",
+    "./less": "./dist/style/smy-h5-icons.less",
+    "./font": "./dist/font/smy-h5-icons-webfont.ttf",
+    "./*": "./*.js"
   },
   "files": [
     "dist",

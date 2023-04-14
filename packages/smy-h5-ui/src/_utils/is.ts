@@ -2,8 +2,12 @@ export declare interface Func<T = any, R = T> {
   (...args: T[]): R
 }
 
-export const isType = <T>(val: unknown, type: string): val is T =>
-  Object.prototype.toString.call(val) === `[object ${type}]`
+const createIsType =
+  <T>(type: string) =>
+  (val: unknown): val is T =>
+    Object.prototype.toString.call(val) === `[object ${type}]`
+
+export const isType = <T>(type: string, val: unknown): val is T => createIsType<T>(type)(val)
 
 export const isNill = (val: unknown): val is null | undefined => val == null
 
@@ -15,7 +19,11 @@ export const isNumber = (val: unknown): val is number => typeof val === 'number'
 
 export const isFunction = (val: unknown): val is Func => typeof val === 'function'
 
-export const isPlainObject = (val: unknown) => isType<Record<string, any>>(val, 'Object')
+export const isPlainObject = createIsType<Record<string, any>>('Object')
+
+export const isRegExp = createIsType<RegExp>('RegExp')
+
+export const isDate = createIsType<Date>('Date')
 
 export const isObject = (val: unknown): val is object => typeof val === 'object' && val !== null
 
@@ -25,8 +33,8 @@ export const isRem = (str: string): boolean => isString(str) && str.endsWith('re
 
 export const isPx = (str: string): boolean => isString(str) && str.endsWith('px')
 
-export const isVh = (str: string): boolean => isString(str) && str.endsWith('px')
+export const isVh = (str: string): boolean => isString(str) && str.endsWith('vh')
 
-export const isVw = (str: string): boolean => isString(str) && str.endsWith('px')
+export const isVw = (str: string): boolean => isString(str) && str.endsWith('vw')
 
 export const isNumString = (str: unknown): boolean => isString(str) && /^\d+$/.test(str)

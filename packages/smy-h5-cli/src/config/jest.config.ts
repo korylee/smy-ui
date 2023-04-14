@@ -8,6 +8,7 @@ import {
   JEST_STYLE_MOCK,
   TESTS_DIR_NAME,
 } from '../shared/constant'
+import { type Config } from 'jest'
 
 function getRootConfig() {
   const file = resolve(CWD, 'jest.config.js')
@@ -21,12 +22,13 @@ function getRootConfig() {
 }
 
 module.exports = {
+  testEnvironment: 'jsdom',
   moduleNameMapper: {
     '\\.(css|less)$': JEST_STYLE_MOCK,
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': JEST_MEDIA_MOCK,
   },
   transform: {
-    '\\.(vue)$': 'vue-jest',
+    '\\.(vue)$': '@vue/vue2-jest',
     '\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
   collectCoverage: true,
@@ -39,4 +41,4 @@ module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'vue'],
   transformIgnorePatterns: [],
   ...getRootConfig(),
-}
+} as Config

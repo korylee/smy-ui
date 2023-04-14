@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@smy-h5/cli": "workspace:*",
+    "@testing-library/vue": "^5.9.0",
     "@types/jest": "^29.4.0",
     "@types/jsdom": "^16.2.14",
     "@types/lodash-es": "^4.17.6",

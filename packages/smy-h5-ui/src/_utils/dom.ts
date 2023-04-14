@@ -3,9 +3,7 @@ import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh } from './is
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
   const allParentScroller: Array<HTMLElement | Window> = []
-  let element: HTMLElement | Window = el
-  while (element !== window) {
-    element = getParentScroller(element as HTMLElement)
+  for (let element = getParentScroller(el); element !== window; element = getParentScroller(element as HTMLElement)) {
     allParentScroller.push(element)
   }
   return allParentScroller
@@ -15,8 +13,7 @@ type ScrollerElement = HTMLElement | Window
 
 export function getParentScroller(el: HTMLElement, root: ScrollerElement = window): HTMLElement | Window {
   let element = el
-  while (element && el !== root) {
-    if (!element.parentNode) break
+  while (element && element.parentNode && el !== root) {
     element = element.parentNode as HTMLElement
     if (element === document.body || element === document.documentElement) {
       break
