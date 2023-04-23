@@ -1,21 +1,15 @@
 <template>
   <div :class="classes" v-on="$listeners" class="smy-cell">
-    <div v-if="hasSlot('icon')" class="smy-cell__icon">
-      <slot name="icon" />
-    </div>
+    <div v-if="hasSlot('icon')" class="smy-cell__icon"><slot name="icon" /></div>
     <div class="smy-cell__content">
       <div class="smy-cell__title" :class="titleClass">
         <slot>{{ title }}</slot>
       </div>
       <div v-if="hasSlot('desc') || desc" class="smy-cell__desc" :class="descClass">
-        <slot name="desc">
-          {{ desc }}
-        </slot>
+        <slot name="desc">{{ desc }}</slot>
       </div>
     </div>
-    <div v-if="hasSlot('extra')" :class="extraClass" class="smy-cell__extra">
-      <slot name="extra" />
-    </div>
+    <div v-if="hasSlot('extra')" :class="extraClass" class="smy-cell__extra"><slot name="extra" /></div>
   </div>
 </template>
 

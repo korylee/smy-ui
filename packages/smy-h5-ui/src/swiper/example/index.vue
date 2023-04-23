@@ -19,7 +19,7 @@
       </smy-swiper-item>
     </smy-swiper>
     <app-demo-title>自定义大小</app-demo-title>
-    <smy-swiper :initial-index="2" indicator autoplay="2000" width="300">
+    <smy-swiper :initial-index="2" autoplay="1000" width="300">
       <smy-swiper-item v-for="item of list" :key="item">
         <img :src="item" alt="" />
       </smy-swiper-item>

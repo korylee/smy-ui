@@ -14,15 +14,15 @@ export default {
     offset: 0,
   }),
   computed: {
-    style() {
+    style({ swiper, offset }) {
       const style = {}
-      const isVertical = this.swiper?.vertical
-      const size = this.swiper?.size
+      const isVertical = swiper?.vertical
+      const size = swiper?.size
       if (size) {
         style[isVertical ? 'height' : 'width'] = `${size}px`
       }
-      if (this.offset) {
-        style.transform = `translate${isVertical ? 'Y' : 'X'}(${this.offset}px)`
+      if (offset) {
+        style.transform = `translate${isVertical ? 'Y' : 'X'}(${offset}px)`
       }
       return style
     },
