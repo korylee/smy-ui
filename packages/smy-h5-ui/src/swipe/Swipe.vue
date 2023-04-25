@@ -20,8 +20,12 @@
 </template>
 
 <script>
-import { useTouch } from '../_utils/composable/useTouch'
 import { props } from './props'
+import { useTouch } from '../_utils/composable/useTouch'
+import { range } from '../_utils/shared'
+
+const getRefWidth = (ref) => ref?.clientWidth || 0
+const THRESHOLD = 0.15
 
 export default {
   name: 'SmySwipe',
@@ -29,96 +33,71 @@ export default {
   data: () => ({
     offset: 0,
     opened: false,
-    moving: false,
-    position: '',
-    oldPosition: '',
+    touching: false,
+    startOffset: 0,
     touch: useTouch(),
   }),
   computed: {
     touchStyle() {
-      return { transform: `translate3d(${this.offset}px, 0, 0)` }
+      return {
+        transform: `translate3d(${this.offset}px, 0, 0)`,
+        transitionDuration: this.touching ? '0s' : '.6s',
+      }
     },
     rightRefWidth() {
-      return this.getRefWidth(this.$refs.rightRef)
+      return getRefWidth(this.$refs.rightRef)
     },
     leftRefWidth() {
-      return this.getRefWidth(this.$refs.leftRef)
+      return getRefWidth(this.$refs.leftRef)
     },
   },
   methods: {
     open(position) {
       this.opened = true
-      if (position) {
-        this.offset = position === 'left' ? -this.rightRefWidth : this.leftRefWidth
-      }
-      this.$emit('open', { position: this.position || position })
+      this.offset = position === 'left' ? -this.rightRefWidth : this.leftRefWidth
+      this.$emit('open', { position })
     },
-    close() {
+    close(position) {
       this.offset = 0
       this.opened = false
-      this.$emit('close', { position: this.position })
-    },
-    getRefWidth(ref) {
-      return ref?.clientWidth || 0
-    },
-    setOffset(deltaX) {
-      this.position = deltaX > 0 ? 'right' : 'left'
-      let offset = deltaX
-      const { rightRefWidth, position, oldPosition, leftRefWidth } = this
-      switch (position) {
-        case 'left':
-          if (this.opened && oldPosition === position) {
-            offset = -rightRefWidth
-          } else {
-            offset = Math.abs(deltaX) > rightRefWidth ? -rightRefWidth : deltaX
-          }
-          break
-        case 'right': {
-          if (this.opened && oldPosition === position) {
-            offset = leftRefWidth
-          } else {
-            offset = Math.abs(deltaX) > leftRefWidth ? leftRefWidth : deltaX
-          }
-        }
-      }
-      this.offset = offset
+      this.$emit('close', { position })
     },
     onTouchStart(event) {
-      if (this.disabled) return
-      this.touch.start(event)
+      const { touch, offset } = this
+      this.startOffset = offset
+      touch.start(event)
     },
     onTouchMove(event) {
       if (this.disabled) return
-      const { touch } = this
-      touch.move(event)
-      if (touch.isHorizontal()) {
-        this.moving = true
-        this.setOffset(touch.state.deltaX)
+      const { rightRefWidth, leftRefWidth, touch } = this
+      const { move, isHorizontal, state } = touch
+      move(event)
+      if (isHorizontal()) {
+        this.touching = true
+        this.offset = range(state.deltaX + this.startOffset, -rightRefWidth, leftRefWidth)
       }
     },
     onTouchEnd() {
-      if (!this.moving) return
-      this.moving = false
-      this.oldPosition = this.position
-      const { rightRefWidth, leftRefWidth } = this
-      const offsetDenominator = this.opened ? 1.2 : 2
-      switch (this.position) {
-        case 'left':
-          if (Math.abs(this.offset) <= rightRefWidth / offsetDenominator) {
-            this.close()
-          } else {
-            this.offset = -rightRefWidth
-            this.open()
-          }
-          break
-        case 'right':
-          if (Math.abs(this.offset) <= leftRefWidth / offsetDenominator) {
-            this.close()
-          } else {
-            this.offset = leftRefWidth
-            this.open()
-          }
-          break
+      if (!this.touching) return
+      const {
+        rightRefWidth,
+        leftRefWidth,
+        opened,
+        touch: {
+          state: { deltaX },
+        },
+      } = this
+      this.touching = false
+      const isRight = deltaX > 0
+      const position = isRight ? 'right' : 'left'
+      const threshold = opened ? 1 - THRESHOLD : THRESHOLD
+      const width = isRight ? leftRefWidth : rightRefWidth
+      const offset = Math.abs(this.offset)
+
+      if (width && offset > width * threshold) {
+        this.open(position)
+      } else {
+        this.close(position)
       }
     },
   },

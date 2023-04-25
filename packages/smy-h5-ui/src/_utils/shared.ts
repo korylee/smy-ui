@@ -22,6 +22,8 @@ export function toNumber(val: number | string | boolean | undefined | null): num
   return val
 }
 
+export const range = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
+
 export const removeItem = (arr: Array<unknown>, item: unknown) => {
   if (!arr.length) return
   const index: number = arr.indexOf(item)
@@ -99,9 +101,6 @@ export function createLRUCache<T, R>(max: number, cache: Map<T, R> = new Map()) 
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export const NOOP = (): void => {}
-
 export function pick<T extends Record<string, any>, R extends keyof T>(source: T, props: R | R[]): Pick<T, R> {
   if (!isObject(source)) return {} as any
   const wrapProps = isNill(props) ? [] : isArray(props) ? props : [props]
@@ -113,3 +112,5 @@ export function pick<T extends Record<string, any>, R extends keyof T>(source: T
     return res
   }, {} as Pick<T, R>)
 }
+
+export const keys: <O extends Record<string, any>>(obj: O) => (keyof O)[] = Object.keys

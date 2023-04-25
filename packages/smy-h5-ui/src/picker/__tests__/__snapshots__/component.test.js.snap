@@ -5,13 +5,17 @@ exports[`test picker example 1`] = `
   <transition-stub name=\\"smy-fade\\" class=\\"smy-picker__popup\\">
     <div class=\\"smy--box smy-popup\\" style=\\"z-index: 998; display: none;\\">
       <div class=\\"smy-popup__overlay\\" style=\\"z-index: 999;\\"></div>
-      <transition-stub name=\\"smy-pop-bottom\\"></transition-stub>
+      <transition-stub name=\\"smy-pop-bottom\\">
+        <!---->
+      </transition-stub>
     </div>
   </transition-stub>
   <transition-stub name=\\"smy-fade\\" class=\\"smy-picker__popup\\">
     <div class=\\"smy--box smy-popup\\" style=\\"z-index: 998; display: none;\\">
       <div class=\\"smy-popup__overlay\\" style=\\"z-index: 999;\\"></div>
-      <transition-stub name=\\"smy-pop-bottom\\"></transition-stub>
+      <transition-stub name=\\"smy-pop-bottom\\">
+        <!---->
+      </transition-stub>
     </div>
   </transition-stub>
 </div>"

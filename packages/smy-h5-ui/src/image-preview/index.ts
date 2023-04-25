@@ -5,7 +5,7 @@ import { mountComponent, withInstall } from '../_utils/vue/component'
 import _ImagePreview from './ImagePreview.vue'
 import Vue, { type VNode } from 'vue'
 import { isArray, isNill, isString } from '../_utils/is'
-import { inBrowser } from '../_utils/env'
+import { IN_BROWSER } from '../_utils/env'
 
 declare interface SmyImagePreview extends SmyComponent {
   new (): {
@@ -39,7 +39,7 @@ type ImagePreviewOptions = ImagePreviewProps & {
 let singletonInstance: ImagePreviewOptions | null
 
 const ImagePreview = function ImagePreview(options: string | string[] | ImagePreviewOptions) {
-  if (!inBrowser) return
+  if (!IN_BROWSER) return
   ImagePreview.close()
 
   const imagePreviewOptions: ImagePreviewOptions = isString(options)

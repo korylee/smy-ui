@@ -19,7 +19,7 @@
       </smy-swiper-item>
     </smy-swiper>
     <app-demo-title>自定义大小</app-demo-title>
-    <smy-swiper :initial-index="2" autoplay="1000" width="300">
+    <smy-swiper :initial-index="2" width="300" :loop="false">
       <smy-swiper-item v-for="item of list" :key="item">
         <img :src="item" alt="" />
       </smy-swiper-item>
@@ -86,7 +86,7 @@ export default {
   z-index: 1;
   display: flex;
   justify-content: space-between;
-
+  pointer-events: none;
   span {
     cursor: pointer;
     display: flex;
@@ -96,6 +96,7 @@ export default {
     line-height: 30px;
     background-color: rgba(0, 0, 0, 0.4);
     color: #fff;
+    pointer-events: all;
   }
 }
 </style>

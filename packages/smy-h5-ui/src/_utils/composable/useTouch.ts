@@ -25,33 +25,31 @@ export function useTouch() {
   const isVertical = () => state.direction === 'vertical'
   const isHorizontal = () => state.direction === 'horizontal'
   const reset = () => {
-    state.startX = 0
-    state.startY = 0
     state.deltaX = 0
     state.deltaY = 0
     state.offsetX = 0
     state.offsetY = 0
     state.direction = ''
   }
-  const start = ((event: TouchEvent) => {
+  const start = (event: TouchEvent) => {
     reset()
-    const touch = event.touches[0]
-    state.startX = touch.clientX
-    state.startY = touch.clientY
-  }) as EventListener
+    const { clientX, clientY } = event.touches[0]
+    state.startX = clientX
+    state.startY = clientY
+  }
 
-  const move = ((event: TouchEvent) => {
-    const touch = event.touches[0]
-    state.deltaX = touch.clientX - state.startX
-    state.deltaY = touch.clientY - state.startY
-    state.moveX = touch.clientX
-    state.moveY = touch.clientY
+  const move = (event: TouchEvent) => {
+    const { clientX, clientY } = event.touches[0]
+    state.deltaX = clientX - state.startX
+    state.deltaY = clientY - state.startY
+    state.moveX = clientX
+    state.moveY = clientY
     state.offsetX = Math.abs(state.deltaX)
     state.offsetY = Math.abs(state.deltaY)
     if (!state.direction) {
       state.direction = getDirection(state.offsetX, state.offsetY)
     }
-  }) as EventListener
+  }
   return Object.freeze({
     state,
     start,

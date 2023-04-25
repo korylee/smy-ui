@@ -11,7 +11,7 @@
         />
         <transition :name="transition || `smy-pop-${position}`">
           <div
-            v-show="show"
+            v-if="show"
             :class="[`smy-popup__content--${position}`, contentClass]"
             :style="mergeStyles({ zIndex: zIndex }, contentStyle)"
             v-bind="$attrs"

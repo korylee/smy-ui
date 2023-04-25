@@ -1,7 +1,12 @@
 import { getAllParentScroller, inViewport } from '../_utils/dom'
-import type { PluginObject, VueConstructor, DirectiveOptions } from 'vue'
-import type { DirectiveBinding } from 'vue/types/options'
+import type { PluginObject, VueConstructor, DirectiveOptions, VNodeDirective, VNode } from 'vue'
 import { createLRUCache, removeItem, throttle, merge } from '../_utils/shared'
+import { SUPPORT_INTERSECTION } from '../_utils/env'
+import Intersect, { type ObserveVNodeDirective } from '../intersect'
+
+interface LazyVNodeDirective extends VNodeDirective {
+  value?: string | { src: string; loading?: string; error?: string; attempt?: number | string }
+}
 
 export interface LazyOptions {
   loading?: string
@@ -10,6 +15,7 @@ export interface LazyOptions {
   throttleWait?: number
   filter?: (lazy: Lazy) => void
   events?: string[]
+  observer?: boolean
 }
 
 type LazyState = 'pending' | 'success' | 'error'
@@ -40,15 +46,16 @@ const listenTargets: ListenTarget[] = []
 
 export const imageCache = createLRUCache<string, HTMLImageElement>(100)
 
-export const defaultLazyOptions: LazyOptions = {
+export const globalLazyOptions: LazyOptions = {
   loading: PIXEL,
   error: PIXEL,
   attempt: 3,
   throttleWait: 300,
   events: EVENTS,
+  observer: true,
 }
 
-let checkAllWithThrottle = throttle(checkAll, defaultLazyOptions.throttleWait)
+let checkAllWithThrottle = throttle(checkAll, globalLazyOptions.throttleWait)
 
 function setSRC(el: LazyHTMLElement, src: string) {
   if (el._lazy?.arg === BACKGROUND_IMAGE_ARG_NAME) {
@@ -61,7 +68,7 @@ function setSRC(el: LazyHTMLElement, src: string) {
 function setLoading(el: LazyHTMLElement) {
   el._lazy?.loading && setSRC(el, el._lazy.loading)
 
-  checkAll()
+  // checkAll()
 }
 
 function setSuccess(el: LazyHTMLElement, attemptSRC: string) {
@@ -69,7 +76,7 @@ function setSuccess(el: LazyHTMLElement, attemptSRC: string) {
   el._lazy!.state = 'success'
 
   clear(el)
-  checkAll()
+  // checkAll()
 }
 
 function setError(el: LazyHTMLElement) {
@@ -77,28 +84,34 @@ function setError(el: LazyHTMLElement) {
   el._lazy!.state = 'error'
 
   clear(el)
-  checkAll()
+  // checkAll()
 }
 
-function createLazy(el: LazyHTMLElement, binding: DirectiveBinding) {
+function createLazy(el: LazyHTMLElement, binding: LazyVNodeDirective) {
+  const { value, arg } = binding
+  const { loading, src, attempt, error } =
+    typeof value === 'object' ? value : { src: value, loading: undefined, attempt: undefined, error: undefined }
+  if (!src) return
   const lazyOptions: LazyOptions = {
-    loading: el.getAttribute(LAZY_LOADING) ?? defaultLazyOptions.loading,
-    error: el.getAttribute(LAZY_ERROR) ?? defaultLazyOptions.error,
-    attempt: Number(el.getAttribute(LAZY_ATTEMPT) ?? defaultLazyOptions.attempt),
+    loading: loading ?? el.getAttribute(LAZY_LOADING) ?? globalLazyOptions.loading,
+    error: error ?? el.getAttribute(LAZY_ERROR) ?? globalLazyOptions.error,
+    attempt: Number(attempt ?? el.getAttribute(LAZY_ATTEMPT) ?? globalLazyOptions.attempt),
   }
 
-  el._lazy = {
-    src: binding.value,
-    arg: binding.arg,
-    currentAttempt: 0,
-    state: 'pending',
-    attemptLock: false,
-    ...lazyOptions,
-  }
+  el._lazy = Object.assign(
+    {
+      src,
+      arg: arg,
+      currentAttempt: 0,
+      state: 'pending',
+      attemptLock: false,
+    },
+    lazyOptions
+  ) as Lazy
 
   setSRC(el, PIXEL)
 
-  defaultLazyOptions.filter?.(el._lazy)
+  globalLazyOptions.filter?.(el._lazy)
 }
 
 function createImage(el: LazyHTMLElement, attemptSRC: string) {
@@ -119,23 +132,25 @@ function createImage(el: LazyHTMLElement, attemptSRC: string) {
 }
 
 function attemptLoad(el: LazyHTMLElement) {
-  if (el._lazy!.attemptLock) {
+  const { _lazy } = el
+  if (!_lazy || _lazy.attemptLock || _lazy.state !== 'pending') {
     return
   }
-  el._lazy!.attemptLock = true
-  el._lazy!.currentAttempt++
+  _lazy.attemptLock = true
+  _lazy.currentAttempt++
 
-  const { src: attemptSRC }: Lazy = el._lazy!
+  const { src: attemptSRC }: Lazy = _lazy!
 
   if (imageCache.has(attemptSRC)) {
     setSuccess(el, attemptSRC)
-    el._lazy!.attemptLock = false
+    _lazy!.attemptLock = false
     return
   }
 
   setLoading(el)
   createImage(el, attemptSRC)
 }
+
 async function add(el: LazyHTMLElement) {
   !lazyElements.includes(el) && lazyElements.push(el)
   getAllParentScroller(el).forEach(bindEvents)
@@ -158,46 +173,81 @@ function checkAll() {
 function bindEvents(listenTarget: ListenTarget) {
   if (listenTargets.includes(listenTarget)) return
   listenTargets.push(listenTarget)
-  defaultLazyOptions.events?.forEach((event: string) => {
+  globalLazyOptions.events?.forEach((event: string) => {
     listenTarget.addEventListener(event, checkAllWithThrottle, { passive: true })
   })
 }
 
 function unbindEvents() {
   listenTargets.forEach((listenTarget: ListenTarget) => {
-    defaultLazyOptions.events?.forEach((event: string) => {
+    globalLazyOptions.events?.forEach((event: string) => {
       listenTarget.removeEventListener(event, checkAllWithThrottle)
     })
   })
   listenTargets.length = 0
 }
 
-async function mounted(el: LazyHTMLElement, binding: DirectiveBinding) {
+function mounted(el: LazyHTMLElement, binding: LazyVNodeDirective) {
   createLazy(el, binding)
+  if (!el._lazy) return
 
-  await add(el)
+  add(el)
 }
 
-const diff = (el: LazyHTMLElement, binding: DirectiveBinding) => {
+const diff = (el: LazyHTMLElement, binding: LazyVNodeDirective) => {
   const { src, arg } = el._lazy!
-  return src !== binding.value || arg !== binding.arg
+  const { value, arg: _arg } = binding
+  return src !== (typeof value === 'object' ? value.src : value) || arg !== _arg
 }
 
-async function update(el: LazyHTMLElement, binding: DirectiveBinding) {
+async function update(el: LazyHTMLElement, binding: LazyVNodeDirective) {
+  if (SUPPORT_INTERSECTION && globalLazyOptions.observer) {
+    return
+  }
+  if (!el._lazy) return
   if (!diff(el, binding)) {
     lazyElements.includes(el) && (await check(el))
     return
   }
-  await mounted(el, binding)
+  mounted(el, binding)
 }
 
-const Lazy: DirectiveOptions & PluginObject<LazyOptions> = {
-  inserted: mounted,
-  unbind: clear,
+const createIntersectBinding = (el: HTMLElement): ObserveVNodeDirective => ({
+  name: 'intersect',
+  value(isIntersecting: boolean) {
+    if (isIntersecting) {
+      attemptLoad(el)
+    }
+  },
+})
+
+function inserted(el: LazyHTMLElement, binding: LazyVNodeDirective, vnode: VNode) {
+  if (SUPPORT_INTERSECTION && globalLazyOptions.observer) {
+    createLazy(el, binding)
+    Intersect.inserted(el, createIntersectBinding(el), vnode)
+    return
+  }
+  mounted(el, binding)
+}
+
+function unbind(el: HTMLElement, binding: VNodeDirective, vnode: VNode) {
+  if (SUPPORT_INTERSECTION && globalLazyOptions.observer) {
+    Intersect.unbind(el, createIntersectBinding(el), vnode)
+    return
+  }
+
+  clear(el)
+}
+
+export const Lazy: DirectiveOptions & PluginObject<LazyOptions> = {
+  inserted,
+  unbind,
   update,
   install(app: VueConstructor, lazyOptions?: LazyOptions) {
-    merge(defaultLazyOptions, lazyOptions)
-    checkAllWithThrottle = throttle(checkAll, defaultLazyOptions.throttleWait)
+    const oldThrottleWait = globalLazyOptions.throttleWait
+    lazyOptions && merge(globalLazyOptions, lazyOptions)
+    const newThrottleWait = globalLazyOptions.throttleWait
+    newThrottleWait !== oldThrottleWait && (checkAllWithThrottle = throttle(checkAll, newThrottleWait))
     app.directive('lazy', this)
   },
 }

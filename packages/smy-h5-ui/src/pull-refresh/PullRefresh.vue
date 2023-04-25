@@ -27,7 +27,7 @@
 </template>
 <script>
 import { useTouch } from '../_utils/composable/useTouch'
-import { getParentScroller, getScrollTopRoot, requestAnimationFrame, toPxNum, convertToUnit } from '../_utils/dom'
+import { getParentScroller, getScrollTopRoot, toPxNum, convertToUnit } from '../_utils/dom'
 import { props } from './props'
 import SmyLoading from '../loading'
 
@@ -49,6 +49,9 @@ export default {
     }),
     headerStyle: ({ headerHeight }) => ({ height: convertToUnit(headerHeight) }),
     isCanTouch: ({ status }) => !['loading'].includes(status),
+    internalPullDistance() {
+      return toPxNum(this.pullDistance || this.headerHeight)
+    },
   },
   watch: {
     value(val) {
@@ -62,7 +65,7 @@ export default {
   },
   methods: {
     timing(distance) {
-      const pullDistance = toPxNum(this.pullDistance || this.headerHeight)
+      const { internalPullDistance: pullDistance } = this
       let moveDistance = distance
       if (distance > pullDistance) {
         if (distance < pullDistance * 2) {
@@ -74,7 +77,7 @@ export default {
       return Math.round(moveDistance)
     },
     setPullStatus(distance, isLoading) {
-      const pullDistance = toPxNum(this.pullDistance || this.headerHeight)
+      const { internalPullDistance: pullDistance } = this
       this.distance = distance
       const status = isLoading ? 'loading' : distance === 0 ? 'normal' : distance < pullDistance ? 'pulling' : 'loosing'
       this.status = status
@@ -116,7 +119,6 @@ export default {
       } else {
         this.setPullStatus(0)
       }
-      requestAnimationFrame(() => this.touch.reset())
     },
   },
 }

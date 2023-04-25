@@ -1,4 +1,4 @@
-import { inBrowser } from './env'
+import { IN_BROWSER } from './env'
 import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh } from './is'
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
@@ -28,11 +28,11 @@ export function getParentScroller(el: HTMLElement, root: ScrollerElement = windo
 }
 
 export function requestAnimationFrame(fn: FrameRequestCallback): number {
-  return inBrowser ? globalThis.requestAnimationFrame(fn) : setTimeout(fn, 1000 / 60)
+  return IN_BROWSER ? globalThis.requestAnimationFrame(fn) : setTimeout(fn, 1000 / 60)
 }
 
 export function cancelAnimationFrame(handle: number): void {
-  return inBrowser ? globalThis.cancelAnimationFrame(handle) : clearTimeout(handle)
+  return IN_BROWSER ? globalThis.cancelAnimationFrame(handle) : clearTimeout(handle)
 }
 
 export const doubleRaf = (cb?: () => void, ctx?: any): Promise<void> => {
@@ -46,14 +46,15 @@ export const doubleRaf = (cb?: () => void, ctx?: any): Promise<void> => {
 /**
  * 检查当前dom是否在视口，getBoundingClientRect这方案终究还是有性能问题，后续看有无必要换方案
  */
-export async function inViewport(el: HTMLElement): Promise<boolean> {
-  await doubleRaf()
-  const { top, bottom, left, right } = el.getBoundingClientRect()
-  const { innerWidth, innerHeight } = window
-  const xInViewport = left <= innerWidth && right >= 0
-  const yInViewport = top <= innerHeight && bottom >= 0
+export function inViewport(el: HTMLElement): Promise<boolean> {
+  return doubleRaf().then(() => {
+    const { top, bottom, left, right } = el.getBoundingClientRect()
+    const { innerWidth, innerHeight } = window
+    const xInViewport = left <= innerWidth && right >= 0
+    const yInViewport = top <= innerHeight && bottom >= 0
 
-  return xInViewport && yInViewport
+    return xInViewport && yInViewport
+  })
 }
 
 export const getScrollTopRoot = () =>
@@ -62,7 +63,8 @@ export const getScrollTopRoot = () =>
 export function convertToUnit(str: string | number | null | undefined, unit = 'px'): string | undefined {
   if (str == null || str === '') return undefined
   if (isNumber(str) || isNumString(str)) return `${Number(str)}${unit}`
-  if (isNaN(+str!)) return String(str)
+  if (isNaN(+str)) return String(str)
+  if (!isFinite(+str)) return undefined
   return `${Number(str)}${unit}`
 }
 

@@ -128,9 +128,7 @@ exports[`test cell props 1`] = `
   <!---->
   <div class=\\"smy-cell__content\\">
     <div class=\\"smy-cell__title test-title-class\\">This is Cell</div>
-    <div class=\\"smy-cell__desc test-desc-class\\">
-      This is desc
-    </div>
+    <div class=\\"smy-cell__desc test-desc-class\\">This is desc</div>
   </div>
   <div class=\\"smy-cell__extra test-extra-class\\">
     <div>text</div>
