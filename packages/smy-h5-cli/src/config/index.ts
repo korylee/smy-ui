@@ -1,5 +1,5 @@
 import type { InlineConfig, PluginOption } from 'vite'
-import { get, kebabCase } from 'lodash'
+import { kebabCase } from 'lodash'
 import { resolve } from 'path'
 import { CWD, ES_DIR, UMD_DIR, LIB_DIR } from '../shared/constant'
 import { pathExistsSync, removeSync, readFileSync, writeFileSync, copyFileSync } from 'fs-extra'
@@ -13,7 +13,7 @@ const SmyClearVitePlugin: PluginOption = {
 }
 
 export function getESMBundleConfig(config: Record<string, any>): InlineConfig {
-  const name = get(config, 'name')
+  const { name } = config
   const filename = `${kebabCase(name)}.esm.js`
   return {
     logLevel: 'silent',
@@ -41,12 +41,13 @@ export function getESMBundleConfig(config: Record<string, any>): InlineConfig {
 }
 
 export function getUMDConfig(smyConfig: Record<string, any>): InlineConfig {
-  const name = get(smyConfig, 'name')
+  const { name } = smyConfig
   const filename = `${kebabCase(name)}.js`
 
   return {
     logLevel: 'silent',
     build: {
+      target: 'es6',
       emptyOutDir: true,
       lib: {
         name,
@@ -77,12 +78,9 @@ function inlineCss(filename: string, dir: string): PluginOption {
       const cssFile = resolve(dir, 'style.css')
       if (!pathExistsSync(cssFile)) return
       const jsFile = resolve(dir, filename)
-      const cssCode = readFileSync(cssFile, 'utf-8')
+      const cssCode = readFileSync(cssFile, 'utf-8').replace(/\\/g, '\\\\')
       const jsCode = readFileSync(jsFile, 'utf-8')
-      const injectCode = `;(function() {var style=document.createElement('style');style.type='text/css';\
-    style.rel='stylesheet';style.appendChild(document.createTextNode(\`${cssCode.replace(/\\/g, '\\\\')}\`));\
-    var head=document.querySelector('head');head.appendChild(style);
-    })();`
+      const injectCode = `;(function() {var style=document.createElement('style');style.type='text/css';style.rel='stylesheet';style.appendChild(document.createTextNode(\`${cssCode}\`));var head=document.querySelector('head');head.appendChild(style);})();`
       writeFileSync(jsFile, `${injectCode}${jsCode}`)
       copyFileSync(cssFile, resolve(LIB_DIR, 'style.css'))
       removeSync(cssFile)
