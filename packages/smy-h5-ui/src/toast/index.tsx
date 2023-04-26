@@ -53,7 +53,7 @@ const uniqToastOptions = Vue.observable<{ value: UniqToastOptionItem[] }>({
   value: [],
 })
 
-const defaultOptions: ReactiveToastOptions = {
+const getDefaultOptions = (): ReactiveToastOptions => ({
   type: undefined,
   content: '',
   position: 'top',
@@ -66,11 +66,9 @@ const defaultOptions: ReactiveToastOptions = {
   teleport: 'body',
   forbidClick: false,
   action: undefined,
-}
+})
 
-let currentOptions = {
-  ...defaultOptions,
-}
+let currentOptions = getDefaultOptions()
 
 let defaultOptionsMap: { [key in ToastType]?: Omit<ReactiveToastOptions, 'type'> } = {}
 
@@ -223,7 +221,7 @@ Toast.resetDefaultOptions = function resetDefaultOptions(type: ToastType) {
   if (isString(type)) {
     defaultOptionsMap[type] = undefined
   } else {
-    currentOptions = { ...defaultOptions }
+    currentOptions = getDefaultOptions()
     defaultOptionsMap = {}
   }
 }

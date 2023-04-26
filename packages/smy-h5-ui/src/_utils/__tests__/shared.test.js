@@ -1,5 +1,5 @@
 import { delay } from '../../../jest-utils'
-import { throttle, merge } from '../shared'
+import { throttle, assign } from '../shared'
 
 describe('throttle function', () => {
   it('当前无执行时，应该立即调用函数并执行一次', () => {
@@ -40,24 +40,16 @@ describe('throttle function', () => {
   })
 })
 
-describe('merge function', () => {
+describe('assign function', () => {
   it('合并两个对象', () => {
     const obj1 = { a: 1, b: { c: 2, d: 3 } }
-    const obj2 = { b: { c: 4, e: 5 }, f: 6 }
-    const expected = { a: 1, b: { c: 4, d: 3, e: 5 }, f: 6 }
-    expect(merge(obj1, obj2)).toEqual(expected)
+    const obj2 = { a: undefined, f: 6 }
+    const expected = { a: undefined, b: { c: 2, d: 3 }, f: 6 }
+    expect(assign(obj1, obj2, 5)).toEqual(expected)
   })
 
   it('只传递一个对象', () => {
     const obj1 = { a: 1, b: { c: 2, d: 3 } }
-    expect(merge(obj1)).toEqual(obj1)
-  })
-
-  it('不应修改合并项的对象', () => {
-    const obj1 = { a: 1, b: { c: 2, d: 3 } }
-    const obj2 = { b: { c: 4, e: 5 }, f: 6 }
-    merge({}, obj1, obj2)
-    expect(obj1).toEqual({ a: 1, b: { c: 2, d: 3 } })
-    expect(obj2).toEqual({ b: { c: 4, e: 5 }, f: 6 })
+    expect(assign(obj1)).toEqual(obj1)
   })
 })

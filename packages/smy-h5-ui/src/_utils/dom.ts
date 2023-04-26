@@ -1,5 +1,5 @@
 import { IN_BROWSER } from './env'
-import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh } from './is'
+import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow } from './is'
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
   const allParentScroller: Array<HTMLElement | Window> = []
@@ -44,11 +44,11 @@ export const doubleRaf = (cb?: () => void, ctx?: any): Promise<void> => {
 }
 
 /**
- * 检查当前dom是否在视口，getBoundingClientRect这方案终究还是有性能问题，后续看有无必要换方案
+ * 检查当前dom是否在视口
  */
 export function inViewport(el: HTMLElement): Promise<boolean> {
   return doubleRaf().then(() => {
-    const { top, bottom, left, right } = el.getBoundingClientRect()
+    const { top, bottom, left, right } = getRect(el)
     const { innerWidth, innerHeight } = window
     const xInViewport = left <= innerWidth && right >= 0
     const yInViewport = top <= innerHeight && bottom >= 0
@@ -87,4 +87,22 @@ export function toPxNum(value: number | string) {
   }
   // % and other
   return 0
+}
+
+export const makeDomRect = (width = 0, height = 0) =>
+  ({
+    top: 0,
+    left: 0,
+    right: width,
+    bottom: height,
+    width,
+    height,
+  } as DOMRect)
+
+export function getRect(el: Element | Window | undefined) {
+  if (isWindow(el)) {
+    const { innerWidth, innerHeight } = el
+    return makeDomRect(innerWidth, innerHeight)
+  }
+  return el?.getBoundingClientRect?.() ?? makeDomRect()
 }

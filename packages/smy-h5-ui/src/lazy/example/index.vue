@@ -1,11 +1,14 @@
 <template>
   <div class="smy-lazy-example">
     <app-demo-title>基础使用</app-demo-title>
-    <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
-    <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
-    <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
-    <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
-    <img class="cat" v-lazy="'https://korylee.github.io/blog/avatar.png'" />
+    <img
+      v-for="item of 8"
+      :key="item"
+      class="cat"
+      v-lazy="'https://korylee.github.io/blog/avatar.png'"
+      lazy-loading="https://p3-passport.byteimg.com/img/user-avatar/723589e93ad8bfa3701aea6efef08bb8~100x100.awebp"
+      lazy-attempt="https://p3-passport.byteimg.com/img/user-avatar/723589e93ad8bfa3701aea6efef08bb8~100x100.awebp"
+    />
   </div>
 </template>
 

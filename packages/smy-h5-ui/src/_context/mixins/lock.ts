@@ -18,29 +18,21 @@ export function releaseLock(uid: string) {
 }
 
 export function createLockMixin(state: string, use: string) {
-  const propWatcher = use
-    ? {
-        [use](newValue: any) {
-          if (!newValue) {
-            releaseLock((this as any)._uid)
-          } else if (newValue && (this as any)[state]) {
-            addLock((this as any)._uid)
-          }
-        },
-      }
-    : {}
-  return {
-    watch: {
-      ...propWatcher,
-      [state](newValue: boolean) {
-        if (use && !(this as any)[use]) return
-        if (newValue) {
-          addLock((this as any)._uid)
-        } else {
-          releaseLock((this as any)._uid)
-        }
-      },
+  const watch: Record<string, any> = {
+    [state](newState: boolean) {
+      const { _uid: uid } = this
+      if (use && !(this as any)[use]) return
+      ;(newState ? addLock : releaseLock)(uid)
     },
+  }
+  if (use) {
+    watch[use] = function (newUse: boolean) {
+      const { _uid: uid } = this
+      ;(newUse ? addLock : releaseLock)(uid)
+    }
+  }
+  return {
+    watch,
     beforeCreate() {
       const vm = this as any
       const add = () => {

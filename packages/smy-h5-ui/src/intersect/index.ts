@@ -1,5 +1,7 @@
-import type { VNode, VNodeDirective } from 'vue'
-import { SUPPORT_INTERSECTION } from '../_utils/env'
+import type { VNode, VNodeDirective, VueConstructor } from 'vue'
+import { isFunction } from '../_utils/is'
+
+import './polyfill'
 
 interface IntersectHTMLElement extends HTMLElement {
   _observe?: Record<number, { init: boolean; observer: IntersectionObserver }>
@@ -20,11 +22,10 @@ export interface ObserveVNodeDirective extends Omit<VNodeDirective, 'modifiers'>
 }
 
 function inserted(el: IntersectHTMLElement, binding: ObserveVNodeDirective, vnode: VNode) {
-  if (!SUPPORT_INTERSECTION) return
-
   const { modifiers = {}, value } = binding
   const uid = (vnode.context as any)._uid as number
-  const { handler, options } = typeof value === 'object' ? value : { handler: value, options: {} }
+  if (!value) return
+  const { handler, options } = isFunction(value) ? { handler: value, options: {} } : value
 
   const observer = new IntersectionObserver((entries = [], observer) => {
     const _observe = el._observe?.[uid]
@@ -63,6 +64,9 @@ function unbind(el: IntersectHTMLElement, binding: ObserveVNodeDirective, vnode:
 export const Intersect = {
   inserted,
   unbind,
+  install(app: VueConstructor) {
+    app.directive('intersect', this)
+  },
 }
 
 export default Intersect

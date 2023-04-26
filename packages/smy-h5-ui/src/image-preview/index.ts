@@ -4,7 +4,7 @@ import type { SmyComponent } from '../_utils/smy/component'
 import { mountComponent, withInstall } from '../_utils/vue/component'
 import _ImagePreview from './ImagePreview.vue'
 import Vue, { type VNode } from 'vue'
-import { isArray, isNill, isString } from '../_utils/is'
+import { isArray, isNil, isString } from '../_utils/is'
 import { IN_BROWSER } from '../_utils/env'
 
 declare interface SmyImagePreview extends SmyComponent {
@@ -48,7 +48,7 @@ const ImagePreview = function ImagePreview(options: string | string[] | ImagePre
     ? { images: options }
     : options
 
-  const { instance, unmount } = mountComponent(SmyImgPreview as any, 'body', { propsData: { ...imagePreviewOptions } })
+  const { instance, unmount } = mountComponent(SmyImgPreview as any, 'body', { propsData: imagePreviewOptions })
 
   instance.show = true
 
@@ -76,7 +76,7 @@ const ImagePreview = function ImagePreview(options: string | string[] | ImagePre
 }
 
 ImagePreview.close = function () {
-  if (isNill(singletonInstance)) return
+  if (isNil(singletonInstance)) return
   const preSingletonInstance = singletonInstance
   singletonInstance = null
   Vue.nextTick(() => {

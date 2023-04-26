@@ -2,6 +2,8 @@ export declare interface Func<T = any, R = T> {
   (...args: T[]): R
 }
 
+export const isWindow = (val: unknown): val is Window => val === window
+
 const createIsType =
   <T>(type: string) =>
   (val: unknown): val is T =>
@@ -9,7 +11,7 @@ const createIsType =
 
 export const isType = <T>(type: string, val: unknown): val is T => createIsType<T>(type)(val)
 
-export const isNill = (val: unknown): val is null | undefined => val == null
+export const isNil = (val: unknown): val is null | undefined => val == null
 
 export const isBool = (val: unknown): val is boolean => typeof val === 'boolean'
 

@@ -23,7 +23,7 @@
     </div>
     <div v-if="closable || $slots['right-icon']" class="smy-notice-bar__right-icon">
       <slot name="right-icon">
-        <smy-icon @click.stop="handleClickClose"><window-close /></smy-icon>
+        <smy-icon @click.stop="handleClose"><window-close /></smy-icon>
       </slot>
     </div>
   </div>
@@ -34,6 +34,7 @@ import { props } from './props'
 import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 import SmyIcon from '../icon'
 import { SlotsMixin } from '../_utils/vue/slots'
+import { getRect } from '../_utils/dom'
 
 export default {
   name: 'SmyNoticeBar',
@@ -51,10 +52,10 @@ export default {
     distance: 0,
   }),
   computed: {
-    contentStyle() {
+    contentStyle({ firstRound }) {
       return {
-        paddingLeft: this.firstRound ? 0 : this.wrapWidth + 'px',
-        animationDelay: (this.firstRound ? this.delay : 0) + 's',
+        paddingLeft: firstRound ? 0 : this.wrapWidth + 'px',
+        animationDelay: (firstRound ? this.delay : 0) + 's',
         animationDuration: this.duration + 's',
       }
     },
@@ -71,8 +72,8 @@ export default {
       await this.$nextTick()
       const { wrap, content } = this.$refs
       if (!wrap || !content) return
-      const wrapWidth = wrap.getBoundingClientRect().width
-      const offsetWidth = content.getBoundingClientRect().width
+      const wrapWidth = getRect(wrap).width
+      const offsetWidth = getRect(content).width
       if (this.scrollable && offsetWidth > wrapWidth) {
         this.wrapWidth = wrapWidth
         this.offsetWidth = offsetWidth
@@ -82,7 +83,7 @@ export default {
         this.animationClass = ''
       }
     },
-    handleClickClose(event) {
+    handleClose(event) {
       this.showNoticeBar = !this.closable
       this.$emit('close', event)
     },

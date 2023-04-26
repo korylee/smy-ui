@@ -28,7 +28,7 @@
 <script>
 import { createParentMixin } from '../_mixins/relation'
 import { toNumber, range } from '../_utils/shared'
-import { toPxNum, doubleRaf } from '../_utils/dom'
+import { toPxNum, doubleRaf, getRect } from '../_utils/dom'
 import { useTouch } from '../_utils/composable/useTouch'
 import { props } from './props'
 
@@ -222,7 +222,7 @@ export default {
     init(active = this.initialIndex) {
       active = Math.min(this.childrenCount - 1, Number(active))
       this.stopAutoplay()
-      const rect = this.$refs.container.getBoundingClientRect()
+      const rect = getRect(this.$refs.container)
       this.rect = rect
       const width = toPxNum(this.width)
       const height = toPxNum(this.height)

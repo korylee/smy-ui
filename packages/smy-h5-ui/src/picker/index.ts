@@ -3,7 +3,7 @@ import type { SmyComponent } from '../_utils/smy/component'
 
 import { mountComponent, withInstall } from '../_utils/vue/component'
 import _Picker from './Picker.vue'
-import { isArray, isNill } from '../_utils/is'
+import { isArray, isNil } from '../_utils/is'
 import Vue, { type VNode } from 'vue'
 
 type PartialRequired<T, R extends keyof T> = Omit<T, R> &
@@ -104,12 +104,13 @@ const Picker = function Picker(options: PickerOptions | Texts[]): Promise<Picker
   })
 }
 
-Picker.close = async () => {
-  if (isNill(singletonInstance)) return
+Picker.close = () => {
+  if (isNil(singletonInstance)) return
   const preSingletonInstance = singletonInstance
   singletonInstance = null
-  await Vue.nextTick()
-  preSingletonInstance.show = false
+  return Vue.nextTick().then(() => {
+    preSingletonInstance.show = false
+  })
 }
 
 Picker.Component = _SmyPicker

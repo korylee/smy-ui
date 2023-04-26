@@ -86,6 +86,7 @@
 import SmyPopup from '../popup'
 import { toPxNum } from '../_utils/dom'
 import { props } from './props'
+import { toNumber } from '../_utils/shared'
 
 function getTranslate(el) {
   const { transform } = window.getComputedStyle(el)
@@ -117,14 +118,11 @@ export default {
     localOptionHeight() {
       return toPxNum(this.optionHeight)
     },
-    localOptionCount() {
-      return toPxNum(this.optionCount)
-    },
     center() {
       return (this.columnHeight - this.localOptionHeight) / 2
     },
     columnHeight() {
-      return this.localOptionCount * this.localOptionHeight
+      return toNumber(this.optionCount) * this.localOptionHeight
     },
   },
   watch: {
@@ -224,16 +222,18 @@ export default {
     },
 
     getScrollerStyle(scrollCol) {
+      const { translate, duration } = scrollCol
       return {
-        transform: `translate3d(0, ${scrollCol.translate}px, 0)`,
-        transitionDuration: `${scrollCol.duration}ms`,
-        transitionProperty: scrollCol.duration ? 'transform' : 'none',
+        transform: `translate3d(0, ${translate}px, 0)`,
+        transitionDuration: `${duration}ms`,
+        transitionProperty: duration ? 'transform' : 'none',
       }
     },
 
     limitTranslate(scrollCol) {
-      const START_LIMIT = this.localOptionHeight + this.center
-      const END_LIMIT = this.center - scrollCol.column.texts.length * this.localOptionHeight
+      const { localOptionHeight, center } = this
+      const START_LIMIT = localOptionHeight + center
+      const END_LIMIT = center - scrollCol.column.texts.length * localOptionHeight
 
       if (scrollCol.translate >= START_LIMIT) {
         scrollCol.translate = START_LIMIT
