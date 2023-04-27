@@ -9,11 +9,11 @@ export default {
   mixins: [createParentMixin('steps', { children: 'step' })],
   props,
   computed: {
-    classes() {
+    classes({ direction, progressDot }) {
       return {
         'smy-steps': true,
-        [`smy-steps--${this.direction}`]: this.direction,
-        'smy-steps--dot': this.progressDot,
+        [`smy-steps--${direction}`]: direction,
+        'smy-steps--dot': progressDot,
       }
     },
     direction() {

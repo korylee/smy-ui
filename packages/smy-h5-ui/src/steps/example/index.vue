@@ -1,13 +1,13 @@
 <template>
   <div class="steps-example">
     <app-demo-title>基础使用</app-demo-title>
-    <smy-steps :current="current1" class="steps-wrapper">
+    <smy-steps :current="current1" class="steps-wrapper" @click-step="onStep">
       <smy-step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
       <smy-step />
       <smy-step />
     </smy-steps>
     <div class="steps-button">
-      <button @click="handleStep('current1')">下一步</button>
+      <button @click="handleNext('current1')">下一步</button>
     </div>
     <app-demo-title>基础使用(点状)</app-demo-title>
     <smy-steps :current="current1" progress-dot class="steps-wrapper">
@@ -16,7 +16,7 @@
       <smy-step />
     </smy-steps>
     <div class="steps-button">
-      <button @click="handleStep('current1')">下一步</button>
+      <button @click="handleNext('current1')">下一步</button>
     </div>
     <app-demo-title>竖向</app-demo-title>
     <smy-steps :current="current2" vertical class="steps-wrapper">
@@ -25,7 +25,7 @@
       <smy-step />
     </smy-steps>
     <div class="steps-button">
-      <button @click="handleStep('current2')">下一步</button>
+      <button @click="handleNext('current2')">下一步</button>
     </div>
     <app-demo-title>点状</app-demo-title>
     <smy-steps current="1" vertical progress-dot class="steps-wrapper">
@@ -58,12 +58,15 @@ export default {
     current2: 0,
   }),
   methods: {
-    handleStep(key) {
+    handleNext(key) {
       if (this[key] >= 2) {
         this[key] = 0
       } else {
         this[key] += 1
       }
+    },
+    onStep(index) {
+      console.log(index)
     },
   },
 }

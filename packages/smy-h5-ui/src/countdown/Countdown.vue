@@ -43,8 +43,9 @@ export default {
   },
 
   created() {
-    if (this.autoStart && !this.paused) this.start()
-    else this.reset()
+    const { autoStart, paused, start, reset } = this
+    const run = autoStart && !paused ? start : reset
+    run()
   },
 
   beforeDestroy() {
@@ -85,10 +86,11 @@ export default {
       if (isStart) this.timer = requestAnimationFrame(this.countdown)
     },
     start() {
-      if (this.isStart) return
+      const { pauseTime, time, isStart } = this
+      if (isStart) return
       this.isStart = true
-      this.realEndTime = Date.now() + (this.pauseTime || toNumber(this.time))
-      this.$emit('start', this.pauseTime)
+      this.realEndTime = Date.now() + (pauseTime || toNumber(time))
+      this.$emit('start', pauseTime)
       this.$emit('update:paused', false)
       this.countdown()
     },

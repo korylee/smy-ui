@@ -13,23 +13,6 @@ const InternalTeleport = {
     disabled: 'transfer',
     to: 'transfer',
   },
-  methods: {
-    create() {
-      const Ctor = Vue.extend({
-        render: () => <div class="smy-teleport__container">{getSlot(this)}</div>,
-      })
-      this.instance = new Ctor()
-      this.instance.$parent = this
-      this.el = this.instance.$mount().$el
-    },
-    transfer() {
-      const container = this.disabled ? this.$refs.teleport : document.querySelector(this.to)
-      const parentNode = this.el.parentNode
-      if (parentNode === container) return
-      parentNode?.removeChild(this.el)
-      container.appendChild(this.el)
-    },
-  },
   updated() {
     this.instance.$forceUpdate()
   },
@@ -47,7 +30,24 @@ const InternalTeleport = {
     this.instance.$destroy()
     this.el.parentNode?.removeChild(this.el)
   },
-
+  methods: {
+    create() {
+      const Ctor = Vue.extend({
+        render: () => <div class="smy-teleport__container">{getSlot(this)}</div>,
+      })
+      this.instance = new Ctor()
+      this.instance.$parent = this
+      this.el = this.instance.$mount().$el
+    },
+    transfer() {
+      const { el, disabled } = this
+      const container = disabled ? this.$refs.teleport : document.querySelector(this.to)
+      const parentNode = el.parentNode
+      if (parentNode === container) return
+      parentNode?.removeChild(el)
+      container.appendChild(el)
+    },
+  },
   render() {
     return <div ref="teleport" class="smy-teleport" />
   },
@@ -56,8 +56,7 @@ const InternalTeleport = {
 export default {
   name: 'SmyTeleport',
   functional: true,
-  // props,
   render(h, { children, data }) {
-    return data.attrs.to ? h(InternalTeleport, data, children) : children
+    return data.attrs?.to ? h(InternalTeleport, data, children) : children
   },
 }

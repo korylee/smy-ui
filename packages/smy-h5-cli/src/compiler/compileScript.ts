@@ -83,11 +83,11 @@ export async function compileESEntry(dir: string, publicDirs: string[]) {
 
   publicDirs.forEach((dirname: string) => {
     if (dirname.startsWith('_')) return
-    if (!existsSync(resolve(dir, `./${dirname}/style`))) return
     const publicComponent = upperFirst(camelCase(dirname))
     publicComponents.push(publicComponent)
     imports.push(`import ${publicComponent} from './${dirname}'`)
     plugins.push(`app.use(${publicComponent})`)
+    if (!existsSync(resolve(dir, `./${dirname}/style`))) return
     cssImports.push(`import './${dirname}/style'`)
     lessImports.push(`import './${dirname}/style/less'`)
   })
@@ -159,11 +159,11 @@ export async function compileCommonJSEntry(dir: string, publicDirs: string[]) {
 
   publicDirs.forEach((dirname) => {
     if (dirname.startsWith('_')) return
-    if (!existsSync(resolve(dir, `./${dirname}/style`))) return
     const publicComponent = upperFirst(camelCase(dirname))
     publicComponents.push(publicComponent)
     requires.push(`var ${publicComponent} = require('./${dirname}')['default']`)
     plugins.push(`${publicComponent}.install && app.use(${publicComponent})`)
+    if (!existsSync(resolve(dir, `./${dirname}/style`))) return
     cssRequires.push(`require('./${dirname}/style')`)
     lessRequires.push(`require('./${dirname}/style/less')`)
   })

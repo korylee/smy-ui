@@ -1,9 +1,9 @@
 import { type SmyComponent } from '../_utils/smy/component'
 import { type PullRefreshProps } from './props'
+import { type VNode } from 'vue'
 
 import _PullRefresh from './PullRefresh.vue'
 import { withInstall } from '../_utils/vue/component'
-import { type VNode } from 'vue'
 
 type PullRefreshStatus = 'normal' | 'loading' | 'loosing' | 'pulling'
 interface SmyPullRefresh extends SmyComponent {

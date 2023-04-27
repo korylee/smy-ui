@@ -2,9 +2,16 @@ import Vue from 'vue'
 
 const MIN_DISTANCE = 10
 
+export const DIRECTION = Object.freeze({
+  HORIZONTAL: 'horizontal',
+  VERTICAL: 'vertical',
+})
+
+const { HORIZONTAL, VERTICAL } = DIRECTION
+
 function getDirection(x: number, y: number) {
-  if (x > y && x > MIN_DISTANCE) return 'horizontal'
-  else if (y > x && y > MIN_DISTANCE) return 'vertical'
+  if (x > y && x > MIN_DISTANCE) return HORIZONTAL
+  else if (y > x && y > MIN_DISTANCE) return VERTICAL
   return ''
 }
 
@@ -22,8 +29,8 @@ export function useTouch() {
     offsetY: 0,
     direction: '' as Direction,
   })
-  const isVertical = () => state.direction === 'vertical'
-  const isHorizontal = () => state.direction === 'horizontal'
+  const isVertical = () => state.direction === VERTICAL
+  const isHorizontal = () => state.direction === HORIZONTAL
   const reset = () => {
     state.deltaX = 0
     state.deltaY = 0

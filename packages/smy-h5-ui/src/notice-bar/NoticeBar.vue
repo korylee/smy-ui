@@ -6,7 +6,7 @@
     role="alert"
     @click="$emit('click', $event)"
   >
-    <div v-if="$slots['left-icon']" class="smy-notice-bar__left-icon">
+    <div v-if="hasSlot('left-icon')" class="smy-notice-bar__left-icon">
       <slot name="left-icon"> </slot>
     </div>
     <div ref="wrap" class="smy-notice-bar__content-wrap" role="marquee">
@@ -21,7 +21,7 @@
         <slot>{{ text }}</slot>
       </div>
     </div>
-    <div v-if="closable || $slots['right-icon']" class="smy-notice-bar__right-icon">
+    <div v-if="closable || hasSlot('right-icon')" class="smy-notice-bar__right-icon">
       <slot name="right-icon">
         <smy-icon @click.stop="handleClose"><window-close /></smy-icon>
       </slot>
@@ -52,11 +52,11 @@ export default {
     distance: 0,
   }),
   computed: {
-    contentStyle({ firstRound }) {
+    contentStyle({ firstRound, wrapWidth, delay, duration }) {
       return {
-        paddingLeft: firstRound ? 0 : this.wrapWidth + 'px',
-        animationDelay: (firstRound ? this.delay : 0) + 's',
-        animationDuration: this.duration + 's',
+        paddingLeft: firstRound ? 0 : wrapWidth + 'px',
+        animationDelay: (firstRound ? delay : 0) + 's',
+        animationDuration: duration + 's',
       }
     },
   },
@@ -67,31 +67,34 @@ export default {
     },
   },
   methods: {
-    async reset() {
-      if (!this.showNoticeBar) return
-      await this.$nextTick()
-      const { wrap, content } = this.$refs
-      if (!wrap || !content) return
-      const wrapWidth = getRect(wrap).width
-      const offsetWidth = getRect(content).width
-      if (this.scrollable && offsetWidth > wrapWidth) {
-        this.wrapWidth = wrapWidth
-        this.offsetWidth = offsetWidth
-        this.duration = offsetWidth / this.speed
-        this.animationClass = 'smy-notice-bar-play'
-      } else {
-        this.animationClass = ''
-      }
+    reset() {
+      this.$nextTick(() => {
+        if (!this.showNoticeBar) return
+        const { wrap, content } = this.$refs
+        if (!wrap || !content) return
+        const wrapWidth = getRect(wrap).width
+        const offsetWidth = getRect(content).width
+        if (this.scrollable && offsetWidth > wrapWidth) {
+          this.wrapWidth = wrapWidth
+          this.offsetWidth = offsetWidth
+          this.duration = offsetWidth / this.speed
+          this.animationClass = 'smy-notice-bar-play'
+        } else {
+          this.animationClass = ''
+        }
+      })
     },
     handleClose(event) {
       this.showNoticeBar = !this.closable
       this.$emit('close', event)
     },
-    async onAnimationEnd() {
+    onAnimationEnd() {
       this.firstRound = false
-      await this.$nextTick()
-      this.duration = (this.offsetWidth + this.wrapWidth) / this.speed
-      this.animationClass = 'smy-notice-bar-play-infinite'
+      this.$nextTick(() => {
+        const { offsetWidth, wrapWidth, speed } = this
+        this.duration = (offsetWidth + wrapWidth) / speed
+        this.animationClass = 'smy-notice-bar-play-infinite'
+      })
     },
   },
 }

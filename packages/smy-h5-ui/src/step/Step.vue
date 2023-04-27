@@ -29,24 +29,25 @@ export default {
   mixins: [createChildrenMixin('steps', { children: 'step' }), SlotsMixin],
   props,
   computed: {
-    dot() {
-      return this.steps.progressDot
+    dot({ steps }) {
+      return steps.progressDot
     },
-    status() {
-      const { index, steps } = this
-      const length = steps.step?.length ?? 0
-      const currentIndex = steps.reverse ? length - index - 1 : index
-      const isFinish = currentIndex < +steps.current
+    status({ index, steps }) {
+      const { step, reverse, current } = steps
+      const length = step?.length ?? 0
+      const currentIndex = reverse ? length - index - 1 : index
+      const isFinish = currentIndex < +current
       if (isFinish) return 'finish'
-      return currentIndex === +steps.current ? 'process' : 'wait'
+      return currentIndex === +current ? 'process' : 'wait'
     },
-    direction() {
-      return this.steps.direction
+    direction({ steps }) {
+      return steps.direction
     },
   },
   methods: {
     handleClickStep() {
-      this.steps?.$listeners?.['click-step']?.(this.index)
+      const { steps, index } = this
+      steps?.$emit('click-step', index)
     },
   },
 }

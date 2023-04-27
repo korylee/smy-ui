@@ -1,4 +1,4 @@
-import { pick } from '../_utils/shared'
+import { assign, pick } from '../_utils/shared'
 import { props as popupProps } from '../popup/props'
 import type { PropType } from 'vue'
 import type { ExtractPropTypes } from '../_utils/vue/props'
@@ -12,7 +12,7 @@ export interface NormalColumn {
   initialIndex?: number
 }
 
-export const props = {
+const baseProps = {
   title: String,
   columns: {
     type: Array as PropType<NormalColumn[] | Texts>,
@@ -58,7 +58,8 @@ export const props = {
     type: [Number],
     default: 20,
   },
-  ...pick(popupProps, ['show', 'closeOnClickOverlay', 'teleport']),
 }
+
+export const props = assign(baseProps, pick(popupProps, ['show', 'closeOnClickOverlay', 'teleport']))
 
 export type PickerProps = ExtractPropTypes<typeof props>

@@ -18,9 +18,7 @@ declare interface SmyStepper extends SmyComponent {
       (event: 'blur', data: Event): void
       (event: 'focus', data: Event): void
       (event: 'minus', data: Event): void
-      (event: 'minus-no-allow'): void
       (event: 'plus', data: Event): void
-      (event: 'plus-no-allow'): void
     }
   }
 }

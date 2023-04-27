@@ -13,28 +13,27 @@ export default {
   mixins: [createParentMixin('row', { children: 'cols' })],
   props,
   computed: {
-    average() {
-      return toPxNum(this.gutter) / 2
+    average({ gutter }) {
+      return toPxNum(gutter) / 2
     },
-    computePaddingWaterDispatcher() {
-      return [this.gutter, this.cols]
+    computePaddingWaterDispatcher({ gutter, cols }) {
+      return [gutter, cols]
     },
-    style() {
-      const { average } = this
+    style({ average, justify, align, wrap }) {
       return {
-        justifyContent: this.justify,
-        alignItems: this.align,
+        justifyContent: justify,
+        alignItems: align,
         margin: average ? `0 -${average}px` : undefined,
-        flexWrap: this.wrap,
+        flexWrap: wrap,
       }
     },
   },
 
   watch: {
     computePaddingWaterDispatcher() {
+      const { average, cols } = this
       this.$nextTick(() => {
-        const { average } = this
-        this.cols.forEach((col) => {
+        cols.forEach((col) => {
           col.setPadding({ left: average, right: average })
         })
       })

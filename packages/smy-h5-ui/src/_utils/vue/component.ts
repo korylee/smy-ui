@@ -23,7 +23,7 @@ export function withInstall(component: Component): Component {
   return component
 }
 
-export function addRouteListener(vm: any, cb: () => void) {
+export function addRouteListener(vm: Vue, cb: () => void) {
   const add = () => {
     window.addEventListener('hashchange', cb)
     window.addEventListener('popstate', cb)
@@ -45,8 +45,12 @@ export const RenderToComp = {
     render: Function,
   },
   render(h: CreateElement, context: any) {
-    const { props, parent } = context
-    return typeof props.render === 'function' ? props.render.call(parent, h, context) : props.render
+    const {
+      props: { render },
+      parent,
+    } = context
+
+    return typeof render === 'function' ? render.call(parent, h, context) : render
   },
 }
 

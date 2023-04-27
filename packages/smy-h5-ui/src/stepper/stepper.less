@@ -23,7 +23,7 @@
   position: relative;
   overflow: hidden;
 
-  &-icon {
+  &__icon {
     color: #666;
     width: 25%;
     text-align: center;
@@ -34,12 +34,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &--grey {
+      color: #ececee;
+
+      svg {
+        vertical-align: top;
+        fill: #cecece !important;
+      }
+    }
+
     .smy-icon {
       font-size: var(--stepperbar-font-size);
       color: var(--stepperbar-color);
     }
   }
-  &-input {
+
+  &__input {
     border: none;
     width: 50%;
     text-align: center;
@@ -52,14 +63,6 @@
     color: var(--stepper-color);
   }
 
-  &-grey {
-    color: #ececee;
-    svg {
-      vertical-align: top;
-      fill: #cecece !important;
-    }
-  }
-
   &:not(&--simple) {
     border: 1px solid #dedede;
 
@@ -67,6 +70,7 @@
       &:first-child {
         border-right: 1px solid #dedede;
       }
+
       &:last-child {
         border-left: 1px solid #dedede;
       }
@@ -77,6 +81,7 @@
     .smy-stepper-icon {
       font-weight: bold;
     }
+
     .smy-stepper-input {
       background: #f6f6f6;
     }

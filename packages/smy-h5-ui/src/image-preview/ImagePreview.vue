@@ -57,11 +57,8 @@ import SmyIcon from '../icon'
 import SmySwiper from '../swiper'
 import SmySwiperItem from '../swiper-item'
 import { props } from './props'
-import { toNumber } from '../_utils/shared'
-
-const DISTANCE_OFFSET = 12
-const EVENT_DELAY = 200
-const ANIMATION_DURATION = 200
+import { toNumber, range } from '../_utils/shared'
+import { createTouch, isTapTouch, ANIMATION_DURATION, EVENT_DELAY, isDoubleTouch } from './utils'
 
 export default {
   name: 'SmyImagePreview',
@@ -89,26 +86,15 @@ export default {
         this.$emit('update:show', val)
       },
     },
-    zoomContainerStyle() {
-      const { transitionTimingFunction, transitionDuration } = this
+    zoomContainerStyle({ transitionTimingFunction, transitionDuration, scale, translateX, translateY }) {
       return {
-        transform: `scale(${this.scale}) translate(${this.translateX}px, ${this.translateY}px) translateZ(0)`,
+        transform: `scale(${scale}) translate(${translateX}px, ${translateY}px) translateZ(0)`,
         transitionTimingFunction,
         transitionDuration,
       }
     },
   },
   methods: {
-    getDistance(touchA, touchB) {
-      const { clientX: aX, clientY: aY } = touchA
-      const { clientX: bX, clientY: bY } = touchB
-      return Math.abs(Math.sqrt((aX - bX) ** 2 + (aY - bY) ** 2))
-    },
-    createTouch(touchEvent) {
-      const { currentTarget: target, touches } = touchEvent
-      const { clientX, clientY } = touches[0]
-      return { target, clientX, clientY, timestamp: Date.now() }
-    },
     zoomIn() {
       this.scale = toNumber(this.zoom)
       this.touchable = false
@@ -127,23 +113,6 @@ export default {
       this.prevTouch = null
       this.transitionTimingFunction = undefined
       this.transitionDuration = undefined
-    },
-    isDoubleTouch() {
-      const { prevTouch, startTouch } = this
-      if (!prevTouch) return false
-      return (
-        this.getDistance(prevTouch, startTouch) <= DISTANCE_OFFSET &&
-        startTouch.timestamp - prevTouch.timestamp <= EVENT_DELAY &&
-        prevTouch.target === startTouch.target
-      )
-    },
-    isTapTouch(target) {
-      const { prevTouch, startTouch } = this
-      if (!target || !startTouch || !prevTouch) return false
-      return (
-        this.getDistance(startTouch, prevTouch) <= DISTANCE_OFFSET &&
-        (target === startTouch.target || target.parentNode === startTouch.target)
-      )
     },
     getZoom(target) {
       const { offsetWidth, offsetHeight } = target
@@ -169,41 +138,33 @@ export default {
       const limitY = Math.max(0, (zoom * displayHeight - height) / 2) / zoom
       return { limitX, limitY }
     },
-    getMoveTranslate(current, move, limit) {
-      if (current + move >= limit) {
-        return limit
-      }
-      if (current + move <= -limit) {
-        return -limit
-      }
-      return current + move
-    },
     handleTouchStart(event) {
-      this.checkTimer && window.clearTimeout(this.checkTimer)
-      const currentTouch = this.createTouch(event)
+      const { checkTimer } = this
+      checkTimer && window.clearTimeout(checkTimer)
+      const currentTouch = createTouch(event)
       this.startTouch = currentTouch
-      if (this.isDoubleTouch()) {
+      if (isDoubleTouch(this.prevTouch, currentTouch)) {
         this.scale > 1 ? this.zoomOut() : this.zoomIn()
         return
       }
       this.prevTouch = currentTouch
     },
     handleTouchMove(event) {
-      const { prevTouch } = this
+      const { prevTouch, translateX, translateY } = this
       if (!prevTouch) return
-      const currentTouch = this.createTouch(event)
+      const currentTouch = createTouch(event)
       if (this.scale > 1) {
         const moveX = currentTouch.clientX - prevTouch.clientX
         const moveY = currentTouch.clientY - prevTouch.clientY
         const { limitX, limitY } = this.getLimit(currentTouch.target)
-        this.translateX = this.getMoveTranslate(this.translateX, moveX, limitX)
-        this.translateY = this.getMoveTranslate(this.translateY, moveY, limitY)
+        this.translateX = range(translateX + moveX, -limitX, limitX)
+        this.translateY = range(translateY + moveY, -limitY, limitY)
       }
       this.prevTouch = currentTouch
     },
     handleTouchEnd(event) {
       this.checkTimer = window.setTimeout(() => {
-        this.isTapTouch(event.target) && this.handleClose()
+        isTapTouch(event.target, this.startTouch, this.prevTouch) && this.handleClose()
         this.startTouch = null
       }, EVENT_DELAY)
     },

@@ -56,8 +56,8 @@ export default {
       if (vertical) return toPxNum(height)
       return toPxNum(width)
     },
-    childrenCount() {
-      return this.children.length
+    childrenCount({ children }) {
+      return children.length
     },
     trackSize({ childrenCount, size }) {
       return childrenCount * size
@@ -103,20 +103,21 @@ export default {
       this.resetPosition()
     },
     onTouchMove(e) {
-      if (!this.touchable || !this.moving) return
-      this.touch.move(e)
-      if (this.isCorrectDirection) {
-        this.move({ offset: this.delta })
+      const { delta, touchable, moving, touch, isCorrectDirection } = this
+      if (!touchable || !moving) return
+      touch.move(e)
+      if (isCorrectDirection) {
+        this.move({ offset: delta })
       }
     },
     onTouchEnd() {
-      if (!this.touchable || !this.moving) return
-      const { delta, size } = this
-      const speed = delta / (Date.now() - this.touchTime)
+      const { delta, size, touchable, moving, touchTime, touch, isCorrectDirection } = this
+      if (!touchable || !moving) return
+      const speed = delta / (Date.now() - touchTime)
       const isShouldMove = Math.abs(speed) > 0.3 || Math.abs(delta) > +(size / 2).toFixed(2)
-      if (isShouldMove && this.isCorrectDirection) {
+      if (isShouldMove && isCorrectDirection) {
         let pace = 0
-        const offset = this.touch.state[this.vertical ? 'offsetY' : 'offsetX']
+        const offset = touch.state[this.vertical ? 'offsetY' : 'offsetX']
         if (this.loop) {
           pace = offset > 0 ? (delta > 0 ? -1 : 1) : 0
         } else {
@@ -141,8 +142,8 @@ export default {
       return active
     },
     getOffset(active, offset = 0) {
-      const { minOffset, loop } = this
-      let currentPosition = active * this.size
+      const { minOffset, loop, size } = this
+      let currentPosition = active * size
       if (!loop) {
         currentPosition = Math.min(currentPosition, -minOffset)
       }
@@ -155,15 +156,15 @@ export default {
     },
     getStyle() {
       let offset = 0
-      const { vertical, size, childrenCount, rect, internalWidth, internalHeight } = this
-      if (!this.center) {
+      const { vertical, size, childrenCount, rect, internalWidth, internalHeight, duration, moving, center } = this
+      if (!center) {
         offset = this.offset
       } else {
         const diff = (vertical ? rect.height : rect.width) - size
         offset = this.offset + (this.active === childrenCount - 1 ? -diff / 2 : diff / 2)
       }
       this.style = {
-        transitionDuration: `${this.moving ? 0 : this.duration}ms`,
+        transitionDuration: `${moving ? 0 : duration}ms`,
         transform: `translate${vertical ? 'Y' : 'X'}(${offset}px)`,
         [vertical ? 'height' : 'width']: `${size * childrenCount}px`,
         [vertical ? 'width' : 'height']: `${vertical ? internalWidth : internalHeight}px`,

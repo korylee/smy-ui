@@ -61,5 +61,6 @@ export default {
 
 <style lang="less">
 @import '../_styles/common.less';
+@import '../_styles/transition.less';
 @import './popup.less';
 </style>

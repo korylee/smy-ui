@@ -16,8 +16,7 @@ export function toNumber(val: number | string | boolean | undefined | null): num
   if (isBool(val)) return Number(val)
   if (isString(val)) {
     val = parseFloat(val)
-    val = Number.isNaN(val) ? 0 : val
-    return val
+    return Number.isNaN(val) ? 0 : val
   }
   return val
 }
@@ -26,8 +25,8 @@ export const range = (num: number, min: number, max: number) => Math.min(Math.ma
 
 export const removeItem = (arr: Array<unknown>, item: unknown) => {
   if (!arr.length) return
-  const index: number = arr.indexOf(item)
-  if (~index) return arr.splice(index, 1)
+  const index = arr.indexOf(item)
+  if (index !== -1) return arr.splice(index, 1)
 }
 
 export function throttle<T extends Func>(fn: T, delay = 200): T {

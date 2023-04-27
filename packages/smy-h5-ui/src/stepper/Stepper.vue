@@ -1,31 +1,23 @@
 <template>
   <div class="smy-stepper" :class="{ 'smy-stepper--simple': simple }">
-    <div
-      :class="{ 'smy-stepper-grey': !minusable || disabledMinus || disabled }"
-      class="smy-stepper-icon"
-      @click="handleMinus"
-    >
+    <div :class="{ 'smy-stepper__icon--grey': !minusable }" class="smy-stepper__icon" @click="handleMinus">
       <slot name="left-icon">
         <smy-icon><minus /></smy-icon>
       </slot>
     </div>
     <input
-      :value="maxv(internal, minNum, max)"
-      :min="minNum"
+      :value="range(internalValue, min, max)"
+      :min="min"
       :max="max"
       :readonly="readonly || !isLegal"
       type="number"
-      class="smy-stepper-input"
+      class="smy-stepper__input"
       @focus="handleFocus"
       @keyup="handleKeyup"
       @blur="handleBlur"
       @input="handleInput"
     />
-    <span
-      :class="{ 'smy-stepper-grey': !plusable || disabledPlus || disabled }"
-      class="smy-stepper-icon"
-      @click="handlePlus"
-    >
+    <span :class="{ 'smy-stepper__icon--grey': !plusable }" class="smy-stepper__icon" @click="handlePlus">
       <slot name="right-icon">
         <smy-icon><plus /></smy-icon>
       </slot>
@@ -38,123 +30,99 @@ import { props } from './props'
 import Plus from '@smy-h5/icons/dist/es/Plus'
 import Minus from '@smy-h5/icons/dist/es/Minus'
 import SmyIcon from '../icon'
+import { range, toNumber } from '../_utils/shared'
+import { throwError } from '../_utils/smy/warn'
 
 export default {
   name: 'SmyStepper',
   props,
   components: { Plus, Minus, SmyIcon },
   data: (vm) => ({
-    focusing: false,
-    internal: vm.value,
-    minNum: vm.min,
-    isLegal: true, // 是否合法
+    internalValue: vm.value,
   }),
   computed: {
-    minusable() {
-      return (this.focusing ? this.tempNum : this.internal) - this.step >= this.min
+    minusable({ internalValue, step, min, disabledMinus, disabled }) {
+      return internalValue - step >= min && !disabledMinus && !disabled
     },
-    plusable() {
-      return !this.max || Number(this.internal) + this.step <= this.max
+    plusable({ max, internalValue, step, disabled, disabledPlus }) {
+      return (!max || toNumber(internalValue) + step <= max) && !disabledPlus && !disabled
+    },
+    isLegal({ min, max }) {
+      return min < max
     },
   },
   watch: {
     value: {
       immediate: true,
       handler(v) {
-        v = this.maxv(v, this.minNum, this.max)
-        if (v === this.internal) return
-        this.internal = v > 0 ? this.fixedDecimalPlaces(v) : v
-        this.$emit('change', this.internal)
-        this.$emit('input', this.internal)
+        const { min, max, internalValue } = this
+        v = range(v, min, max)
+        if (v === internalValue) return
+        const value = (this.internalValue = v > 0 ? this.fixedDecimalPlaces(v) : v)
+        this.$emit('change', value)
+        this.$emit('input', value)
       },
     },
-    min: {
-      immediate: true,
-      handler(v) {
-        this.isLegal = true
-        if (v < this.max) {
-          this.minNum = v
-        } else {
-          this.isLegal = false
-        }
-      },
-    },
-    max: {
-      immediate: true,
-      handler(v) {
-        this.isLegal = v > this.min
-      },
+    isLegal(val) {
+      !val && throwError('SmyStepper', `max必须大于min!`)
     },
   },
   methods: {
-    maxv(v, min, max) {
-      if (v > max) return max
-      else if (v < min) return min
-      return v
-    },
+    range,
     fixedDecimalPlaces(v) {
-      return Number(v).toFixed(this.decimalPlaces)
+      return toNumber(v).toFixed(this.decimalPlaces)
     },
     handleFocus(e) {
-      if (this.readonly || this.isLegal || this.disabled) return
-      const v = this.internal
-      this.tempNum = v
-      this.minNum = ''
-      this.focusing = true
+      const { readonly, isLegal, disabled } = this
+      if (readonly || !isLegal || disabled) return
       this.$emit('focus', e)
     },
     handlePlus(e) {
-      if (this.disabled || this.disabledPlus) return
-      this.internal = Number(this.internal)
-      if (this.internal <= this.max - this.step && this.max > this.minNum) {
-        const [n1, n2] = this.fixedDecimalPlaces(this.internal + Number(this.step)).split('.')
-        const fixedLen = n2?.length ?? 0
-        this.internal = parseFloat(n1 + (n2 ? `.${n2}` : '')).toFixed(fixedLen)
-        this.$emit('input', this.internal)
-        this.$emit('plus', e)
-      } else {
-        this.$emit('plus-no-allow')
+      const { plusable, step, internalValue } = this
+      if (!plusable) {
+        return
       }
+      const [n1, n2] = this.fixedDecimalPlaces(toNumber(internalValue) + step).split('.')
+      const fixedLen = n2?.length ?? 0
+      this.internalValue = parseFloat(n1 + (n2 ? `.${n2}` : '')).toFixed(fixedLen)
+      this.$emit('input', this.internalValue)
+      this.$emit('plus', e)
     },
     handleMinus(e) {
-      if (this.disabled || this.disabledMinus) return
-      const { internal } = this
-      if (internal - this.step >= this.minNum) {
-        const [n1, n2] = this.fixedDecimalPlaces(internal - Number(this.step)).split('.')
-        const fixedLen = n2?.length ?? 0
-        this.internal = parseFloat(n1 + (n2 ? `.${n2}` : n2)).toFixed(fixedLen)
-
-        this.$emit('input', this.internal)
-        this.$emit('minus', e)
-      } else {
-        this.$emit('minus-no-allow')
+      const { internalValue, step, minusable } = this
+      if (!minusable) {
+        return
       }
+      const [n1, n2] = this.fixedDecimalPlaces(internalValue - toNumber(step)).split('.')
+      const fixedLen = n2?.length ?? 0
+      this.internalValue = parseFloat(n1 + (n2 ? `.${n2}` : n2)).toFixed(fixedLen)
+
+      this.$emit('input', this.internalValue)
+      this.$emit('minus', e)
     },
     handleInput(e) {
       const { value } = e.target
-      const v = this.maxv(value, this.minNum, this.max)
+      const v = range(value, this.min, this.max)
       e.target.value = v
-      this.internal = v
+      this.internalValue = v
       this.$emit('input', v)
       this.$emit('change', v)
     },
     handleKeyup(e) {
       const { value } = e.target
-      this.focusing = false
-      const v = this.maxv(value, this.minNum, this.max)
+      const v = range(value, this.min, this.max)
       e.target.value = v
-      this.internal = v
+      this.internalValue = v
     },
     handleBlur(e) {
-      if (this.readonly || !this.isLegal || !this.disabled) {
-        return this.$emit('blur', e)
+      const { readonly, isLegal, disabled, min, max } = this
+      if (readonly || !isLegal || disabled) {
+        return
       }
-      const { value } = e.target.value
-      this.minNum = this.min
-      this.focusing = false
-      const v = value ? this.maxv(value, this.minNum, this.max) : this.tempNum
+      const { value } = e.target
+      const v = value ? range(value, min, max) : min
 
-      this.internal = v
+      this.internalValue = v
       this.$emit('input', v)
       this.$emit('blur', e)
     },

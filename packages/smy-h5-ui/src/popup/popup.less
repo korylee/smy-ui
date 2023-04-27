@@ -6,30 +6,6 @@
   --popup-content-background-color: @popup-content-background-color;
 }
 
-.smy-fade {
-  &-enter,
-  &-leave-to {
-    opacity: 0;
-  }
-
-  &-enter-active,
-  &-leave-active {
-    transition: opacity 0.25s;
-  }
-}
-
-.pop-transition(center, scale(0.3));
-.pop-transition(bottom, translateY(100%));
-.pop-transition(top, translateY(-100%));
-.pop-transition(left, translateX(-100%));
-.pop-transition(right, translateX(100%));
-
-.pop-transition(@position, @transform) {
-  .smy-pop-@{position} {
-    .transition-mixin(@transform);
-  }
-}
-
 .transition-mixin(@transform, @transition-duration: 0.25s, @transition-timing-function: ease) {
   &-enter,
   &-leave-to {
@@ -41,6 +17,18 @@
     transition: all @transition-timing-function @transition-duration;
   }
 }
+
+.pop-transition(@position, @transform) {
+  .smy-pop-@{position} {
+    .transition-mixin(@transform);
+  }
+}
+
+.pop-transition(center, scale(0.3));
+.pop-transition(bottom, translateY(100%));
+.pop-transition(top, translateY(-100%));
+.pop-transition(left, translateX(-100%));
+.pop-transition(right, translateX(100%));
 
 .smy-popup {
   display: flex;
