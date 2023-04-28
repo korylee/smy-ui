@@ -59,11 +59,13 @@ import SmySwiperItem from '../swiper-item'
 import { props } from './props'
 import { toNumber, range } from '../_utils/shared'
 import { createTouch, isTapTouch, ANIMATION_DURATION, EVENT_DELAY, isDoubleTouch } from './utils'
+import { createProxiedModel } from '../_mixins/proxiedModel'
 
 export default {
   name: 'SmyImagePreview',
   inheritAttrs: false,
   components: { SmyPopup, SmySwiper, SmySwiperItem, SmyIcon },
+  mixins: [createProxiedModel('show', 'internalShow', { passive: false, event: 'update:show' })],
   props,
   data: () => ({
     scale: 1,
@@ -77,15 +79,6 @@ export default {
     checkTimer: null,
   }),
   computed: {
-    internalShow: {
-      get() {
-        return this.show
-      },
-      set(val) {
-        if (val === this.show) return
-        this.$emit('update:show', val)
-      },
-    },
     zoomContainerStyle({ transitionTimingFunction, transitionDuration, scale, translateX, translateY }) {
       return {
         transform: `scale(${scale}) translate(${translateX}px, ${translateY}px) translateZ(0)`,

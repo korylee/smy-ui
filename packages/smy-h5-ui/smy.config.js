@@ -53,6 +53,7 @@ module.exports = defineConfig({
       { text: 'Tag 标签', doc: 'tag', type: 2 },
       { text: 'ImagePreview 图片预览', doc: 'image-preview', type: 2 },
       { text: 'Lazy 懒加载', type: 2, doc: 'lazy' },
+      { text: 'Image 图片', type: 2, doc: 'image' },
       { text: '导航组件', type: 1 },
       { text: 'NoticeBar 通告栏', doc: 'notice-bar', type: 2 },
       { text: '功能指令', type: 1 },

@@ -9,7 +9,7 @@ declare interface SmyLazy extends SmyComponent {
   new (): {
     $props: LazyProps
     $scopeSlots: {
-      default: () => VNode
+      default: (data: { value: boolean }) => VNode
     }
     $emit: {
       (event: 'input', val: boolean): void

@@ -87,6 +87,7 @@ import SmyPopup from '../popup'
 import { toPxNum } from '../_utils/dom'
 import { props } from './props'
 import { toNumber } from '../_utils/shared'
+import { createProxiedModel } from '../_mixins/proxiedModel'
 
 function getTranslate(el) {
   const { transform } = window.getComputedStyle(el)
@@ -101,28 +102,21 @@ let sid = 0
 export default {
   name: 'SmyPicker',
   components: { SmyPopup },
+  mixins: [createProxiedModel('show', 'internalShow', { passive: false, event: 'update:show' })],
   props,
   data: () => ({
     scrollColumns: [],
     prevIndexes: [],
   }),
   computed: {
-    internalShow: {
-      get() {
-        return this.show
-      },
-      set(val) {
-        this.$emit('update:show', val)
-      },
-    },
     localOptionHeight() {
       return toPxNum(this.optionHeight)
     },
-    center() {
-      return (this.columnHeight - this.localOptionHeight) / 2
+    center({ columnHeight, localOptionHeight }) {
+      return (columnHeight - localOptionHeight) / 2
     },
-    columnHeight() {
-      return toNumber(this.optionCount) * this.localOptionHeight
+    columnHeight({ optionCount, localOptionHeight }) {
+      return toNumber(optionCount) * localOptionHeight
     },
   },
   watch: {

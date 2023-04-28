@@ -5,7 +5,7 @@ import { isNil, isObject } from '../_utils/is'
 
 type ValueOf<T> = T[keyof T]
 
-export interface LazyloadOptions {
+interface LazyloadBaseOptions {
   loading?: string
   error?: string
   attempt?: number
@@ -17,13 +17,20 @@ interface LazyloadHandlers {
   onError?: (el?: LazyHTMLElement) => void
 }
 
-type LazyloadValue = Omit<LazyloadOptions, 'attempt'> & { attempt?: number | string; src: string } & LazyloadHandlers
+export type LazyloadOptions = Omit<LazyloadBaseOptions, 'attempt'> & { attempt?: number | string } & LazyloadHandlers
+
+type LazyloadValue =
+  | {
+      src: string
+      options?: LazyloadOptions
+    }
+  | ({ src: string } & LazyloadOptions)
 
 interface LazyloadVNodeDirective extends VNodeDirective {
   value?: string | LazyloadValue
 }
 
-interface LazyloadStore extends LazyloadOptions, LazyloadHandlers {
+interface LazyloadStore extends LazyloadBaseOptions, LazyloadHandlers {
   src: string
   arg: string | undefined
   currentAttempt: number
@@ -51,7 +58,7 @@ type LazyloadState = ValueOf<typeof LAZYLOAD_STATE>
 
 export const imageCache = createLRUCache<string, HTMLImageElement>(100)
 
-export const globalLazyloadOptions: LazyloadOptions = {
+export const globalLazyloadOptions: LazyloadBaseOptions = {
   loading: PIXEL,
   error: PIXEL,
   attempt: 3,
@@ -86,11 +93,10 @@ function setError(el: LazyHTMLElement) {
 
 function createLazy(el: LazyHTMLElement, binding: LazyloadVNodeDirective) {
   const { value, arg } = binding
-  const { loading, src, attempt, error, onError, onSuccess, filter } = isObject(value)
-    ? value
-    : ({ src: value } as LazyloadValue)
+  const { src, options, ...otherOptions } = (isObject(value) ? value : { src: value }) as any
+  const { loading, attempt, error, onError, onSuccess, filter } = options ?? otherOptions ?? ({} as LazyloadOptions)
   if (!src) return
-  const lazyOptions: LazyloadOptions = {
+  const lazyOptions: LazyloadBaseOptions = {
     loading: loading ?? el.getAttribute(LAZY_LOADING) ?? globalLazyloadOptions.loading,
     error: error ?? el.getAttribute(LAZY_ERROR) ?? globalLazyloadOptions.error,
     attempt: Number(attempt ?? el.getAttribute(LAZY_ATTEMPT) ?? globalLazyloadOptions.attempt),
@@ -169,9 +175,11 @@ function update(el: LazyHTMLElement, binding: LazyloadVNodeDirective) {
 const createIntersectBinding = (el: HTMLElement): ObserveVNodeDirective => ({
   name: 'intersect',
   value(isIntersecting: boolean) {
-    if (isIntersecting) {
-      attemptLoad(el)
-    }
+    if (!isIntersecting) return
+    attemptLoad(el)
+  },
+  modifiers: {
+    once: true,
   },
 })
 
@@ -184,11 +192,11 @@ function unbind(el: LazyHTMLElement, binding: VNodeDirective, vnode: VNode) {
   Intersect.unbind(el, createIntersectBinding(el), vnode)
 }
 
-export const LazyLoad: DirectiveOptions & PluginObject<LazyloadOptions> = {
+export const LazyLoad: DirectiveOptions & PluginObject<LazyloadBaseOptions> = {
   inserted,
   unbind,
   update,
-  install(app: VueConstructor, lazyOptions?: LazyloadOptions) {
+  install(app: VueConstructor, lazyOptions?: LazyloadBaseOptions) {
     lazyOptions && assignWith(globalLazyloadOptions, lazyOptions, (t, s) => (isNil(s) ? t : s))
     app.directive('lazy', this)
     app.directive('lazyload', this)

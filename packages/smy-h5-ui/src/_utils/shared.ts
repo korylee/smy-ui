@@ -114,7 +114,7 @@ export function createLRUCache<T, R>(max: number, cache: Map<T, R> = new Map()) 
 
 export function pick<T extends Record<string, any>, R extends keyof T>(source: T, props: R | R[]): Pick<T, R> {
   if (!isObject(source)) return {} as any
-  const wrapProps = isNil(props) ? [] : isArray(props) ? props : [props]
+  const wrapProps = wrapInArray(props)
   return wrapProps.reduce((res, key: R) => {
     const exist = Reflect.has(source, key)
     if (exist) {
@@ -125,3 +125,7 @@ export function pick<T extends Record<string, any>, R extends keyof T>(source: T
 }
 
 export const keys: <O extends Record<string, any>>(obj: O) => (keyof O)[] = Object.keys
+
+export function wrapInArray<T>(v: T | T[] | null | undefined): T[] {
+  return isNil(v) ? [] : isArray(v) ? v : [v]
+}
