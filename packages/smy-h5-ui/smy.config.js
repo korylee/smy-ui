@@ -41,6 +41,7 @@ module.exports = defineConfig({
       { text: 'ConfigProvider 全局配置', doc: 'config-provider', type: 2 },
       { text: 'Cell 单元格', doc: 'cell', type: 2 },
       { text: 'Icon 图标', doc: 'icon', type: 2 },
+      { text: 'ProgressCircular 圆进度条', doc: 'progress-circular', type: 2 },
       { text: 'Loading 加载', doc: 'loading', type: 2 },
       { text: '展示组件', type: 1 },
       { text: 'Badge 徽标', doc: 'badge', type: 2 },

@@ -1,4 +1,3 @@
-import { upperFirst } from '../_utils/shared'
 import { throwError } from '../_utils/smy/warn'
 
 interface ProxiedModelOptions {
@@ -6,15 +5,14 @@ interface ProxiedModelOptions {
   event?: string
 }
 
-export function createProxiedModel(prop: string, proxy?: string, options: ProxiedModelOptions = {}): any {
+export function createProxiedModel(prop: string, proxy: string, options: ProxiedModelOptions = {}): any {
   const { passive = true, event = 'input' } = options
   if (!prop) throwError('createProxiedModel', 'prop 不能为空')
-  const internal = proxy || `internal${upperFirst(prop)}`
   const getValue = (vm: any) => vm[prop]
   if (!passive) {
     return {
       computed: {
-        [internal]: {
+        [proxy]: {
           get() {
             return getValue(this)
           },
@@ -29,13 +27,13 @@ export function createProxiedModel(prop: string, proxy?: string, options: Proxie
   }
   return {
     data: (vm: any) => ({
-      [internal]: getValue(vm),
+      [proxy]: getValue(vm),
     }),
     watch: {
       [prop]() {
-        this[internal] = getValue(this)
+        this[proxy] = getValue(this)
       },
-      [internal](val: unknown) {
+      [proxy](val: unknown) {
         const vm: any = this
         vm.$emit(event, val)
       },
