@@ -58,15 +58,16 @@ export function createChildrenMixin(parent: string, { index = 'index', children 
     watch: {
       [`${parent}.${children}`]: {
         immediate: true,
-        async handler() {
+        handler() {
           const vm = this as any
-          await vm.$nextTick()
           const parentVNode = vm[parent]
           if (!parentVNode) return throwError('relation-mixin', `该组件必须为${parent}子组件`)
 
-          const childrenList = parentVNode[children]
-          if (~childrenList.indexOf(vm)) return
-          parentVNode[children] = sortChildren([...childrenList, vm], parentVNode)
+          vm.$nextTick(() => {
+            const childrenList = parentVNode[children]
+            if (~childrenList.indexOf(vm)) return
+            parentVNode[children] = sortChildren([...childrenList, vm], parentVNode)
+          })
         },
       },
     },

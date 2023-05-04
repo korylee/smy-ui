@@ -1,11 +1,13 @@
 <template>
-  <div class="smy-image smy--box">
+  <div :style="style" :class="{ 'smy--inline-block': !block }" class="smy-image smy--box">
     <img
       v-if="lazy"
       v-lazyload="{
         src,
         options: lazyOptions,
       }"
+      :alt="alt"
+      :style="{ objectFit: fit }"
       class="smy-image__image"
       @load="handleLoaded($event, 'load')"
       @error="handleLoaded($event, 'error')"
@@ -14,6 +16,8 @@
     <img
       v-else
       :src="src"
+      :alt="alt"
+      :style="{ objectFit: fit }"
       class="smy-image__image"
       @load="handleLoaded($event, 'load')"
       @error="handleLoaded($event, 'error')"
@@ -23,7 +27,8 @@
 </template>
 
 <script>
-import Lazyload from '../lazyload'
+import { convertToUnit } from '../_utils/dom'
+import Lazyload, { LAZYLOAD_STATE } from '../lazyload'
 import { props } from './props'
 
 export default {
@@ -31,11 +36,14 @@ export default {
   directives: { Lazyload },
   props,
   computed: {
-    style() {
-      return {}
+    style({ height, width, radius }) {
+      return {
+        width: convertToUnit(width),
+        height: convertToUnit(height),
+        borderRadius: convertToUnit(radius),
+      }
     },
   },
-  watch: {},
   methods: {
     handleLoaded(event, eventName) {
       const { lazy } = this
@@ -43,7 +51,7 @@ export default {
       const { _lazy } = el
       if (lazy & _lazy) {
         const state = _lazy.state
-        const lazyEventName = state === 'success' ? 'load' : state === 'error' ? 'error' : ''
+        const lazyEventName = state === LAZYLOAD_STATE.SUCCESS ? 'load' : state === LAZYLOAD_STATE.ERROR ? 'error' : ''
         if (!lazyEventName) return
         this.$emit(lazyEventName, event)
         return
@@ -54,4 +62,7 @@ export default {
 }
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+@import '../_styles/common.less';
+@import './image.less';
+</style>

@@ -14,6 +14,13 @@ export const props = {
     default: 'fill',
     validator: (val: FitType) => FIT.includes(val),
   },
+  block: {
+    type: Boolean,
+    default: true,
+  },
+  width: [String, Number],
+  height: [String, Number],
+  radius: [String, Number],
   lazy: Boolean,
   lazyOptions: Object as PropType<LazyloadOptions>,
 }

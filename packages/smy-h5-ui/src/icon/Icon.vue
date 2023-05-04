@@ -47,14 +47,13 @@ export default {
   watch: {
     name: {
       immediate: true,
-      async handler(newName, oldName) {
+      handler(newName, oldName) {
         if (oldName == null || toNumber(this.transition) === 0) {
           this.nextName = newName
           return
         }
 
         this.shrinking = true
-        await this.$nextTick()
         setTimeout(() => {
           requestAnimationFrame(() => {
             oldName != null && (this.nextName = newName)

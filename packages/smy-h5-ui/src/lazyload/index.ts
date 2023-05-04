@@ -48,7 +48,7 @@ const LAZY_ERROR = 'lazy-error'
 const LAZY_ATTEMPT = 'lazy-attempt'
 export const PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
 const BACKGROUND_IMAGE_ARG_NAME = 'background-image'
-const LAZYLOAD_STATE = Object.freeze({
+export const LAZYLOAD_STATE = Object.freeze({
   PENDING: 'pending',
   SUCCESS: 'success',
   ERROR: 'error',
