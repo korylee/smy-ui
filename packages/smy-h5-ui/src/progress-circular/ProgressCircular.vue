@@ -38,10 +38,10 @@
         :stroke-width="strokeWidth"
         :stroke-dasharray="CIRCUMFERENCE"
       ></circle>
-      <div v-if="hasSlot()" class="smy-progress-circular__content">
-        <slot name="default" :value="normalizedValue" />
-      </div>
     </svg>
+    <div v-if="hasSlot()" class="smy-progress-circular__content">
+      <slot name="default" :value="normalizedValue" />
+    </div>
   </component>
 </template>
 <script>
