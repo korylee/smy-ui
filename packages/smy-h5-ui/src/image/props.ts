@@ -1,6 +1,6 @@
-import { PropType } from 'vue'
-import { ExtractPropTypes } from '../_utils/vue/props'
-import { LazyloadOptions } from '../lazyload'
+import type { PropType } from 'vue'
+import type { ExtractPropTypes } from '../_utils/vue/props'
+import type { LazyloadOptions } from '../lazyload'
 
 const FIT = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
 
