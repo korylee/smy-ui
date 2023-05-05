@@ -10,8 +10,11 @@ export const props = {
     type: String,
     default: 'div',
   },
+  color: {
+    type: String,
+    default: 'currentColor',
+  },
   bgColor: String,
-  color: String,
   rotate: {
     type: [Number, String],
     default: 0,
@@ -19,11 +22,11 @@ export const props = {
   indeterminate: [Boolean, String] as PropType<boolean | 'disable-shrink'>,
   size: {
     type: [Number, String],
-    default: 32,
+    default: '1em',
   },
   width: {
     type: [Number, String],
-    default: 4,
+    default: 2,
   },
 }
 

@@ -4,9 +4,7 @@
       <slot />
     </div>
     <div v-if="isShow" class="smy--box smy-loading__body" :class="{ 'smy-loading__inside': hasDefaultSlots }">
-      <svg v-if="type === 'circle'" class="smy-loading__circle" :style="{ color, fontSize }" viewBox="25 25 50 50">
-        <circle cx="50" cy="50" r="20" fill="none"></circle>
-      </svg>
+      <smy-progress-circular v-if="type === 'circle'" :color="color" :size="size" indeterminate width="2" />
       <div v-else-if="currentLoadingNums" :class="`smy-loading__${type}`" :style="{ fontSize }">
         <div
           v-for="num in currentLoadingNums"
@@ -27,10 +25,12 @@ import { props } from './props'
 import { LOADING_NUMBERS_DICT } from './constant'
 import { isNumber, isNumString } from '../_utils/is'
 import { SlotsMixin } from '../_utils/vue/slots'
+import SmyProgressCircular from '../progress-circular'
 
 export default {
   name: 'SmyLoading',
   mixins: [SlotsMixin],
+  components: { SmyProgressCircular },
   props,
   computed: {
     hasDefaultSlots() {

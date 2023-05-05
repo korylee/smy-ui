@@ -16,7 +16,7 @@
             <div class="smy-pull-refresh-control__header-text">{{ loosingText }}</div>
           </slot>
           <slot v-else-if="status === 'loading'" name="loading">
-            <smy-loading class="smy-pull-refresh-control__header-icon" />
+            <smy-progress-circular indeterminate width="1.6" class="smy-pull-refresh-control__header-icon" />
             <div class="smy-pull-refresh-control__header-text">{{ loadingText }}</div>
           </slot>
         </div>
@@ -29,11 +29,11 @@
 import { useTouch } from '../_utils/composable/useTouch'
 import { getParentScroller, getScrollTopRoot, toPxNum, convertToUnit } from '../_utils/dom'
 import { props } from './props'
-import SmyLoading from '../loading'
+import SmyProgressCircular from '../progress-circular'
 
 export default {
   name: 'SmyPullRefresh',
-  components: { SmyLoading },
+  components: { SmyProgressCircular },
   props,
   data: () => ({
     touch: useTouch(),
@@ -47,7 +47,10 @@ export default {
       transitionDuration: `${duration}s`,
       transform: distance ? `translate3d(0, ${distance}px, 0)` : '',
     }),
-    headerStyle: ({ headerHeight }) => ({ height: convertToUnit(headerHeight) }),
+    headerStyle({ headerHeight }) {
+      const height = convertToUnit(headerHeight)
+      return { height, lineHeight: height }
+    },
     isCanTouch: ({ status }) => !['loading'].includes(status),
     internalPullDistance() {
       return toPxNum(this.pullDistance || this.headerHeight)

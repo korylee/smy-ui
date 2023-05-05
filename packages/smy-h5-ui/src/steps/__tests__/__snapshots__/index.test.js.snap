@@ -31,11 +31,11 @@ exports[`test step direction prop 1`] = `
 
 exports[`test step direction prop 2`] = `
 "<div class=\\"smy-steps smy-steps--vertical\\">
-  <div class=\\"smy-step smy-step--finish\\">
+  <div class=\\"smy-step smy-step--process\\">
     <div class=\\"smy-step__header\\">
       <div class=\\"smy-step__header-line\\"></div>
       <div class=\\"smy-step__header-icon\\">
-        <div class=\\"smy-step__header-icon__inner\\">0</div>
+        <div class=\\"smy-step__header-icon__inner\\">1</div>
       </div>
     </div>
     <div class=\\"smy-step__main\\">
@@ -43,11 +43,11 @@ exports[`test step direction prop 2`] = `
       <div class=\\"smy-step__main-content\\">步骤1</div>
     </div>
   </div>
-  <div class=\\"smy-step smy-step--finish\\">
+  <div class=\\"smy-step smy-step--wait\\">
     <div class=\\"smy-step__header\\">
       <div class=\\"smy-step__header-line\\"></div>
       <div class=\\"smy-step__header-icon\\">
-        <div class=\\"smy-step__header-icon__inner\\">0</div>
+        <div class=\\"smy-step__header-icon__inner\\">2</div>
       </div>
     </div>
     <div class=\\"smy-step__main\\">

@@ -51,22 +51,6 @@
     font-size: var(--loading-desc-font-size);
     vertical-align: middle;
   }
-  &__circle {
-    display: flex;
-    animation: circle 1.8s linear infinite;
-    vertical-align: middle;
-    width: 1em;
-    height: 1em;
-    max-width: 100%;
-    max-height: 100%;
-
-    circle {
-      animation: smy-circular 1.5s ease-in-out infinite;
-      stroke: currentColor;
-      stroke-width: 3;
-      stroke-linecap: round;
-    }
-  }
   &__wave {
     display: flex;
     align-items: center;
@@ -148,60 +132,5 @@
         transform: rotate(90deg) scale(0.3);
       }
     }
-  }
-  &__disappear {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-flow: nowrap;
-    width: var(--loading-width);
-    height: var(--loading-height);
-
-    &-item {
-      border-radius: 50%;
-      animation: 0.5s ease-in-out infinite alternate disappear;
-      height: 0.8em;
-      width: 0.8em;
-
-      &:nth-child(1) {
-        animation-delay: -0.4s;
-      }
-      &:nth-child(2) {
-        animation-delay: -0.2s;
-      }
-    }
-
-    @keyframes disappear {
-      0% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
-    }
-  }
-}
-
-@keyframes circle {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes smy-circular {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -40;
-  }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -120;
   }
 }

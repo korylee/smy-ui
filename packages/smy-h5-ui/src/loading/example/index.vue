@@ -5,12 +5,11 @@
       <smy-loading type="circle" size="20" color="#555" />
       <smy-loading type="cube" />
       <smy-loading type="wave" />
-      <smy-loading type="disappear" />
     </div>
     <div>
       <app-demo-title>包裹</app-demo-title>
       <button @click="loading = !loading">开关loading</button>
-      <smy-loading desc="loading..." :loading="loading" color="#c8c9cc" size="30">
+      <smy-loading desc="loading..." :loading="loading" size="20">
         <smy-cell title="介绍" desc="北极星的眼泪，哒哒哒哒哒哒" />
       </smy-loading>
     </div>

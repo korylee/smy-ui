@@ -1,6 +1,6 @@
 <template>
   <div class="lazy-example">
-    <smy-lazy v-for="item of 4" :key="item" @input="onInput($event, item)">
+    <smy-lazy v-for="item of 4" :key="item" @input="onInput($event, item)" class="fst" style="color: red">
       <div>{{ item }}</div>
     </smy-lazy>
   </div>

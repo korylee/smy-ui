@@ -14,12 +14,12 @@ test('test stepper increment & decrement', async () => {
     template: `<smy-stepper v-model="value" />`,
   })
 
-  const btns = wrapper.findAll('.smy-stepper-icon')
+  const btns = wrapper.findAll('.smy-stepper__icon')
   await btns.at(1).trigger('click')
-  expect(wrapper.vm.value).toBe('1')
+  expect(wrapper.vm.value).toBe(1)
 
   await btns.at(0).trigger('click')
-  expect(wrapper.vm.value).toBe('0')
+  expect(wrapper.vm.value).toBe(0)
 
   wrapper.destroy()
 })
@@ -34,7 +34,7 @@ test('test stepper initial value over max', async () => {
     }),
     template: `<smy-stepper v-model="value" :max="10" />`,
   })
-  expect(wrapper.vm.value).toBe('10')
+  expect(wrapper.vm.value).toBe(10)
 
   wrapper.destroy()
 })

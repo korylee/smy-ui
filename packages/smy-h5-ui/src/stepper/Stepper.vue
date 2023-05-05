@@ -58,7 +58,7 @@ export default {
         const { min, max, internalValue } = this
         v = range(v, min, max)
         if (v === internalValue) return
-        const value = (this.internalValue = v > 0 ? this.fixedDecimalPlaces(v) : v)
+        const value = toNumber((this.internalValue = v > 0 ? this.fixedDecimalPlaces(v) : v))
         this.$emit('change', value)
         this.$emit('input', value)
       },
@@ -84,7 +84,7 @@ export default {
       }
       const [n1, n2] = this.fixedDecimalPlaces(toNumber(internalValue) + step).split('.')
       const fixedLen = n2?.length ?? 0
-      this.internalValue = parseFloat(n1 + (n2 ? `.${n2}` : '')).toFixed(fixedLen)
+      this.internalValue = toNumber(parseFloat(n1 + (n2 ? `.${n2}` : '')).toFixed(fixedLen))
       this.$emit('input', this.internalValue)
       this.$emit('plus', e)
     },
@@ -95,14 +95,14 @@ export default {
       }
       const [n1, n2] = this.fixedDecimalPlaces(internalValue - toNumber(step)).split('.')
       const fixedLen = n2?.length ?? 0
-      this.internalValue = parseFloat(n1 + (n2 ? `.${n2}` : n2)).toFixed(fixedLen)
+      this.internalValue = toNumber(parseFloat(n1 + (n2 ? `.${n2}` : n2)).toFixed(fixedLen))
 
       this.$emit('input', this.internalValue)
       this.$emit('minus', e)
     },
     handleInput(e) {
       const { value } = e.target
-      const v = range(value, this.min, this.max)
+      const v = toNumber(range(value, this.min, this.max))
       e.target.value = v
       this.internalValue = v
       this.$emit('input', v)
@@ -110,7 +110,7 @@ export default {
     },
     handleKeyup(e) {
       const { value } = e.target
-      const v = range(value, this.min, this.max)
+      const v = toNumber(range(value, this.min, this.max))
       e.target.value = v
       this.internalValue = v
     },
@@ -120,7 +120,7 @@ export default {
         return
       }
       const { value } = e.target
-      const v = value ? range(value, min, max) : min
+      const v = toNumber(value ? range(value, min, max) : min)
 
       this.internalValue = v
       this.$emit('input', v)

@@ -1,7 +1,7 @@
 import type { ExtractPropTypes } from '../_utils/vue/props'
 import type { PropType } from 'vue'
 
-const loadingTypes = ['circle', 'wave', 'cube', 'disappear'] as const
+const loadingTypes = ['circle', 'wave', 'cube'] as const
 
 type LoadingType = typeof loadingTypes[number]
 
