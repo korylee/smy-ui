@@ -23,7 +23,7 @@ export default {
     },
   },
   render(h) {
-    const { tag, isActive, onIntersect, options, transition } = this
+    const { tag, isActive, onIntersect, options, transition, keepShow } = this
     const intersectDirective = {
       name: 'intersect',
       value: {
@@ -36,9 +36,13 @@ export default {
       staticClass: 'smy-lazy',
       directives: [intersectDirective],
     }
+    const defaultSlot = getSlot(this, 'default', { value: isActive })
+    if (keepShow) {
+      return defaultSlot
+    }
     const child = isActive ? (
-      <MaybeTransition appear name={transition}>
-        {getSlot(this, 'default', { value: isActive })}
+      <MaybeTransition name={transition} appear>
+        {defaultSlot}
       </MaybeTransition>
     ) : null
     return h(tag, data, child && [child])

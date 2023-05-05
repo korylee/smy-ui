@@ -15,6 +15,7 @@ export const props = {
     type: String,
     default: 'smy-fade',
   },
+  keepShow: Boolean,
 }
 
 export type LazyProps = ExtractPropTypes<typeof props>
