@@ -1,41 +1,37 @@
 <template>
   <div class="smy-switch" :style="style" :class="classes" @click="handleToggle">
-    <div class="smy-switch__btn">
+    <div class="smy-switch__thumb">
       <slot v-if="loading" name="loading">
-        <smy-loading :color="loadingColor" :size="loadingSize" class="smy-switch__btn-loading" />
+        <smy-progress-circular
+          :color="loadingColor"
+          :size="loadingSize"
+          indeterminate
+          width="1"
+          class="smy-switch__thumb-loading"
+        />
       </slot>
     </div>
-    <div class="smy-switch__label" :class="`smy-switch__label--${isActive ? 'open' : 'close'}`">
-      {{ isActive ? activeLabel : inactiveLabel }}
-    </div>
+    <div v-if="activeLabel" class="smy-switch__label smy-switch__label--open">{{ activeLabel }}</div>
+    <div v-if="inactiveLabel" class="smy-switch__label smy-switch__label--close">{{ inactiveLabel }}</div>
   </div>
 </template>
 
 <script>
 import { convertToUnit } from '../_utils/dom'
 import { props } from './props'
-import SmyLoading from '../loading'
+import SmyProgressCircular from '../progress-circular'
 
 export default {
   name: 'SmySwitch',
-  components: { SmyLoading },
+  components: { SmyProgressCircular },
   model: {
     prop: 'value',
     event: 'change',
   },
   props,
   computed: {
-    isActive: {
-      get() {
-        return this.value === this.activeValue
-      },
-      set(val) {
-        this.$emit('change', val)
-        this.$emit('update:value', val)
-      },
-    },
-    fontSize() {
-      return convertToUnit(this.size)
+    isActive({ value, activeValue }) {
+      return value === activeValue
     },
     classes({ isActive, disabled }) {
       return {
@@ -43,17 +39,18 @@ export default {
         'smy-switch--disabled': disabled,
       }
     },
-    style({ fontSize, isActive, activeColor, inactiveColor }) {
+    style({ size, activeColor, inactiveColor }) {
       return {
-        fontSize,
-        backgroundColor: isActive ? activeColor : inactiveColor,
+        fontSize: convertToUnit(size),
+        '--switch-color-active': activeColor,
+        '--switch-color-inactive': inactiveColor,
       }
     },
   },
   methods: {
     handleToggle() {
-      if (this.disabled || this.loading) return
-      this.isActive = this.isActive ? this.inactiveValue : this.activeValue
+      if (this.disabled) return
+      this.$emit('change', this.isActive ? this.inactiveValue : this.activeValue)
     },
   },
 }
@@ -61,6 +58,6 @@ export default {
 
 <style lang="less">
 @import '../_styles/common.less';
-@import '../loading/loading.less';
+@import '../progress-circular/progressCircular.less';
 @import './switch.less';
 </style>

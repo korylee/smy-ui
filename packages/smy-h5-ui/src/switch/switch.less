@@ -3,6 +3,9 @@
 @switch-border-color-active: @switch-color-active;
 @switch-cubic-bezier: cubic-bezier(0.55, 0.085, 0.68, 0.53);
 @switch-transition-duration: 0.2s;
+@switch-height: 1.68em;
+@switch-padding: 0.25em;
+@switch-label-color: #fff;
 
 :root {
   --switch-color-active: @switch-color-active;
@@ -10,64 +13,92 @@
   --switch-cubic-bezier: @switch-cubic-bezier;
   --switch-transition-duration: @switch-transition-duration;
   --switch-color-inactive: @switch-color-inactive;
+  --switch-height: @switch-height;
+  --switch-padding: @switch-padding;
+  --switch-label-color: @switch-label-color;
 }
+
 .smy-switch {
   position: relative;
-  line-height: 1.67em;
-  height: 1.67em;
-  min-width: 3.17em;
+  line-height: var(--switch-height);
+  height: var(--switch-height);
+  min-width: 3.18em;
   width: auto;
   display: inline-block;
-  background: #fff;
+  background: var(--switch-color-inactive);
   border-radius: 1000px;
   vertical-align: bottom;
   box-sizing: content-box;
-  border: 2px solid var(--switch-color-inactive);
   transition: all var(--switch-transition-duration) var(--switch-cubic-bezier);
   cursor: pointer;
-  @switch-label-margin-left: 1.67em;
-  @switch-label-margin-right: 0.25em;
+  flex: 0 0 auto;
+
   &__label {
-    position: relative;
-    width: auto;
-    left: 0;
-    margin-left: @switch-label-margin-left;
-    margin-right: @switch-label-margin-right;
-    padding: 0 0.17em;
+    padding: 0 0.2em;
     text-align: center;
-    color: #999;
-    font-style: normal;
-  }
-  &__btn {
-    @btn-height: 1.68em;
     position: absolute;
-    height: @btn-height;
-    width: 1.82em;
+    top: 0;
+    color: var(--switch-label-color);
+    font-style: normal;
+    transition: right var(--switch-transition-duration) var(--switch-cubic-bezier),
+      left var(--switch-transition-duration) var(--switch-cubic-bezier),
+      opacity var(--switch-transition-duration) var(--switch-cubic-bezier);
+
+    &--close {
+      right: var(--switch-padding);
+      opacity: 1;
+    }
+
+    &--open {
+      left: -1.1em;
+      opacity: 0;
+    }
+  }
+
+  &__thumb {
+    position: absolute;
+    height: var(--switch-height);
+    width: var(--switch-height);
     left: 0;
-    border: 2px solid #fff;
+    top: 0;
+    border: var(--switch-padding) solid var(--switch-color-inactive);
     border-radius: 50%;
-    background: var(--switch-color-inactive);
+    background: #fff;
     box-sizing: border-box;
     transition: all var(--switch-transition-duration) var(--switch-cubic-bezier);
-    text-align: center;
-    line-height: @btn-height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &-loading {
-      font-size: 1.3em;
+      font-size: 0.8em;
       height: 100%;
     }
   }
+
   &--active {
-    border-color: var(--switch-border-color-active);
-    .smy-switch__label {
-      margin-left: @switch-label-margin-right;
-      color: var(--switch-color-active);
-      margin-right: @switch-label-margin-left;
-    }
-    .smy-switch__btn {
+    background: var(--switch-color-active);
+
+    .smy-switch__thumb {
       left: 100%;
-      margin-left: -1.77em;
-      background-color: var(--switch-color-active);
+      transform: translateX(-100%);
+      border-color: var(--switch-color-active);
     }
+
+    .smy-switch__label {
+      &--close {
+        right: -1.1em;
+        opacity: 0;
+      }
+
+      &--open {
+        left: var(--switch-padding);
+        opacity: 1;
+      }
+    }
+  }
+  &--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 }

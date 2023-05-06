@@ -1,5 +1,4 @@
 import type { ExtractPropTypes } from '../_utils/vue/props'
-import { props as loadingProps } from '../loading/props'
 
 export const props = {
   value: {
@@ -36,8 +35,8 @@ export const props = {
     default: false,
   },
   loading: Boolean,
-  loadingColor: loadingProps.color,
-  loadingSize: loadingProps.size,
+  loadingColor: String,
+  loadingSize: [String, Number],
 }
 
 export type SwtichProps = ExtractPropTypes<typeof props>

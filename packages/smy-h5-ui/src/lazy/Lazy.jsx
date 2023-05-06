@@ -14,33 +14,33 @@ const MaybeTransition = {
 export default {
   name: 'SmyLazy',
   directives: { Intersect },
-  mixins: [createProxiedModel('value', 'isActive')],
+  mixins: [createProxiedModel('value', 'isIntersecting')],
   props,
   methods: {
-    onIntersect(isIntersecting) {
-      if (this.isActive) return
-      this.isActive = isIntersecting
+    onIntersect(val) {
+      if (this.isIntersecting) return
+      this.isIntersecting = val
     },
   },
   render(h) {
-    const { tag, isActive, onIntersect, options, transition, keepShow } = this
+    const { tag, isIntersecting, onIntersect, options, transition, keepShow } = this
     const intersectDirective = {
       name: 'intersect',
       value: {
         handler: onIntersect,
         options,
       },
-      modifiers: { once: isActive },
+      modifiers: { once: isIntersecting },
     }
     const data = {
       staticClass: 'smy-lazy',
       directives: [intersectDirective],
     }
-    const defaultSlot = getSlot(this, 'default', { value: isActive })
+    const defaultSlot = getSlot(this, 'default', { value: isIntersecting })
     if (keepShow) {
       return defaultSlot
     }
-    const child = isActive ? (
+    const child = isIntersecting ? (
       <MaybeTransition name={transition} appear>
         {defaultSlot}
       </MaybeTransition>
