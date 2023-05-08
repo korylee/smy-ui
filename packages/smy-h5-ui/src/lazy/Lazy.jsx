@@ -37,14 +37,12 @@ export default {
       directives: [intersectDirective],
     }
     const defaultSlot = getSlot(this, 'default', { value: isIntersecting })
-    if (keepShow) {
-      return defaultSlot
-    }
-    const child = isIntersecting ? (
-      <MaybeTransition name={transition} appear>
-        {defaultSlot}
-      </MaybeTransition>
-    ) : null
+    const child =
+      isIntersecting || keepShow ? (
+        <MaybeTransition name={keepShow ? undefined : transition} appear>
+          {defaultSlot}
+        </MaybeTransition>
+      ) : null
     return h(tag, data, child && [child])
   },
 }
