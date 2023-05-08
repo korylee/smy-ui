@@ -4,6 +4,15 @@
 
 常用于一组图片或卡片轮播
 
+### 引入
+
+```js
+import Vue from 'vue'
+import { Swiper, SwiperItem } from '@smy-h5/ui'
+
+Vue.use(Swiper).use(SwiperItem)
+```
+
 ## API
 
 ### 属性

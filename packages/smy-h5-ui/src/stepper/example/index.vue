@@ -14,7 +14,7 @@
     <app-demo-title>只读禁用输入框</app-demo-title>
     <smy-stepper readonly value="0" />
     <app-demo-title>支持小数</app-demo-title>
-    <smy-stepper value="0" step="0.1" max="1" decimal-places="1" />
+    <smy-stepper value="0" step="0.1" decimal-places="1" />
     <app-demo-title>自定义按钮大小</app-demo-title>
     <smy-stepper value="0" step="1" width="200" height="40" button-width="40" button-size="25" />
     <app-demo-title>自定义按钮</app-demo-title>

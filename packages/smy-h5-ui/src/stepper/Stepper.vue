@@ -67,7 +67,10 @@ export default {
       return min < max && min >= 0
     },
     style({ width, height }) {
-      return { width: convertToUnit(width), height: convertToUnit(height), lineHeight: convertToUnit(height) }
+      return {
+        '--stepper-width': convertToUnit(width),
+        '--stepper-height': convertToUnit(height),
+      }
     },
     buttonStyle({ buttonWidth, buttonSize }) {
       return { width: convertToUnit(buttonWidth), fontSize: convertToUnit(buttonSize) }

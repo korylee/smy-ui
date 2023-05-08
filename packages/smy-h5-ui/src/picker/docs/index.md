@@ -4,6 +4,47 @@
 
 3d 滚轮转盘样式效果
 
+### 引入
+
+```js
+import Vue from 'vue'
+import { Picker } from '@smy-h5/ui'
+
+Vue.use(Picker)
+```
+
+### 基础用法
+
+```html
+<template>
+  <smy-picker :show.sync="show" :columns="[column]" @cancel="show = false" />
+</template>
+<script>
+  export default {
+    data: () => ({
+      show: false,
+      column: Array.from({ length: 10 }, (_, index) => index),
+    }),
+  }
+</script>
+```
+
+### 多列展示
+
+```html
+<template>
+  <smy-picker :show.sync="show" :columns="[column, column]" title="请选择" @cancel="show = false" />
+</template>
+<script>
+  export default {
+    data: () => ({
+      show: false,
+      column: Array.from({ length: 10 }, (_, index) => index),
+    }),
+  }
+</script>
+```
+
 ## API
 
 ### 属性

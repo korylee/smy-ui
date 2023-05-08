@@ -1,6 +1,5 @@
 @switch-color-active: #f0250f;
 @switch-color-inactive: #dadada;
-@switch-border-color-active: @switch-color-active;
 @switch-cubic-bezier: cubic-bezier(0.55, 0.085, 0.68, 0.53);
 @switch-transition-duration: 0.2s;
 @switch-height: 1.68em;
@@ -9,7 +8,6 @@
 
 :root {
   --switch-color-active: @switch-color-active;
-  --switch-border-color-active: @switch-border-color-active;
   --switch-cubic-bezier: @switch-cubic-bezier;
   --switch-transition-duration: @switch-transition-duration;
   --switch-color-inactive: @switch-color-inactive;
@@ -34,24 +32,26 @@
   flex: 0 0 auto;
 
   &__label {
+    box-sizing: border-box;
+    width: 100%;
     padding: 0 0.2em;
     text-align: center;
     position: absolute;
     top: 0;
     color: var(--switch-label-color);
     font-style: normal;
-    transition: right var(--switch-transition-duration) var(--switch-cubic-bezier),
-      left var(--switch-transition-duration) var(--switch-cubic-bezier),
-      opacity var(--switch-transition-duration) var(--switch-cubic-bezier);
+    transition: all var(--switch-transition-duration) var(--switch-cubic-bezier);
 
     &--close {
       right: var(--switch-padding);
       opacity: 1;
+      padding-left: var(--switch-height);
     }
 
     &--open {
       left: -1.1em;
       opacity: 0;
+      padding-right: var(--switch-height);
     }
   }
 

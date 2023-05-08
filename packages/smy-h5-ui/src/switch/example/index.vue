@@ -34,6 +34,7 @@
     <app-demo-title>支持文字</app-demo-title>
     <smy-cell>
       <smy-switch v-model="labelActive" inactive-label="关" active-label="开" />
+      <smy-switch v-model="labelActive" style="width: 55px" inactive-label="OFF" active-label="ON" />
     </smy-cell>
   </div>
 </template>

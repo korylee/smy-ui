@@ -1,6 +1,6 @@
 <template>
   <div class="lazy-example">
-    <smy-lazy v-for="item of 4" :key="item" @input="onInput($event, item)" class="fst" style="color: red">
+    <smy-lazy v-for="item of 4" :key="item" @input="onInput(item)">
       <div>{{ item }}</div>
     </smy-lazy>
   </div>
@@ -8,13 +8,14 @@
 
 <script>
 import SmyLazy from '..'
+import Toast from '../../toast'
 
 export default {
   name: 'LazyExample',
   components: { SmyLazy },
   methods: {
-    onInput(val, item) {
-      console.log(val, item)
+    onInput(item) {
+      Toast('渲染第' + item)
     },
   },
 }

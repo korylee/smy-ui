@@ -1,35 +1,30 @@
 <template>
   <div class="badge-example">
-    <div>
-      <app-demo-title>基础用法</app-demo-title>
-      <div>
-        <smy-badge value="8"> <span class="title">标题</span> </smy-badge>
-        <smy-badge value="76"> <span class="title">标题</span> </smy-badge>
-        <smy-badge value="NEW"> <span class="title">标题</span> </smy-badge>
-        <smy-badge value="NEW" bubble> <span class="title">标题</span> </smy-badge>
-        <smy-badge value="NEW" dot> <span class="title">标题</span> </smy-badge>
-      </div>
-    </div>
-    <div class="app-demo-title">最大值</div>
-    <div>
-      <smy-badge value="200" max="9"> <span class="title">标题</span> </smy-badge>
-      <smy-badge value="200" max="20"> <span class="title">标题</span> </smy-badge>
-      <smy-badge value="200" max="99"> <span class="title">标题</span> </smy-badge>
-    </div>
-    <div class="app-demo-title">不同定位</div>
-    <div>
-      <smy-badge value="200"> <span class="title">右上</span> </smy-badge>
-      <smy-badge value="200" position="right-bottom"> <span class="title">右下</span> </smy-badge>
-      <smy-badge value="200" position="left-top"> <span class="title">左上</span> </smy-badge>
-      <smy-badge value="200" position="left-bottom"> <span class="title">左下</span> </smy-badge>
-    </div>
-    <div class="app-demo-title">是否显示</div>
-    <button @click="hidden = !hidden">点击改变状态</button>
+    <app-demo-title>基础用法</app-demo-title>
+    <smy-badge value="8"> <span class="title">标题</span> </smy-badge>
+    <smy-badge value="76"> <span class="title">标题</span> </smy-badge>
+    <smy-badge value="NEW"> <span class="title">标题</span> </smy-badge>
+    <smy-badge value="NEW" bubble> <span class="title">标题</span> </smy-badge>
+    <smy-badge value="NEW" dot> <span class="title">标题</span> </smy-badge>
+
+    <app-demo-title>最大值</app-demo-title>
+
+    <smy-badge value="200" max="9"> <span class="title">标题</span> </smy-badge>
+    <smy-badge value="200" max="20"> <span class="title">标题</span> </smy-badge>
+    <smy-badge value="200" max="99"> <span class="title">标题</span> </smy-badge>
+
+    <app-demo-title>不同定位</app-demo-title>
+    <smy-badge value="200"> <span class="title">右上</span> </smy-badge>
+    <smy-badge value="200" position="right-bottom"> <span class="title">右下</span> </smy-badge>
+    <smy-badge value="200" position="left-top"> <span class="title">左上</span> </smy-badge>
+    <smy-badge value="200" position="left-bottom"> <span class="title">左下</span> </smy-badge>
+
+    <app-demo-title>是否显示(点击“标题”改变状态)</app-demo-title>
     <smy-badge :hidden="hidden" value="8">
-      <span class="title">标题</span>
+      <span class="title" @click="hidden = !hidden">标题</span>
     </smy-badge>
 
-    <div class="app-demo-title">自定义颜色</div>
+    <app-demo-title>自定义颜色</app-demo-title>
     <smy-badge value="8" color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
       <span class="title">标题</span>
     </smy-badge>
@@ -45,13 +40,13 @@
     <smy-badge value="NEW" dot color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
       <span class="title">标题</span>
     </smy-badge>
-    <div>
-      <div class="app-demo-title">自定义位置</div>
-      <smy-badge value="200" top="5" right="10"> <span class="title">标题</span> </smy-badge>
-      <smy-badge value="200" right="-10"> <span class="title">标题</span> </smy-badge>
-      <smy-badge value="200"> <span class="title">标题</span> </smy-badge>
-    </div>
-    <div class="app-demo-title">自定义徽标内容</div>
+
+    <app-demo-title>自定义位置</app-demo-title>
+    <smy-badge value="200"> <span class="title">标题</span> </smy-badge>
+    <smy-badge value="200" top="40" right="20"> <span class="title">标题</span> </smy-badge>
+    <smy-badge value="200" right="40" top="20"> <span class="title">标题</span> </smy-badge>
+
+    <app-demo-title>自定义徽标内容</app-demo-title>
     <smy-badge>
       <span class="title">标题</span>
       <template #icon>
@@ -63,12 +58,13 @@
 <script>
 import SmyBadge from '../'
 import SmyIcon from '../../icon'
+import SmySwitch from '../../switch'
 import { Xml } from '@smy-h5/icons'
 import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'BadgeExample',
-  components: { SmyBadge, SmyIcon, Xml, AppDemoTitle },
+  components: { SmyBadge, SmyIcon, Xml, AppDemoTitle, SmySwitch },
   data: () => ({
     hidden: false,
   }),

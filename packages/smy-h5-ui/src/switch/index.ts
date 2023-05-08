@@ -13,8 +13,7 @@ declare interface SmySwitch extends SmyComponent {
       loading: () => VNode
     }
     $emit: {
-      (event: 'change', data: boolean): void
-      (event: 'update:value', data?: { position: number }): void
+      (event: 'change', data: any): void
     }
   }
 }
