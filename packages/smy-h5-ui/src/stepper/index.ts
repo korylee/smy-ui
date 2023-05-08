@@ -14,9 +14,10 @@ declare interface SmyStepper extends SmyComponent {
     }
     $emit: {
       (event: 'input', value: number): void
-      (event: 'change', value: number): void
-      (event: 'blur', data: Event): void
-      (event: 'focus', data: Event): void
+      (event: 'change', data: InputEvent): void
+      (event: 'keyup', data: KeyboardEvent): void
+      (event: 'blur', data: FocusEvent): void
+      (event: 'focus', data: FocusEvent): void
       (event: 'minus', data: Event): void
       (event: 'plus', data: Event): void
     }

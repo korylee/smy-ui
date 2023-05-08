@@ -5,10 +5,6 @@ export const props = {
     type: [String, Number],
     required: true,
   },
-  simple: {
-    type: Boolean,
-    default: true,
-  },
   min: {
     type: [Number, String],
     default: 0,
@@ -38,9 +34,13 @@ export const props = {
     default: false,
   },
   decimalPlaces: {
-    type: Number,
+    type: [Number, String],
     default: 0,
   },
+  width: [String, Number],
+  height: [String, Number],
+  buttonWidth: [String, Number],
+  buttonSize: [String, Number],
 }
 
 export type StepperProps = ExtractPropTypes<typeof props>

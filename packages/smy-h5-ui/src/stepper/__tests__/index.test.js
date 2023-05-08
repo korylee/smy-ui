@@ -14,7 +14,7 @@ test('test stepper increment & decrement', async () => {
     template: `<smy-stepper v-model="value" />`,
   })
 
-  const btns = wrapper.findAll('.smy-stepper__icon')
+  const btns = wrapper.findAll('.smy-stepper__button')
   await btns.at(1).trigger('click')
   expect(wrapper.vm.value).toBe(1)
 
