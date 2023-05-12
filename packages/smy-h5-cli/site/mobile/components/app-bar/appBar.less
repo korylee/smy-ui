@@ -1,10 +1,15 @@
-@site-app-bar-color: #434344;
-@site-app-bar-height: 36px;
+@site-app-bar-color: #fff;
+@site-app-bar-height: 40px;
+@site-app-bar-text-color: #333;
+@site-app-bar-left-gap: 6px;
+@site-app-bar-right-gap: 6px;
 
 :root {
   --site-app-bar-color: @site-app-bar-color;
-  --site-app-bar-text-color: #fff;
+  --site-app-bar-text-color: @site-app-bar-text-color;
   --site-app-bar-height: @site-app-bar-height;
+  --site-app-bar-left-gap: @site-app-bar-left-gap;
+  --site-app-bar-right-gap: @site-app-bar-right-gap;
 }
 
 .smy-site-app-bar {
@@ -13,7 +18,26 @@
   justify-content: center;
   align-items: center;
   height: var(--site-app-bar-height);
+  line-height: var(--site-app-bar-height);
   background: var(--site-app-bar-color);
   color: var(--site-app-bar-text-color);
   transition: background-color 0.25s;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 7%);
+
+  &__left,
+  &__right {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    z-index: 2;
+  }
+  &__left {
+    top: 0;
+    left: var(--site-app-bar-left-gap);
+  }
+  &__left {
+    top: 0;
+    right: var(--site-app-bar-right-gap);
+  }
 }

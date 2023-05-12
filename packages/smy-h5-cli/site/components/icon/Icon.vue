@@ -17,14 +17,14 @@ export default {
     nextName: '',
   }),
   computed: {
-    style ({ transition, size, color }) {
+    style({ transition, size, color }) {
       return {
         color,
         fontSize: convertToUnit(size),
         transition: `transform ${toNumber(transition)}ms`,
       }
     },
-    classes ({ nextName, namespace }) {
+    classes({ nextName, namespace }) {
       return {
         'smy-site-icon': true,
         'smy-site-icon--shrinking': this.shrinking,
@@ -35,7 +35,7 @@ export default {
   watch: {
     name: {
       immediate: true,
-      async handler (newName, oldName) {
+      async handler(newName, oldName) {
         if (oldName == null || toNumber(this.transition) === 0) {
           this.nextName = newName
           return
