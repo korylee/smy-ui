@@ -82,7 +82,7 @@ export function toPxNum(value: number | string) {
   }
   if (isRem(value)) {
     const num = +value.replace('rem', '')
-    const rootFontSize = window.getComputedStyle(document.documentElement).fontSize
+    const { fontSize: rootFontSize } = window.getComputedStyle(document.documentElement)
     return num * parseFloat(rootFontSize)
   }
   // % and other
@@ -105,4 +105,9 @@ export function getRect(el: Element | Window | undefined) {
     return makeDomRect(innerWidth, innerHeight)
   }
   return el?.getBoundingClientRect?.() ?? makeDomRect()
+}
+
+export function getTranslate(el: HTMLElement) {
+  const { transform } = window.getComputedStyle(el)
+  return +transform.slice(transform.lastIndexOf(',') + 2, transform.length - 1)
 }

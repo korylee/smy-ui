@@ -1,4 +1,4 @@
-import type { ComponentOptions, CreateElement, VueConstructor } from 'vue'
+import type { ComponentOptions, CreateElement, FunctionalComponentOptions, RenderContext, VueConstructor } from 'vue'
 import type { CombinedVueInstance } from 'vue/types/vue'
 import Vue from 'vue'
 
@@ -59,7 +59,11 @@ interface MountComponentApi {
   unmount(): void
 }
 
-export function mountComponent(component: ComponentOptions<Vue>, container = 'body', options = {}): MountComponentApi {
+export function mountComponent(
+  component: ComponentOptions<Vue>,
+  container = 'body',
+  options: ComponentOptions<Vue> = {}
+): MountComponentApi {
   const instance = new (Vue.extend(component))(options)
   const el = instance.$mount().$el
   const wrapper = document.querySelector(container)
@@ -73,3 +77,14 @@ export function mountComponent(component: ComponentOptions<Vue>, container = 'bo
     },
   }
 }
+
+export const createMaybeComponent = (
+  component: string | Component,
+  maybe: (context: RenderContext) => boolean
+): FunctionalComponentOptions => ({
+  name: 'MaybeComponent',
+  functional: true,
+  render: (h, context) => (maybe(context) ? h(component, context.data, context.children) : context.children),
+})
+
+export const MaybeTransition = createMaybeComponent('transition', ({ data }) => !!data.attrs?.name)

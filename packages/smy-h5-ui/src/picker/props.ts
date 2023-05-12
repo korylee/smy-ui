@@ -3,24 +3,17 @@ import { props as popupProps } from '../popup/props'
 import type { PropType } from 'vue'
 import type { ExtractPropTypes } from '../_utils/vue/props'
 
-export type Text = any
+export type ColumnItem = string | any
 
-export type Texts = Text[]
-
-export interface NormalColumn {
-  texts: Texts
-  initialIndex?: number
-}
+export type Column = ColumnItem[]
 
 const baseProps = {
+  value: Array,
   title: String,
+  cascade: Boolean,
   columns: {
-    type: Array as PropType<NormalColumn[] | Texts>,
+    type: Array as PropType<Column[]>,
     default: () => [],
-  },
-  textKey: {
-    type: String,
-    default: 'text',
   },
   optionHeight: {
     type: [Number, String],
@@ -50,13 +43,25 @@ const baseProps = {
     type: Boolean,
     default: true,
   },
-  textFormatter: {
-    type: Function as PropType<(text: any, columnIndex: number) => any>,
-    default: (text: any) => text,
-  },
   rotate: {
     type: [Number],
     default: 20,
+  },
+  popup: {
+    type: Boolean,
+    default: true,
+  },
+  textFormatter: {
+    type: [String, Function] as PropType<(item: ColumnItem, columnIndex: number) => any | string>,
+    default: 'text',
+  },
+  valueFormatter: {
+    type: [String, Function] as PropType<(item: ColumnItem, columnIndex: number) => any | string>,
+    default: 'value',
+  },
+  childrenFormatter: {
+    type: [String, Function] as PropType<(item: ColumnItem, columnIndex: number) => ColumnItem[]>,
+    default: 'children',
   },
 }
 

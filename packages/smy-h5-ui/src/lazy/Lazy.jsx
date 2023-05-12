@@ -4,12 +4,7 @@ import { getSlot } from '../_utils/vue/slots'
 
 import '../_styles/transition.less'
 import { createProxiedModel } from '../_mixins/proxiedModel'
-
-const MaybeTransition = {
-  name: 'MaybeTransition',
-  functional: true,
-  render: (h, { data, children }) => (data.attrs?.name ? h('transition', data, children) : children),
-}
+import { MaybeTransition } from '../_utils/vue/component'
 
 export default {
   name: 'SmyLazy',

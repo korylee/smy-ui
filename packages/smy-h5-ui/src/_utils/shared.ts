@@ -1,4 +1,4 @@
-import { isBool, isNil, isString, isArray, type Func, isObject, isRegExp, isDate } from './is'
+import { isBool, isNil, isString, isArray, type Func, isObject, isRegExp, isDate, isFunction } from './is'
 
 const cameLizeRE = /-(\w)/g
 
@@ -128,4 +128,19 @@ export const keys: <O extends Record<string, any>>(obj: O) => (keyof O)[] = Obje
 
 export function wrapInArray<T>(v: T | T[] | null | undefined): T[] {
   return isNil(v) ? [] : isArray(v) ? v : [v]
+}
+
+function getObjectValueByPath(obj: any, path: string, fallback?: any) {
+  if (isNil(obj) || !path || !isString(path)) return fallback
+  return obj[path]
+}
+
+export function createGetPropertyFromItem<R, T>(property: string | ((item: R, ...args: T[]) => any), fallback?: any) {
+  return function (item: R, ...args: T[]) {
+    if (isNil(property)) return item ?? fallback
+    if (isFunction(property)) return property(item, ...args) ?? fallback
+    if (!isObject(item)) return item ?? fallback
+    if (isString(property)) return getObjectValueByPath(item, property, fallback)
+    return item ?? fallback
+  }
 }

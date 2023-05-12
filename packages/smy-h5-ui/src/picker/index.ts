@@ -1,4 +1,4 @@
-import type { PickerProps, Text, Texts } from './props'
+import type { Column, PickerProps } from './props'
 import type { SmyComponent } from '../_utils/smy/component'
 
 import { mountComponent, withInstall } from '../_utils/vue/component'
@@ -11,21 +11,24 @@ type PartialRequired<T, R extends keyof T> = Omit<T, R> &
     [O in R]: T[O]
   }>
 
-type PickerOptions = PartialRequired<PickerProps, 'columns'> & {
+type PickerOptions = PartialRequired<Omit<PickerProps, 'popup'>, 'columns'> & {
   onOpen?: () => void
   onOpened?: () => void
   onClose?: () => void
   onClosed?: () => void
-  onChange?: (texts: Texts, indexes: number[]) => void
-  onConfirm?: (texts: Texts, indexes: number[]) => void
-  onCancel?: (texts: Texts, indexes: number[]) => void
+  onClickOverlay?: () => void
+  onChange?: (values: PickedValues, indexes: number[]) => void
+  onConfirm?: (values: PickedValues, indexes: number[]) => void
+  onCancel?: (values: PickedValues, indexes: number[]) => void
 }
+
+type PickedValues = any[]
 
 type PickerResolvedState = 'confirm' | 'close' | 'cancel'
 
 interface PickerResolvedData {
   state: PickerResolvedState
-  texts?: Texts
+  values?: PickedValues
   indexes?: number[]
 }
 
@@ -38,7 +41,6 @@ declare interface SmyPicker extends SmyComponent {
       title: () => VNode
       confirm: () => VNode
       top: () => VNode
-      item: (data: { text: Text }) => VNode
     }
     $emit: {
       (event: 'open'): void
@@ -46,9 +48,10 @@ declare interface SmyPicker extends SmyComponent {
       (event: 'close'): void
       (event: 'closed'): void
       (event: 'route-change'): void
-      (event: 'confirm', texts: Texts, indexes: number[]): void
-      (event: 'cancel', texts: Texts, indexes: number[]): void
-      (event: 'change', texts: Texts, indexes: number[]): void
+      (event: 'click-overlay'): void
+      (event: 'confirm', values: PickedValues, indexes: number[]): void
+      (event: 'cancel', values: PickedValues, indexes: number[]): void
+      (event: 'change', values: PickedValues, indexes: number[]): void
     }
   }
 }
@@ -57,7 +60,7 @@ const _SmyPicker = withInstall(_Picker) as SmyPicker
 
 let singletonInstance: PickerOptions | null
 
-const Picker = function Picker(options: PickerOptions | Texts[]): Promise<PickerResolvedData> {
+const Picker = function Picker(options: PickerOptions | Column[]): Promise<PickerResolvedData> {
   return new Promise((resolve) => {
     Picker.close()
     const pickerOptions: PickerOptions = isArray(options) ? { columns: options } : options
@@ -68,6 +71,7 @@ const Picker = function Picker(options: PickerOptions | Texts[]): Promise<Picker
 
     singletonInstance = instance
     const clearSingletonInstance = () => singletonInstance === instance && (singletonInstance = null)
+    instance.$on('click-overlay', () => pickerOptions.onClickOverlay?.())
     instance.$on('open', () => pickerOptions.onOpen?.())
     instance.$on('opened', () => pickerOptions.onOpened?.())
     instance.$on('close', () => {
@@ -80,21 +84,24 @@ const Picker = function Picker(options: PickerOptions | Texts[]): Promise<Picker
       unmount()
       clearSingletonInstance()
     })
-    instance.$on('change', (texts: Texts, indexes: number[]) => {
-      pickerOptions.onChange?.(texts, indexes)
+    instance.$on('change', (values: PickedValues, indexes: number[]) => {
+      pickerOptions.onChange?.(values, indexes)
       clearSingletonInstance()
     })
-    instance.$on('confirm', (texts: Texts, indexes: number[]) => {
-      pickerOptions.onConfirm?.(texts, indexes)
-      resolve({ state: 'confirm', texts, indexes })
+    instance.$on('confirm', (values: PickedValues, indexes: number[]) => {
+      pickerOptions.onConfirm?.(values, indexes)
+      resolve({ state: 'confirm', values, indexes })
       instance.show = false
       clearSingletonInstance()
     })
-    instance.$on('cancel', (texts: Texts, indexes: number[]) => {
-      pickerOptions.onCancel?.(texts, indexes)
-      resolve({ state: 'cancel', texts, indexes })
+    instance.$on('cancel', (values: PickedValues, indexes: number[]) => {
+      pickerOptions.onCancel?.(values, indexes)
+      resolve({ state: 'cancel', values, indexes })
       instance.show = false
       clearSingletonInstance()
+    })
+    instance.$on('update:show', (value: boolean) => {
+      instance.show = value
     })
     instance.$on('route-change', () => {
       unmount()
