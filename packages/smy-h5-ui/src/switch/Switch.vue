@@ -1,5 +1,5 @@
 <template>
-  <div class="smy-switch" :style="style" :class="classes" @click.stop="handleToggle">
+  <div class="smy-switch" :style="style" :class="classes" @click="handleToggle">
     <div class="smy-switch__thumb">
       <slot v-if="loading" name="loading">
         <smy-progress-circular
@@ -48,7 +48,8 @@ export default {
     },
   },
   methods: {
-    handleToggle() {
+    handleToggle(e) {
+      if (this.isStopPropagation) e.stopPropagation()
       if (this.disabled) return
       this.$emit('change', this.isActive ? this.inactiveValue : this.activeValue)
     },

@@ -47,7 +47,7 @@ export const props = {
   },
   isStopPropagation: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 }
 

@@ -37,6 +37,10 @@ export const props = {
   loading: Boolean,
   loadingColor: String,
   loadingSize: [String, Number],
+  isStopPropagation: {
+    type: Boolean,
+    default: true,
+  },
 }
 
 export type SwtichProps = ExtractPropTypes<typeof props>
