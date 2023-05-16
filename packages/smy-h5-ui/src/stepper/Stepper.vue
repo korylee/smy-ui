@@ -61,7 +61,7 @@ export default {
       return internalValue - step >= min && !disabledMinus && !disabled
     },
     plusable({ max, internalValue, step, disabled, disabledPlus }) {
-      return (!max || toNumber(internalValue) + step <= max) && !disabledPlus && !disabled
+      return (!max || toNumber(internalValue) + toNumber(step) <= max) && !disabledPlus && !disabled
     },
     isLegal({ min, max }) {
       return min < max && min >= 0
