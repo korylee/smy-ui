@@ -4,7 +4,7 @@
       <slot />
     </div>
     <div v-if="isShow" class="smy--box smy-loading__body" :class="{ 'smy-loading__inside': hasDefaultSlots }">
-      <smy-progress-circular v-if="type === 'circle'" :color="color" :size="size" indeterminate width="2" />
+      <smy-progress-circular v-if="type === 'circle'" :color="color" :size="size" indeterminate width="1.4" />
       <div v-else-if="currentLoadingNums" :class="`smy-loading__${type}`" :style="{ fontSize }">
         <div
           v-for="num in currentLoadingNums"

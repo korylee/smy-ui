@@ -16,7 +16,7 @@
             <div class="smy-pull-refresh-control__header-text">{{ loosingText }}</div>
           </slot>
           <slot v-else-if="status === 'loading'" name="loading">
-            <smy-progress-circular indeterminate width="1.6" class="smy-pull-refresh-control__header-icon" />
+            <smy-progress-circular indeterminate width="1.4" class="smy-pull-refresh-control__header-icon" />
             <div class="smy-pull-refresh-control__header-text">{{ loadingText }}</div>
           </slot>
         </div>

@@ -2,7 +2,7 @@
   <div class="loading-example">
     <app-demo-title>类型</app-demo-title>
     <div class="loading-demo__type-block">
-      <smy-loading type="circle" size="20" color="#555" />
+      <smy-loading type="circle" color="#555" />
       <smy-loading type="cube" />
       <smy-loading type="wave" />
     </div>

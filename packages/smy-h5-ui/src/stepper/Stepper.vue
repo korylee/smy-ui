@@ -84,10 +84,10 @@ export default {
   methods: {
     normalizeValue(value) {
       const { decimalPlaces, min, max } = this
-      return toNumber(toNumber(range(value || min, min, max)).toFixed(decimalPlaces))
+      return toNumber(toNumber(range(toNumber(value) || min, min, max)).toFixed(decimalPlaces))
     },
     onBlur(event) {
-      const value = this.normalizeValue(toNumber(event.target.value))
+      const value = this.normalizeValue(event.target.value)
       event.target.value = this.internalValue = value
       this.$emit('blur', event)
     },

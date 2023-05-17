@@ -4,7 +4,9 @@
     <div class="smy-scroller__control">
       <div v-if="isInfiniting" class="smy-scroller__control-loading">
         <slot name="loading">
-          <slot name="loading-icon"><smy-loading class="smy-scroller__control-loading__icon" /></slot>
+          <slot name="loading-icon"
+            ><smy-progress-circular indeterminate width="1.4" class="smy-scroller__control-loading__icon"
+          /></slot>
           <div class="smy-scroller__control-loading__text">{{ loadText }}</div>
         </slot>
       </div>
@@ -18,13 +20,13 @@
 <script>
 import { getParentScroller, getScrollTopRoot, requestAnimationFrame } from '../_utils/dom'
 import { props } from './props'
-import SmyLoading from '../loading'
+import SmyProgressCircular from '../progress-circular'
 
 const calculateTopPosition = (el) => (!el ? 0 : el.offsetTop + calculateTopPosition(el.offsetParent))
 
 export default {
   name: 'SmyScroller',
-  components: { SmyLoading },
+  components: { SmyProgressCircular },
   props,
   data: () => ({
     beforeScrollTop: 0,
@@ -88,6 +90,6 @@ export default {
 </script>
 
 <style lang="less">
-@import '../loading/loading.less';
+@import '../progress-circular/progressCircular.less';
 @import './scroller.less';
 </style>
