@@ -47,7 +47,6 @@ module.exports = defineConfig({
       { text: 'Badge 徽标', doc: 'badge', type: 2 },
       { text: 'Ellipsis 文本省略', doc: 'ellipsis', type: 2 },
       { text: 'Layout 布局', doc: 'row', type: 2 },
-      { text: 'Price 商品价格', doc: 'price', type: 2 },
       { text: 'Steps 步骤条', doc: 'steps', type: 2 },
       { text: 'Swiper 轮播', doc: 'swiper', type: 2 },
       { text: 'Countdown 倒计时', doc: 'countdown', type: 2 },
