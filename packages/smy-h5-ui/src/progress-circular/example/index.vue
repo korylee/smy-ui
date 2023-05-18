@@ -2,9 +2,8 @@
   <div>
     <app-demo-title>基础使用</app-demo-title>
     <smy-cell>
-      <smy-progress-circular :indeterminate="indeterminate" :value="value" size="50" />
+      <smy-progress-circular :value="value" size="50" />
       <template #extra>
-        <div>indeterminate <smy-swtich v-model="indeterminate" /></div>
         <div class="smy--flex">value:<smy-stepper v-model="value" max="100" /></div>
       </template>
     </smy-cell>
@@ -14,7 +13,10 @@
     </smy-cell>
     <app-demo-title>indeterminate状态</app-demo-title>
     <smy-cell>
-      <smy-progress-circular indeterminate value="20" size="30" />
+      <smy-progress-circular :indeterminate="indeterminate" value="20" size="30" />
+      <template #extra>
+        <div>indeterminate <smy-swtich v-model="indeterminate" /></div>
+      </template>
     </smy-cell>
     <app-demo-title>大小和宽度</app-demo-title>
     <smy-cell>
@@ -51,7 +53,7 @@ import SmyStepper from '../../stepper'
 export default {
   name: 'ProgressCircularExample',
   components: { SmyProgressCircular, AppDemoTitle, SmyCell, SmySwtich, SmyStepper },
-  data: () => ({ indeterminate: false, value: 20, interval: undefined, rotateValue: 0 }),
+  data: () => ({ indeterminate: true, value: 20, interval: undefined, rotateValue: 0 }),
   mounted() {
     this.interval = setInterval(() => {
       if (this.rotateValue === 100) {
