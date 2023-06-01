@@ -17,7 +17,7 @@ declare interface SmyCountdown extends SmyComponent {
       (event: 'update:paused', paused: boolean): void
     }
     $scopedSlots: {
-      default: (data: TimeData & { timestamp: number }) => VNode
+      default: (data: TimeData) => VNode
     }
   }
 }
