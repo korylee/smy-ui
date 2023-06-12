@@ -34,7 +34,7 @@ export default {
     const defaultSlot = getSlot(this, 'default', { value: isIntersecting })
     const child =
       isIntersecting || keepShow ? (
-        <MaybeTransition name={keepShow ? undefined : transition} appear>
+        <MaybeTransition maybe={!!transition} name={transition} appear>
           {defaultSlot}
         </MaybeTransition>
       ) : null

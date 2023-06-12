@@ -1,4 +1,4 @@
-import type { ComponentOptions, CreateElement, FunctionalComponentOptions, RenderContext, VueConstructor } from 'vue'
+import type { ComponentOptions, FunctionalComponentOptions, VueConstructor } from 'vue'
 import type { CombinedVueInstance } from 'vue/types/vue'
 import Vue from 'vue'
 
@@ -38,13 +38,13 @@ export function addRouteListener(vm: Vue, cb: () => void) {
   vm.$on('hook:beforeDestory', remove)
 }
 
-export const RenderToComp = {
+export const RenderToComp: FunctionalComponentOptions = {
   name: 'RenderToComp',
   functional: true,
   props: {
     render: Function,
   },
-  render(h: CreateElement, context: any) {
+  render(h, context) {
     const {
       props: { render },
       parent,
@@ -77,14 +77,16 @@ export function mountComponent(
     },
   }
 }
+export function createMaybeComponent(component: string | Component): FunctionalComponentOptions
+export function createMaybeComponent(name: string, component: string | Component): FunctionalComponentOptions
+export function createMaybeComponent(...args: any[]): FunctionalComponentOptions {
+  const [name, component] = args.length === 1 ? ['MaybeComponent', args[0]] : args
+  return {
+    name,
+    props: { maybe: Boolean },
+    functional: true,
+    render: (h, { data, props, children }) => (props.maybe ? h(component, data, children) : children),
+  }
+}
 
-export const createMaybeComponent = (
-  component: string | Component,
-  maybe: (context: RenderContext) => boolean
-): FunctionalComponentOptions => ({
-  name: 'MaybeComponent',
-  functional: true,
-  render: (h, context) => (maybe(context) ? h(component, context.data, context.children) : context.children),
-})
-
-export const MaybeTransition = createMaybeComponent('transition', ({ data }) => !!data.attrs?.name)
+export const MaybeTransition = createMaybeComponent('MaybeTransition', 'transition')

@@ -1,5 +1,5 @@
 <template>
-  <smy-teleport :to="teleport" :disabled="teleportDisabled">
+  <maybe-teleport :maybe="!!teleport" :to="teleport" :disabled="teleportDisabled">
     <transition name="smy-fade" @after-enter="$emit('opened', $event)" @after-leave="$emit('closed', $event)">
       <div v-show="show" :style="{ zIndex: zIndex - 2 }" class="smy--box smy-popup">
         <div
@@ -22,23 +22,25 @@
         </transition>
       </div>
     </transition>
-  </smy-teleport>
+  </maybe-teleport>
 </template>
 
 <script>
 import { createZIndexMixin } from '../_context/mixins/zIndex'
 import { teleportMixin } from '../_mixins/teleport'
 import { createLockMixin } from '../_context/mixins/lock'
-import { addRouteListener } from '../_utils/vue/component'
+import { addRouteListener, createMaybeComponent } from '../_utils/vue/component'
 import { props } from './props'
 import SmyTeleport from '../teleport'
 import { mergeStyles } from '../_utils/vue/mergeData'
+
+const MaybeTeleport = createMaybeComponent(SmyTeleport)
 
 export default {
   name: 'SmyPopup',
   inheritAttrs: false,
   mixins: [createZIndexMixin('show', 3), teleportMixin, createLockMixin('show', 'lockScroll')],
-  components: { SmyTeleport },
+  components: { MaybeTeleport },
   props,
   watch: {
     show(newValue) {

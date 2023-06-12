@@ -98,7 +98,6 @@ export function useCountdown(opts: UseCountdownOptions) {
   }
 
   return Object.freeze({
-    countdown,
     start,
     pause,
     reset,

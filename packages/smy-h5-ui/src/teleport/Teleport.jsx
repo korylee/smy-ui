@@ -2,8 +2,8 @@ import { getSlot } from '../_utils/vue/slots'
 import Vue from 'vue'
 import { props } from './props'
 
-const InternalTeleport = {
-  name: 'SmyInternalTeleport',
+export default {
+  name: 'SmyTeleport',
   props,
   data: () => ({
     el: null,
@@ -50,13 +50,5 @@ const InternalTeleport = {
   },
   render() {
     return <div ref="teleport" class="smy-teleport" />
-  },
-}
-
-export default {
-  name: 'SmyTeleport',
-  functional: true,
-  render(h, { children, data }) {
-    return data.attrs?.to ? h(InternalTeleport, data, children) : children
   },
 }

@@ -32,6 +32,7 @@
       :popup="multiple.popup"
       title="请选择"
       @cancel="multiple.show = false"
+      @confirm="multiple.show = false"
       @change="onChange"
     />
     <app-demo-title>级联选择</app-demo-title>
@@ -62,6 +63,7 @@
       :popup="defaultValue.popup"
       title="请选择"
       @cancel="defaultValue.show = false"
+      @confirm="defaultValue.show = false"
       @change="onChange"
     />
   </div>

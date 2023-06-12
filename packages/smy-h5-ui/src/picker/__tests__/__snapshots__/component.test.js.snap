@@ -2,7 +2,41 @@
 
 exports[`test picker example 1`] = `
 "<div>
-  <div class=\\"app-demo-title\\">基础用法</div>
+  <h4>函数调用</h4>
+  <div class=\\"smy-cell smy-cell--insert\\">
+    <!---->
+    <div class=\\"smy-cell__content\\">
+      <div class=\\"smy-cell__title\\">单列选择</div>
+      <!---->
+    </div>
+    <!---->
+  </div>
+  <div class=\\"smy-cell smy-cell--insert\\">
+    <!---->
+    <div class=\\"smy-cell__content\\">
+      <div class=\\"smy-cell__title\\">多列选择</div>
+      <!---->
+    </div>
+    <!---->
+  </div>
+  <div class=\\"smy-cell smy-cell--insert\\">
+    <!---->
+    <div class=\\"smy-cell__content\\">
+      <div class=\\"smy-cell__title\\">级联选择</div>
+      <!---->
+    </div>
+    <!---->
+  </div>
+  <div class=\\"smy-cell smy-cell--insert\\">
+    <!---->
+    <div class=\\"smy-cell__content\\">
+      <div class=\\"smy-cell__title\\">默认选中项</div>
+      <!---->
+    </div>
+    <!---->
+  </div>
+  <h4>组件调用</h4>
+  <div class=\\"app-demo-title\\">单列选择</div>
   <div class=\\"smy-cell smy-cell--insert\\">
     <!---->
     <div class=\\"smy-cell__content\\">
@@ -26,7 +60,7 @@ exports[`test picker example 1`] = `
       </transition-stub>
     </div>
   </transition-stub>
-  <div class=\\"app-demo-title\\">多列用法</div>
+  <div class=\\"app-demo-title\\">多列选择</div>
   <div class=\\"smy-cell smy-cell--insert\\">
     <!---->
     <div class=\\"smy-cell__content\\">
@@ -50,7 +84,7 @@ exports[`test picker example 1`] = `
       </transition-stub>
     </div>
   </transition-stub>
-  <div class=\\"app-demo-title\\">级联用法</div>
+  <div class=\\"app-demo-title\\">级联选择</div>
   <div class=\\"smy-cell smy-cell--insert\\">
     <!---->
     <div class=\\"smy-cell__content\\">
@@ -106,7 +140,7 @@ exports[`test scroll up & onConfirm 1`] = `
   <div class=\\"smy--box smy-popup\\" style=\\"z-index: 1001;\\">
     <div class=\\"smy-popup__overlay\\" style=\\"z-index: 1002;\\"></div>
     <transition-stub name=\\"smy-pop-bottom\\">
-      <div popup=\\"true\\" smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom\\" style=\\"z-index: 1003;\\">
+      <div smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom\\" style=\\"z-index: 1003;\\">
         <div class=\\"smy-picker\\">
           <div class=\\"smy-picker__toolbar\\"><span smy-picker-cover=\\"\\" class=\\"smy-picker__cancel-button\\">取消</span>
             <div class=\\"smy-picker__title\\"></div> <span smy-picker-cover=\\"\\" class=\\"smy-picker__confirm-button\\">确认</span></div>
@@ -139,7 +173,7 @@ exports[`test scroll up & onConfirm 2`] = `
   <div class=\\"smy--box smy-popup\\" style=\\"z-index: 1001;\\">
     <div class=\\"smy-popup__overlay\\" style=\\"z-index: 1002;\\"></div>
     <transition-stub name=\\"smy-pop-bottom\\">
-      <div popup=\\"true\\" smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom\\" style=\\"z-index: 1003;\\">
+      <div smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom\\" style=\\"z-index: 1003;\\">
         <div class=\\"smy-picker\\">
           <div class=\\"smy-picker__toolbar\\"><span smy-picker-cover=\\"\\" class=\\"smy-picker__cancel-button\\">取消</span>
             <div class=\\"smy-picker__title\\"></div> <span smy-picker-cover=\\"\\" class=\\"smy-picker__confirm-button\\">确认</span></div>

@@ -1,7 +1,7 @@
 <template>
   <maybe-popup
     :show.sync="internalShow"
-    :popup="popup"
+    :maybe="popup"
     :teleport="teleport"
     :close-on-click-overlay="closeOnClickOverlay"
     smy-picker-cover
@@ -54,15 +54,15 @@
 import SmyPopup from '../popup'
 import { props } from './props'
 import { createProxiedModel } from '../_mixins/proxiedModel'
-import { createMaybeComponent } from '../_utils/vue/component'
 import { toPxNum } from '../_utils/dom'
 import { createGetPropertyFromItem, toNumber, wrapInArray } from '../_utils/shared'
 import PickerColumn from './PickerColumn.vue'
 import { isArray, isNil } from '../_utils/is'
+import { createMaybeComponent } from '../_utils/vue/component'
 
 let sid = 0
 
-const MaybePopup = createMaybeComponent(SmyPopup, ({ data }) => data.attrs?.popup)
+const MaybePopup = createMaybeComponent(SmyPopup)
 
 const getListeners = (vm, events) => {
   return events.reduce((listeners, event) => {
