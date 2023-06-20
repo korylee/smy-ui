@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from '../_utils/vue/props'
+import { ExtractPropTypes, createNumericProp, numericProp } from '../_utils/vue/props'
 import type { PropType } from 'vue'
 import { props as loadingProps } from '../loading/props'
 
@@ -7,6 +7,19 @@ export type ToastType = typeof TOAST_TYPES[number]
 
 export const TOAST_POSITIONS = ['top', 'center', 'bottom'] as const
 export type ToastPosition = typeof TOAST_POSITIONS[number]
+
+export const TOAST_ICON_POSITIONS = ['top', 'bottom', 'left', 'right'] as const
+export type ToastIconPosition = typeof TOAST_ICON_POSITIONS[number]
+
+export const popupInheritProps = [
+  'show',
+  'overlay',
+  'teleport',
+  'transition',
+  'overlayClass',
+  'overlayStyle',
+  'closeOnClickOverlay',
+] as const
 
 export const props = {
   type: {
@@ -22,15 +35,7 @@ export const props = {
   content: String,
   contentClass: [String, Object, Array],
   // 持续时间
-  duration: {
-    type: Number,
-    default: 3000,
-  },
-  // 横版样式
-  vertical: {
-    type: Boolean,
-    default: false,
-  },
+  duration: createNumericProp(3000),
   // 是否禁止滚动穿透
   lockScroll: {
     type: Boolean,
@@ -41,21 +46,27 @@ export const props = {
     type: Boolean,
     default: false,
   },
-  teleport: {
-    type: String,
-    default: 'body',
-  },
+  overlay: Boolean,
+  teleport: String,
+  transition: String,
+  overlayClass: [String, Object, Array],
+  overlayStyle: [String, Object, Array],
+  closeOnClickOverlay: Boolean,
   // 是否禁止点击背景
   forbidClick: {
     type: Boolean,
     default: false,
   },
-  customUpdate: {
-    type: String,
-  },
   loadingType: loadingProps.type,
-  loadingSize: { type: loadingProps.size.type, default: '1.4em' },
-  action: [String, Function, Object],
+  loadingSize: numericProp,
+  icon: [String, Function],
+  iconSize: numericProp,
+  iconPosition: {
+    type: String as PropType<ToastIconPosition>,
+    default: 'top',
+    validator: (position: ToastIconPosition) => TOAST_ICON_POSITIONS.includes(position),
+  },
+  closeOnClick: Boolean,
 }
 
 export type ToastProps = ExtractPropTypes<typeof props>

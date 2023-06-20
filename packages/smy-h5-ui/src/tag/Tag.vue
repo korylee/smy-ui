@@ -11,21 +11,17 @@
 import { props } from './props'
 import Icon from '../icon'
 import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name, bem] = createNamespace('tag')
 
 export default {
-  name: 'SmyTag',
+  name,
   components: { [Icon.name]: Icon, WindowClose },
   props,
   computed: {
-    classes() {
-      const prefixCls = 'smy-tag'
-      return {
-        [prefixCls]: true,
-        [`${prefixCls}--${this.type}`]: this.type,
-        [`${prefixCls}--plain`]: this.plain,
-        [`${prefixCls}--round`]: this.round,
-        [`${prefixCls}--mark`]: this.mark,
-      }
+    classes({ type, plain, round, mark }) {
+      return bem({ [type]: type, plain, round, mark })
     },
     style() {
       const style = {}

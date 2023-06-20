@@ -54,8 +54,8 @@ export const RenderToComp: FunctionalComponentOptions = {
   },
 }
 
-interface MountComponentApi {
-  instance: CombinedVueInstance<any, any, any, any, any>
+export interface MountComponentApi {
+  instance: CombinedVueInstance<Vue, any, any, any, any>
   unmount(): void
 }
 

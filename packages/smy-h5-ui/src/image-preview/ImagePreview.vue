@@ -5,7 +5,7 @@
     :close-on-click-overlay="false"
     :lock-scroll="lockScroll"
     :teleport="teleport"
-    class="smy-image-preview__popup"
+    wrapper-class="smy-image-preview__popup"
     transition="smy-fade"
     @open="$emit('open')"
     @opened="$emit('opened')"
@@ -37,7 +37,7 @@
       </smy-swiper-item>
       <template #indicator="{ index, length }">
         <slot name="indicator" :index="index" :length="length">
-          <div v-if="indicator && images.length" class="smy-image-preview__indicators">
+          <div v-if="indicator && images.length" class="smy-image-preview__indicator">
             {{ index + 1 }} / {{ length }}
           </div>
         </slot>
@@ -60,9 +60,12 @@ import { props } from './props'
 import { toNumber, range } from '../_utils/shared'
 import { createTouch, isTapTouch, ANIMATION_DURATION, EVENT_DELAY, isDoubleTouch } from './utils'
 import { createProxiedModel } from '../_mixins/proxiedModel'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name] = createNamespace('image-preview')
 
 export default {
-  name: 'SmyImagePreview',
+  name,
   inheritAttrs: false,
   components: { SmyPopup, SmySwiper, SmySwiperItem, SmyIcon },
   mixins: [createProxiedModel('show', 'internalShow', { passive: false, event: 'update:show' })],

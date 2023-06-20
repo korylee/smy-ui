@@ -21,11 +21,14 @@
 import { getParentScroller, getScrollTopRoot, requestAnimationFrame } from '../_utils/dom'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
+import { createNamespace } from '../_utils/vue/create'
 
 const calculateTopPosition = (el) => (!el ? 0 : el.offsetTop + calculateTopPosition(el.offsetParent))
 
+const [name] = createNamespace('scroller')
+
 export default {
-  name: 'SmyScroller',
+  name,
   components: { SmyProgressCircular },
   props,
   data: () => ({

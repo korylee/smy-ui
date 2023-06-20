@@ -1,9 +1,9 @@
 <template>
   <div class="smy-loading">
-    <div v-if="hasDefaultSlots" :class="{ 'smy-loading__content--active': loading }" class="smy-loading__content">
+    <div v-if="hasDefaultSlot" :class="{ 'smy-loading__content--active': loading }" class="smy-loading__content">
       <slot />
     </div>
-    <div v-if="isShow" class="smy--box smy-loading__body" :class="{ 'smy-loading__inside': hasDefaultSlots }">
+    <div v-if="isShow" class="smy--box smy-loading__body" :class="{ 'smy-loading__inside': hasDefaultSlot }">
       <smy-progress-circular v-if="type === 'circle'" :color="color" :size="size" indeterminate width="1.4" />
       <div v-else-if="currentLoadingNums" :class="`smy-loading__${type}`" :style="{ fontSize }">
         <div
@@ -33,11 +33,11 @@ export default {
   components: { SmyProgressCircular },
   props,
   computed: {
-    hasDefaultSlots() {
+    hasDefaultSlot() {
       return this.hasSlot()
     },
     isShow() {
-      if (!this.hasDefaultSlots) return true
+      if (!this.hasDefaultSlot) return true
       return this.loading
     },
     currentLoadingNums() {

@@ -52,8 +52,8 @@ exports[`test picker example 1`] = `
       </div>
     </div>
   </div>
-  <transition-stub name=\\"smy-fade\\" class=\\"smy-picker__popup\\">
-    <div class=\\"smy--box smy-popup\\" style=\\"z-index: 998; display: none;\\">
+  <transition-stub name=\\"smy-fade\\">
+    <div role=\\"dialog\\" tabindex=\\"0\\" class=\\"smy--box smy-popup smy-picker__popup\\" style=\\"z-index: 998; display: none;\\">
       <div class=\\"smy-popup__overlay\\" style=\\"z-index: 999;\\"></div>
       <transition-stub name=\\"smy-pop-bottom\\">
         <!---->
@@ -76,8 +76,8 @@ exports[`test picker example 1`] = `
       </div>
     </div>
   </div>
-  <transition-stub name=\\"smy-fade\\" class=\\"smy-picker__popup\\">
-    <div class=\\"smy--box smy-popup\\" style=\\"z-index: 998; display: none;\\">
+  <transition-stub name=\\"smy-fade\\">
+    <div role=\\"dialog\\" tabindex=\\"0\\" class=\\"smy--box smy-popup smy-picker__popup\\" style=\\"z-index: 998; display: none;\\">
       <div class=\\"smy-popup__overlay\\" style=\\"z-index: 999;\\"></div>
       <transition-stub name=\\"smy-pop-bottom\\">
         <!---->
@@ -100,8 +100,8 @@ exports[`test picker example 1`] = `
       </div>
     </div>
   </div>
-  <transition-stub name=\\"smy-fade\\" class=\\"smy-picker__popup\\">
-    <div class=\\"smy--box smy-popup\\" style=\\"z-index: 998; display: none;\\">
+  <transition-stub name=\\"smy-fade\\">
+    <div role=\\"dialog\\" tabindex=\\"0\\" class=\\"smy--box smy-popup smy-picker__popup\\" style=\\"z-index: 998; display: none;\\">
       <div class=\\"smy-popup__overlay\\" style=\\"z-index: 999;\\"></div>
       <transition-stub name=\\"smy-pop-bottom\\">
         <!---->
@@ -124,8 +124,8 @@ exports[`test picker example 1`] = `
       </div>
     </div>
   </div>
-  <transition-stub name=\\"smy-fade\\" class=\\"smy-picker__popup\\">
-    <div class=\\"smy--box smy-popup\\" style=\\"z-index: 998; display: none;\\">
+  <transition-stub name=\\"smy-fade\\">
+    <div role=\\"dialog\\" tabindex=\\"0\\" class=\\"smy--box smy-popup smy-picker__popup\\" style=\\"z-index: 998; display: none;\\">
       <div class=\\"smy-popup__overlay\\" style=\\"z-index: 999;\\"></div>
       <transition-stub name=\\"smy-pop-bottom\\">
         <!---->
@@ -136,8 +136,8 @@ exports[`test picker example 1`] = `
 `;
 
 exports[`test scroll up & onConfirm 1`] = `
-"<transition-stub name=\\"smy-fade\\" class=\\"smy-picker__popup\\">
-  <div class=\\"smy--box smy-popup\\" style=\\"z-index: 1001;\\">
+"<transition-stub name=\\"smy-fade\\">
+  <div role=\\"dialog\\" tabindex=\\"0\\" class=\\"smy--box smy-popup smy-picker__popup\\" style=\\"z-index: 1001;\\">
     <div class=\\"smy-popup__overlay\\" style=\\"z-index: 1002;\\"></div>
     <transition-stub name=\\"smy-pop-bottom\\">
       <div smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom\\" style=\\"z-index: 1003;\\">
@@ -169,8 +169,8 @@ exports[`test scroll up & onConfirm 1`] = `
 `;
 
 exports[`test scroll up & onConfirm 2`] = `
-"<transition-stub name=\\"smy-fade\\" class=\\"smy-picker__popup\\">
-  <div class=\\"smy--box smy-popup\\" style=\\"z-index: 1001;\\">
+"<transition-stub name=\\"smy-fade\\">
+  <div role=\\"dialog\\" tabindex=\\"0\\" class=\\"smy--box smy-popup smy-picker__popup\\" style=\\"z-index: 1001;\\">
     <div class=\\"smy-popup__overlay\\" style=\\"z-index: 1002;\\"></div>
     <transition-stub name=\\"smy-pop-bottom\\">
       <div smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom\\" style=\\"z-index: 1003;\\">

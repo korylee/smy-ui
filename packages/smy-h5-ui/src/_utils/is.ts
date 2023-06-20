@@ -29,7 +29,7 @@ export const isDate = createIsType<Date>('Date')
 
 export const isObject = (val: unknown): val is object => typeof val === 'object' && val !== null
 
-export const isArray = Array.isArray
+export const isArray: <T = any>(val: unknown) => val is T[] = Array.isArray
 
 export const isRem = (str: string): boolean => isString(str) && str.endsWith('rem')
 
@@ -40,3 +40,5 @@ export const isVh = (str: string): boolean => isString(str) && str.endsWith('vh'
 export const isVw = (str: string): boolean => isString(str) && str.endsWith('vw')
 
 export const isNumString = (str: unknown): boolean => isString(str) && /^\d+$/.test(str)
+
+export const isNumeric = (val: unknown) => isNumber(val) || isNumString(val)

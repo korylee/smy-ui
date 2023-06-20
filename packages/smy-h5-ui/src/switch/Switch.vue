@@ -1,5 +1,5 @@
 <template>
-  <div class="smy-switch" :style="style" :class="classes" @click="handleToggle">
+  <div :style="style" :class="classes" @click="handleToggle">
     <div class="smy-switch__thumb">
       <slot v-if="loading" name="loading">
         <smy-progress-circular
@@ -20,9 +20,12 @@
 import { convertToUnit } from '../_utils/dom'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name, bem] = createNamespace('switch')
 
 export default {
-  name: 'SmySwitch',
+  name,
   components: { SmyProgressCircular },
   model: {
     prop: 'value',
@@ -34,10 +37,7 @@ export default {
       return value === activeValue
     },
     classes({ isActive, disabled }) {
-      return {
-        [`smy-switch--${isActive ? 'active' : 'inactive'}`]: true,
-        'smy-switch--disabled': disabled,
-      }
+      return bem({ [isActive ? 'active' : 'inactive']: true, disabled })
     },
     style({ size, activeColor, inactiveColor }) {
       return {

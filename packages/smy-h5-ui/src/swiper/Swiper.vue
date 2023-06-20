@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="smy-swiper" :class="{ 'smy-swiper--vertical': vertical }">
+  <div ref="container" :class="bem({ vertical })">
     <div
       class="smy-swiper__inner"
       :style="style"
@@ -15,8 +15,7 @@
         <i
           v-for="(item, index) of children"
           :key="item._uid"
-          :class="{ 'smy-swiper__indicator-item--active': activeIndex === index }"
-          class="smy-swiper__indicator-item"
+          :class="bem('indicator-item', { active: activeIndex === index })"
           @click="to(index)"
         />
       </div>
@@ -31,9 +30,12 @@ import { toNumber, range } from '../_utils/shared'
 import { toPxNum, doubleRaf, getRect } from '../_utils/dom'
 import { useTouch } from '../_utils/composable/useTouch'
 import { props } from './props'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name, bem] = createNamespace('swiper')
 
 export default {
-  name: 'SmySwiper',
+  name,
   mixins: [createParentMixin('swiper')],
   props,
   data: () => ({
@@ -93,6 +95,7 @@ export default {
     this.$on('hook:deactivated', this.stopAutoplay)
   },
   methods: {
+    bem,
     onTouchStart(e) {
       if (this.isPreventDefault) e.preventDefault()
       if (this.isStopPropagation) e.stopPropagation()

@@ -1,6 +1,6 @@
 <template>
   <component :is="!hasSlot() && name ? 'i' : tag" :class="classes" :style="style" v-on="$listeners">
-    <slot />
+    <slot> <img v-if="isImageIcon" class="smy-icon__image" :src="name" /></slot>
   </component>
 </template>
 
@@ -10,6 +10,8 @@ import { convertToUnit, requestAnimationFrame } from '../_utils/dom'
 import { props } from './props'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
+
+const isImage = (name) => name?.includes('/')
 
 const getMergedProp = createGetMergedProp('icon')
 
@@ -27,6 +29,9 @@ export default {
     nextName: '',
   }),
   computed: {
+    isImageIcon({ nextName }) {
+      return isImage(nextName)
+    },
     style() {
       const { transition } = this
       const size = getMergedProp(this, 'size')
@@ -36,11 +41,11 @@ export default {
         transition: `transform ${toNumber(transition)}ms`,
       }
     },
-    classes({ nextName, namespace }) {
+    classes({ nextName, namespace, isImageIcon }) {
       return {
         'smy-icon': true,
         'smy-icon--shrinking': this.shrinking,
-        [`${namespace}--set ${namespace}-${nextName}`]: namespace && nextName,
+        [`${namespace}--set ${namespace}-${nextName}`]: namespace && nextName && !isImageIcon,
       }
     },
   },

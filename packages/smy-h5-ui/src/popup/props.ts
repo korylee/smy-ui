@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from '../_utils/vue/props'
+import { ExtractPropTypes, truthProp } from '../_utils/vue/props'
 import type { PropType } from 'vue'
 import { props as teleportProps } from '../teleport/props'
 
@@ -17,22 +17,14 @@ export const props = {
     validator: (str: PopupPosition) => POPUP_POSITIONS.includes(str),
   },
   transition: String,
-  overlay: {
-    type: Boolean,
-    default: true,
-  },
+  overlay: truthProp,
+  wrapperClass: [String, Object, Array],
   overlayClass: [String, Object, Array],
   overlayStyle: [String, Object, Array],
   contentClass: [String, Object, Array],
   contentStyle: [String, Object, Array],
-  lockScroll: {
-    type: Boolean,
-    default: true,
-  },
-  closeOnClickOverlay: {
-    type: Boolean,
-    default: true,
-  },
+  lockScroll: truthProp,
+  closeOnClickOverlay: truthProp,
   teleport: teleportProps.to.type,
 }
 

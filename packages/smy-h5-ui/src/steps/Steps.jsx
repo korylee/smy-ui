@@ -3,24 +3,24 @@ import { createParentMixin } from '../_mixins/relation'
 import { props } from './props'
 
 import './steps.less'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name, bem] = createNamespace('steps')
 
 export default {
-  name: 'SmySteps',
+  name,
   mixins: [createParentMixin('steps', { children: 'step' })],
   props,
   computed: {
-    classes({ direction, progressDot }) {
-      return {
-        'smy-steps': true,
-        [`smy-steps--${direction}`]: direction,
-        'smy-steps--dot': progressDot,
-      }
+    classes({ direction, progressDot: dot }) {
+      return bem({ dot, [direction]: direction })
     },
-    direction() {
-      return this.vertical ? 'vertical' : 'horizontal'
+    direction({ vertical }) {
+      return vertical ? 'vertical' : 'horizontal'
     },
   },
   render() {
-    return <div class={this.classes}>{getSlot(this)}</div>
+    const vm = this
+    return <div class={vm.classes}>{getSlot(vm)}</div>
   },
 }

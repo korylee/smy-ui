@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes" v-on="$listeners" class="smy-cell">
+  <div :class="classes" v-on="$listeners">
     <div v-if="hasSlot('icon')" class="smy-cell__icon"><slot name="icon" /></div>
     <div class="smy-cell__content">
       <div class="smy-cell__title" :class="titleClass">
@@ -14,20 +14,23 @@
 </template>
 
 <script>
+import { createNamespace } from '../_utils/vue/create'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { props } from './props'
 
+const [name, bem] = createNamespace('cell')
+
 export default {
-  name: 'SmyCell',
+  name,
   mixins: [SlotsMixin],
   props,
   computed: {
     classes({ border, clickable, insert }) {
-      return {
-        'smy-cell--border': border,
-        'smy-cell--insert': insert,
-        'smy-cell--clickable': clickable,
-      }
+      return bem({
+        border,
+        insert,
+        clickable,
+      })
     },
   },
 }

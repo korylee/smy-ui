@@ -53,6 +53,11 @@
         <smy-icon><xml /></smy-icon>
       </template>
     </smy-badge>
+    <app-demo-title>独立存在</app-demo-title>
+    <smy-badge value="8" />
+    <smy-badge value="76" />
+    <smy-badge value="NEW" />
+    <smy-badge value="NEW" bubble />
   </div>
 </template>
 <script>

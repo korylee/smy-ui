@@ -1,20 +1,12 @@
-import type { ExtractPropTypes } from '../_utils/vue/props'
+import { ExtractPropTypes, createNumericProp, createStringProp, numericProp } from '../_utils/vue/props'
 
 export const props = {
-  name: {
-    type: String,
-  },
-  size: [String, Number],
+  name: String,
+  size: numericProp,
   color: String,
-  tag: { type: String, default: 'span' },
-  namespace: {
-    type: String,
-    default: 'smy-icon',
-  },
-  transition: {
-    type: [Number, String],
-    default: 0,
-  },
+  tag: createStringProp('span'),
+  namespace: createStringProp('smy-icon'),
+  transition: createNumericProp(0),
 }
 
 export type IconProps = ExtractPropTypes<typeof props>

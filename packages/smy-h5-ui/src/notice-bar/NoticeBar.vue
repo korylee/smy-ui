@@ -1,11 +1,5 @@
 <template>
-  <div
-    v-show="showNoticeBar"
-    :class="{ 'smy-notice-bar--closable': closable, 'smy-notice-bar--wrapable': wrapable }"
-    class="smy-notice-bar"
-    role="alert"
-    @click="$emit('click', $event)"
-  >
+  <div v-show="showNoticeBar" :class="bem({ closable, wrapable })" role="alert" @click="$emit('click', $event)">
     <div v-if="hasSlot('left-icon')" class="smy-notice-bar__left-icon">
       <slot name="left-icon"> </slot>
     </div>
@@ -35,9 +29,12 @@ import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 import SmyIcon from '../icon'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { getRect } from '../_utils/dom'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name, bem] = createNamespace('notice-bar')
 
 export default {
-  name: 'SmyNoticeBar',
+  name,
   mixins: [SlotsMixin],
   components: { WindowClose, SmyIcon },
   props,
@@ -67,6 +64,7 @@ export default {
     },
   },
   methods: {
+    bem,
     reset() {
       this.$nextTick(() => {
         if (!this.showNoticeBar) return

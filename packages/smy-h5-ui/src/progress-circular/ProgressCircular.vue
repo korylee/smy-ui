@@ -47,14 +47,17 @@
 <script>
 import { convertToUnit } from '../_utils/dom'
 import { range } from '../_utils/shared'
+import { createNamespace } from '../_utils/vue/create'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { props } from './props'
 
 const MAGIC_RADIUS_CONSTANT = 20
 const CIRCUMFERENCE = 2 * Math.PI * MAGIC_RADIUS_CONSTANT
 
+const [name, bem] = createNamespace('progress-circular')
+
 export default {
-  name: 'SmyProgressCircular',
+  name,
   mixins: [SlotsMixin],
   props,
   data: () => ({
@@ -64,10 +67,10 @@ export default {
   }),
   computed: {
     rootClass({ indeterminate }) {
-      return {
-        'smy-progress-circular--indeterminate': !!indeterminate,
-        'smy-progress-circular--disable-shrink': indeterminate === 'disable-shrink',
-      }
+      return bem({
+        indeterminate: !!indeterminate,
+        'disable-shrink': indeterminate === 'disable-shrink',
+      })
     },
     rootStyle({ color, size }) {
       return {

@@ -12,9 +12,7 @@
     </div>
     <div class="app-demo-title">使用图片</div>
     <div>
-      <smy-icon color="#2979ff" size="30">
-        <img src="https://korylee.github.io/blog/avatar.png" />
-      </smy-icon>
+      <smy-icon name="https://korylee.github.io/blog/avatar.png" size="30" />
     </div>
     <div class="app-demo-title">图标切换动画(仅iconfont方式)</div>
     <div>

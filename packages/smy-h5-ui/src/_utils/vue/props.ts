@@ -62,3 +62,27 @@ declare type RequiredKeys<T> = {
 declare type OptionalKeys<T> = Exclude<keyof T, RequiredKeys<T>>
 
 export declare type IfAny<T, Y, N> = 0 extends 1 & T ? Y : N
+
+export const unknownProp = null as unknown as PropType<unknown>
+
+export const numericProp = [Number, String]
+
+export const truthProp = {
+  type: Boolean,
+  default: true,
+} as const
+
+export const createNumberProp = <T>(defaultVal: T) => ({
+  type: Number,
+  default: defaultVal,
+})
+
+export const createStringProp = <T>(defaultVal: T) => ({
+  type: String as unknown as PropType<T>,
+  default: defaultVal,
+})
+
+export const createNumericProp = <T>(defaultVal: T) => ({
+  type: numericProp,
+  default: defaultVal,
+})

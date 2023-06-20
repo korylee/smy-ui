@@ -1,7 +1,14 @@
 <template>
   <maybe-teleport :maybe="!!teleport" :to="teleport" :disabled="teleportDisabled">
-    <transition name="smy-fade" @after-enter="$emit('opened', $event)" @after-leave="$emit('closed', $event)">
-      <div v-show="show" :style="{ zIndex: zIndex - 2 }" class="smy--box smy-popup">
+    <transition name="smy-fade" @after-enter="$emit('opened')" @after-leave="$emit('closed')">
+      <div
+        v-show="show"
+        :style="{ zIndex: zIndex - 2 }"
+        :class="wrapperClass"
+        class="smy--box smy-popup"
+        role="dialog"
+        tabindex="0"
+      >
         <div
           v-if="overlay"
           :class="overlayClass"

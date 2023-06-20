@@ -1,15 +1,13 @@
-import type { ToastPosition, ToastProps, ToastType } from './props'
-import type { CreateElement, VNode } from 'vue'
+import type { ToastProps, ToastType } from './props'
+import type { VNode } from 'vue'
+import type { CombinedVueInstance } from 'vue/types/vue'
 import type { SmyComponent } from '../_utils/smy/component'
 
 import { mountComponent, withInstall } from '../_utils/vue/component'
 import _Toast from './Toast.vue'
-import SmyToastCore from './ToastCore.vue'
-import { toNumber } from '../_utils/shared'
 import { isNumber, isPlainObject, isString } from '../_utils/is'
 import Vue from 'vue'
 import { TOAST_TYPES } from './props'
-import context from '../_context'
 import { throwError } from '../_utils/smy/warn'
 
 declare interface SmyToast extends SmyComponent {
@@ -17,7 +15,7 @@ declare interface SmyToast extends SmyComponent {
     $props: ToastProps
     $scopeSlots: {
       default: () => VNode
-      action: () => VNode
+      icon: () => VNode
     }
     $emit: {
       (event: 'open'): void
@@ -38,103 +36,36 @@ export type ReactiveToastOptions = Partial<ToastProps> & {
   onClosed?: () => void
 }
 
-interface UniqToastOptionItem {
-  id: number
-  reactiveToastOptions: ReactiveToastOptions
-  customUpdate?: string
-  animationEnd?: boolean
-}
+type NeverRecord = Record<string, never>
 
-let sid = 0
-let isMount = false
-let unmount: () => void
+type ToastInstance = CombinedVueInstance<
+  Vue,
+  Record<string, never>,
+  { close: () => void; open: (opts: ReactiveToastOptions) => void },
+  NeverRecord,
+  NeverRecord
+>
+
 let isAllowMultiple = false
-const uniqToastOptions = Vue.observable<{ value: UniqToastOptionItem[] }>({
-  value: [],
-})
+let queue: ToastInstance[] = []
 
 const getDefaultOptions = (): ReactiveToastOptions => ({
   type: undefined,
   content: '',
   position: 'top',
   duration: 3500,
-  vertical: false,
   contentClass: undefined,
   loadingType: 'circle',
   loadingSize: undefined,
   lockScroll: false,
-  teleport: 'body',
+  teleport: undefined,
   forbidClick: false,
-  action: undefined,
+  icon: undefined,
 })
 
 let currentOptions = getDefaultOptions()
 
 let defaultOptionsMap: { [key in ToastType]?: Omit<ReactiveToastOptions, 'type'> } = {}
-
-function getCoreVNode(h: CreateElement, option: UniqToastOptionItem) {
-  const { id, reactiveToastOptions, customUpdate } = option
-  const attrs = {
-    ...reactiveToastOptions,
-    'data-id': id,
-    customUpdate,
-  }
-  const directives = [{ name: 'show', rawName: 'v-show', value: reactiveToastOptions.show, expression: 'show' }]
-  const style = {
-    position: isAllowMultiple ? 'relative' : 'absolute',
-    top: getTop(reactiveToastOptions.position),
-  }
-  const on = {
-    'update:show': (value: boolean) => {
-      reactiveToastOptions.show = value
-    },
-    open: () => {
-      reactiveToastOptions?.onOpen?.()
-    },
-    close: () => {
-      reactiveToastOptions?.onClose?.()
-    },
-  }
-  return h(SmyToastCore as any, {
-    key: id,
-    attrs,
-    style,
-    directives,
-    on,
-  })
-}
-
-const TransitionGroupHost = {
-  render(h: CreateElement) {
-    let isPointerAuto = false
-    const toastList = uniqToastOptions.value.map(({ id, reactiveToastOptions, customUpdate }) => {
-      if (reactiveToastOptions.forbidClick || reactiveToastOptions.type === 'loading') {
-        isPointerAuto = true
-      }
-
-      if (isAllowMultiple) reactiveToastOptions.position = 'top'
-      return getCoreVNode(h, { id, reactiveToastOptions, customUpdate })
-    })
-    return h(
-      'transition-group',
-      {
-        attrs: {
-          name: 'smy-toast-fade',
-          tag: 'div',
-          class: `smy-transition-group ${isPointerAuto ? 'smy-pointer-auto' : ''}`,
-        },
-        style: {
-          zIndex: context.zIndex,
-        },
-        on: {
-          'after-enter': opened,
-          'after-leave': removeUniqOption,
-        },
-      },
-      toastList
-    )
-  },
-}
 
 const Toast = function toast(options: number | string | ReactiveToastOptions) {
   const toastOptions = isString(options) || isNumber(options) ? { content: String(options) } : options
@@ -143,37 +74,16 @@ const Toast = function toast(options: number | string | ReactiveToastOptions) {
     ...(toastOptions.type && defaultOptionsMap[toastOptions.type]),
     ...toastOptions,
   })
-  Vue.set(reactiveToastOptions, 'show', true)
-  if (!isMount) {
-    isMount = true
-    unmount = mountComponent(TransitionGroupHost as any).unmount
-  }
-  const { length } = uniqToastOptions.value
-  const uniqToastOptionItem = {
-    id: sid++,
-    reactiveToastOptions,
-  }
-  if (!length || isAllowMultiple) {
-    addUniqOption(uniqToastOptionItem)
-  } else {
-    const customUpdate = `update-${sid}`
-    updateUniqOption(reactiveToastOptions, customUpdate)
-  }
-  return {
-    clear() {
-      if (!isAllowMultiple && uniqToastOptions.value.length) {
-        uniqToastOptions.value[0].reactiveToastOptions.show = false
-      } else {
-        reactiveToastOptions.show = false
-      }
-    },
-  }
+  const instance = getInstance()
+  instance.open(reactiveToastOptions)
+
+  return instance
 }
 
 const getToast =
   (type: ToastType) =>
   (options: Parameters<typeof Toast>[0] = {}) => {
-    if (isString(options) || isNumber(options)) {
+    if (!isPlainObject(options)) {
       options = { content: String(options), type }
     } else {
       options.type = type
@@ -186,20 +96,27 @@ const Toasts = TOAST_TYPES.reduce((acc, cur) => {
   return acc
 }, {} as { [type in ToastType]: ReturnType<typeof getToast> })
 
-Toast.allowMultiple = function (bool = false) {
+Toast.allowMultiple = function allowMultiple(bool = true) {
   if (!bool !== isAllowMultiple) {
-    uniqToastOptions.value.forEach((option) => {
-      option.reactiveToastOptions.show = false
-    })
     isAllowMultiple = bool
   }
 }
 
-Toast.clear = function () {
-  uniqToastOptions.value.forEach((option) => {
-    option.reactiveToastOptions.show = false
-  })
+function close(all = false) {
+  if (!queue.length) return
+  if (all) {
+    queue.forEach((toast) => {
+      toast.close()
+    })
+    queue = []
+  } else if (!isAllowMultiple) {
+    queue[0].close()
+  } else {
+    queue.shift()?.close()
+  }
 }
+
+Toast.close = close
 
 function setDefaultOptions(value: ReactiveToastOptions): void
 function setDefaultOptions(key: ToastType, value: Omit<ReactiveToastOptions, 'type'>): void
@@ -218,7 +135,7 @@ function setDefaultOptions(key: ToastType | Partial<ReactiveToastOptions>, value
 Toast.setDefaultOptions = setDefaultOptions
 
 Toast.resetDefaultOptions = function resetDefaultOptions(type: ToastType) {
-  if (isString(type)) {
+  if (type && isString(type)) {
     defaultOptionsMap[type] = undefined
   } else {
     currentOptions = getDefaultOptions()
@@ -226,51 +143,53 @@ Toast.resetDefaultOptions = function resetDefaultOptions(type: ToastType) {
   }
 }
 
-function opened(el: HTMLElement) {
-  const id = el.getAttribute('data-id')
-  const option = uniqToastOptions.value.find((option) => option.id === toNumber(id))
-  if (option) {
-    option.reactiveToastOptions.onOpened?.()
+function createInstance() {
+  const state = Vue.observable<ReactiveToastOptions>({ show: false })
+  const toggle = (val: boolean) => {
+    state.show = val
   }
+  const open = (props: Record<string, any>) => {
+    Object.assign(state, props)
+    toggle(true)
+  }
+  const { instance, unmount } = mountComponent({
+    data: () => ({
+      content: '',
+    }),
+    watch: {
+      content(val) {
+        ;(this as any).$set(state, 'content', val)
+      },
+    },
+    methods: {
+      open,
+      close: () => toggle(false),
+    },
+    render(h) {
+      const closed = () => {
+        if (isAllowMultiple) {
+          queue = queue.filter((item) => item !== instance)
+          unmount()
+        }
+      }
+      const on = {
+        closed,
+        'update:show': toggle,
+      }
+      return h(_SmyToast, { on, props: state })
+    },
+  })
+  return instance as ToastInstance
 }
 
-function removeUniqOption(el: HTMLElement) {
-  el.parentElement?.classList.remove('smy-pointer-auto')
-  const id = el.getAttribute('data-id')
-  const option = uniqToastOptions.value.find((option) => option.id === toNumber(id))
-  if (option) {
-    option.animationEnd = true
-    option.reactiveToastOptions.onClosed?.()
-  }
-  const isAllAnimationEnd = uniqToastOptions.value.every((option) => option.animationEnd)
-  if (isAllAnimationEnd) {
-    unmount?.()
-    uniqToastOptions.value = []
-    isMount = false
-  }
-}
+function getInstance() {
+  if (!queue.length || isAllowMultiple) {
+    const instance = createInstance()
 
-function addUniqOption(uniqToastOptionItem: UniqToastOptionItem) {
-  uniqToastOptions.value.push(uniqToastOptionItem)
-}
-
-function updateUniqOption(reactiveTaostOptions: ReactiveToastOptions, customUpdate: string) {
-  const [firstOption] = uniqToastOptions.value
-  firstOption.reactiveToastOptions = {
-    ...firstOption.reactiveToastOptions,
-    ...reactiveTaostOptions,
-  }
-  firstOption.customUpdate = customUpdate
-}
-
-function getTop(position: ToastPosition = 'top') {
-  switch (position) {
-    case 'center':
-      return '45%'
-    case 'bottom':
-      return '85%'
-    default:
-      return '50px'
+    queue.push(instance)
+    return instance
+  } else {
+    return queue[0]
   }
 }
 

@@ -1,31 +1,16 @@
-import type { ExtractPropTypes } from '../_utils/vue/props'
+import { ExtractPropTypes, createNumericProp, createStringProp, numericProp } from '../_utils/vue/props'
 
 export const props = {
   value: {
     type: [String, Number, Boolean],
     default: false,
   },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  size: { type: [String, Number], default: 12 },
-  activeColor: {
-    type: String,
-    default: '',
-  },
-  inactiveColor: {
-    type: String,
-    default: '',
-  },
-  activeLabel: {
-    type: String,
-    default: '',
-  },
-  inactiveLabel: {
-    type: String,
-    default: '',
-  },
+  disabled: Boolean,
+  size: createNumericProp(12),
+  activeColor: createStringProp(''),
+  inactiveColor: createStringProp(''),
+  activeLabel: createStringProp(''),
+  inactiveLabel: createStringProp(''),
   activeValue: {
     type: [Number, String, Boolean],
     default: true,
@@ -36,7 +21,7 @@ export const props = {
   },
   loading: Boolean,
   loadingColor: String,
-  loadingSize: [String, Number],
+  loadingSize: numericProp,
   isStopPropagation: {
     type: Boolean,
     default: true,

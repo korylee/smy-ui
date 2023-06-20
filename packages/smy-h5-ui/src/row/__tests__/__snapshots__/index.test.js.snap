@@ -19,22 +19,22 @@ exports[`test row example 1`] = `
   <div class=\\"app-demo-title\\">栅格系统</div>
   <div class=\\"demo-item\\">
     <div class=\\"smy-row smy--flex smy--box\\" style=\\"align-items: flex-start; flex-wrap: nowrap;\\">
-      <div class=\\"smy-col flex-item smy-col--span-24\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:24</div>
+      <div class=\\"flex-item smy-col smy-col--span-24\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:24</div>
     </div>
     <div class=\\"smy-row smy--flex smy--box\\" style=\\"align-items: flex-start; flex-wrap: nowrap;\\">
-      <div class=\\"smy-col flex-item smy-col--span-12\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:12</div>
-      <div class=\\"smy-col flex-item smy-col--span-12\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:12</div>
+      <div class=\\"flex-item smy-col smy-col--span-12\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:12</div>
+      <div class=\\"flex-item smy-col smy-col--span-12\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:12</div>
     </div>
     <div class=\\"smy-row smy--flex smy--box\\" style=\\"align-items: flex-start; flex-wrap: nowrap;\\">
-      <div class=\\"smy-col flex-item smy-col--span-8\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:8</div>
-      <div class=\\"smy-col flex-item flex-item--light smy-col--span-8\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:8</div>
-      <div class=\\"smy-col flex-item smy-col--span-8\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:8</div>
+      <div class=\\"flex-item smy-col smy-col--span-8\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:8</div>
+      <div class=\\"flex-item flex-item--light smy-col smy-col--span-8\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:8</div>
+      <div class=\\"flex-item smy-col smy-col--span-8\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:8</div>
     </div>
     <div class=\\"smy-row smy--flex smy--box\\" style=\\"align-items: flex-start; flex-wrap: nowrap;\\">
-      <div class=\\"smy-col flex-item smy-col--span-6\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:6</div>
-      <div class=\\"smy-col flex-item flex-item--light smy-col--span-6\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:6</div>
-      <div class=\\"smy-col flex-item smy-col--span-6\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:6</div>
-      <div class=\\"smy-col flex-item smy-col--span-6\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:6</div>
+      <div class=\\"flex-item smy-col smy-col--span-6\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:6</div>
+      <div class=\\"flex-item flex-item--light smy-col smy-col--span-6\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:6</div>
+      <div class=\\"flex-item smy-col smy-col--span-6\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:6</div>
+      <div class=\\"flex-item smy-col smy-col--span-6\\" style=\\"padding-left: 0px; padding-right: 0px;\\">span:6</div>
     </div>
   </div>
   <div class=\\"app-demo-title\\">偏移</div>

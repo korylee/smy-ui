@@ -10,15 +10,16 @@
   </div>
 </template>
 <script>
-import { isNumString, isNumber } from '../_utils/is'
+import { isNumeric } from '../_utils/is'
 import { convertToUnit } from '../_utils/dom'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { props } from './props'
+import { createNamespace } from '../_utils/vue/create'
 
-const isNum = (num) => isNumber(num) || isNumString(num)
+const [name, bem] = createNamespace('badge')
 
 export default {
-  name: 'SmyBadge',
+  name,
   inheritAttrs: false,
   mixins: [SlotsMixin],
   props,
@@ -34,17 +35,19 @@ export default {
     contentClass() {
       const { dot, bubble, position, hasSlot } = this
 
-      return {
-        'smy-badge__content--dot': dot,
-        'smy-badge__content--bubble': !dot && bubble,
-        'smy-badge__content--icon': !dot && hasSlot('icon'),
-        [`smy-badge__position smy-badge--${position}`]: hasSlot(),
-      }
+      const hasDefaultSlot = hasSlot()
+      return bem('content', {
+        dot,
+        bubble: !dot && bubble,
+        icon: !dot && hasSlot('icon'),
+        fixed: hasDefaultSlot,
+        [position]: position && hasDefaultSlot,
+      })
     },
     internalContent() {
       if (this.dot) return
       const { value, max } = this
-      if (isNum(value) && isNum(max)) {
+      if (isNumeric(value) && isNumeric(max)) {
         return max < +value ? `${max}+` : value
       }
       return value

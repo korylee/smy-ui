@@ -51,7 +51,7 @@ exports[`test cell example 1`] = `
     <!---->
   </div>
   <div class=\\"app-demo-title\\">卡片样式</div>
-  <div class=\\"smy-cell insert-example smy-cell--insert\\">
+  <div class=\\"insert-example smy-cell smy-cell--insert\\">
     <!---->
     <div class=\\"smy-cell__content\\">
       <div class=\\"smy-cell__title\\">这里是cell组件
@@ -91,7 +91,7 @@ exports[`test cell example 1`] = `
     </div>
   </div>
   <div class=\\"app-demo-title\\">分组卡片样式</div>
-  <div class=\\"smy-cell-group insert-example smy-cell-group--insert\\">
+  <div class=\\"insert-example smy-cell-group smy-cell-group--insert\\">
     <div class=\\"smy-cell smy-cell--border smy-cell--clickable\\">
       <!---->
       <div class=\\"smy-cell__content\\">

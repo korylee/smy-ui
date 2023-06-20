@@ -1,23 +1,18 @@
 <template>
-  <div
-    :class="{
-      [`smy-col--span-${span}`]: span,
-      [`smy-col--offset-${offset}`]: offset,
-    }"
-    :style="style"
-    class="smy-col"
-    v-on="$listeners"
-  >
+  <div :class="classes" :style="style" v-on="$listeners">
     <slot />
   </div>
 </template>
 <script>
 import { createChildrenMixin } from '../_mixins/relation'
 import { convertToUnit } from '../_utils/dom'
+import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 
+const [name, bem] = createNamespace('col')
+
 export default {
-  name: 'SmyCol',
+  name,
   mixins: [createChildrenMixin('row', { children: 'cols' })],
   props,
 
@@ -27,6 +22,15 @@ export default {
       paddingRight: 0,
     },
   }),
+
+  computed: {
+    classes({ span, offset }) {
+      return bem({
+        [`span-${span}`]: span,
+        [`offset-${offset}`]: offset,
+      })
+    },
+  },
 
   methods: {
     setPadding({ left, right }) {

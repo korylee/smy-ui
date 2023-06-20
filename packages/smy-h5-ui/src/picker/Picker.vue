@@ -6,7 +6,7 @@
     :close-on-click-overlay="closeOnClickOverlay"
     smy-picker-cover
     position="bottom"
-    class="smy-picker__popup"
+    wrapper-class="smy-picker__popup"
     v-on="popupListeners"
   >
     <div class="smy-picker" v-bind="$attrs">
@@ -59,6 +59,7 @@ import { createGetPropertyFromItem, toNumber, wrapInArray } from '../_utils/shar
 import PickerColumn from './PickerColumn.vue'
 import { isArray, isNil } from '../_utils/is'
 import { createMaybeComponent } from '../_utils/vue/component'
+import { createNamespace } from '../_utils/vue/create'
 
 let sid = 0
 
@@ -78,8 +79,10 @@ function listEqual(listA, listB) {
   return listA.every((item, index) => item === listB[index])
 }
 
+const [name] = createNamespace('picker')
+
 export default {
-  name: 'SmyPicker',
+  name,
   components: { MaybePopup, PickerColumn },
   inheritAttrs: false,
   mixins: [createProxiedModel('show', 'internalShow', { passive: false, event: 'update:show' })],
