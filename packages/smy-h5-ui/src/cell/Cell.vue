@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes" v-on="$listeners">
+  <div :class="bem({ border, insert, clickable })" v-on="$listeners">
     <div v-if="hasSlot('icon')" class="smy-cell__icon"><slot name="icon" /></div>
     <div class="smy-cell__content">
       <div class="smy-cell__title" :class="titleClass">
@@ -24,15 +24,7 @@ export default {
   name,
   mixins: [SlotsMixin],
   props,
-  computed: {
-    classes({ border, clickable, insert }) {
-      return bem({
-        border,
-        insert,
-        clickable,
-      })
-    },
-  },
+  methods: { bem },
 }
 </script>
 

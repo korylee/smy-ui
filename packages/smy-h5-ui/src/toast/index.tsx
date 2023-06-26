@@ -9,6 +9,7 @@ import { isNumber, isPlainObject, isString } from '../_utils/is'
 import Vue from 'vue'
 import { TOAST_TYPES } from './props'
 import { throwError } from '../_utils/smy/warn'
+import { assign, keys } from '../_utils/shared'
 
 declare interface SmyToast extends SmyComponent {
   new (): {
@@ -40,7 +41,7 @@ type NeverRecord = Record<string, never>
 
 type ToastInstance = CombinedVueInstance<
   Vue,
-  Record<string, never>,
+  { content: string },
   { close: () => void; open: (opts: ReactiveToastOptions) => void },
   NeverRecord,
   NeverRecord
@@ -52,7 +53,7 @@ let queue: ToastInstance[] = []
 const getDefaultOptions = (): ReactiveToastOptions => ({
   type: undefined,
   content: '',
-  position: 'top',
+  position: 'center',
   duration: 3500,
   contentClass: undefined,
   loadingType: 'circle',
@@ -128,7 +129,7 @@ function setDefaultOptions(key: ToastType | Partial<ReactiveToastOptions>, value
     delete value.type
     defaultOptionsMap[key] = value
   } else {
-    Object.assign(currentOptions, key)
+    assign(currentOptions, key)
   }
 }
 
@@ -149,13 +150,15 @@ function createInstance() {
     state.show = val
   }
   const open = (props: Record<string, any>) => {
-    Object.assign(state, props)
+    const propKeys = keys(props)
+    if (!propKeys.length) return
+    propKeys.forEach((key) => {
+      Vue.set(state, key, props[key])
+    })
     toggle(true)
   }
   const { instance, unmount } = mountComponent({
-    data: () => ({
-      content: '',
-    }),
+    data: () => ({ content: '' }),
     watch: {
       content(val) {
         ;(this as any).$set(state, 'content', val)
@@ -171,9 +174,13 @@ function createInstance() {
           queue = queue.filter((item) => item !== instance)
           unmount()
         }
+        state.onClosed?.()
       }
       const on = {
+        open: () => state.onOpen?.(),
+        close: () => state.onClose?.(),
         closed,
+        opened: () => state.onOpened?.(),
         'update:show': toggle,
       }
       return h(_SmyToast, { on, props: state })
@@ -199,4 +206,4 @@ Toast.install = _SmyToast.install
 
 export { _SmyToast as SmyToast, Toasts }
 
-export default Object.assign(Toast, Toasts)
+export default assign(Toast, Toasts)

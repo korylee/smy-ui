@@ -4,7 +4,7 @@
       <div class="smy-step__header-line"></div>
       <div :class="bem('header-icon', { dot })">
         <slot name="icon">
-          <div v-if="!dot" class="smy-step__header-icon__inner">{{ index + 1 }}</div>
+          <div v-if="!dot" class="smy-step__header-icon-seq">{{ index + 1 }}</div>
         </slot>
       </div>
     </div>

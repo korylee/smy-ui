@@ -1,31 +1,12 @@
-import type { ExtractPropTypes } from '../_utils/vue/props'
+import { ExtractPropTypes, createNumericProp, createStringProp, truthProp } from '../_utils/vue/props'
 
 export const props = {
-  text: {
-    type: String,
-    default: '',
-  },
-  closable: {
-    type: Boolean,
-    default: false,
-  },
-  wrapable: {
-    type: Boolean,
-    default: false,
-  },
-  delay: {
-    type: [String, Number],
-    default: 1,
-  },
-  scrollable: {
-    type: Boolean,
-    default: true,
-  },
-  speed: {
-    // px/s
-    type: Number,
-    default: 50,
-  },
+  text: createStringProp(''),
+  closable: Boolean,
+  wrapable: Boolean,
+  delay: createNumericProp(1),
+  scrollable: truthProp,
+  speed: createNumericProp(50),
 }
 
 export type NoticeBarProps = ExtractPropTypes<typeof props>

@@ -82,11 +82,12 @@ export default {
   watch: {
     show: {
       immediate: true,
-      handler(show) {
+      handler(show, oldShow) {
+        if (Boolean(show) === Boolean(oldShow)) return
         if (show) {
           this.$emit('open')
           this.updateAfterDuration()
-        } else if (show === false) {
+        } else {
           clearTimeout(this.timer)
           this.$emit('close')
         }

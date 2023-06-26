@@ -11,6 +11,7 @@
       <button @click="createToast()">基础使用</button>
       <button @click="createToast('position')">底部显示</button>
       <button @click="createToast('loading')">加载中</button>
+      <button @click="createToast('time')">倒计时</button>
     </div>
 
     <div>
@@ -68,6 +69,23 @@ export default {
             duration: 500000,
             content,
           })
+        }
+        case 'time': {
+          let time = 3
+          const getContent = () => '倒计时' + time + 's'
+          const timerId = setInterval(() => {
+            time--
+            instance.content = getContent()
+          }, 1000)
+          const instance = Toast({
+            type: 'loading',
+            content: getContent(),
+            duration: 3000,
+            onClosed() {
+              clearInterval(timerId)
+            },
+          })
+          return
         }
         default: {
           return Toast(content)

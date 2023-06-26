@@ -1,14 +1,8 @@
-import type { ExtractPropTypes } from '../_utils/vue/props'
+import { type ExtractPropTypes, createNumericProp, truthProp } from '../_utils/vue/props'
 
 export const props = {
-  width: {
-    type: [Number, String],
-    default: window.innerWidth,
-  },
-  height: {
-    type: [Number, String],
-    default: 0,
-  },
+  width: createNumericProp(window.innerWidth),
+  height: createNumericProp(0),
   vertical: {
     type: Boolean,
     default: false,
@@ -17,38 +11,17 @@ export const props = {
     type: Boolean,
     default: false,
   },
-  loop: {
-    type: Boolean,
-    default: true,
-  },
-  duration: {
-    type: [String, Number],
-    default: 500,
-  },
-  autoplay: {
-    type: [Number, String],
-    default: 0,
-  },
-  initialIndex: {
-    type: [Number, String],
-    default: 0,
-  },
-  touchable: {
-    type: Boolean,
-    default: true,
-  },
+  loop: truthProp,
+  duration: createNumericProp(500),
+  autoplay: createNumericProp(0),
+  initialIndex: createNumericProp(0),
+  touchable: truthProp,
   center: {
     type: Boolean,
     default: false,
   },
-  isPreventDefault: {
-    type: Boolean,
-    default: true,
-  },
-  isStopPropagation: {
-    type: Boolean,
-    default: true,
-  },
+  isPreventDefault: truthProp,
+  isStopPropagation: truthProp,
 }
 
 export type SwiperProps = ExtractPropTypes<typeof props>

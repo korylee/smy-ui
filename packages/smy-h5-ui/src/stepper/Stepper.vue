@@ -1,11 +1,6 @@
 <template>
   <div :style="style" class="smy-stepper">
-    <div
-      :class="{ 'smy-stepper__button--grey': !minusable }"
-      :style="buttonStyle"
-      class="smy-stepper__button"
-      @click="handleMinus"
-    >
+    <div :style="buttonStyle" :class="bem('button', { disabled: !minusable })" @click="handleMinus">
       <slot name="minus">
         <smy-icon><minus /></smy-icon>
       </slot>
@@ -24,12 +19,7 @@
       @focus="$emit('focus', $event)"
       @blur="onBlur"
     />
-    <div
-      :class="{ 'smy-stepper__button--grey': !plusable }"
-      :style="buttonStyle"
-      class="smy-stepper__button"
-      @click="handlePlus"
-    >
+    <div :class="bem('button', { disabled: !plusable })" :style="buttonStyle" @click="handlePlus">
       <slot name="plus">
         <smy-icon><plus /></smy-icon>
       </slot>
@@ -46,9 +36,12 @@ import { range, toNumber } from '../_utils/shared'
 import { throwError } from '../_utils/smy/warn'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 import { convertToUnit } from '../_utils/dom'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name, bem] = createNamespace('stepper')
 
 export default {
-  name: 'SmyStepper',
+  name,
   mixins: [
     createProxiedModel('value', 'internalValue', {
       transformIn: 'normalizeValue',
@@ -82,6 +75,7 @@ export default {
     },
   },
   methods: {
+    bem,
     normalizeValue(value) {
       const { decimalPlaces, min, max } = this
       return toNumber(toNumber(range(toNumber(value) || min, min, max)).toFixed(decimalPlaces))

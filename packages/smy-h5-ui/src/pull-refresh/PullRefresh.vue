@@ -44,7 +44,7 @@ export default {
   }),
   computed: {
     style: ({ duration, distance }) => ({
-      transitionDuration: `${duration}s`,
+      transitionDuration: convertToUnit(duration, 'ms'),
       transform: distance ? `translate3d(0, ${distance}px, 0)` : '',
     }),
     headerStyle({ headerHeight }) {

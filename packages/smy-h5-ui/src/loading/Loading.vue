@@ -1,16 +1,26 @@
 <template>
-  <div class="smy-loading">
-    <div v-if="hasDefaultSlot" :class="{ 'smy-loading__content--active': loading }" class="smy-loading__content">
-      <slot />
-    </div>
-    <div v-if="isShow" class="smy--box smy-loading__body" :class="{ 'smy-loading__inside': hasDefaultSlot }">
-      <smy-progress-circular v-if="type === 'circle'" :color="color" :size="size" indeterminate width="1.4" />
-      <div v-else-if="currentLoadingNums" :class="`smy-loading__${type}`" :style="{ fontSize }">
+  <div :class="bem()">
+    <div v-if="hasDefaultSlot" :class="bem('content', { active: loading })"><slot /></div>
+    <div
+      v-if="isShow"
+      class="smy--box"
+      :class="bem('body', { inside: hasDefaultSlot })"
+      :style="{ fontSize: convertToUnit(size) }"
+    >
+      <smy-progress-circular
+        v-if="type === 'circle'"
+        :class="bem(type)"
+        :color="color"
+        :size="size"
+        indeterminate
+        width="1.4"
+      />
+      <div v-else-if="currentLoadingNums" :class="bem(type)">
         <div
           v-for="num in currentLoadingNums"
           :key="num"
           :style="{ backgroundColor: color }"
-          :class="`smy-loading__${type}-item`"
+          :class="bem(`${type}-item`)"
         ></div>
       </div>
       <div v-if="hasSlot('desc') || desc" class="smy-loading__desc">
@@ -23,12 +33,15 @@
 <script>
 import { props } from './props'
 import { LOADING_NUMBERS_DICT } from './constant'
-import { isNumber, isNumString } from '../_utils/is'
 import { SlotsMixin } from '../_utils/vue/slots'
 import SmyProgressCircular from '../progress-circular'
+import { createNamespace } from '../_utils/vue/create'
+import { convertToUnit } from '../_utils/dom'
+
+const [name, bem] = createNamespace('loading')
 
 export default {
-  name: 'SmyLoading',
+  name,
   mixins: [SlotsMixin],
   components: { SmyProgressCircular },
   props,
@@ -43,11 +56,10 @@ export default {
     currentLoadingNums() {
       return LOADING_NUMBERS_DICT[this.type]
     },
-    fontSize({ size }) {
-      if (!size) return undefined
-      if (isNumber(size) || isNumString(size)) return size + 'px'
-      return size
-    },
+  },
+  methods: {
+    bem,
+    convertToUnit,
   },
 }
 </script>

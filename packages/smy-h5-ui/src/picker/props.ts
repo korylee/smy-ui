@@ -1,7 +1,7 @@
 import { assign, pick } from '../_utils/shared'
 import { props as popupProps } from '../popup/props'
 import type { PropType } from 'vue'
-import type { ExtractPropTypes } from '../_utils/vue/props'
+import { ExtractPropTypes, createNumberProp, createNumericProp, createStringProp, truthProp } from '../_utils/vue/props'
 
 export type ColumnItem = string | any
 
@@ -15,42 +15,15 @@ const baseProps = {
     type: Array as PropType<Column[]>,
     default: () => [],
   },
-  optionHeight: {
-    type: [Number, String],
-    default: 44,
-  },
-  optionCount: {
-    type: [Number, String],
-    default: 6,
-  },
-  confirmButtonText: {
-    type: String,
-    default: '确认',
-  },
-  cancelButtonText: {
-    type: String,
-    default: '取消',
-  },
-  confirmButtonTextColor: {
-    type: String,
-    default: '',
-  },
-  cancelButtonTextColor: {
-    type: String,
-    default: '',
-  },
-  toolbar: {
-    type: Boolean,
-    default: true,
-  },
-  rotate: {
-    type: [Number],
-    default: 20,
-  },
-  popup: {
-    type: Boolean,
-    default: true,
-  },
+  optionHeight: createNumericProp(44),
+  optionCount: createNumericProp(6),
+  confirmButtonText: createStringProp('确认'),
+  cancelButtonText: createStringProp('取消'),
+  // confirmButtonTextColor: createStringProp(''),
+  // cancelButtonTextColor: createStringProp(''),
+  toolbar: truthProp,
+  rotate: createNumberProp(20),
+  popup: truthProp,
   textFormatter: {
     type: [String, Function] as PropType<(item: ColumnItem, columnIndex: number) => any | string>,
     default: 'text',

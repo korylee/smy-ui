@@ -6,7 +6,7 @@ exports[`test step direction prop 1`] = `
     <div class=\\"smy-step__header\\">
       <div class=\\"smy-step__header-line\\"></div>
       <div class=\\"smy-step__header-icon\\">
-        <div class=\\"smy-step__header-icon__inner\\">0</div>
+        <div class=\\"smy-step__header-icon-seq\\">0</div>
       </div>
     </div>
     <div class=\\"smy-step__main\\">
@@ -18,7 +18,7 @@ exports[`test step direction prop 1`] = `
     <div class=\\"smy-step__header\\">
       <div class=\\"smy-step__header-line\\"></div>
       <div class=\\"smy-step__header-icon\\">
-        <div class=\\"smy-step__header-icon__inner\\">0</div>
+        <div class=\\"smy-step__header-icon-seq\\">0</div>
       </div>
     </div>
     <div class=\\"smy-step__main\\">
@@ -35,7 +35,7 @@ exports[`test step direction prop 2`] = `
     <div class=\\"smy-step__header\\">
       <div class=\\"smy-step__header-line\\"></div>
       <div class=\\"smy-step__header-icon\\">
-        <div class=\\"smy-step__header-icon__inner\\">1</div>
+        <div class=\\"smy-step__header-icon-seq\\">1</div>
       </div>
     </div>
     <div class=\\"smy-step__main\\">
@@ -47,7 +47,7 @@ exports[`test step direction prop 2`] = `
     <div class=\\"smy-step__header\\">
       <div class=\\"smy-step__header-line\\"></div>
       <div class=\\"smy-step__header-icon\\">
-        <div class=\\"smy-step__header-icon__inner\\">2</div>
+        <div class=\\"smy-step__header-icon-seq\\">2</div>
       </div>
     </div>
     <div class=\\"smy-step__main\\">
@@ -64,7 +64,7 @@ exports[`test step event 1`] = `
     <div class=\\"smy-step__header\\">
       <div class=\\"smy-step__header-line\\"></div>
       <div class=\\"smy-step__header-icon\\">
-        <div class=\\"smy-step__header-icon__inner\\">0</div>
+        <div class=\\"smy-step__header-icon-seq\\">0</div>
       </div>
     </div>
     <div class=\\"smy-step__main\\">
@@ -76,7 +76,7 @@ exports[`test step event 1`] = `
     <div class=\\"smy-step__header\\">
       <div class=\\"smy-step__header-line\\"></div>
       <div class=\\"smy-step__header-icon\\">
-        <div class=\\"smy-step__header-icon__inner\\">0</div>
+        <div class=\\"smy-step__header-icon-seq\\">0</div>
       </div>
     </div>
     <div class=\\"smy-step__main\\">
@@ -95,7 +95,7 @@ exports[`test steps example 1`] = `
       <div class=\\"smy-step__header\\">
         <div class=\\"smy-step__header-line\\"></div>
         <div class=\\"smy-step__header-icon\\">
-          <div class=\\"smy-step__header-icon__inner\\">0</div>
+          <div class=\\"smy-step__header-icon-seq\\">0</div>
         </div>
       </div>
       <div class=\\"smy-step__main\\">
@@ -107,7 +107,7 @@ exports[`test steps example 1`] = `
       <div class=\\"smy-step__header\\">
         <div class=\\"smy-step__header-line\\"></div>
         <div class=\\"smy-step__header-icon\\">
-          <div class=\\"smy-step__header-icon__inner\\">0</div>
+          <div class=\\"smy-step__header-icon-seq\\">0</div>
         </div>
       </div>
       <div class=\\"smy-step__main\\">
@@ -119,7 +119,7 @@ exports[`test steps example 1`] = `
       <div class=\\"smy-step__header\\">
         <div class=\\"smy-step__header-line\\"></div>
         <div class=\\"smy-step__header-icon\\">
-          <div class=\\"smy-step__header-icon__inner\\">0</div>
+          <div class=\\"smy-step__header-icon-seq\\">0</div>
         </div>
       </div>
       <div class=\\"smy-step__main\\">
@@ -175,7 +175,7 @@ exports[`test steps example 1`] = `
       <div class=\\"smy-step__header\\">
         <div class=\\"smy-step__header-line\\"></div>
         <div class=\\"smy-step__header-icon\\">
-          <div class=\\"smy-step__header-icon__inner\\">0</div>
+          <div class=\\"smy-step__header-icon-seq\\">0</div>
         </div>
       </div>
       <div class=\\"smy-step__main\\">
@@ -187,7 +187,7 @@ exports[`test steps example 1`] = `
       <div class=\\"smy-step__header\\">
         <div class=\\"smy-step__header-line\\"></div>
         <div class=\\"smy-step__header-icon\\">
-          <div class=\\"smy-step__header-icon__inner\\">0</div>
+          <div class=\\"smy-step__header-icon-seq\\">0</div>
         </div>
       </div>
       <div class=\\"smy-step__main\\">
@@ -199,7 +199,7 @@ exports[`test steps example 1`] = `
       <div class=\\"smy-step__header\\">
         <div class=\\"smy-step__header-line\\"></div>
         <div class=\\"smy-step__header-icon\\">
-          <div class=\\"smy-step__header-icon__inner\\">0</div>
+          <div class=\\"smy-step__header-icon-seq\\">0</div>
         </div>
       </div>
       <div class=\\"smy-step__main\\">

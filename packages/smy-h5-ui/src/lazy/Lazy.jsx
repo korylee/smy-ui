@@ -5,9 +5,12 @@ import { getSlot } from '../_utils/vue/slots'
 import '../_styles/transition.less'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 import { MaybeTransition } from '../_utils/vue/component'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name, bem] = createNamespace('lazy')
 
 export default {
-  name: 'SmyLazy',
+  name,
   directives: { Intersect },
   mixins: [createProxiedModel('value', 'isIntersecting')],
   props,
@@ -28,7 +31,7 @@ export default {
       modifiers: { once: isIntersecting },
     }
     const data = {
-      staticClass: 'smy-lazy',
+      staticClass: bem(),
       directives: [intersectDirective],
     }
     const defaultSlot = getSlot(this, 'default', { value: isIntersecting })

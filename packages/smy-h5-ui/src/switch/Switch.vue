@@ -1,5 +1,5 @@
 <template>
-  <div :style="style" :class="classes" @click="handleToggle">
+  <div :style="style" :class="bem({ [isActive ? 'active' : 'inactive']: true, disabled })" @click="handleToggle">
     <div class="smy-switch__thumb">
       <slot v-if="loading" name="loading">
         <smy-progress-circular
@@ -11,8 +11,8 @@
         />
       </slot>
     </div>
-    <div v-if="activeLabel" class="smy-switch__label smy-switch__label--open">{{ activeLabel }}</div>
-    <div v-if="inactiveLabel" class="smy-switch__label smy-switch__label--close">{{ inactiveLabel }}</div>
+    <div v-if="activeLabel" :class="bem('label', 'open')">{{ activeLabel }}</div>
+    <div v-if="inactiveLabel" :class="bem('label', 'close')">{{ inactiveLabel }}</div>
   </div>
 </template>
 
@@ -36,9 +36,6 @@ export default {
     isActive({ value, activeValue }) {
       return value === activeValue
     },
-    classes({ isActive, disabled }) {
-      return bem({ [isActive ? 'active' : 'inactive']: true, disabled })
-    },
     style({ size, activeColor, inactiveColor }) {
       return {
         fontSize: convertToUnit(size),
@@ -48,6 +45,7 @@ export default {
     },
   },
   methods: {
+    bem,
     handleToggle(e) {
       if (this.isStopPropagation) e.stopPropagation()
       if (this.disabled) return

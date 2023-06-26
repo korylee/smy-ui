@@ -1,4 +1,4 @@
-import { type ExtractPropTypes } from '../_utils/vue/props'
+import { createNumericProp, type ExtractPropTypes } from '../_utils/vue/props'
 
 export const props = {
   value: {
@@ -17,18 +17,9 @@ export const props = {
     type: String,
     default: '加载中...',
   },
-  headerHeight: {
-    type: [String, Number],
-    default: 50,
-  },
-  pullDistance: {
-    type: [String, Number],
-    default: 50,
-  },
-  duration: {
-    type: [String, Number],
-    default: 0.3,
-  },
+  headerHeight: createNumericProp(50),
+  pullDistance: createNumericProp(50),
+  duration: createNumericProp(300),
 }
 
 export type PullRefreshProps = ExtractPropTypes<typeof props>

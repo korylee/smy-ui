@@ -1,22 +1,13 @@
-import { type ExtractPropTypes } from '../_utils/vue/props'
+import { createNumericProp, type ExtractPropTypes } from '../_utils/vue/props'
 
 export const props = {
   value: {
     type: [String, Number],
     required: true,
   },
-  min: {
-    type: [Number, String],
-    default: 0,
-  },
-  max: {
-    type: [Number, String],
-    default: Infinity,
-  },
-  step: {
-    type: [Number, String],
-    default: 1,
-  },
+  min: createNumericProp(0),
+  max: createNumericProp(Infinity),
+  step: createNumericProp(1),
   readonly: {
     type: Boolean,
     default: false,
@@ -33,10 +24,7 @@ export const props = {
     type: Boolean,
     default: false,
   },
-  decimalPlaces: {
-    type: [Number, String],
-    default: 0,
-  },
+  decimalPlaces: createNumericProp(0),
   width: [String, Number],
   height: [String, Number],
   buttonWidth: [String, Number],

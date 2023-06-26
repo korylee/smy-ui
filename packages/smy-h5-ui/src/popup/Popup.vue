@@ -19,10 +19,9 @@
         <transition :name="transition || `smy-pop-${position}`">
           <div
             v-if="show"
-            :class="[`smy-popup__content--${position}`, contentClass]"
+            :class="[bem('content', position), contentClass]"
             :style="mergeStyles({ zIndex: zIndex }, contentStyle)"
             v-bind="$attrs"
-            class="smy-popup__content"
           >
             <slot />
           </div>
@@ -40,11 +39,14 @@ import { addRouteListener, createMaybeComponent } from '../_utils/vue/component'
 import { props } from './props'
 import SmyTeleport from '../teleport'
 import { mergeStyles } from '../_utils/vue/mergeData'
+import { createNamespace } from '../_utils/vue/create'
 
 const MaybeTeleport = createMaybeComponent(SmyTeleport)
 
+const [name, bem] = createNamespace('popup')
+
 export default {
-  name: 'SmyPopup',
+  name,
   inheritAttrs: false,
   mixins: [createZIndexMixin('show', 3), teleportMixin, createLockMixin('show', 'lockScroll')],
   components: { MaybeTeleport },
@@ -58,6 +60,7 @@ export default {
     addRouteListener(this, () => this.$emit('route-change'))
   },
   methods: {
+    bem,
     mergeStyles,
     hidePopup() {
       this.$emit('click-overlay')

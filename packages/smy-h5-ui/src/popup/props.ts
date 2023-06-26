@@ -1,6 +1,5 @@
 import { ExtractPropTypes, truthProp } from '../_utils/vue/props'
 import type { PropType } from 'vue'
-import { props as teleportProps } from '../teleport/props'
 
 const POPUP_POSITIONS = ['top', 'bottom', 'center', 'left', 'right'] as const
 
@@ -25,7 +24,7 @@ export const props = {
   contentStyle: [String, Object, Array],
   lockScroll: truthProp,
   closeOnClickOverlay: truthProp,
-  teleport: teleportProps.to.type,
+  teleport: String,
 }
 
 export type PopupProps = ExtractPropTypes<typeof props>

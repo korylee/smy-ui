@@ -16,7 +16,7 @@ export default {
     average({ gutter }) {
       return toPxNum(gutter) / 2
     },
-    computePaddingWaterDispatcher({ gutter, cols }) {
+    paddingWatchDispatcher({ gutter, cols }) {
       return [gutter, cols]
     },
     style({ average, justify, align, wrap }) {
@@ -30,7 +30,7 @@ export default {
   },
 
   watch: {
-    computePaddingWaterDispatcher() {
+    paddingWatchDispatcher() {
       const { average, cols } = this
       this.$nextTick(() => {
         cols.forEach((col) => {

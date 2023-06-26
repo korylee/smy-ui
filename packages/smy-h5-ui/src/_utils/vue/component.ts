@@ -38,22 +38,6 @@ export function addRouteListener(vm: Vue, cb: () => void) {
   vm.$on('hook:beforeDestory', remove)
 }
 
-export const RenderToComp: FunctionalComponentOptions = {
-  name: 'RenderToComp',
-  functional: true,
-  props: {
-    render: Function,
-  },
-  render(h, context) {
-    const {
-      props: { render },
-      parent,
-    } = context
-
-    return typeof render === 'function' ? render.call(parent, h, context) : render
-  },
-}
-
 export interface MountComponentApi {
   instance: CombinedVueInstance<Vue, any, any, any, any>
   unmount(): void

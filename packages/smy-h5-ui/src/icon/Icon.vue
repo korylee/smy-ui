@@ -10,13 +10,16 @@ import { convertToUnit, requestAnimationFrame } from '../_utils/dom'
 import { props } from './props'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
+import { createNamespace } from '../_utils/vue/create'
 
 const isImage = (name) => name?.includes('/')
+
+const [name, bem] = createNamespace('icon')
 
 const getMergedProp = createGetMergedProp('icon')
 
 export default {
-  name: 'SmyIcon',
+  name,
   props,
   mixins: [SlotsMixin],
   inject: {
@@ -41,10 +44,9 @@ export default {
         transition: `transform ${toNumber(transition)}ms`,
       }
     },
-    classes({ nextName, namespace, isImageIcon }) {
+    classes({ nextName, namespace, isImageIcon, shrinking }) {
       return {
-        'smy-icon': true,
-        'smy-icon--shrinking': this.shrinking,
+        [bem({ shrinking })]: true,
         [`${namespace}--set ${namespace}-${nextName}`]: namespace && nextName && !isImageIcon,
       }
     },
