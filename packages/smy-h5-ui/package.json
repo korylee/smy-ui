@@ -68,6 +68,6 @@
     "iOS >= 10"
   ],
   "dependencies": {
-    "@smy-h5/icons": "workspace:^1.0.0"
+    "@smy-h5/icons": "workspace:*"
   }
 }
