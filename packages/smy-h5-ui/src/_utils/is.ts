@@ -2,6 +2,8 @@ export declare interface Func<T = any, R = T> {
   (...args: T[]): R
 }
 
+export type Numeric = number | string
+
 export const isWindow = (val: unknown): val is Window => val === window
 
 const createIsType =
@@ -41,4 +43,4 @@ export const isVw = (str: string): boolean => isString(str) && str.endsWith('vw'
 
 export const isNumString = (str: unknown): boolean => isString(str) && /^\d+$/.test(str)
 
-export const isNumeric = (val: unknown) => isNumber(val) || isNumString(val)
+export const isNumeric = (val: unknown): val is Numeric => isNumber(val) || isNumString(val)

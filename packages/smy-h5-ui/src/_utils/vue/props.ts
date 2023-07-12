@@ -86,3 +86,8 @@ export const createNumericProp = <T>(defaultVal: T) => ({
   type: numericProp,
   default: defaultVal,
 })
+
+export const createArrayProp = <T>() => ({
+  type: Array as PropType<T[]>,
+  default: () => [],
+})

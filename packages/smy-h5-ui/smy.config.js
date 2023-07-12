@@ -68,6 +68,7 @@ module.exports = defineConfig({
       { text: '表单组件', type: 1 },
       { text: 'Stepper 步进器', doc: 'stepper', type: 2 },
       { text: 'Switch 开关', doc: 'switch', type: 2 },
+      { text: 'Uploader 文件上传', doc: 'uploader', type: 2 },
     ],
   },
 })
