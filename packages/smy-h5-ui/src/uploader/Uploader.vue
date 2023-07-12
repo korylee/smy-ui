@@ -33,7 +33,7 @@
         v-show="showUpload"
         @click="onClickUpload"
       >
-        <smy-icon :class="bem('upload-icon')"><plus /></smy-icon>
+        <smy-icon :name="uploadIcon" :class="bem('upload-icon')" />
         <span v-if="uploadText" :class="bem('upload-text')">{{ uploadText }}</span>
         <input
           v-if="!readonly"
@@ -63,6 +63,7 @@ import { SlotsMixin } from '../_mixins/slots'
 import { ListenersMixin } from '../_mixins/listeners'
 import { isNil } from '../_utils/is'
 import ImagePreview from '../image-preview'
+import { IconCache } from '../icon/utils'
 
 const [name, bem] = createNamespace('uploader')
 
@@ -71,14 +72,20 @@ let fid = 0
 export default {
   name,
   mixins: [SlotsMixin, ListenersMixin],
-  components: { SmyIcon, WindowClose, SmyImage, Plus },
+  components: { SmyIcon, SmyImage, WindowClose },
   props,
   data: () => ({
     reuploadIndex: -1,
     urls: [],
   }),
+  beforeCreate() {
+    IconCache.register(Plus)
+  },
   mounted() {
     this.urls.forEach((url) => URL.revokeObjectURL(url))
+  },
+  beforeDestroy() {
+    IconCache.unregister(Plus.name)
   },
   methods: {
     bem,

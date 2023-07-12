@@ -10,7 +10,6 @@ export type UploaderMaxSize = Numeric | ((file: File) => boolean)
 
 export const props = {
   value: createArrayProp<UploaderFileListItem>(),
-  uploadText: String,
   accept: createStringProp('image/*'),
   capture: String,
   multiple: Boolean,
@@ -29,6 +28,8 @@ export const props = {
   preview: truthProp,
   previewSize: [Number, String, Array] as PropType<Numeric | [Numeric, Numeric]>,
   previewImage: Boolean,
+  uploadIcon: createStringProp('plus'),
+  uploadText: String,
 }
 
 export type UploaderProps = ExtractPropTypes<typeof props>
