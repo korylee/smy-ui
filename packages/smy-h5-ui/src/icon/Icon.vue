@@ -1,14 +1,12 @@
 <template>
-  <component :is="!hasSlot() && name ? 'i' : tag" :class="classes" :style="style" v-on="$listeners">
+  <component :is="!$slots.default && name ? 'i' : tag" :class="classes" :style="style">
     <slot> <img v-if="isImageIcon" class="smy-icon__image" :src="name" /></slot>
   </component>
 </template>
 
 <script>
-import { createGetMergedProp, InjectionKey } from '../config-provider/config'
 import { convertToUnit, requestAnimationFrame } from '../_utils/dom'
 import { props } from './props'
-import { SlotsMixin } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
 
@@ -16,17 +14,9 @@ const isImage = (name) => name?.includes('/')
 
 const [name, bem] = createNamespace('icon')
 
-const getMergedProp = createGetMergedProp('icon')
-
 export default {
   name,
   props,
-  mixins: [SlotsMixin],
-  inject: {
-    [InjectionKey]: {
-      default: null,
-    },
-  },
   data: () => ({
     shrinking: false,
     nextName: '',
@@ -36,10 +26,9 @@ export default {
       return isImage(nextName)
     },
     style() {
-      const { transition } = this
-      const size = getMergedProp(this, 'size')
+      const { transition, size, color } = this
       return {
-        color: getMergedProp(this, 'color'),
+        color,
         fontSize: convertToUnit(size),
         transition: `transform ${toNumber(transition)}ms`,
       }

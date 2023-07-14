@@ -21,8 +21,8 @@
 <script>
 import config from '@config'
 import { handleCopy } from './utils'
-import Copy from '@smy-h5/icons/dist/es/Copy'
-import Xml from '@smy-h5/icons/dist/es/Xml'
+// import Copy from '@smy-h5/icons/dist/es/Copy'
+// import Xml from '@smy-h5/icons/dist/es/Xml'
 import SmySiteIcon from '../../../components/icon'
 
 function doubleRaf() {
@@ -38,8 +38,8 @@ const offset = 10
 export default {
   name: 'SmySiteCodeExample',
   components: {
-    Copy,
-    Xml,
+    // Copy,
+    // Xml,
     SmySiteIcon,
   },
   data: () => ({

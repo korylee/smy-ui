@@ -8,9 +8,7 @@
         @click="toComponent(component)"
       >
         {{ component.text }}
-        <template #extra>
-          <smy-site-icon color="rgba(151, 151, 151, 0.9)"><arrow-right /></smy-site-icon
-        ></template>
+        <template #extra> <smy-site-icon color="rgba(151, 151, 151, 0.9)"></smy-site-icon></template>
       </smy-site-cell>
     </div>
   </div>
@@ -22,23 +20,21 @@ import { MenuTypes } from '../../constant'
 import { inIframe, isPhone } from '../../utils'
 import SmySiteCell from '../../components/cell'
 import SmySiteIcon from '../../components/icon'
-import ArrowRight from '@smy-h5/icons/dist/es/ArrowRight'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'AppHome',
-  components: { SmySiteCell, ArrowRight, SmySiteIcon },
-  data: () => ({
-    platform: 'mobile',
-  }),
-  computed: {
-    components: () => (config?.pc?.menu ?? []).filter((item) => item.type === MenuTypes.COMPONENT),
-  },
-  methods: {
-    toComponent(component) {
-      this.$router.push({
+  components: { SmySiteCell, SmySiteIcon },
+  setup() {
+    const platform = ref('mobile')
+    const components = (config?.pc?.menu ?? []).filter((item) => item.type === MenuTypes.COMPONENT)
+    function toComponent(component) {
+      const router = useRouter()
+      router.push({
         path: `/${component.doc}`,
         query: {
-          platform: this.platform,
+          platform: platform.value,
           replace: component.doc,
         },
       })
@@ -46,7 +42,8 @@ export default {
       if (!isPhone() && inIframe()) {
         window.top?.scrollToMenu(component.doc)
       }
-    },
+    }
+    return { components, toComponent }
   },
 }
 </script>

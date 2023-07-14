@@ -1,5 +1,6 @@
 import { type PropType } from 'vue'
 import { type ExtractPropTypes } from '../_utils/vue/props'
+import { type Numeric } from '../_utils/is'
 
 export const props = {
   value: {
@@ -21,7 +22,7 @@ export const props = {
   },
   indeterminate: [Boolean, String] as PropType<boolean | 'disable-shrink'>,
   size: {
-    type: [Number, String],
+    type: [Number, String, Array] as PropType<Numeric | Numeric[]>,
     default: '1em',
   },
   width: {

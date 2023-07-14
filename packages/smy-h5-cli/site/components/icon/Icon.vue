@@ -12,6 +12,7 @@ import { toNumber } from '../../utils/shared'
 export default {
   name: 'SmySiteIcon',
   props,
+
   data: () => ({
     shrinking: false,
     nextName: '',

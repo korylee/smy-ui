@@ -2,7 +2,7 @@
   <component
     ref="root"
     :is="tag"
-    :class="rootClass"
+    :class="bem({ indeterminate, 'disable-shrink': indeterminate === 'disable-shrink' })"
     :style="rootStyle"
     :aria-valuenow="indeterminate ? undefined : normalizedValue"
     aria-valuemin="0"
@@ -39,16 +39,17 @@
         :stroke-dasharray="CIRCUMFERENCE"
       ></circle>
     </svg>
-    <div v-if="hasSlot()" class="smy-progress-circular__content">
+    <div v-if="$slots.default" class="smy-progress-circular__content">
       <slot name="default" :value="normalizedValue" />
     </div>
   </component>
 </template>
 <script>
+import { computed, nextTick, ref, watch } from 'vue'
 import { convertToUnit } from '../_utils/dom'
-import { range } from '../_utils/shared'
+import { assign, range } from '../_utils/shared'
+import { getSizeStyle } from '../_utils/style'
 import { createNamespace } from '../_utils/vue/create'
-import { SlotsMixin } from '../_utils/vue/slots'
 import { props } from './props'
 
 const MAGIC_RADIUS_CONSTANT = 20
@@ -58,50 +59,41 @@ const [name, bem] = createNamespace('progress-circular')
 
 export default {
   name,
-  mixins: [SlotsMixin],
   props,
-  data: () => ({
-    MAGIC_RADIUS_CONSTANT,
-    CIRCUMFERENCE,
-    internalSize: 0,
-  }),
-  computed: {
-    rootClass({ indeterminate }) {
-      return bem({
-        indeterminate: !!indeterminate,
-        'disable-shrink': indeterminate === 'disable-shrink',
-      })
-    },
-    rootStyle({ color, size }) {
-      return {
-        color,
-        caretColor: color,
-        width: convertToUnit(size),
-        height: convertToUnit(size),
-      }
-    },
-    normalizedValue({ value }) {
-      return range(value, 0, 100)
-    },
-    diameter({ width, internalSize }) {
-      return (MAGIC_RADIUS_CONSTANT / (1 - width / internalSize)) * 2
-    },
-    strokeWidth({ width, internalSize, diameter }) {
-      return (width / internalSize) * diameter
-    },
-    strokeDashOffset({ normalizedValue }) {
-      return convertToUnit(((100 - normalizedValue) / 100) * CIRCUMFERENCE)
-    },
-  },
-  watch: {
-    width: {
-      immediate: true,
-      handler() {
-        this.$nextTick(() => {
-          this.internalSize = this.$refs.root?.clientWidth || 0
+  setup(props) {
+    const internalSize = ref(0)
+    const root = ref(null)
+    const rootStyle = computed(() => {
+      const { color, size } = props
+
+      return assign({ color, caretColor: color }, getSizeStyle(size))
+    })
+    const normalizedValue = computed(() => range(props.value, 0, 100))
+    const diameter = computed(() => (MAGIC_RADIUS_CONSTANT / (1 - props.width / internalSize.value)) * 2)
+    const strokeWidth = computed(() => (props.width / internalSize.value) * diameter.value)
+    const strokeDashOffset = computed(() => convertToUnit(((100 - normalizedValue.value) / 100) * CIRCUMFERENCE))
+
+    watch(
+      () => props.width,
+      () => {
+        nextTick(() => {
+          internalSize.value = root.value?.clientWidth || 0
         })
       },
-    },
+      { immediate: true }
+    )
+    return {
+      MAGIC_RADIUS_CONSTANT,
+      CIRCUMFERENCE,
+      internalSize,
+      root,
+      rootStyle,
+      normalizedValue,
+      diameter,
+      strokeWidth,
+      strokeDashOffset,
+      bem,
+    }
   },
 }
 </script>

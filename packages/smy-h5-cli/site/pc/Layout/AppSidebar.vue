@@ -10,7 +10,7 @@
         'smy-site-sidebar__link': !isTitle(item),
         'smy-site-sidebar__title': isTitle(item),
       }"
-      @click.native="changeRoute(item)"
+      @click="changeRoute(item)"
     >
       <span
         :class="{
@@ -33,14 +33,15 @@ export default {
     menu: Array,
     menuName: String,
   },
-  methods: {
-    changeRoute(item) {
-      if (this.isTitle(item) || this.menuName === item.doc) return
-      this.$emit('change', item)
-    },
-    isTitle(item) {
-      return item.type === MenuTypes.TITLE
-    },
+  emits: ['change'],
+  setup(props, { emit }) {
+    const isTitle = (item) => item.type === MenuTypes.TITLE
+
+    const changeRoute = (item) => {
+      if (isTitle(item) || props.menuName === item.doc) return
+      emit('change', item)
+    }
+    return { isTitle, changeRoute }
   },
 }
 </script>
@@ -61,6 +62,7 @@ export default {
   &:-webkit-scrollbar {
     display: none;
   }
+
   &__item {
     margin: 0;
     user-select: none;
@@ -73,12 +75,15 @@ export default {
       padding: 8px 0 8px;
       color: var(--site-config-color-text);
     }
+
     &--active {
       position: relative;
       background: var(--site-config-color-sidebar-active-background);
+
       span {
         color: var(--site-config-color-sidebar);
       }
+
       &::before {
         display: block;
         content: '';
@@ -102,6 +107,7 @@ export default {
       color: var(--site-config-color-sidebar);
     }
   }
+
   &__title {
     margin-top: 10px;
   }

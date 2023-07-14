@@ -2,9 +2,7 @@
   <div class="site-mobile">
     <header class="nav">
       <app-bar class="app-bar" :title="title">
-        <template #left
-          ><site-icon v-if="showBackIcon" @click="onBack"><arrow-left /></site-icon
-        ></template>
+        <template #left><site-icon v-if="showBackIcon" @click="onBack"></site-icon></template>
       </app-bar>
     </header>
     <router-view class="router-view__block" />
@@ -17,37 +15,42 @@ import AppBar from './components/app-bar'
 import { getBrowserTheme, setTheme } from '../utils/theme'
 import config from '@config'
 import SiteIcon from '../components/icon'
-import { ArrowLeft } from '@smy-h5/icons'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+// import { ArrowLeft } from '@smy-h5/icons'
 
 const themeKey = config?.themeKey
 
-const redirect = config?.mobile?.redirect ?? ''
-
 export default {
-  components: { AppBar, SiteIcon, ArrowLeft },
-  data: () => ({
-    title: '',
-    currentTheme: getBrowserTheme(themeKey),
-    redirect,
-    showBackIcon: false,
-  }),
-  watch: {
-    '$route.path'(to) {
-      const componentName = to.slice(1)
-      const redirectName = this.redirect.slice(1)
-      const isRedirect = redirectName === componentName
-      this.showBackIcon = !isRedirect
-      this.title = isRedirect ? '' : upperFirst(camelCase(componentName))
-    },
-  },
-  created() {
-    setTheme(config, this.currentTheme)
-  },
-  methods: {
-    onBack() {
+  components: { AppBar, SiteIcon },
+  setup() {
+    const title = ref('')
+    const showBackIcon = ref(false)
+    const redirect = config?.mobile?.redirect ?? ''
+    const currentTheme = getBrowserTheme(themeKey)
+    const route = useRoute()
+    setTheme(config, currentTheme)
+
+    watch(
+      () => route.path,
+      (to) => {
+        const componentName = to.slice(1)
+        const redirectName = redirect.slice(1)
+        const isRedirect = redirectName === componentName
+        showBackIcon.value = !isRedirect
+        title.value = isRedirect ? '' : upperFirst(camelCase(componentName))
+      }
+    )
+
+    function onBack() {
       const { redirect } = this
       window.location.href = `./mobile.html#${redirect}&replace=${redirect.slice(1)}`
-    },
+    }
+    return {
+      title,
+      showBackIcon,
+      onBack,
+    }
   },
 }
 </script>

@@ -7,14 +7,14 @@
     @touchend="onTouchEnd"
     @touchcancel="onTouchEnd"
   >
-    <div ref="leftRef" class="smy-swipe__left">
-      <slot name="left"></slot>
+    <div ref="leftRef" :class="bem('left')">
+      <slot name="left" />
     </div>
-    <div class="smy-swipe__content">
+    <div :class="bem('content')">
       <slot name="default" />
     </div>
-    <div ref="rightRef" class="smy-swipe__right">
-      <slot name="right"></slot>
+    <div ref="rightRef" :class="bem('right')">
+      <slot name="right" />
     </div>
   </div>
 </template>
@@ -23,85 +23,82 @@
 import { props } from './props'
 import { useTouch } from '../_utils/composable/useTouch'
 import { range } from '../_utils/shared'
+import { computed, defineComponent, ref } from 'vue'
+import { createNamespace } from '../_utils/vue/create'
 
+const [name, bem] = createNamespace('swipe')
 const getRefWidth = (ref) => ref?.clientWidth || 0
 const THRESHOLD = 0.15
 
-export default {
-  name: 'SmySwipe',
+export default defineComponent({
+  name,
   props,
-  data: () => ({
-    offset: 0,
-    opened: false,
-    touching: false,
-    startOffset: 0,
-    touch: useTouch(),
-  }),
-  computed: {
-    touchStyle() {
-      return {
-        transform: `translate3d(${this.offset}px, 0, 0)`,
-        transitionDuration: this.touching ? '0s' : '.6s',
-      }
-    },
-    rightRefWidth() {
-      return getRefWidth(this.$refs.rightRef)
-    },
-    leftRefWidth() {
-      return getRefWidth(this.$refs.leftRef)
-    },
-  },
-  methods: {
-    open(position) {
-      this.opened = true
-      this.offset = position === 'left' ? -this.rightRefWidth : this.leftRefWidth
-      this.$emit('open', { position })
-    },
-    close(position) {
-      this.offset = 0
-      this.opened = false
-      this.$emit('close', { position })
-    },
-    onTouchStart(event) {
-      const { touch, offset } = this
-      this.startOffset = offset
-      touch.start(event)
-    },
-    onTouchMove(event) {
-      if (this.disabled) return
-      const { rightRefWidth, leftRefWidth, touch } = this
-      const { move, isHorizontal, state } = touch
-      move(event)
-      if (isHorizontal()) {
-        this.touching = true
-        this.offset = range(state.deltaX + this.startOffset, -rightRefWidth, leftRefWidth)
-      }
-    },
-    onTouchEnd() {
-      if (!this.touching) return
-      const {
-        rightRefWidth,
-        leftRefWidth,
-        opened,
-        touch: {
-          state: { deltaX },
-        },
-      } = this
-      this.touching = false
-      const isRight = deltaX > 0
-      const position = isRight ? 'right' : 'left'
-      const threshold = opened ? 1 - THRESHOLD : THRESHOLD
-      const width = isRight ? leftRefWidth : rightRefWidth
-      const offset = Math.abs(this.offset)
+  emits: ['close', 'open'],
+  setup(props, { emit, expose }) {
+    let opened = false
+    let startOffset = 0
+    const offset = ref(0)
+    const touching = ref(false)
+    const rightRef = ref(null)
+    const leftRef = ref(null)
 
-      if (width && offset > width * threshold) {
-        this.open(position)
-      } else {
-        this.close(position)
-      }
-    },
+    const touch = useTouch()
+
+    const touchStyle = computed(() => ({
+      transform: `translate3d(${offset.value}px, 0, 0)`,
+      transitionDuration: touching.value ? '0s' : '.6s',
+    }))
+    const rightRefWidth = computed(() => getRefWidth(rightRef.value))
+    const leftRefWidth = computed(() => getRefWidth(leftRef.value))
+
+    function open(position) {
+      opened = true
+      offset.value = position === 'left' ? -rightRefWidth.value : leftRefWidth.value
+      emit('open', { position })
+    }
+    function close(position) {
+      offset.value = 0
+      opened = false
+      emit('close', { position })
+    }
+
+    expose({ open, close })
+
+    return {
+      rightRef,
+      leftRef,
+      touchStyle,
+      bem,
+      onTouchStart(event) {
+        startOffset = offset.value
+        touch.start(event)
+      },
+      onTouchMove(event) {
+        if (props.disabled) return
+        const { move, isHorizontal, state } = touch
+        move(event)
+        if (isHorizontal()) {
+          touching.value = true
+          offset.value = range(state.deltaX + startOffset, -rightRefWidth.value, leftRefWidth.value)
+        }
+      },
+      onTouchEnd() {
+        if (!touching.value) return
+        touching.value = false
+        const isRight = touch.state.deltaX > 0
+        const position = isRight ? 'right' : 'left'
+        const threshold = opened ? 1 - THRESHOLD : THRESHOLD
+        const width = isRight ? leftRefWidth.value : rightRefWidth.value
+
+        if (width && Math.abs(offset.value) > width * threshold) {
+          open(position)
+        } else {
+          close(position)
+        }
+      },
+    }
   },
-}
+})
 </script>
 
 <style lang="less">

@@ -1,9 +1,9 @@
+import { h } from 'vue'
 import './appDemoTitle.css'
 
 export default {
   name: 'AppDemoTitle',
-  functional: true,
-  render(h, { children }) {
-    return h('div', { staticClass: 'app-demo-title' }, children)
+  setup(_, { slots }) {
+    return () => h('div', { class: 'app-demo-title' }, slots.default?.())
   },
 }

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { reactive } from 'vue'
 
 const MIN_DISTANCE = 10
 
@@ -18,7 +18,7 @@ function getDirection(x: number, y: number) {
 type Direction = ReturnType<typeof getDirection>
 
 export function useTouch() {
-  const state = Vue.observable({
+  const state = reactive({
     startX: 0,
     startY: 0,
     moveX: 0,

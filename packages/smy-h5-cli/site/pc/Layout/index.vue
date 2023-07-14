@@ -4,7 +4,7 @@
 
     <div class="smy-site-content">
       <app-sidebar :menu="menu" :menu-name="menuName" @change="handleSidebarChange" />
-      <div class="smy-site-doc-container" ref="doc" :class="[!useMobile && 'smy-site-doc-container--pc-only']">
+      <div class="smy-site-doc-container" ref="doc" :class="{ 'smy-site-doc-container--pc-only': !useMobile }">
         <router-view />
       </div>
 
@@ -20,54 +20,63 @@ import AppSidebar from './AppSidebar.vue'
 import AppMobile from './AppMobile.vue'
 import config from '@config'
 import { MenuTypes } from '../../constant'
+import { useRoute } from 'vue-router'
+import { watch, nextTick, ref, onMounted } from 'vue'
 
 export default {
   name: 'Layout',
   components: { AppHeader, AppSidebar, AppMobile },
-  data: () => ({
-    menu: get(config, 'pc.menu', []),
-    useMobile: get(config, 'useMobile'),
-    mobileRedirect: get(config, 'mobile.redirect', ''),
-    componentName: '',
-    menuName: '',
-  }),
-  watch: {
-    '$route.path': {
-      immediate: true,
-      handler() {
-        const { name } = this.$route
+  setup() {
+    const menu = config.pc?.menu ?? []
+    const useMobile = config.useMobile
+    const mobileRedirect = config.mobile?.redirect ?? ''
+    const componentName = ref('')
+    const menuName = ref('')
+    const route = useRoute()
+    const doc = ref(null)
+    watch(
+      () => route.path,
+      () => {
+        const { name } = route
         if (!name) return
-        this.componentName = this.getComponentNameByMenuName(name)
-        this.menuName = name
-        document.title = get(config, 'pc.title')
+        componentName.value = getComponentNameByMenuName(name)
+        menuName.value = name
+        document.title = config.pc?.title
       },
-    },
-  },
-  mounted() {
-    this.init()
-  },
-  methods: {
-    getComponentNameByMenuName(menuName) {
-      const currentMenu = this.menu.find((menu) => menu.doc === menuName)
-      return currentMenu?.type === MenuTypes.COMPONENT ? menuName : this.mobileRedirect.slice(1)
-    },
-    async init() {
-      const { name } = this.$route
-      await this.$nextTick()
+      { immediate: true }
+    )
+
+    onMounted(init)
+
+    async function init() {
+      const { name } = route
+      await nextTick()
       const children = document.querySelector('.smy-site-sidebar')?.getElementsByClassName('smy-site-sidebar__item')
       if (!children) return
-      const index = this.menu.findIndex((item) => item.doc === name)
+      const index = menu.findIndex((item) => item.doc === name)
       if (index === -1) return
       children[index].scrollIntoView({
         block: 'center',
         inline: 'start',
       })
-    },
-    handleSidebarChange(menu) {
-      this.$refs.doc.scrollTop = 0
-      this.componentName = this.getComponentNameByMenuName(menu.doc)
-      this.menuName = menu.doc
-    },
+    }
+    function getComponentNameByMenuName(menuName) {
+      const currentMenu = menu.find((menu) => menu.doc === menuName)
+      return currentMenu?.type === MenuTypes.COMPONENT ? menuName : mobileRedirect.slice(1)
+    }
+    function handleSidebarChange(menu) {
+      doc.value.scrollTop = 0
+      componentName.value = getComponentNameByMenuName(menu.doc)
+      menuName.value = menu.doc
+    }
+    return {
+      doc,
+      menu,
+      useMobile,
+      componentName,
+      menuName,
+      handleSidebarChange,
+    }
   },
 }
 </script>

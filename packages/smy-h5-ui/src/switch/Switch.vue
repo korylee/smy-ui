@@ -21,35 +21,32 @@ import { convertToUnit } from '../_utils/dom'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
 import { createNamespace } from '../_utils/vue/create'
+import { computed } from 'vue'
 
 const [name, bem] = createNamespace('switch')
 
 export default {
   name,
   components: { SmyProgressCircular },
-  model: {
-    prop: 'value',
-    event: 'change',
-  },
   props,
+  setup(props, { emit }) {
+    const isActive = computed(() => props.modelValue === props.activeValue)
+
+    function handleToggle(e) {
+      if (props.isStopPropagation) e.stopPropagation()
+      if (props.disabled) return
+      const value = isActive.value ? props.inactiveValue : props.activeValue
+      emit('update:modelValue', value)
+    }
+    return { isActive, bem, handleToggle }
+  },
   computed: {
-    isActive({ value, activeValue }) {
-      return value === activeValue
-    },
     style({ size, activeColor, inactiveColor }) {
       return {
         fontSize: convertToUnit(size),
         '--switch-color-active': activeColor,
         '--switch-color-inactive': inactiveColor,
       }
-    },
-  },
-  methods: {
-    bem,
-    handleToggle(e) {
-      if (this.isStopPropagation) e.stopPropagation()
-      if (this.disabled) return
-      this.$emit('change', this.isActive ? this.inactiveValue : this.activeValue)
     },
   },
 }

@@ -14,7 +14,6 @@
 export default {
   name: 'AppBar',
   props: { title: String },
-  data: () => ({}),
 }
 </script>
 

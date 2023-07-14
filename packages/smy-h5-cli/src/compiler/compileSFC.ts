@@ -1,7 +1,6 @@
 import { readFile, writeFileSync } from 'fs-extra'
-import * as compiler from 'vue-template-compiler'
 import * as compilerSfc from '@vue/compiler-sfc'
-import stripWith from 'vue-template-es2015-compiler'
+// import stripWith from 'vue-template-es2015-compiler'
 import hash from 'hash-sum'
 import { compileScript } from './compileScript'
 import { replaceExt } from '../shared/fs-utils'
@@ -103,13 +102,16 @@ _scopeId: '${scopeId}',\
   return script
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function compileTemplate(template: string) {
-  const { render, staticRenderFns } = compiler.compile(template)
+  // const { render, staticRenderFns } = compiler.compile(template)
 
   return {
-    render: stripWith(`function __sfc_render () { ${render} }`) + '__sfc_render._withStripped = true\n',
-    staticRenderFns: `const __sfc_staticRenderFns = [${staticRenderFns
-      .map((staticRenderFn) => stripWith(`function _() { ${staticRenderFn} }`))
-      .join(',\n')}]`,
+    render: '',
+    staticRenderFns: '',
+    // render: stripWith(`function __sfc_render () { ${render} }`) + '__sfc_render._withStripped = true\n',
+    // staticRenderFns: `const __sfc_staticRenderFns = [${staticRenderFns
+    // .map((staticRenderFn) => stripWith(`function _() { ${staticRenderFn} }`))
+    // .join(',\n')}]`,
   }
 }

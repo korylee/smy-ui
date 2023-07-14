@@ -9,10 +9,10 @@ import {
 } from '../shared/constant'
 import { get } from 'lodash'
 import { InlineConfig } from 'vite'
-import { createVuePlugin } from 'vite-plugin-vue2'
 import { injectHtml } from 'vite-plugin-html'
 import { resolve } from 'path'
 import markdownPlugin from '@smy-h5/markdown-vite-plugin'
+import createVuePlugin from '@vitejs/plugin-vue'
 
 export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
   const { host } = smyConfig
@@ -36,7 +36,6 @@ export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
     plugins: [
       createVuePlugin({
         include: [/\.vue$/, /\.md$/],
-        jsx: true,
       }),
       markdownPlugin({
         style: get(smyConfig, 'highlight.style'),

@@ -1,26 +1,14 @@
 import routes from '@mobile-routes'
 import config from '@config'
-import VueRouter from 'vue-router'
-import Vue from 'vue'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { get } from 'lodash-es'
 import { inIframe, isPhone } from '../utils'
-
-const originalReplace = VueRouter.prototype.replace
-
-Vue.prototype.replace = function replace(location, onResolve, onReject) {
-  if(onReject || onResolve) {
-    return originalReplace.call(this, location, onResolve, onReject)
-  }
-  return originalReplace.call(this,location).catch(err => err)
-}
-
-Vue.use(VueRouter)
 
 const redirect = get(config, 'mobile.redirect')
 
 if (redirect) {
   routes.push({
-    path: '*',
+    path: '/:catchAll(.*)',
     redirect,
   })
 }
@@ -31,11 +19,11 @@ routes.push({
   component: () => import('./components/AppHome.vue'),
 })
 
-const router = new VueRouter({
-  scrollBehavior: () => ({ x: 0, y: 0 }),
+const router = createRouter({
+  history: createWebHashHistory(),
   routes,
 })
-
+/**
 router.beforeEach((to, from, next) => {
   const path = to.path
   const replace = to.query.replace
@@ -49,5 +37,5 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
-
+ */
 export default router

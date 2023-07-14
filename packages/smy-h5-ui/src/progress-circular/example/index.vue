@@ -4,7 +4,7 @@
     <smy-cell>
       <smy-progress-circular :value="value" size="50" />
       <template #extra>
-        <div class="smy--flex">value:<smy-stepper v-model="value" max="100" /></div>
+        <!-- <div class="smy--flex">value:<smy-stepper v-model="value" max="100" /></div> -->
       </template>
     </smy-cell>
     <app-demo-title>颜色</app-demo-title>
@@ -48,11 +48,10 @@ import { AppDemoTitle } from '@smy-h5/cli/client'
 import SmyProgressCircular from '..'
 import SmyCell from '../../cell'
 import SmySwtich from '../../switch'
-import SmyStepper from '../../stepper'
 
 export default {
   name: 'ProgressCircularExample',
-  components: { SmyProgressCircular, AppDemoTitle, SmyCell, SmySwtich, SmyStepper },
+  components: { SmyProgressCircular, AppDemoTitle, SmyCell, SmySwtich },
   data: () => ({ indeterminate: true, value: 20, interval: undefined, rotateValue: 0 }),
   mounted() {
     this.interval = setInterval(() => {
