@@ -1,13 +1,20 @@
 <template>
-  <div :style="style" :class="bem({ [isActive ? 'active' : 'inactive']: true, disabled })" @click="handleToggle">
-    <div class="smy-switch__thumb">
+  <div
+    :style="style"
+    :class="bem({ [isActive ? 'active' : 'inactive']: true, disabled })"
+    :tabindex="disabled ? undefined : 0"
+    :aria-checked="isActive"
+    role="switch"
+    @click="handleToggle"
+  >
+    <div :class="bem('thumb')">
       <slot v-if="loading" name="loading">
         <smy-progress-circular
           :color="loadingColor"
           :size="loadingSize"
+          :class="bem('thumb-loading')"
           indeterminate
           width="1"
-          class="smy-switch__thumb-loading"
         />
       </slot>
     </div>

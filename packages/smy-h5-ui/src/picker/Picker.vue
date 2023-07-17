@@ -59,27 +59,11 @@ import { createGetPropertyFromItem, toNumber, wrapInArray } from '../_utils/shar
 import PickerColumn from './PickerColumn.vue'
 import { isArray, isNil } from '../_utils/is'
 import { createMaybeComponent } from '../_utils/vue/component'
-import { createNamespace } from '../_utils/vue/create'
+import { bem, getListeners, name, listEqual } from './utils'
 
 let sid = 0
 
 const MaybePopup = createMaybeComponent(SmyPopup)
-
-const getListeners = (vm, events) => {
-  return events.reduce((listeners, event) => {
-    listeners[event] = (...args) => vm.$emit(event, ...args)
-    return listeners
-  }, {})
-}
-
-function listEqual(listA, listB) {
-  if (!isArray(listA) || !isArray(listB)) return false
-  if (listA === listB) return true
-  if (listA.length !== listB.length) return false
-  return listA.every((item, index) => item === listB[index])
-}
-
-const [name] = createNamespace('picker')
 
 export default {
   name,
@@ -118,6 +102,7 @@ export default {
   },
 
   methods: {
+    bem,
     confirm() {
       this.stopScroll()
 

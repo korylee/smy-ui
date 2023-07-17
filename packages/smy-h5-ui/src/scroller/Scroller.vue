@@ -1,17 +1,17 @@
 <template>
-  <div ref="scroller" class="smy-scroller">
-    <div class="smy-scroller__container"><slot /></div>
-    <div class="smy-scroller__control">
-      <div v-if="isInfiniting" class="smy-scroller__control-loading">
+  <div ref="scroller" :class="bem()">
+    <div :class="bem('container')"><slot /></div>
+    <div :class="bem('control')">
+      <div v-if="isInfiniting" :class="bem('loading')">
         <slot name="loading">
           <slot name="loading-icon"
-            ><smy-progress-circular indeterminate width="1.4" class="smy-scroller__control-loading__icon"
+            ><smy-progress-circular :class="bem('loading-icon')" indeterminate width="1.4"
           /></slot>
-          <div class="smy-scroller__control-loading__text">{{ loadText }}</div>
+          <div :class="bem('loading-text')">{{ loadText }}</div>
         </slot>
       </div>
       <slot v-else-if="!hasMore" name="finished"
-        ><div v-if="loadMoreText" class="smy-scroller__control-tips">{{ loadMoreText }}</div></slot
+        ><div v-if="loadMoreText" :class="bem('finished')">{{ loadMoreText }}</div></slot
       >
     </div>
   </div>
@@ -25,7 +25,7 @@ import { createNamespace } from '../_utils/vue/create'
 
 const calculateTopPosition = (el) => (!el ? 0 : el.offsetTop + calculateTopPosition(el.offsetParent))
 
-const [name] = createNamespace('scroller')
+const [name, bem] = createNamespace('scroller')
 
 export default {
   name,
@@ -88,6 +88,9 @@ export default {
       scrollListener()
     })
     this.$once('hook:beforeDestroy', removeScrollListener)
+  },
+  methods: {
+    bem,
   },
 }
 </script>

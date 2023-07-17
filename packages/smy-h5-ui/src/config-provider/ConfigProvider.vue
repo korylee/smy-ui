@@ -7,9 +7,12 @@
 <script>
 import { props } from './props'
 import { formatStyleVars } from '../_utils/style'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name] = createNamespace('config-provider')
 
 export default {
-  name: 'SmyConfigProvider',
+  name,
   props,
   methods: {
     formatStyleVars,

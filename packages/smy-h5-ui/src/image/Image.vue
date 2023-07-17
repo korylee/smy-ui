@@ -9,7 +9,7 @@
       }"
       :alt="alt"
       :style="{ objectFit: fit }"
-      class="smy-image__image"
+      :class="bem('image')"
       @load="onLazyloaded"
       @error="onLazyloaded"
       @click="onClick"
@@ -20,26 +20,28 @@
       :src="src"
       :alt="alt"
       :style="{ objectFit: fit }"
-      class="smy-image__image"
+      :class="bem('image')"
       @load="onLoad"
       @error="onError"
       @click="onClick"
     />
-    <div v-if="isLoading && hasSlot('loading')" class="smy-image__loading"><slot name="loading" /></div>
-    <div v-else-if="isError && hasSlot('error')" class="smy-image__error"><slot name="error" /></div>
+    <div v-if="isLoading && hasSlot('loading')" :class="bem('loading')"><slot name="loading" /></div>
+    <div v-else-if="isError && hasSlot('error')" :class="bem('error')"><slot name="error" /></div>
   </div>
 </template>
 
 <script>
 import { convertToUnit } from '../_utils/dom'
+import { createNamespace } from '../_utils/vue/create'
 import { SlotsMixin } from '../_utils/vue/slots'
 import Lazyload, { LAZYLOAD_STATE } from '../lazyload'
 import { props } from './props'
 
 const { ERROR } = LAZYLOAD_STATE
+const [name, bem] = createNamespace('image')
 
 export default {
-  name: 'SmyImage',
+  name,
   mixins: [SlotsMixin],
   directives: { Lazyload },
   props,
@@ -63,6 +65,7 @@ export default {
     },
   },
   methods: {
+    bem,
     onLazyloaded(event) {
       const { lazy } = this
       const el = event.currentTarget

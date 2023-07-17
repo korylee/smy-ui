@@ -1,18 +1,18 @@
 <template>
   <div :class="bem([status])" @click="handleClickStep">
-    <div class="smy-step__header">
-      <div class="smy-step__header-line"></div>
+    <div :class="bem('header')">
+      <div :class="bem('header-line')"></div>
       <div :class="bem('header-icon', { dot })">
         <slot name="icon">
-          <div v-if="!dot" class="smy-step__header-icon-seq">{{ index + 1 }}</div>
+          <div v-if="!dot" :class="bem('header-icon-seq')">{{ index + 1 }}</div>
         </slot>
       </div>
     </div>
-    <div class="smy-step__main">
-      <div class="smy-step__main-title">
+    <div :class="bem('main')">
+      <div :class="bem('main-title')">
         <slot name="title">{{ title }}</slot>
       </div>
-      <div v-if="content || hasSlot()" class="smy-step__main-content">
+      <div v-if="content || hasSlot()" :class="bem('main-content')">
         <slot><span v-html="content"></span></slot>
       </div>
     </div>

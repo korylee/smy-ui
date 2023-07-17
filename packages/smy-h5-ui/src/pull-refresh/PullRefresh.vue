@@ -1,23 +1,17 @@
 <template>
-  <div
-    class="smy-pull-refresh"
-    ref="scroller"
-    @touchstart="onTouchStart"
-    @touchmove="onTouchMove"
-    @touchend="onTouchEnd"
-  >
-    <div class="smy-pull-refresh-control" :style="style">
+  <div ref="scroller" :class="bem()" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
+    <div :class="bem('control-wrap')" :style="style">
       <slot name="header" :status="status" :distance="distance">
-        <div class="smy-pull-refresh-control__header" :style="headerStyle">
+        <div :class="bem('control')" :style="headerStyle">
           <slot v-if="status === 'pulling'" name="pulling">
-            <div class="smy-pull-refresh-control__header-text">{{ pullingText }}</div>
+            <div :class="bem('control-text')">{{ pullingText }}</div>
           </slot>
           <slot v-else-if="status === 'loosing'" name="loosing">
-            <div class="smy-pull-refresh-control__header-text">{{ loosingText }}</div>
+            <div :class="bem('control-text')">{{ loosingText }}</div>
           </slot>
           <slot v-else-if="status === 'loading'" name="loading">
-            <smy-progress-circular indeterminate width="1.4" class="smy-pull-refresh-control__header-icon" />
-            <div class="smy-pull-refresh-control__header-text">{{ loadingText }}</div>
+            <smy-progress-circular :class="bem('control-icon')" indeterminate width="1.4" />
+            <div :class="bem('control-text')">{{ loadingText }}</div>
           </slot>
         </div>
       </slot>
@@ -30,9 +24,12 @@ import { useTouch } from '../_utils/composable/useTouch'
 import { getParentScroller, getScrollTopRoot, toPxNum, convertToUnit } from '../_utils/dom'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name, bem] = createNamespace('pull-refresh')
 
 export default {
-  name: 'SmyPullRefresh',
+  name,
   components: { SmyProgressCircular },
   props,
   data: () => ({
@@ -51,7 +48,7 @@ export default {
       const height = convertToUnit(headerHeight)
       return { height, lineHeight: height }
     },
-    isCanTouch: ({ status }) => !['loading'].includes(status),
+    canTouch: ({ status }) => !['loading'].includes(status),
     internalPullDistance() {
       return toPxNum(this.pullDistance || this.headerHeight)
     },
@@ -67,6 +64,7 @@ export default {
     this.scrollParent = getParentScroller(this.$refs.scroller)
   },
   methods: {
+    bem,
     timing(distance) {
       const { internalPullDistance: pullDistance } = this
       let moveDistance = distance
@@ -92,7 +90,7 @@ export default {
       return scrollParent?.scrollTop === 0
     },
     onTouchStart(event) {
-      if (!this.isCanTouch) return
+      if (!this.canTouch) return
       if (this.isScrollTop()) {
         this.touch.start(event)
         this.isPullRefresh = true
@@ -102,7 +100,7 @@ export default {
       }
     },
     onTouchMove(event) {
-      if (!this.isCanTouch) return
+      if (!this.canTouch) return
       const { touch } = this
       touch.move(event)
       const {
@@ -114,7 +112,7 @@ export default {
       }
     },
     onTouchEnd() {
-      if (!this.isPullRefresh || !this.isCanTouch || !this.touch.state.deltaY) return
+      if (!this.isPullRefresh || !this.canTouch || !this.touch.state.deltaY) return
       if (this.status === 'loosing') {
         this.setPullStatus(toPxNum(this.headerHeight), true)
         this.$emit('input', true)

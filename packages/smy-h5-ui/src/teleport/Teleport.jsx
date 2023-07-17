@@ -1,9 +1,12 @@
 import { getSlot } from '../_utils/vue/slots'
 import Vue from 'vue'
 import { props } from './props'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name, bem] = createNamespace('teleport')
 
 export default {
-  name: 'SmyTeleport',
+  name,
   props,
   data: () => ({
     el: null,
@@ -33,7 +36,7 @@ export default {
   methods: {
     create() {
       const Ctor = Vue.extend({
-        render: () => <div class="smy-teleport__container">{getSlot(this)}</div>,
+        render: () => <div class={bem('container')}>{getSlot(this)}</div>,
       })
       this.instance = new Ctor()
       this.instance.$parent = this
@@ -49,6 +52,6 @@ export default {
     },
   },
   render() {
-    return <div ref="teleport" class="smy-teleport" />
+    return <div ref="teleport" class={bem()} />
   },
 }

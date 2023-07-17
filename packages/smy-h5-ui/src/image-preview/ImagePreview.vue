@@ -5,7 +5,8 @@
     :close-on-click-overlay="false"
     :lock-scroll="lockScroll"
     :teleport="teleport"
-    wrapper-class="smy-image-preview__popup"
+    :wrapper-class="bem('popup')"
+    :content-class="bem()"
     transition="smy-fade"
     @open="$emit('open')"
     @opened="$emit('opened')"
@@ -18,10 +19,10 @@
       :loop="loop"
       :touchable="touchable"
       :initial-index="initialIndex"
-      class="smy-image-preview__swiper"
+      :class="bem('swiper')"
       @change="$emit('change', $event)"
     >
-      <smy-swiper-item v-for="(image, index) of images" :key="index" class="smy-image-preview__swiper-item">
+      <smy-swiper-item v-for="(image, index) of images" :key="index" :class="bem('swiper-item')">
         <div
           :style="zoomContainerStyle"
           class="smy-image-preview__zoom-container"
@@ -30,23 +31,24 @@
           @touchend="handleTouchEnd"
           @touchcancel="handleTouchEnd"
         >
-          <slot name="image" :image="image">
-            <img :src="image" :alt="image" class="smy-image-preview__image" />
-          </slot>
+          <slot name="image" :image="image"><img :src="image" :alt="image" :class="bem('image')" /></slot>
         </div>
       </smy-swiper-item>
       <template #indicator="{ index, length }">
         <slot name="indicator" :index="index" :length="length">
-          <div v-if="indicator && images.length" class="smy-image-preview__indicator">
-            {{ index + 1 }} / {{ length }}
-          </div>
+          <div v-if="indicator && images.length" :class="bem('indicator')">{{ index + 1 }} / {{ length }}</div>
         </slot>
       </template>
     </smy-swiper>
     <slot name="close-icon">
-      <smy-icon v-if="closeable" class="smy-image-preview__close-icon" @click="handleClose"></smy-icon>
+      <smy-icon
+        v-if="closeable"
+        :name="closeIcon"
+        :class="bem('close-icon', [closeIconPosition])"
+        @click="handleClose"
+      />
     </slot>
-    <div v-if="$slots.extra" class="smy-image-preview__extra">
+    <div v-if="$slots.extra" :class="bem('extra')">
       <slot name="extra" />
     </div>
   </smy-popup>
@@ -61,8 +63,10 @@ import { toNumber, range } from '../_utils/shared'
 import { createTouch, isTapTouch, ANIMATION_DURATION, EVENT_DELAY, isDoubleTouch } from './utils'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 import { createNamespace } from '../_utils/vue/create'
+import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
+import { IconCache } from '../icon/utils'
 
-const [name] = createNamespace('image-preview')
+const [name, bem] = createNamespace('image-preview')
 
 export default {
   name,
@@ -90,7 +94,14 @@ export default {
       }
     },
   },
+  beforeCreate() {
+    IconCache.register(WindowClose)
+  },
+  beforeDestroy() {
+    IconCache.unregister(WindowClose)
+  },
   methods: {
+    bem,
     zoomIn() {
       this.scale = toNumber(this.zoom)
       this.touchable = false
@@ -112,7 +123,7 @@ export default {
     },
     getZoom(target) {
       const { offsetWidth, offsetHeight } = target
-      let imgDom = target.querySelector('.smy-image-preview__image')
+      let imgDom = target.querySelector(bem('image'))
       if (!imgDom) {
         imgDom = target.querySelector('img')
       }

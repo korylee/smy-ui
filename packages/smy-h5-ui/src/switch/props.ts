@@ -1,8 +1,8 @@
-import { ExtractPropTypes, createNumericProp, createStringProp, numericProp } from '../_utils/vue/props'
+import { ExtractPropTypes, createNumericProp, createStringProp, numericProp, unknownProp } from '../_utils/vue/props'
 
 export const props = {
   value: {
-    type: [String, Number, Boolean],
+    type: unknownProp,
     default: false,
   },
   disabled: Boolean,
@@ -12,11 +12,11 @@ export const props = {
   activeLabel: createStringProp(''),
   inactiveLabel: createStringProp(''),
   activeValue: {
-    type: [Number, String, Boolean],
+    type: unknownProp,
     default: true,
   },
   inactiveValue: {
-    type: [Number, String, Boolean],
+    type: unknownProp,
     default: false,
   },
   loading: Boolean,

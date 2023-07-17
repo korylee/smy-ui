@@ -1,7 +1,7 @@
 <template>
-  <div :class="classes" :style="style" @click="$emit('click', $event)">
+  <div :class="bem({ [type]: type, plain, round, mark })" :style="style" @click="$emit('click', $event)">
     <slot></slot>
-    <smy-icon v-if="closeable" size="12" @click.stop="$emit('close', $event)" class="smy-tag__close"
+    <smy-icon v-if="closeable" :class="bem('close')" size="12" @click.stop="$emit('close', $event)"
       ><slot name="icon"><window-close /></slot
     ></smy-icon>
   </div>
@@ -20,9 +20,6 @@ export default {
   components: { [Icon.name]: Icon, WindowClose },
   props,
   computed: {
-    classes({ type, plain, round, mark }) {
-      return bem({ [type]: type, plain, round, mark })
-    },
     style() {
       const style = {}
       const { textColor, color, plain } = this
@@ -39,6 +36,9 @@ export default {
       }
       return style
     },
+  },
+  methods: {
+    bem,
   },
 }
 </script>

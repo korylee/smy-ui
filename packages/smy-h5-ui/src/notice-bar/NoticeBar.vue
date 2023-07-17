@@ -1,23 +1,22 @@
 <template>
   <div v-show="showNoticeBar" :class="bem({ closable, wrapable })" role="alert" @click="$emit('click', $event)">
-    <div v-if="hasSlot('left-icon')" class="smy-notice-bar__left-icon">
+    <div v-if="hasSlot('left-icon')" :class="bem('left-icon')">
       <slot name="left-icon"> </slot>
     </div>
-    <div ref="wrap" class="smy-notice-bar__content-wrap" role="marquee">
+    <div ref="wrap" :class="bem('content-wrap')" role="marquee">
       <div
         ref="content"
-        :class="[animationClass, { 'smy--ellipsis': !scrollable && !wrapable }]"
+        :class="[bem('content'), animationClass, { 'smy--ellipsis': !scrollable && !wrapable }]"
         :style="contentStyle"
-        class="smy-notice-bar__content"
         @animationend="onAnimationEnd"
         @webkitAnimationEnd="onAnimationEnd"
       >
         <slot>{{ text }}</slot>
       </div>
     </div>
-    <div v-if="closable || hasSlot('right-icon')" class="smy-notice-bar__right-icon">
+    <div v-if="closable || hasSlot('right-icon')" :class="bem('right-icon')">
       <slot name="right-icon">
-        <smy-icon @click.stop="handleClose"><window-close /></smy-icon>
+        <smy-icon @click.stop="onClickRightIcon"><window-close /></smy-icon>
       </slot>
     </div>
   </div>
@@ -28,7 +27,7 @@ import { props } from './props'
 import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 import SmyIcon from '../icon'
 import { SlotsMixin } from '../_utils/vue/slots'
-import { getRect } from '../_utils/dom'
+import { doubleRaf, getRect } from '../_utils/dom'
 import { createNamespace } from '../_utils/vue/create'
 
 const [name, bem] = createNamespace('notice-bar')
@@ -62,6 +61,7 @@ export default {
       immediate: true,
       handler: 'reset',
     },
+    scrollable: 'reset',
   },
   methods: {
     bem,
@@ -75,20 +75,22 @@ export default {
         if (this.scrollable && offsetWidth > wrapWidth) {
           this.wrapWidth = wrapWidth
           this.offsetWidth = offsetWidth
-          this.duration = offsetWidth / this.speed
+          this.duration = offsetWidth / +this.speed
           this.animationClass = 'smy-notice-bar-play'
         } else {
           this.animationClass = ''
         }
       })
     },
-    handleClose(event) {
-      this.showNoticeBar = !this.closable
-      this.$emit('close', event)
+    onClickRightIcon(event) {
+      if (this.closable) {
+        this.showNoticeBar = false
+        this.$emit('close', event)
+      }
     },
     onAnimationEnd() {
       this.firstRound = false
-      this.$nextTick(() => {
+      doubleRaf(() => {
         const { offsetWidth, wrapWidth, speed } = this
         this.duration = (offsetWidth + wrapWidth) / speed
         this.animationClass = 'smy-notice-bar-play-infinite'

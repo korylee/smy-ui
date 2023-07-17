@@ -27,7 +27,7 @@ import SmyLoading from '../loading'
 import SmyIcon from '../icon'
 import { props, popupInheritProps } from './props'
 import { isString, isFunction } from '../_utils/is'
-import { SlotsMixin, hasSlot } from '../_utils/vue/slots'
+import { SlotsMixin } from '../_utils/vue/slots'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 import { pick } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
@@ -57,7 +57,7 @@ export default {
   }),
   computed: {
     hasIcon({ icon, type }) {
-      return hasSlot(this, 'icon') || icon || ['loading'].includes(type)
+      return this.hasSlot('icon') || icon || ['loading'].includes(type)
     },
     toastClass({ position, wordBreak, type, icon, iconPosition, hasIcon }) {
       return bem([

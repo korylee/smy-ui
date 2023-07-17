@@ -1,5 +1,5 @@
 import { IN_BROWSER } from './env'
-import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow } from './is'
+import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow, isNumeric } from './is'
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
   const allParentScroller: Array<HTMLElement | Window> = []
@@ -62,10 +62,20 @@ export const getScrollTopRoot = () =>
 
 export function convertToUnit(str: string | number | null | undefined, unit = 'px'): string | undefined {
   if (str == null || str === '') return undefined
-  if (isNumber(str) || isNumString(str)) return `${Number(str)}${unit}`
+  if (isNumeric(str)) return `${Number(str)}${unit}`
   if (isNaN(+str)) return str
   if (!isFinite(+str)) return undefined
   return `${Number(str)}${unit}`
+}
+
+let rootFontSize: number
+
+function getRootFontSize() {
+  if (rootFontSize) return rootFontSize
+  const doc = document.documentElement
+  const fontSize = doc.style.fontSize || window.getComputedStyle(doc).fontSize
+  rootFontSize = parseFloat(fontSize)
+  return rootFontSize
 }
 
 export function toPxNum(value: number | string) {
@@ -81,9 +91,7 @@ export function toPxNum(value: number | string) {
     return (+value.replace('vh', '') * globalThis.innerHeight) / 100
   }
   if (isRem(value)) {
-    const num = +value.replace('rem', '')
-    const { fontSize: rootFontSize } = window.getComputedStyle(document.documentElement)
-    return num * parseFloat(rootFontSize)
+    return +value.replace('rem', '') * getRootFontSize()
   }
   // % and other
   return 0

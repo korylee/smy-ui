@@ -1,18 +1,18 @@
 <template>
   <div
-    class="smy-picker__column"
+    :class="bem('column')"
     @touchstart="handleTouchstart"
     @touchmove.prevent="handleTouchmove"
     @touchend="handleTouchend"
   >
-    <div :style="scrollerStyle" class="smy-picker__scroller" ref="scrollEl" @transitionend="handleTransitionend">
+    <div :style="scrollerStyle" :class="bem('scroller')" ref="scrollEl" @transitionend="handleTransitionend">
       <div
         v-for="(item, itemIndex) in column"
         :key="itemIndex"
         :style="{ height: `${height}px` }"
-        class="smy-picker__option"
+        :class="bem('option')"
       >
-        <div class="smy-picker__text"><slot name="item" :item="item" :index="itemIndex" /></div>
+        <div :class="bem('text')"><slot name="item" :item="item" :index="itemIndex" /></div>
       </div>
     </div>
   </div>
@@ -21,6 +21,7 @@
 <script>
 import { getTranslate } from '../_utils/dom'
 import { range } from '../_utils/shared'
+import { bem, name } from './utils'
 
 const MOMENTUM_RECORD_TIME = 300
 const MOMENTUM_ALLOW_DISTANCE = 15
@@ -30,7 +31,7 @@ function momentum(distance, duration) {
 }
 
 export default {
-  name: 'SmyPickerColumn',
+  name: name + '-column',
   props: {
     height: Number,
     column: Array,
@@ -71,6 +72,7 @@ export default {
   },
 
   methods: {
+    bem,
     handleTouchstart() {
       const { scrollEl } = this.$refs
       this.touching = true

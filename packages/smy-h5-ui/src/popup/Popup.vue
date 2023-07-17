@@ -22,6 +22,7 @@
             :class="[bem('content', position), contentClass]"
             :style="mergeStyles({ zIndex: zIndex }, contentStyle)"
             v-bind="$attrs"
+            v-on="$listeners"
           >
             <slot />
           </div>

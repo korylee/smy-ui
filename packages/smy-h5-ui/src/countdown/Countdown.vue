@@ -5,11 +5,14 @@
 </template>
 
 <script>
+import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 import { parseTime, useCountdown, formatTime } from './utils'
 
+const [name] = createNamespace('countdown')
+
 export default {
-  name: 'SmyCountdown',
+  name,
   props,
 
   data: (vm) => ({

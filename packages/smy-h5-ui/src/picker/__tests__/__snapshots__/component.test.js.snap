@@ -43,7 +43,7 @@ exports[`test picker example 1`] = `
       <div class=\\"smy-cell__title\\">请选择</div>
       <!---->
     </div>
-    <div class=\\"smy-cell__extra\\">popup: <div class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
+    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
         <div class=\\"smy-switch__thumb\\">
           <!---->
         </div>
@@ -67,7 +67,7 @@ exports[`test picker example 1`] = `
       <div class=\\"smy-cell__title\\">请选择</div>
       <!---->
     </div>
-    <div class=\\"smy-cell__extra\\">popup: <div class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
+    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
         <div class=\\"smy-switch__thumb\\">
           <!---->
         </div>
@@ -91,7 +91,7 @@ exports[`test picker example 1`] = `
       <div class=\\"smy-cell__title\\">请选择</div>
       <!---->
     </div>
-    <div class=\\"smy-cell__extra\\">popup: <div class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
+    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
         <div class=\\"smy-switch__thumb\\">
           <!---->
         </div>
@@ -115,7 +115,7 @@ exports[`test picker example 1`] = `
       <div class=\\"smy-cell__title\\">Tuesday,Afternoon</div>
       <!---->
     </div>
-    <div class=\\"smy-cell__extra\\">popup: <div class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
+    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
         <div class=\\"smy-switch__thumb\\">
           <!---->
         </div>

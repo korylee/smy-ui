@@ -1,5 +1,5 @@
 <template>
-  <div :style="style" class="smy-stepper">
+  <div :style="style" :class="bem()">
     <div :style="buttonStyle" :class="bem('button', { disabled: !minusable })" @click="handleMinus">
       <slot name="minus">
         <smy-icon><minus /></smy-icon>
@@ -11,9 +11,9 @@
       :max="max"
       :readonly="readonly || !isLegal"
       :disabled="disabled || !isLegal"
+      :class="bem('input')"
       v-bind="$attrs"
       type="number"
-      class="smy-stepper__input"
       @input="$emit('change', $event)"
       @keyup="$emit('keyup', $event)"
       @focus="$emit('focus', $event)"
@@ -71,7 +71,7 @@ export default {
   },
   watch: {
     isLegal(val) {
-      !val && throwError('SmyStepper', `max必须大于min!`)
+      !val && throwError(name, `max必须大于min!`)
     },
   },
   methods: {

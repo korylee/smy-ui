@@ -209,5 +209,8 @@ export default {
 
 <style lang="less">
 @import '../_styles/common.less';
+@import '../icon/icon.less';
+@import '../image/image.less';
+@import '../image-preview/imagePreview.less';
 @import './uploader.less';
 </style>

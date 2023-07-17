@@ -1,17 +1,15 @@
 <template>
-  <div ref="root" class="smy-ellipsis" @click="$emit('click', $event)">
+  <div ref="root" :class="bem()" @click="$emit('click', $event)">
     <template v-if="!exceeded">{{ content }}</template>
     <template v-else>
       <template v-if="!expanded"
         >{{ ellipsis.leading
-        }}<span v-if="expandText" class="smy-ellipsis__text" @click.stop="handleExpand">{{ expandText }}</span
+        }}<span v-if="expandText" :class="bem('text')" @click.stop="handleExpand">{{ expandText }}</span
         >{{ ellipsis.tailing }}</template
       >
       <template v-else
         >{{ content
-        }}<span v-if="collapseText" class="smy-ellipsis__text" @click.stop="handleExpand">{{
-          collapseText
-        }}</span></template
+        }}<span v-if="collapseText" :class="bem('text')" @click.stop="handleExpand">{{ collapseText }}</span></template
       >
     </template>
   </div>
@@ -19,10 +17,13 @@
 
 <script>
 import { toPxNum } from '../_utils/dom'
+import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 
+const [name, bem] = createNamespace('ellipsis')
+
 export default {
-  name: 'SmyEllipsis',
+  name,
   props,
   data: () => ({
     exceeded: false,
@@ -134,6 +135,7 @@ export default {
     this.$watch('content', (val, oldVal) => val != oldVal && createContainer())
   },
   methods: {
+    bem,
     handleExpand() {
       this.expanded = !this.expanded
       this.$emit('change', this.expanded)
