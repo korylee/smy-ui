@@ -1,6 +1,7 @@
 import type { ComponentOptions, FunctionalComponentOptions, VueConstructor } from 'vue'
 import type { CombinedVueInstance } from 'vue/types/vue'
 import Vue from 'vue'
+import { onMountedOrActivated } from './lifetime'
 
 type Component = any
 
@@ -32,8 +33,7 @@ export function addRouteListener(vm: Vue, cb: () => void) {
     window.removeEventListener('hashchange', cb)
     window.removeEventListener('popstate', cb)
   }
-  vm.$on('hook:mounted', add)
-  vm.$on('hook:activated', add)
+  onMountedOrActivated(vm, add)
   vm.$on('hook:deactivated', remove)
   vm.$on('hook:beforeDestory', remove)
 }

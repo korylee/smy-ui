@@ -27,7 +27,7 @@
 <script>
 import { createParentMixin } from '../_mixins/relation'
 import { toNumber, range } from '../_utils/shared'
-import { toPxNum, doubleRaf, getRect } from '../_utils/dom'
+import { toPxNum, doubleRaf, getRect, preventDefault } from '../_utils/dom'
 import { useTouch } from '../_utils/composable/useTouch'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
@@ -42,8 +42,6 @@ export default {
     touch: useTouch(),
     active: 0,
     rect: null,
-    internalWidth: 0,
-    internalHeight: 0,
     moving: false,
     offset: 0,
     touchTime: 0,
@@ -97,7 +95,7 @@ export default {
   methods: {
     bem,
     onTouchStart(e) {
-      if (this.isPreventDefault) e.preventDefault()
+      if (this.isPreventDefault) preventDefault(e)
       if (this.isStopPropagation) e.stopPropagation()
       if (!this.touchable) return
       this.touch.start(e)
@@ -159,18 +157,20 @@ export default {
     },
     getStyle() {
       let offset = 0
-      const { vertical, size, childrenCount, rect, internalWidth, internalHeight, duration, moving, center } = this
+      const { vertical, size, childrenCount, rect, duration, moving, center, trackSize } = this
       if (!center) {
         offset = this.offset
       } else {
         const diff = (vertical ? rect.height : rect.width) - size
         offset = this.offset + (this.active === childrenCount - 1 ? -diff / 2 : diff / 2)
       }
+      const crossName = vertical ? 'width' : 'height'
+      const crossAxis = toPxNum(this[crossName]) || rect[crossName]
       this.style = {
         transitionDuration: `${moving ? 0 : duration}ms`,
         transform: `translate${vertical ? 'Y' : 'X'}(${offset}px)`,
-        [vertical ? 'height' : 'width']: `${size * childrenCount}px`,
-        [vertical ? 'width' : 'height']: `${vertical ? internalWidth : internalHeight}px`,
+        [vertical ? 'height' : 'width']: `${trackSize}px`,
+        [crossName]: crossAxis ? `${crossAxis}px` : '',
       }
     },
     resetPosition() {
@@ -228,10 +228,6 @@ export default {
       this.stopAutoplay()
       const rect = getRect(this.$refs.container)
       this.rect = rect
-      const width = toPxNum(this.width)
-      const height = toPxNum(this.height)
-      this.internalWidth = width || rect.width
-      this.internalHeight = height || rect.height
       this.active = active
       this.offset = this.getOffset(active)
       this.moving = true

@@ -1,3 +1,34 @@
 node_modules
 
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+
+# Editor directories and files
+.vscode
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# icons
 packages/smy-h5-icons/dist
+# ui output
+packages/smy-h5-ui/es
+packages/smy-h5-ui/lib
+packages/smy-h5-ui/site
+packages/smy-h5-ui/dist
+packages/smy-h5-ui/umd
+packages/smy-h5-ui/coverage
+packages/smy-h5-ui/types
+packages/smy-h5-ui/.smy
+packages/smy-h5-ui/highlight

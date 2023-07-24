@@ -11,18 +11,21 @@ export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Windo
 
 type ScrollerElement = HTMLElement | Window
 
+const overflowScrollReg = /scroll|auto|overlay/i
+
+function isElement(el: Element) {
+  const ELEMENT_NODE_TYPE = 1
+  return !['HTML', 'BODY'].includes(el.tagName) && el.nodeType === ELEMENT_NODE_TYPE
+}
+
 export function getParentScroller(el: HTMLElement, root: ScrollerElement = window): HTMLElement | Window {
   let element = el
-  while (element && element.parentNode && el !== root) {
-    element = element.parentNode as HTMLElement
-    if (element === document.body || element === document.documentElement) {
-      break
-    }
-    const scrollRE = /(scroll|auto)/
+  while (element && el !== root && isElement(element)) {
     const { overflowY, overflow } = window.getComputedStyle(element)
-    if (scrollRE.test(overflowY) || scrollRE.test(overflow)) {
+    if (overflowScrollReg.test(overflowY) || overflowScrollReg.test(overflow)) {
       return element
     }
+    element = element.parentNode as HTMLElement
   }
   return root
 }
@@ -55,6 +58,11 @@ export function inViewport(el: HTMLElement): Promise<boolean> {
 
     return xInViewport && yInViewport
   })
+}
+
+export function getScrollTop(el: ScrollerElement) {
+  const top = 'scrollTop' in el ? el.scrollTop : el.pageYOffset
+  return Math.max(top, 0)
 }
 
 export const getScrollTopRoot = () =>
@@ -118,4 +126,18 @@ export function getRect(el: Element | Window | undefined) {
 export function getTranslate(el: HTMLElement) {
   const { transform } = window.getComputedStyle(el)
   return +transform.slice(transform.lastIndexOf(',') + 2, transform.length - 1)
+}
+
+export function getElementTop(el: ScrollerElement, scroller?: ScrollerElement) {
+  if (el === window) {
+    return 0
+  }
+  const scrollTop = scroller ? getScrollTop(scroller) : getScrollTopRoot()
+  return getRect(el).top + scrollTop
+}
+
+export function preventDefault(event: Event) {
+  if (event.cancelable) {
+    event.preventDefault()
+  }
 }
