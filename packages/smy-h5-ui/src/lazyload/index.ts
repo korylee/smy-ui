@@ -1,7 +1,8 @@
-import type { PluginObject, VueConstructor, DirectiveOptions, VNodeDirective, VNode } from 'vue'
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { assign, assignWith, createLRUCache } from '../_utils/shared'
 import Intersect, { type ObserveVNodeDirective } from '../intersect'
 import { isNil, isObject } from '../_utils/is'
+import { DirectiveBinding } from 'vue'
 
 type ValueOf<T> = T[keyof T]
 
@@ -26,9 +27,7 @@ type LazyloadValue =
     }
   | ({ src: string } & LazyloadOptions)
 
-interface LazyloadVNodeDirective extends VNodeDirective {
-  value?: string | LazyloadValue
-}
+type LazyloadVNodeDirective = DirectiveBinding<string | LazyloadValue | undefined>
 
 interface LazyloadStore extends LazyloadBaseOptions, LazyloadHandlers {
   src: string
@@ -164,43 +163,4 @@ const diff = (el: LazyHTMLElement, binding: LazyloadVNodeDirective) => {
   return src !== (isObject(value) ? value.src : value) || arg !== _arg
 }
 
-function update(el: LazyHTMLElement, binding: LazyloadVNodeDirective) {
-  if (!el._lazy) return
-  if (!diff(el, binding)) {
-    return
-  }
-  createLazy(el, binding)
-}
-
-const createIntersectBinding = (el: HTMLElement): ObserveVNodeDirective => ({
-  name: 'intersect',
-  value(isIntersecting: boolean) {
-    if (!isIntersecting) return
-    attemptLoad(el)
-  },
-  modifiers: {
-    once: true,
-  },
-})
-
-function inserted(el: LazyHTMLElement, binding: LazyloadVNodeDirective, vnode: VNode) {
-  createLazy(el, binding)
-  Intersect.inserted(el, createIntersectBinding(el), vnode)
-}
-
-function unbind(el: LazyHTMLElement, binding: VNodeDirective, vnode: VNode) {
-  Intersect.unbind(el, createIntersectBinding(el), vnode)
-}
-
-export const LazyLoad: DirectiveOptions & PluginObject<LazyloadBaseOptions> = {
-  inserted,
-  unbind,
-  update,
-  install(app: VueConstructor, lazyOptions?: LazyloadBaseOptions) {
-    lazyOptions && assignWith(globalLazyloadOptions, lazyOptions, (t, s) => (isNil(s) ? t : s))
-    app.directive('lazy', this)
-    app.directive('lazyload', this)
-  },
-}
-
-export default LazyLoad
+export function useLazyload() {}

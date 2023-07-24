@@ -10,29 +10,28 @@
   height: 100%;
   overflow: hidden;
 
-  &-control {
+  &__control {
     position: relative;
     height: 100%;
+  }
+  &__header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    transform: translateY(-100%);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--pull-refresh-control-font-size);
 
-    &__header {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      transform: translateY(-100%);
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--pull-refresh-control-font-size);
+    &-icon {
+      margin-right: 0.2em;
+    }
 
-      &-icon {
-        margin-right: 0.2em;
-      }
-
-      &-text {
-        color: var(--pull-refresh-control-text-color);
-      }
+    &-text {
+      color: var(--pull-refresh-control-text-color);
     }
   }
 }

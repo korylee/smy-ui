@@ -1,77 +1,79 @@
 <template>
-  <div class="smy-countdown">
+  <div :class="bem()">
     <slot v-bind="timeData"> {{ parseTime(format, timeData) }}</slot>
   </div>
 </template>
 
 <script>
+import { ref, watch, onBeforeUnmount, defineComponent, onMounted } from 'vue'
 import { props } from './props'
 import { parseTime, useCountdown, formatTime } from './utils'
+import { createNamespace } from '../_utils/vue/create'
 
-export default {
-  name: 'SmyCountdown',
+const [name, bem] = createNamespace('countdown')
+
+export default defineComponent({
+  name,
   props,
-
-  data: (vm) => ({
-    timeData: {
+  emits: ['change', 'end', 'start', 'pause', 'update:paused'],
+  setup(props, { emit, expose }) {
+    const timeData = ref({
       days: 0,
       hours: 0,
       minutes: 0,
       seconds: 0,
       milliseconds: 0,
       timestamp: 0,
-    },
-    countdown: useCountdown({
+      time: 0,
+    })
+    const {
+      reset: _reset,
+      start: _start,
+      pause,
+      isStart,
+    } = useCountdown({
       onChange: (time) => {
-        const timeData = formatTime(time)
-        vm.timeData = timeData
-        vm.$emit('change', timeData)
+        const formatedTimeData = formatTime(time)
+        timeData.value = formatedTimeData
+        emit('change', formatedTimeData)
       },
       onStart: (time) => {
-        vm.$emit('start', time)
-        vm.$emit('update:paused', false)
+        emit('start', time)
+        emit('update:paused', false)
       },
       onEnd: () => {
-        vm.$emit('end')
+        emit('end')
       },
       onPause: (time) => {
-        vm.$emit('pause', time)
-        vm.$emit('update:paused', true)
+        emit('pause', time)
+        emit('update:paused', true)
       },
-    }),
-  }),
+    })
+    const reset = () => _reset(props.time)
+    const start = () => _start(props.time)
 
-  watch: {
-    time: 'reset',
-    paused(val, oldVal) {
-      const { countdown } = this
-      const isStart = countdown.isStart()
-      if (!oldVal && isStart) this.pause()
-      else if (oldVal && !isStart) this.start()
-    },
-  },
+    expose({
+      start,
+      reset,
+      pause,
+    })
+    watch(() => props.time, reset)
+    watch(
+      () => props.paused,
+      (val, oldVal) => {
+        const started = isStart()
+        if (!oldVal && started) pause()
+        else if (oldVal && !started) start()
+      }
+    )
+    onMounted(props.autoStart && !props.paused ? start : reset)
+    onBeforeUnmount(pause)
 
-  created() {
-    const { autoStart, paused, start, reset } = this
-    const run = autoStart && !paused ? start : reset
-    run()
+    return {
+      timeData,
+      bem,
+      parseTime,
+    }
   },
-
-  beforeDestroy() {
-    this.pause()
-  },
-
-  methods: {
-    parseTime,
-    start() {
-      this.countdown.start(this.time)
-    },
-    pause() {
-      this.countdown.pause()
-    },
-    reset() {
-      this.countdown.reset(this.time)
-    },
-  },
-}
+})
 </script>

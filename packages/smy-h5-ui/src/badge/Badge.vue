@@ -1,8 +1,8 @@
 <template>
   <div class="smy-badge smy--box">
     <transition :name="transition">
-      <span v-bind="$attrs" v-show="!hidden" :style="contentStyle" :class="contentClass" class="smy-badge__content">
-        <slot v-if="hasSlot('icon') && !dot" name="icon"></slot>
+      <span v-bind="$attrs" v-show="!hidden" :style="contentStyle" :class="contentClass">
+        <slot v-if="$slots.icon && !dot" name="icon"></slot>
         <template v-else>{{ internalContent }}</template>
       </span>
     </transition>
@@ -12,48 +12,52 @@
 <script>
 import { isNumeric } from '../_utils/is'
 import { convertToUnit } from '../_utils/dom'
-import { SlotsMixin } from '../_utils/vue/slots'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
+import { computed, defineComponent } from 'vue'
 
 const [name, bem] = createNamespace('badge')
 
-export default {
+export default defineComponent({
   name,
   inheritAttrs: false,
-  mixins: [SlotsMixin],
   props,
-  computed: {
-    contentStyle({ zIndex, color }) {
-      return {
-        top: convertToUnit(this.top),
-        right: convertToUnit(this.right),
-        zIndex,
-        background: color,
-      }
-    },
-    contentClass() {
-      const { dot, bubble, position, hasSlot } = this
-
-      const hasDefaultSlot = hasSlot()
+  setup(props, { slots }) {
+    const contentClass = computed(() => {
+      const { dot, position, bubble } = props
       return bem('content', {
         dot,
         bubble: !dot && bubble,
-        icon: !dot && hasSlot('icon'),
-        fixed: hasDefaultSlot,
-        [position]: position && hasDefaultSlot,
+        icon: !dot && slots.icon,
+        fixed: slots.default,
+        [position]: position && slots.default,
       })
-    },
-    internalContent() {
-      if (this.dot) return
-      const { value, max } = this
+    })
+    const internalContent = computed(() => {
+      const { value, max, dot } = props
+      if (dot) return
       if (isNumeric(value) && isNumeric(max)) {
         return max < +value ? `${max}+` : value
       }
       return value
-    },
+    })
+    const contentStyle = computed(() => {
+      const { top, right, zIndex, color } = props
+      return {
+        top: convertToUnit(top),
+        right: convertToUnit(right),
+        zIndex,
+        background: color,
+      }
+    })
+
+    return {
+      contentClass,
+      contentStyle,
+      internalContent,
+    }
   },
-}
+})
 </script>
 
 <style lang="less">

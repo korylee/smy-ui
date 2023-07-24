@@ -32,5 +32,5 @@ function createBem(name: string) {
 
 export function createNamespace(name: string, prefix = 'smy') {
   const prefixedName = `${prefix}-${name}`
-  return [prefixedName, createBem(prefixedName)]
+  return [prefixedName, createBem(prefixedName)] as const
 }

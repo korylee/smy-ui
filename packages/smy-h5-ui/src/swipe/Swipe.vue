@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="root"
     class="smy-swipe"
     :style="touchStyle"
     @touchstart="onTouchStart"
@@ -7,13 +8,13 @@
     @touchend="onTouchEnd"
     @touchcancel="onTouchEnd"
   >
-    <div ref="leftRef" :class="bem('left')">
+    <div v-if="$slots.left" ref="leftRef" :class="bem('left')">
       <slot name="left" />
     </div>
     <div :class="bem('content')">
       <slot name="default" />
     </div>
-    <div ref="rightRef" :class="bem('right')">
+    <div v-if="$slots.right" ref="rightRef" :class="bem('right')">
       <slot name="right" />
     </div>
   </div>
@@ -23,11 +24,13 @@
 import { props } from './props'
 import { useTouch } from '../_utils/composable/useTouch'
 import { range } from '../_utils/shared'
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, unref } from 'vue'
 import { createNamespace } from '../_utils/vue/create'
+import { useClickAway } from '../_hooks/useClickAway'
+import { getRect } from '../_utils/dom'
 
 const [name, bem] = createNamespace('swipe')
-const getRefWidth = (ref) => ref?.clientWidth || 0
+const getRefWidth = (ref) => getRect(unref(ref)).width
 const THRESHOLD = 0.15
 
 export default defineComponent({
@@ -37,19 +40,20 @@ export default defineComponent({
   setup(props, { emit, expose }) {
     let opened = false
     let startOffset = 0
+    const root = ref(null)
     const offset = ref(0)
     const touching = ref(false)
     const rightRef = ref(null)
     const leftRef = ref(null)
 
-    const touch = useTouch()
+    const { start, move, isHorizontal, state } = useTouch()
 
     const touchStyle = computed(() => ({
       transform: `translate3d(${offset.value}px, 0, 0)`,
       transitionDuration: touching.value ? '0s' : '.6s',
     }))
-    const rightRefWidth = computed(() => getRefWidth(rightRef.value))
-    const leftRefWidth = computed(() => getRefWidth(leftRef.value))
+    const rightRefWidth = computed(() => getRefWidth(rightRef))
+    const leftRefWidth = computed(() => getRefWidth(leftRef))
 
     function open(position) {
       opened = true
@@ -64,18 +68,20 @@ export default defineComponent({
 
     expose({ open, close })
 
+    useClickAway(root, () => close('outside'), { eventName: 'touchstart' })
+
     return {
+      root,
       rightRef,
       leftRef,
       touchStyle,
       bem,
       onTouchStart(event) {
         startOffset = offset.value
-        touch.start(event)
+        start(event)
       },
       onTouchMove(event) {
         if (props.disabled) return
-        const { move, isHorizontal, state } = touch
         move(event)
         if (isHorizontal()) {
           touching.value = true
@@ -85,7 +91,7 @@ export default defineComponent({
       onTouchEnd() {
         if (!touching.value) return
         touching.value = false
-        const isRight = touch.state.deltaX > 0
+        const isRight = state.deltaX > 0
         const position = isRight ? 'right' : 'left'
         const threshold = opened ? 1 - THRESHOLD : THRESHOLD
         const width = isRight ? leftRefWidth.value : rightRefWidth.value

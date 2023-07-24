@@ -7,7 +7,6 @@
 </template>
 <script>
 import SmyPullRefresh from '../'
-import toast from '../../toast'
 
 export default {
   name: 'PullRefreshExample',
@@ -19,7 +18,7 @@ export default {
     onRefresh() {
       setTimeout(() => {
         this.refresh = false
-        toast('刷新成功！')
+        // toast('刷新成功！')
       }, 2000)
     },
   },

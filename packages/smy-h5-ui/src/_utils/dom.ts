@@ -3,26 +3,31 @@ import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow } 
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
   const allParentScroller: Array<HTMLElement | Window> = []
-  for (let element = getParentScroller(el); element !== window; element = getParentScroller(element as HTMLElement)) {
+  for (let element = getScrollParent(el); element !== window; element = getScrollParent(element as HTMLElement)) {
     allParentScroller.push(element)
   }
   return allParentScroller
 }
 
-type ScrollerElement = HTMLElement | Window
+const ELEMENT_NODE_TYPE = 1
 
-export function getParentScroller(el: HTMLElement, root: ScrollerElement = window): HTMLElement | Window {
-  let element = el
-  while (element && element.parentNode && el !== root) {
-    element = element.parentNode as HTMLElement
-    if (element === document.body || element === document.documentElement) {
+const isElement = (node: Element) => !['HTML', 'BODY'].includes(node.tagName) && node.nodeType === ELEMENT_NODE_TYPE
+
+export type ScrollerElement = HTMLElement | Window
+
+const overflowScrollReg = /scroll|auto|overlay/i
+
+export function getScrollParent(el: HTMLElement, root: ScrollerElement = window): HTMLElement | Window {
+  let node = el
+  while (node && node !== root && isElement(node)) {
+    if ([document.body, document.documentElement].includes(node)) {
       break
     }
-    const scrollRE = /(scroll|auto)/
-    const { overflowY, overflow } = window.getComputedStyle(element)
-    if (scrollRE.test(overflowY) || scrollRE.test(overflow)) {
-      return element
+    const { overflow, overflowY } = window.getComputedStyle(node)
+    if (overflowScrollReg.test(overflow) || overflowScrollReg.test(overflowY)) {
+      return node
     }
+    node = node.parentElement as HTMLElement
   }
   return root
 }
@@ -59,6 +64,12 @@ export function inViewport(el: HTMLElement): Promise<boolean> {
 
 export const getScrollTopRoot = () =>
   window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+
+export function getScrollTop(el: ScrollerElement): number {
+  if (el === window) return getScrollTopRoot()
+  const top = 'scrollTop' in el ? el.scrollTop : el.pageYOffset
+  return Math.max(top, 0)
+}
 
 export function convertToUnit(str: string | number | null | undefined, unit = 'px'): string | undefined {
   if (str == null || str === '') return undefined

@@ -15,13 +15,13 @@
       </template>
     </smy-swipe>
     <app-demo-title>左右滑动</app-demo-title>
-    <smy-swipe ref="test">
+    <smy-swipe ref="test" @click="onClick('cell')">
       <smy-cell title="左滑右滑" insert></smy-cell>
       <template #left>
-        <div class="choose-btn btn">选择</div>
+        <div class="choose-btn btn" @click="onClick('left')">选择</div>
       </template>
       <template #right>
-        <div class="delete-btn btn">删除</div>
+        <div class="delete-btn btn" @click="onClick('right')">删除</div>
       </template>
     </smy-swipe>
   </div>
@@ -30,11 +30,16 @@
 <script>
 import SmySwipe from '../Swipe.vue'
 import SmyCell from '../../cell'
-// import { AppDemoTitle } from '@smy-h5/cli/client'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'SwipeExpamle',
-  components: { SmySwipe, SmyCell },
+  components: { SmySwipe, SmyCell, AppDemoTitle },
+  methods: {
+    onClick(name) {
+      console.log(name)
+    },
+  },
 }
 </script>
 
