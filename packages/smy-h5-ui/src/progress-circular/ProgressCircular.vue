@@ -7,7 +7,6 @@
     :aria-valuenow="indeterminate ? undefined : normalizedValue"
     aria-valuemin="0"
     aria-valuemax="100"
-    class="smy-progress-circular"
     role="progressbar"
   >
     <svg
@@ -18,7 +17,6 @@
       xmlns="http://www.w3.org/2000/svg"
     >
       <circle
-        class="smy-progress-circular__underlay"
         fill="transparent"
         cx="50%"
         cy="50%"
@@ -27,9 +25,9 @@
         :stroke-dashoffset="0"
         :stroke-width="strokeWidth"
         :stroke-dasharray="CIRCUMFERENCE"
+        :class="bem('underlay')"
       ></circle>
       <circle
-        class="smy-progress-circular__overlay"
         fill="transparent"
         cx="50%"
         cy="50%"
@@ -37,6 +35,7 @@
         :stroke-dashoffset="strokeDashOffset"
         :stroke-width="strokeWidth"
         :stroke-dasharray="CIRCUMFERENCE"
+        :class="bem('overlay')"
       ></circle>
     </svg>
     <div v-if="$slots.default" class="smy-progress-circular__content">

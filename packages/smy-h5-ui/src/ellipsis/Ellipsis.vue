@@ -1,64 +1,62 @@
 <template>
-  <div ref="root" class="smy-ellipsis" @click="$emit('click', $event)">
+  <div ref="root" :class="bem()">
     <template v-if="!exceeded">{{ content }}</template>
     <template v-else>
       <template v-if="!expanded"
         >{{ ellipsis.leading
-        }}<span v-if="expandText" class="smy-ellipsis__text" @click.stop="handleExpand">{{ expandText }}</span
+        }}<span v-if="expandText" :class="bem('text')" @click.stop="onExpand">{{ expandText }}</span
         >{{ ellipsis.tailing }}</template
       >
       <template v-else
         >{{ content
-        }}<span v-if="collapseText" class="smy-ellipsis__text" @click.stop="handleExpand">{{
-          collapseText
-        }}</span></template
+        }}<span v-if="collapseText" :class="bem('text')" @click.stop="onExpand">{{ collapseText }}</span></template
       >
     </template>
   </div>
 </template>
 
 <script>
+import { computed, onMounted, ref, watch } from 'vue'
 import { toPxNum } from '../_utils/dom'
+import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 
+const [name, bem] = createNamespace('ellipsis')
 export default {
-  name: 'SmyEllipsis',
+  name,
   props,
-  data: () => ({
-    exceeded: false,
-    expanded: false,
-    ellipsis: {
+  emits: ['change'],
+  setup(props, { emit }) {
+    let container
+    let maxHeight = 0
+    const root = ref(null)
+    const exceeded = ref(false)
+    const expanded = ref(false)
+    const ellipsis = ref({
       leading: undefined,
       tailing: undefined,
-    },
-  }),
-  computed: {
-    actionText({ expanded, collapseText, expandText }) {
-      return expanded ? collapseText : expandText
-    },
-  },
-  created() {
-    let container = null
-    let maxHeight = 0
+    })
+    const actionText = computed(() => (expanded.value ? props.collapseText : props.expandText))
+
     const calcEllipsis = () => {
       if (container.offsetHeight <= maxHeight) {
-        this.exceeded = false
+        exceeded.value = false
         document.body.removeChild(container)
       } else {
-        this.exceeded = true
-        const end = this.content.length
+        exceeded.value = true
+        const end = props.content.length
         const middle = Math.floor((0 + end) / 2)
-        const ellipsised = this.direction === 'middle' ? tailorMiddle([0, middle], [middle, end]) : tailor(0, end)
-        this.ellipsis = ellipsised
+        const ellipsised = props.direction === 'middle' ? tailorMiddle([0, middle], [middle, end]) : tailor(0, end)
+        ellipsis.value = ellipsised
 
         document.body.removeChild(container)
       }
     }
+
     const createContainer = () => {
-      const { root } = this.$refs
-      if (!root) return
+      if (!root.value) return
       container = document.createElement('div')
-      const originStyle = window.getComputedStyle(root)
+      const originStyle = window.getComputedStyle(root.value)
       const styleNames = Array.prototype.slice.apply(originStyle)
       const containerStyle = container.style
       styleNames.forEach((name) => {
@@ -75,16 +73,16 @@ export default {
       containerStyle.whiteSpace = 'normal'
       containerStyle.webkitLineClamp = 'unset'
       containerStyle.display = 'block'
-      const lineHeight = toPxNum(originStyle.lineHeight === 'normal' ? this.lineHeight : originStyle.lineHeight)
+      const lineHeight = toPxNum(originStyle.lineHeight === 'normal' ? props.lineHeight : originStyle.lineHeight)
       maxHeight = Math.floor(
-        lineHeight * (Number(this.rows) + 0.5) + toPxNum(originStyle.paddingTop) + toPxNum(originStyle.paddingBottom)
+        lineHeight * (Number(props.rows) + 0.5) + toPxNum(originStyle.paddingTop) + toPxNum(originStyle.paddingBottom)
       )
-      container.innerText = this.content
+      container.innerText = props.content
       document.body.appendChild(container)
       calcEllipsis()
     }
     const tailor = (left, right) => {
-      const { content, symbol, actionText, direction } = this
+      const { content, symbol, direction } = props
       const isEnd = direction === 'end'
       const end = content.length
       if (right - left <= 1) {
@@ -96,9 +94,9 @@ export default {
       }
       const middle = Math.round((left + right) / 2)
       if (isEnd) {
-        container.innerText = content.slice(0, middle) + symbol + actionText
+        container.innerText = content.slice(0, middle) + symbol + actionText.value
       } else {
-        container.innerText = actionText + symbol + content.slice(middle, end)
+        container.innerText = actionText.value + symbol + content.slice(middle, end)
       }
       if (container.offsetHeight <= maxHeight) {
         if (isEnd) return tailor(middle, right)
@@ -109,7 +107,7 @@ export default {
       }
     }
     const tailorMiddle = (leftPart, rightPart) => {
-      const { content, symbol, actionText } = this
+      const { content, symbol } = props
       const [leftPartStart, leftPartEnd] = leftPart
       const [rightPartStart, rightPartEnd] = rightPart
       const end = content.length
@@ -124,20 +122,25 @@ export default {
       const rightPartMiddle = Math.floor((rightPartStart + rightPartEnd) / 2)
 
       container.innerText =
-        content.slice(0, leftPartMiddle) + symbol + actionText + symbol + content.slice(rightPartMiddle, end)
+        content.slice(0, leftPartMiddle) + symbol + actionText.value + symbol + content.slice(rightPartMiddle, end)
       if (container.offsetHeight <= maxHeight) {
         return tailorMiddle([leftPartMiddle, leftPartEnd], [rightPartStart, rightPartMiddle])
       }
       return tailorMiddle([leftPartStart, leftPartMiddle], [rightPartMiddle, rightPartEnd])
     }
-    this.$once('hook:mounted', createContainer)
-    this.$watch('content', (val, oldVal) => val != oldVal && createContainer())
-  },
-  methods: {
-    handleExpand() {
-      this.expanded = !this.expanded
-      this.$emit('change', this.expanded)
-    },
+
+    const onExpand = () => {
+      expanded.value = !expanded.value
+      emit('change', expanded.value)
+    }
+
+    watch(
+      () => props.cotent,
+      (val, oldVal) => val !== oldVal && createContainer()
+    )
+    onMounted(createContainer)
+
+    return { root, exceeded, expanded, ellipsis, actionText, bem, onExpand }
   },
 }
 </script>

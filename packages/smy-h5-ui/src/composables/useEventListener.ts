@@ -1,4 +1,4 @@
-import { Ref, WatchStopHandle, isRef, onUnmounted, unref, watch } from 'vue'
+import { Ref, WatchStopHandle, getCurrentInstance, isRef, onUnmounted, unref, watch } from 'vue'
 import { IN_BROWSER } from '../_utils/env'
 import { onMountedOrActivated } from '../_utils/vue/onMountedOrActivated'
 
@@ -42,8 +42,12 @@ export function useEventListener(type: string, listener: EventListener, options:
     element.removeEventListener(type, listener, capture)
     attached = false
   }
-  onMountedOrActivated(() => add(target))
-  onUnmounted(() => remove(target))
+  if (getCurrentInstance()) {
+    onMountedOrActivated(() => add(target))
+    onUnmounted(() => remove(target))
+  } else {
+    add(target)
+  }
 
   if (isRef(target)) {
     stopWatch = watch(target, (val, oldVal) => {

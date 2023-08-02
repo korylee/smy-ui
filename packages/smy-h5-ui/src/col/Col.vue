@@ -1,46 +1,40 @@
 <template>
-  <div :class="classes" :style="style" v-on="$listeners">
+  <div :class="bem({ [`span-${span}`]: span, [`offset-${offset}`]: offset })" :style="{ paddingLeft, paddingRight }">
     <slot />
   </div>
 </template>
 <script>
-import { createChildrenMixin } from '../_mixins/relation'
+import { defineComponent, ref } from 'vue'
 import { convertToUnit } from '../_utils/dom'
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
+import { useParentRelation } from '../composables/useRelation'
 
 const [name, bem] = createNamespace('col')
 
-export default {
+export default defineComponent({
   name,
-  mixins: [createChildrenMixin('row', { children: 'cols' })],
   props,
+  setup(props, { expose }) {
+    const paddingLeft = ref(null)
+    const paddingRight = ref(null)
 
-  data: () => ({
-    style: {
-      paddingLeft: 0,
-      paddingRight: 0,
-    },
-  }),
+    useParentRelation('cols')
 
-  computed: {
-    classes({ span, offset }) {
-      return bem({
-        [`span-${span}`]: span,
-        [`offset-${offset}`]: offset,
-      })
-    },
+    const setPadding = (left, right) => {
+      paddingLeft.value = convertToUnit(left)
+      paddingRight.value = convertToUnit(right)
+    }
+    expose({
+      setPadding,
+    })
+    return {
+      paddingLeft,
+      paddingRight,
+      bem,
+    }
   },
-
-  methods: {
-    setPadding({ left, right }) {
-      this.style = {
-        paddingLeft: convertToUnit(left),
-        paddingRight: convertToUnit(right),
-      }
-    },
-  },
-}
+})
 </script>
 
 <style lang="less">

@@ -7,8 +7,9 @@
 <script>
 import { ref, watch, onBeforeUnmount, defineComponent, onMounted } from 'vue'
 import { props } from './props'
-import { parseTime, useCountdown, formatTime } from './utils'
+import { parseTime, formatTime } from './utils'
 import { createNamespace } from '../_utils/vue/create'
+import { useCountdown } from '../composables/useCountdown'
 
 const [name, bem] = createNamespace('countdown')
 
@@ -29,28 +30,31 @@ export default defineComponent({
     const {
       reset: _reset,
       start: _start,
-      pause,
-      isStart,
+      pause: _pause,
+      started,
+      remaining,
     } = useCountdown({
       onChange: (time) => {
         const formatedTimeData = formatTime(time)
         timeData.value = formatedTimeData
         emit('change', formatedTimeData)
       },
-      onStart: (time) => {
-        emit('start', time)
-        emit('update:paused', false)
-      },
       onEnd: () => {
         emit('end')
       },
-      onPause: (time) => {
-        emit('pause', time)
-        emit('update:paused', true)
-      },
     })
     const reset = () => _reset(props.time)
-    const start = () => _start(props.time)
+    const start = () => {
+      if (started.value) return
+      _start(props.time)
+      emit('start', props.time)
+      emit('update:paused', false)
+    }
+    const pause = () => {
+      emit('pause', remaining.value)
+      emit('update:paused', true)
+      _pause()
+    }
 
     expose({
       start,
@@ -61,9 +65,8 @@ export default defineComponent({
     watch(
       () => props.paused,
       (val, oldVal) => {
-        const started = isStart()
-        if (!oldVal && started) pause()
-        else if (oldVal && !started) start()
+        if (!oldVal && started.value) pause()
+        else if (oldVal && !started.value) start()
       }
     )
     onMounted(props.autoStart && !props.paused ? start : reset)

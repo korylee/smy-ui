@@ -1,7 +1,7 @@
 import { ExtractPropTypes, createNumericProp, createStringProp } from '../_utils/vue/props'
 
 export const props = {
-  value: {
+  modelValue: {
     type: Boolean,
     default: false,
   },

@@ -1,6 +1,6 @@
 <template>
-  <div ref="scroller" class="smy-scroller">
-    <div class="smy-scroller__container"><slot /></div>
+  <div ref="scroller" v-intersect="onIntersect" class="smy-scroller">
+    <div :class="bem('container')"><slot /></div>
     <div class="smy-scroller__control">
       <div v-if="isInfiniting" class="smy-scroller__control-loading">
         <slot name="loading">
@@ -18,78 +18,85 @@
 </template>
 
 <script>
-import { getParentScroller, getScrollTopRoot, requestAnimationFrame } from '../_utils/dom'
+import { getScrollTopRoot, requestAnimationFrame } from '../_utils/dom'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
 import { createNamespace } from '../_utils/vue/create'
+import { useScrollParent } from '../_hooks/useScrollParent'
+import { defineComponent, ref, unref, watch, nextTick } from 'vue'
+import { useEventListener } from '../_hooks/useEventListener'
+import Intersect from '../intersect'
 
 const calculateTopPosition = (el) => (!el ? 0 : el.offsetTop + calculateTopPosition(el.offsetParent))
 
-const [name] = createNamespace('scroller')
+const [name, bem] = createNamespace('scroller')
 
-export default {
+export default defineComponent({
   name,
   components: { SmyProgressCircular },
   props,
-  data: () => ({
-    beforeScrollTop: 0,
-    isInfiniting: null,
-    x: 0,
-    y: 0,
-    distance: 0,
-  }),
-  watch: {
-    value(val) {
-      if (val) return
-      this.isInfiniting = false
-    },
-  },
-  created() {
-    let scrollParent = null
+  emits: ['scroll-change', 'load-more', 'update:modelValue'],
+  directives: { Intersect },
+  setup(props, { emit }) {
+    let beforeScrollTop = 0
     let resScrollTop = 0
+    const isInfiniting = ref(false)
+    const scroller = ref(null)
+    const scrollParent = useScrollParent(scroller)
+
     const isScrollAtBootom = () => {
       let offsetDistance = 0
-      const { scroller } = this.$refs
-      if (scrollParent === window) {
+      const scrollerEl = unref(scroller)
+      const scrollParentEl = unref(scrollParent)
+      if (scrollParentEl === window) {
         const windowScrollTop = getScrollTopRoot()
-        if (scroller) {
-          offsetDistance = calculateTopPosition(scroller) + scroller.offsetHeight - windowScrollTop - window.innerHeight
+        if (scrollerEl) {
+          offsetDistance =
+            calculateTopPosition(scrollerEl) + scrollerEl.offsetHeight - windowScrollTop - window.innerHeight
           resScrollTop = windowScrollTop
         }
       } else {
-        const { scrollHeight, clientHeight, scrollTop } = scrollParent
-
+        const { scrollHeight, clientHeight, scrollTop } = scrollParentEl
         offsetDistance = scrollHeight - clientHeight - scrollTop
         resScrollTop = scrollTop
       }
-      const isDown = this.beforeScrollTop <= resScrollTop
-      this.beforeScrollTop = resScrollTop
-      this.$emit('scroll-change', resScrollTop)
-      return offsetDistance <= this.threshold && isDown
+      const isDown = beforeScrollTop <= resScrollTop
+      beforeScrollTop = resScrollTop
+      emit('scroll-change', resScrollTop)
+      return offsetDistance <= props.threshold && isDown
     }
-    const handleScroll = () => {
+    const onScroll = () => {
       requestAnimationFrame(() => {
-        if (!isScrollAtBootom() || !this.hasMore || this.isInfiniting) return false
-        this.isInfiniting = true
-        this.$emit('input', true)
-        this.$nextTick(() => {
-          this.$emit('load-more')
+        if (!isScrollAtBootom() || !props.hasMore || isInfiniting.value) {
+          return false
+        }
+        isInfiniting.value = true
+        emit('update:modelValue', true)
+        nextTick(() => {
+          emit('load-more')
         })
       })
     }
-    const scrollListener = () => {
-      scrollParent?.addEventListener('scroll', handleScroll, this.useCapture)
-    }
-    const removeScrollListener = () => {
-      scrollParent?.removeEventListener('scroll', handleScroll, this.useCapture)
-    }
-    this.$once('hook:mounted', () => {
-      scrollParent = getParentScroller(this.$refs.scroller)
-      scrollListener()
+
+    watch(
+      () => props.modelValue,
+      (val) => !val && (isInfiniting.value = false)
+    )
+    useEventListener('scroll', onScroll, {
+      target: scrollParent,
+      capture: props.useCapture,
     })
-    this.$once('hook:beforeDestroy', removeScrollListener)
+
+    return {
+      scroller,
+      isInfiniting,
+      bem,
+      onIntersect(...args) {
+        console.log(args)
+      },
+    }
   },
-}
+})
 </script>
 
 <style lang="less">

@@ -1,43 +1,37 @@
 <template>
-  <div :style="style" class="smy-row smy--flex smy--box" v-on="$listeners">
+  <div
+    :style="{
+      justifyContent: justify,
+      alignItems: align,
+      margin: average ? `0 -${average}px` : undefined,
+      flexWrap: wrap,
+    }"
+    class="smy-row smy--flex smy--box"
+  >
     <slot />
   </div>
 </template>
 <script>
-import { createParentMixin } from '../_mixins/relation'
 import { toPxNum } from '../_utils/dom'
 import { props } from './props'
+import { useChildrenRelation } from '../composables/useRelation'
+import { computed, nextTick, watch } from 'vue'
 
 export default {
   name: 'SmyRow',
-  mixins: [createParentMixin('row', { children: 'cols' })],
   props,
-  computed: {
-    average({ gutter }) {
-      return toPxNum(gutter) / 2
-    },
-    paddingWatchDispatcher({ gutter, cols }) {
-      return [gutter, cols]
-    },
-    style({ average, justify, align, wrap }) {
-      return {
-        justifyContent: justify,
-        alignItems: align,
-        margin: average ? `0 -${average}px` : undefined,
-        flexWrap: wrap,
-      }
-    },
-  },
+  setup(props) {
+    const average = computed(() => toPxNum(props.gutter) / 2)
+    const { children } = useChildrenRelation('cols')
 
-  watch: {
-    paddingWatchDispatcher() {
-      const { average, cols } = this
-      this.$nextTick(() => {
-        cols.forEach((col) => {
-          col.setPadding({ left: average, right: average })
-        })
+    watch([() => props.gutter, () => children], () => {
+      nextTick(() => {
+        console.log(children)
       })
-    },
+    })
+    return {
+      average,
+    }
   },
 }
 </script>

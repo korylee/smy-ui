@@ -1,4 +1,4 @@
-import { isBool, isNil, isString, isArray, type Func, isObject, isRegExp, isDate, isFunction } from './is'
+import { isBool, isNil, isString, isArray, type Func, isObject, isFunction } from './is'
 
 const cameLizeRE = /-(\w)/g
 
@@ -63,7 +63,6 @@ type AssignCustomizer = (
 
 const ObjectProto = Object.prototype
 const hasOwnProperty = ObjectProto.hasOwnProperty
-const isMergeableObject = (val: unknown) => isObject(val) && !isRegExp(val) && !isDate(val)
 
 export function assignWith<T extends AnyObject, U extends AnyObject>(
   target: T,
@@ -79,11 +78,7 @@ export function assignWith<T extends AnyObject, U extends AnyObject>(
   return target as T & U
 }
 
-export function assign<T, U>(object: T, source: U): T & U
-export function assign<T, U, R>(object: T, source1: U, source2: R): T & U & R
-export function assign<T extends AnyObject>(target: T, ...sources: any[]): any {
-  return sources.reduce((acc, cur) => (isMergeableObject(cur) ? assignWith(acc, cur, (t, s) => s) : acc), target)
-}
+export const assign = Object.assign
 
 export function createLRUCache<T, R>(max: number, cache: Map<T, R> = new Map()) {
   const has = (key: T) => cache.has(key)

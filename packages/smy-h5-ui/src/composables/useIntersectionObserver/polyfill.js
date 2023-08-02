@@ -1,7 +1,7 @@
-import { getRect, makeDomRect } from '../_utils/dom'
-import { IN_BROWSER } from '../_utils/env'
-import { isFunction } from '../_utils/is'
-import { throttle } from '../_utils/shared'
+import { getRect, makeDomRect } from '../../_utils/dom'
+import { IN_BROWSER } from '../../_utils/env'
+import { isFunction } from '../../_utils/is'
+import { throttle } from '../../_utils/shared'
 
 const SUPPORT_INTERSECTION =
   'IntersectionObserver' in window &&
