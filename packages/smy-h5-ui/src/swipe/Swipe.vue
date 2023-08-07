@@ -20,17 +20,19 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { props } from './props'
 import { useTouch } from '../_utils/composable/useTouch'
 import { range } from '../_utils/shared'
-import { computed, defineComponent, ref, unref } from 'vue'
+import { Ref, computed, defineComponent, ref, unref } from 'vue'
 import { createNamespace } from '../_utils/vue/create'
-import { useClickAway } from '../_hooks/useClickAway'
 import { getRect } from '../_utils/dom'
+import { useClickAway } from '../composables/useClickAway'
+
+type Position = 'left' | 'right' | 'outside'
 
 const [name, bem] = createNamespace('swipe')
-const getRefWidth = (ref) => getRect(unref(ref)).width
+const getRefWidth = (ref: Ref<HTMLElement | undefined>) => getRect(unref(ref)).width
 const THRESHOLD = 0.15
 
 export default defineComponent({
@@ -40,11 +42,11 @@ export default defineComponent({
   setup(props, { emit, expose }) {
     let opened = false
     let startOffset = 0
-    const root = ref(null)
+    const root = ref<HTMLElement>()
     const offset = ref(0)
     const touching = ref(false)
-    const rightRef = ref(null)
-    const leftRef = ref(null)
+    const rightRef = ref<HTMLElement>()
+    const leftRef = ref<HTMLElement>()
 
     const { start, move, isHorizontal, state } = useTouch()
 
@@ -55,12 +57,12 @@ export default defineComponent({
     const rightRefWidth = computed(() => getRefWidth(rightRef))
     const leftRefWidth = computed(() => getRefWidth(leftRef))
 
-    function open(position) {
+    function open(position: Position) {
       opened = true
       offset.value = position === 'left' ? -rightRefWidth.value : leftRefWidth.value
       emit('open', { position })
     }
-    function close(position) {
+    function close(position: Position) {
       offset.value = 0
       opened = false
       emit('close', { position })
@@ -76,11 +78,11 @@ export default defineComponent({
       leftRef,
       touchStyle,
       bem,
-      onTouchStart(event) {
+      onTouchStart(event: TouchEvent) {
         startOffset = offset.value
         start(event)
       },
-      onTouchMove(event) {
+      onTouchMove(event: TouchEvent) {
         if (props.disabled) return
         move(event)
         if (isHorizontal()) {

@@ -3,7 +3,7 @@ import { kebabCase } from '../_utils/shared'
 import { throwError } from '../_utils/smy/warn'
 
 export function useProxiedModel<
-  Props extends object & { [key in Prop as `onUpdate:${Prop}`]: (val: any) => void | undefined },
+  Props extends object & { [key in Prop as `onUpdate:${Prop}`]?: (val: any) => void | undefined },
   Prop extends Extract<keyof Props, string>,
   Inner = Props[Prop]
 >(
@@ -11,24 +11,24 @@ export function useProxiedModel<
   prop: Prop,
   options: {
     passive?: boolean
-    transformIn: (value?: Props[Prop]) => Inner
-    transformOut: (value: Inner) => Props[Prop]
-  } = {
-    passive: true,
-    transformIn: (v: any) => v,
-    transformOut: (v: any) => v,
-  }
+    defaultValue?: Props[Prop]
+    transformIn?: (value?: Props[Prop]) => Inner
+    transformOut?: (value: Inner) => Props[Prop]
+  } = {}
 ) {
   const vm = getCurrentInstance()
   if (!vm) {
     return throwError('useProxiedModel', 'must be called from inside a setup function')
   }
-  const { passive, transformIn, transformOut } = options
+  const { passive = true, transformIn = (v: any) => v, transformOut = (v: any) => v, defaultValue } = options
 
-  let getExternalValue = () => props[prop]
+  let getValue = () => props[prop]
+  let setValue = (value: Props[Prop]) => {
+    vm.emit(`update:${prop}`, value)
+  }
 
   if (passive) {
-    const internal = ref(props[prop]) as Ref<Props[Prop]>
+    const internal = ref(transformOut((props[prop] ?? defaultValue) as Inner)) as Ref<Props[Prop]>
     watch(
       () => props[prop],
       (val) => {
@@ -36,26 +36,30 @@ export function useProxiedModel<
       }
     )
 
-    getExternalValue = () => internal.value
+    getValue = () => internal.value
+    setValue = (value: Props[Prop]) => {
+      internal.value = value
+      vm.emit(`update:${prop}`, value)
+    }
   }
 
   const model = computed({
     get() {
-      const externalValue = getExternalValue()
+      const externalValue = getValue()
       return transformIn(externalValue)
     },
     set(internalValue) {
       const newValue = transformOut(internalValue)
-      const externalValue = getExternalValue()
+      const externalValue = getValue()
       const value = toRaw(externalValue)
       if (value === newValue || transformIn(value) === internalValue) {
         return
       }
-      vm.emit(`update:${prop}`, newValue)
+      setValue(newValue)
     },
   })
   Object.defineProperty(model, 'externalValue', {
-    get: getExternalValue,
+    get: getValue,
   })
   return model
 }

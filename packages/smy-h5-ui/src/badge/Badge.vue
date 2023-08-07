@@ -9,7 +9,7 @@
     <slot />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { isNumeric } from '../_utils/is'
 import { convertToUnit } from '../_utils/dom'
 import { props } from './props'
@@ -37,7 +37,7 @@ export default defineComponent({
       const { value, max, dot } = props
       if (dot) return
       if (isNumeric(value) && isNumeric(max)) {
-        return max < +value ? `${max}+` : value
+        return +max < +value ? `${max}+` : value
       }
       return value
     })

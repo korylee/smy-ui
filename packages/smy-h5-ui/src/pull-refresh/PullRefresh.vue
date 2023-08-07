@@ -10,7 +10,7 @@
               indeterminate
               width="1.4"
             />
-            <div v-if="HEAER_STATUS.includes(state.status)" :class="bem('header-text')">{{ getStatusText() }}</div>
+            <div v-if="NORMAL !== state.status" :class="bem('header-text')">{{ getStatusText() }}</div>
           </slot>
         </div>
       </slot>
@@ -18,20 +18,22 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { useTouch } from '../_utils/composable/useTouch'
 import { toPxNum, convertToUnit, getScrollTop } from '../_utils/dom'
 import { props, DEFAULT_HEAD_HEIGHT } from './props'
 import SmyProgressCircular from '../progress-circular'
 import { computed, defineComponent, nextTick, reactive, ref, watch } from 'vue'
-import { useScrollParent } from '../_hooks/useScrollParent'
 import { createNamespace } from '../_utils/vue/create'
+import { useScrollParent } from '../composables/useScrollParent'
 
 const LOADING = 'loading'
 const SUCCESS = 'success'
 const NORMAL = 'normal'
 const PULLING = 'pulling'
 const LOOSING = 'loosing'
+
+type PullRefreshStatus = 'normal' | 'loading' | 'loosing' | 'pulling'
 
 const [name, bem] = createNamespace('pull-refresh')
 
@@ -41,11 +43,15 @@ export default defineComponent({
   props,
   emits: ['refresh', 'change', 'update:modelValue'],
   setup(props, { emit }) {
-    let isReachTop
-    const scroller = ref(null)
+    let isReachTop: boolean
+    const scroller = ref<HTMLElement>()
     const scrollParent = useScrollParent(scroller)
     const touch = useTouch()
-    const state = reactive({
+    const state = reactive<{
+      status: PullRefreshStatus
+      distance: number
+      duration: number
+    }>({
       status: NORMAL,
       distance: 0,
       duration: 0,
@@ -79,7 +85,7 @@ export default defineComponent({
       return getScrollTop(scrollParent.value) === 0
     }
     const getPullDistance = () => toPxNum(props.pullDistance || props.headerHeight)
-    const ease = (distance) => {
+    const ease = (distance: number) => {
       const pullDistance = getPullDistance()
       if (distance > pullDistance) {
         if (distance < pullDistance * 2) {
@@ -90,25 +96,25 @@ export default defineComponent({
       }
       return Math.round(distance)
     }
-    const setStatus = (distance, isLoading) => {
+    const setStatus = (distance: number, isLoading?: boolean) => {
       const pullDistance = getPullDistance()
       state.distance = distance
       const status = isLoading ? LOADING : distance === 0 ? NORMAL : distance < pullDistance ? PULLING : LOOSING
       state.status = status
       emit('change', { status, distance })
     }
-    const checkPosition = (event) => {
+    const checkPosition = (event: TouchEvent) => {
       isReachTop = getIsReachTop()
       if (isReachTop) {
         state.duration = 0
         touch.start(event)
       }
     }
-    const onTouchStart = (event) => {
+    const onTouchStart = (event: TouchEvent) => {
       if (!isTouchable()) return
       checkPosition(event)
     }
-    const onTouchMove = (event) => {
+    const onTouchMove = (event: TouchEvent) => {
       if (!isTouchable()) return
       if (!isReachTop) {
         checkPosition(event)
@@ -144,7 +150,6 @@ export default defineComponent({
         value ? setStatus(toPxNum(props.headerHeight), true) : setStatus(0, false)
       }
     )
-    const HEAER_STATUS = [PULLING, LOOSING, LOADING]
     return {
       scroller,
       headerStyle,
@@ -156,13 +161,13 @@ export default defineComponent({
       onTouchMove,
       onTouchEnd,
       LOADING,
-      HEAER_STATUS,
+      NORMAL,
     }
   },
 })
 </script>
 
 <style lang="less">
-@import '../loading/loading.less';
+@import '../progress-circular/progressCircular.less';
 @import './pullRefresh.less';
 </style>

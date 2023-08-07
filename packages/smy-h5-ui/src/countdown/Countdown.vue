@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref, watch, onBeforeUnmount, defineComponent, onMounted } from 'vue'
 import { props } from './props'
 import { parseTime, formatTime } from './utils'
@@ -24,8 +24,7 @@ export default defineComponent({
       minutes: 0,
       seconds: 0,
       milliseconds: 0,
-      timestamp: 0,
-      time: 0,
+      total: 0,
     })
     const {
       reset: _reset,

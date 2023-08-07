@@ -12,15 +12,21 @@ export const ROOT_DOCS_DIR = resolve(CWD, 'docs')
 export const TS_CONFIG = resolve(CWD, 'tsconfig.json')
 export const TS_TYPES_CONFIG = resolve(CWD, 'tsconfig.types.json')
 
+export const SCRIPT_EXT_NAMES = ['.vue', '.ts', '.js', '.mjs', '.tsx', '.jsx']
+export const SCRIPT_INDEXES = ['index.vue', 'index.tsx', 'index.ts', 'index.jsx', 'index.js']
+export const STYLE_INDEXES = ['index.less', 'index.css']
+export const STYLE_EXT_NAMES = ['.less', '.css']
 export const ESLINT_EXTENSIONS = ['.vue', '.ts', '.js', '.mjs', '.tsx', '.jsx']
-export const VITE_RESOLVE_EXTENSION = ['.vue', '.ts', '.js', '.mjs', '.tsx', '.jsx']
-export const PUBLIC_DIR_INDEXES = ['index.vue', 'index.tsx', 'index.ts', 'index.jsx', 'index.js']
+export const VITE_RESOLVE_EXTENSION = SCRIPT_EXT_NAMES
+export const PUBLIC_DIR_INDEXES = SCRIPT_INDEXES
 export const SCRIPTS_EXTENSIONS = ['.tsx', '.ts', '.jsx', '.js']
 export const STYLE_DIR_NAME = 'style'
 export const EXAMPLE_DIR_NAME = 'example'
 export const DIR_INDEX = 'index.vue'
 export const DOCS_DIR_NAME = 'docs'
 export const TESTS_DIR_NAME = '__tests__'
+export const BUNDLE_ENRTY_FILENAME = 'index.bundle.mjs'
+
 export const UI_PACKAGE_JSON = resolve(CWD, 'package.json')
 export const CLI_PACKAGE_JSON = resolve(__dirname, '../../package.json')
 

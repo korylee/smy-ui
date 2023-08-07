@@ -5,18 +5,19 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue'
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 
 const [name, bem] = createNamespace('cell-group')
 
-export default {
+export default defineComponent({
   name,
   props,
-  methods: {
-    bem,
+  setup() {
+    return { bem }
   },
-}
+})
 </script>
 
 <style lang="less">

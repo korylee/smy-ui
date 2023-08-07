@@ -108,9 +108,9 @@ export async function comipleDtsEntry(dest: string, publicDirs: string[]) {
     exports.push(`export { default as ${componentName} } from './${filename}'`)
   })
   const template = `\
-import type { VueConstructor } from 'vue'
+import type { App } from 'vue'
 
-export declare function install(app: VueConstructor): void
+export declare function install(app: App): void
 
 export declare const version = "${version}";
 

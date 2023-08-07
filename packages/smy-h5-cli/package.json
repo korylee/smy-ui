@@ -76,7 +76,7 @@
     "vite-plugin-html": "2.1.1",
     "vue": "3.2.25",
     "vue-template-es2015-compiler": "^1.9.1",
-    "webfont": "^11.0.0"
+    "webfont": "^11.2.26"
   },
   "peerDependencies": {
     "vue": "3.2.25"

@@ -25,17 +25,17 @@
 
 <script>
 import { props } from './props'
-import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 import SmyIcon from '../icon'
 import { getRect } from '../_utils/dom'
 import { createNamespace } from '../_utils/vue/create'
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 
 const [name, bem] = createNamespace('notice-bar')
 
 export default defineComponent({
   name,
-  components: { WindowClose, SmyIcon },
+  components: { SmyIcon, WindowClose },
   props,
   setup(props, { expose, emit }) {
     const showNoticeBar = ref(true)

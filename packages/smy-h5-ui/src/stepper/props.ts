@@ -1,10 +1,11 @@
-import { createNumericProp, type ExtractPropTypes } from '../_utils/vue/props'
+import { createNumericProp, truthProp, type ExtractPropTypes } from '../_utils/vue/props'
 
 export const props = {
-  value: {
+  modelValue: {
     type: [String, Number],
     required: true,
   },
+  defaultValue: createNumericProp(1),
   min: createNumericProp(0),
   max: createNumericProp(Infinity),
   step: createNumericProp(1),
@@ -29,6 +30,7 @@ export const props = {
   height: [String, Number],
   buttonWidth: [String, Number],
   buttonSize: [String, Number],
+  longPress: truthProp,
 }
 
 export type StepperProps = ExtractPropTypes<typeof props>

@@ -66,7 +66,7 @@ module.exports = defineConfig({
       { text: 'Scroller 滚动加载', doc: 'scroller', type: 2 },
       { text: 'PullRefresh 下拉刷新', doc: 'pull-refresh', type: 2 },
       // { text: '表单组件', type: 1 },
-      // { text: 'Stepper 步进器', doc: 'stepper', type: 2 },
+      { text: 'Stepper 步进器', doc: 'stepper', type: 2 },
       // { text: 'Switch 开关', doc: 'switch', type: 2 },
     ],
   },

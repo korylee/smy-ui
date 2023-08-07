@@ -17,19 +17,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 
 const [name, bem] = createNamespace('cell')
 
-export default {
+export default defineComponent({
   name,
   props,
   setup() {
     return { bem }
   },
-}
+})
 </script>
 
 <style lang="less">

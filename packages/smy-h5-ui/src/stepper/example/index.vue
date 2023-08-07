@@ -6,19 +6,19 @@
       <template #extra> {{ val1 }}</template>
     </smy-cell>
     <app-demo-title>步长设置</app-demo-title>
-    <smy-stepper value="0" :step="2" />
+    <smy-stepper model-value="0" :step="2" />
     <app-demo-title>限制输入范围</app-demo-title>
-    <smy-stepper value="0" min="10" max="20" />
+    <smy-stepper model-value="0" min="10" max="20" />
     <app-demo-title>禁用操作</app-demo-title>
-    <smy-stepper disabled value="0" />
+    <smy-stepper disabled model-value="0" />
     <app-demo-title>只读禁用输入框</app-demo-title>
-    <smy-stepper readonly value="0" />
+    <smy-stepper readonly model-value="0" />
     <app-demo-title>支持小数</app-demo-title>
-    <smy-stepper value="0" step="0.1" decimal-places="1" />
+    <smy-stepper model-value="0" step="0.1" decimal-places="1" />
     <app-demo-title>自定义按钮大小</app-demo-title>
-    <smy-stepper value="0" step="1" width="200" height="40" button-width="40" button-size="25" />
+    <smy-stepper model-value="0" step="1" width="200" height="40" button-width="40" button-size="25" />
     <app-demo-title>自定义按钮</app-demo-title>
-    <smy-stepper value="0">
+    <smy-stepper model-value="0">
       <template #minus>
         <smy-icon><close-circle /></smy-icon>
       </template>

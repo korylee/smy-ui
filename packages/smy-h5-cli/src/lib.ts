@@ -16,13 +16,17 @@ program
   .action(dev)
 
 program.command('lint-commit <gitParams>').description('Lint commit message').action(lintCommit)
-
-/**
 program
   .command('compile')
   .description('Compile Smy components library code')
-  .option('-nu, --noUmd', 'Do not compile umd target code')
-  .action(compile)
+  .action(async () => {
+    const { compile } = await import('./commands/compile')
+
+    return compile()
+  })
+
+/**
+
 
 program.command('build').description('Build site for production').action(build)
 
@@ -61,8 +65,16 @@ program
   .option('-cc --clearCache', 'Clear test cache')
   .action(jest)
 
-program.command('build:icons').description('Build icons').action(icons)
  */
+
+program
+  .command('build:icons')
+  .description('Build icons')
+  .action(async () => {
+    const { icons } = await import('./commands/icons')
+    return icons()
+  })
+
 program.on('command:*', ([cwd]) => {
   program.outputHelp()
   logger.error(`\nUnknown command ${cwd}.\n`)

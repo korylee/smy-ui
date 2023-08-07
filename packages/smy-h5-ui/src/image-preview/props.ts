@@ -1,8 +1,7 @@
-import type { PropType } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import { assign, pick } from '../_utils/shared'
 import { props as swiperProps } from '../swiper/props'
 import { props as popupProps } from '../popup/props'
-import type { ExtractPropTypes } from '../_utils/vue/props'
 
 export type Image = string
 

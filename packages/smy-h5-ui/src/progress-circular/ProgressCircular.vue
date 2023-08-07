@@ -38,14 +38,14 @@
         :class="bem('overlay')"
       ></circle>
     </svg>
-    <div v-if="$slots.default" class="smy-progress-circular__content">
+    <div v-if="$slots.default" :class="bem('content')">
       <slot name="default" :value="normalizedValue" />
     </div>
   </component>
 </template>
-<script>
-import { computed, nextTick, ref, watch } from 'vue'
-import { convertToUnit } from '../_utils/dom'
+<script lang="ts">
+import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+import { convertToUnit, toPxNum } from '../_utils/dom'
 import { assign, range } from '../_utils/shared'
 import { getSizeStyle } from '../_utils/style'
 import { createNamespace } from '../_utils/vue/create'
@@ -56,20 +56,20 @@ const CIRCUMFERENCE = 2 * Math.PI * MAGIC_RADIUS_CONSTANT
 
 const [name, bem] = createNamespace('progress-circular')
 
-export default {
+export default defineComponent({
   name,
   props,
   setup(props) {
     const internalSize = ref(0)
-    const root = ref(null)
+    const root = ref<HTMLElement>()
     const rootStyle = computed(() => {
       const { color, size } = props
 
       return assign({ color, caretColor: color }, getSizeStyle(size))
     })
-    const normalizedValue = computed(() => range(props.value, 0, 100))
-    const diameter = computed(() => (MAGIC_RADIUS_CONSTANT / (1 - props.width / internalSize.value)) * 2)
-    const strokeWidth = computed(() => (props.width / internalSize.value) * diameter.value)
+    const normalizedValue = computed(() => range(+props.value, 0, 100))
+    const diameter = computed(() => (MAGIC_RADIUS_CONSTANT / (1 - toPxNum(props.width) / internalSize.value)) * 2)
+    const strokeWidth = computed(() => (toPxNum(props.width) / internalSize.value) * diameter.value)
     const strokeDashOffset = computed(() => convertToUnit(((100 - normalizedValue.value) / 100) * CIRCUMFERENCE))
 
     watch(
@@ -94,7 +94,7 @@ export default {
       bem,
     }
   },
-}
+})
 </script>
 
 <style lang="less">

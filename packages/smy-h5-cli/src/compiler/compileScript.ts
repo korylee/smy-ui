@@ -1,64 +1,100 @@
+import { dirname, extname, resolve } from 'node:path'
 import { transformAsync } from '@babel/core'
-import { writeFileSync, readFileSync, removeSync, writeFile, existsSync, unlink } from 'fs-extra'
+import {
+  writeFileSync,
+  readFileSync,
+  removeSync,
+  writeFile,
+  existsSync,
+  unlink,
+  pathExistsSync,
+  readdirSync,
+  readJsonSync,
+} from 'fs-extra'
 import { camelCase, upperFirst } from 'lodash'
-import { replaceExt } from '../shared/fs-utils'
-import { extractStyleDependencies } from './compileStyle'
-import { resolve } from 'path'
+import { isDir, replaceExt } from '../shared/fs-utils'
+import { IMPORT_CSS_RE, IMPORT_LESS_RE, extractStyleDependencies } from './compileStyle'
 import logger from '../shared/logger'
-import { CWD, UI_PACKAGE_JSON } from '../shared/constant'
-import { getSmyConfig } from '../config/smyConfig'
+import {
+  BUNDLE_ENRTY_FILENAME,
+  CWD,
+  SCRIPT_EXT_NAMES,
+  SCRIPT_INDEXES,
+  STYLE_EXT_NAMES,
+  STYLE_INDEXES,
+  UI_PACKAGE_JSON,
+} from '../shared/constant'
 import execa from 'execa'
 
-export const IMPORT_VUE_PATH_RE = /((?<!['"`])import\s+.+from\s+['"]\s*\.{1,2}\/.+)\.vue(\s*['"`]);?(?!\s*['"`])/g
-export const IMPORT_TS_PATH_RE = /((?<!['"`])import\s+.+from\s+['"]\s*\.{1,2}\/.+)\.ts(\s*['"`]);?(?!\s*['"`])/g
-export const IMPORT_JSX_PATH_RE = /((?<!['"`])import\s+.+from\s+['"]\s*\.{1,2}\/.+)\.jsx(\s*['"`]);?(?!\s*['"`])/g
-export const IMPORT_TSX_PATH_RE = /((?<!['"`])import\s+.+from\s+['"]\s*\.{1,2}\/.+)\.tsx(\s*['"`]);?(?!\s*['"`])/g
-export const REQUIRE_TS_PATH_RE = /(?<!['"`]\s*)(require\s*\(\s*['"]\s*\.{1,2}\/.+)\.ts(\s*['"`]\))(?!\s*['"`])/g
-export const REQUIRE_JSX_PATH_RE = /(?<!['"`]\s*)(require\s*\(\s*['"]\s*\.{1,2}\/.+)\.jsx(\s*['"`]\))(?!\s*['"`])/g
-export const REQUIRE_TSX_PATH_RE = /(?<!['"`]\s*)(require\s*\(\s*['"]\s*\.{1,2}\/.+)\.tsx(\s*['"`]\))(?!\s*['"`])/g
+// https://regexr.com/765a4
+export const IMPORT_FROM_DEPENDENCE_RE = /import\s+?[\w\s{},$*]+\s+from\s+?(".*?"|'.*?')/g
+// https://regexr.com/767e6
+export const EXPORT_FROM_DEPENDENCE_RE = /export\s+?[\w\s{},$*]+\s+from\s+?(".*?"|'.*?')/g
+// https://regexr.com/764ve
+export const IMPORT_DEPENDENCE_RE = /import\s+(".*?"|'.*?')/g
 
-const scriptReplacer = (_: any, p1: string, p2: string) => `${p1}.js${p2}`
+function tryMatchExtname(file: string, extname: string[]) {
+  for (const ext of extname) {
+    const matched = `${file}${ext}`
+    if (pathExistsSync(matched)) {
+      return ext
+    }
+  }
+}
 
-export const replaceVueExt = (script: string) => script.replace(IMPORT_VUE_PATH_RE, scriptReplacer)
+export function resolveDependence(file: string, script: string) {
+  const replacer = (source: string, dependence: string) => {
+    dependence = dependence.slice(1, dependence.length - 1)
+    const ext = extname(dependence)
+    const targetDependenceFile = resolve(dirname(file), dependence)
+    const scriptExt = '.js'
+    const inNodeModules = !dependence.startsWith('.')
+    const done = (targetDependence: string) => source.replace(dependence, targetDependence)
 
-export const replaceTSExt = (script: string): string =>
-  script.replace(IMPORT_TS_PATH_RE, scriptReplacer).replace(REQUIRE_TS_PATH_RE, scriptReplacer)
+    if (inNodeModules) {
+      return source
+    }
+    if (ext) {
+      if (SCRIPT_EXT_NAMES.includes(ext)) {
+        return done(dependence.replace(ext, scriptExt))
+      }
+      if (STYLE_EXT_NAMES.includes(ext)) {
+        return source
+      }
+    } else {
+      const matchScript = tryMatchExtname(targetDependenceFile, SCRIPT_EXT_NAMES)
+      if (matchScript) {
+        return done(`${dependence}${scriptExt}`)
+      }
 
-export const replaceJSXExt = (script: string) =>
-  script.replace(IMPORT_JSX_PATH_RE, scriptReplacer).replace(REQUIRE_JSX_PATH_RE, scriptReplacer)
-
-export const replaceTSXExt = (script: string) =>
-  script.replace(IMPORT_TSX_PATH_RE, scriptReplacer).replace(REQUIRE_TSX_PATH_RE, scriptReplacer)
-
-export function moduleCompatible(script: string): string {
-  const moduleCompatibles = getSmyConfig()?.moduleCompatibles ?? {}
-  Object.keys(moduleCompatibles).forEach((esm) => {
-    const commonjs = moduleCompatibles[esm]
-    script = script.replace(esm, commonjs)
-  })
+      if (isDir(targetDependenceFile)) {
+        const files = readdirSync(targetDependenceFile)
+        const hasScriptIndex = files.some((file) => SCRIPT_INDEXES.includes(extname(file)))
+        if (hasScriptIndex) {
+          return done(`${dependence}/index/${scriptExt}`)
+        }
+        const hasStyleIndex = files.some((file) => STYLE_INDEXES.includes(extname(file)))
+        if (hasStyleIndex) {
+          return done(`${dependence}/index.css`)
+        }
+      }
+    }
+    return ''
+  }
   return script
+    .replace(IMPORT_FROM_DEPENDENCE_RE, replacer)
+    .replace(EXPORT_FROM_DEPENDENCE_RE, replacer)
+    .replace(IMPORT_DEPENDENCE_RE, replacer)
 }
 
 export async function compileScript(script: string, file: string) {
-  const moduleType = process.env.BABEL_MODULE
-  const isCjs = moduleType === 'commonjs'
-
-  if (isCjs) {
-    script = moduleCompatible(script)
-  }
-
   // ts -> js
   const result = await transformAsync(script, { filename: file })
   let code = result?.code
   if (!code) return logger.error(`${file} code is empty`)
-
-  code = extractStyleDependencies(file, code, { expect: 'css', self: true })
-  code = extractStyleDependencies(file, code, { expect: 'less', self: true })
-
-  code = replaceVueExt(code)
-  code = replaceJSXExt(code)
-  code = replaceTSXExt(code)
-  code = replaceTSExt(code)
+  code = resolveDependence(file, code)
+  code = extractStyleDependencies(file, code, IMPORT_CSS_RE)
+  code = extractStyleDependencies(file, code, IMPORT_LESS_RE)
 
   removeSync(file)
   writeFileSync(replaceExt(file, '.js'), code, 'utf-8')
@@ -73,37 +109,33 @@ export async function compileScriptFile(file: string) {
 export async function compileESEntry(dir: string, publicDirs: string[]) {
   const imports: string[] = []
   const plugins: string[] = []
-  // const internalComponents: string[] = []
+  const exports: string[] = []
   const publicComponents: string[] = []
   const cssImports: string[] = []
-  const lessImports: string[] = []
-  const version = require(UI_PACKAGE_JSON).version
-  // const { namespace = "smy" } = getSmyConfig();
-  // const componentPrefix = upperFirst(namespace);
 
   publicDirs.forEach((dirname: string) => {
     if (dirname.startsWith('_')) return
     const publicComponent = upperFirst(camelCase(dirname))
+    const module = `'./${dirname}/index.js'`
     publicComponents.push(publicComponent)
-    imports.push(`import ${publicComponent} from './${dirname}'`)
-    plugins.push(`app.use(${publicComponent})`)
+    imports.push(`import ${publicComponent} from ${module}`)
+    exports.push(`export * from ${module}`)
+    plugins.push(`${publicComponent}.install && app.use(${publicComponent})`)
     if (!existsSync(resolve(dir, `./${dirname}/style`))) return
-    cssImports.push(`import './${dirname}/style'`)
-    lessImports.push(`import './${dirname}/style/less'`)
+    cssImports.push(`import './${dirname}/style/index.js'`)
   })
 
   const install = `
-const installTargets = [];
 function install(app) {
-  if (~installTargets.indexOf(app)) return;
-  installTargets.push(app);
   ${plugins.join('\n  ')}
 }
 `
+  const version = `const version = '${readJsonSync(UI_PACKAGE_JSON).version}'`
 
   const indexTemplate = `\
 ${imports.join('\n')}\n
-const version = '${version}';\n
+${exports.join('\n')}\n
+${version}
 ${install}
 export {
   install,
@@ -117,10 +149,11 @@ export default {
 }
 `
 
-  const umdIndexTemplate = `\
+  const bundleTemplate = `\
 ${imports.join('\n')}\n
+${exports.join('\n')}\n
 ${cssImports.join('\n')}\n
-const version = '${version}'\n
+${version}
 ${install}
 export {
   install,
@@ -138,70 +171,10 @@ export default {
 ${cssImports.join('\n')}
 `
 
-  const lessTemplate = `\
-${lessImports.join('\n')}
-`
   await Promise.all([
     writeFile(resolve(dir, 'index.js'), indexTemplate, 'utf-8'),
-    writeFile(resolve(dir, 'umdIndex.js'), umdIndexTemplate, 'utf-8'),
+    writeFile(resolve(dir, BUNDLE_ENRTY_FILENAME), bundleTemplate, 'utf-8'),
     writeFile(resolve(dir, 'style.js'), styleTemplate, 'utf-8'),
-    writeFile(resolve(dir, 'less.js'), lessTemplate, 'utf-8'),
-  ])
-}
-
-export async function compileCommonJSEntry(dir: string, publicDirs: string[]) {
-  const requires: string[] = []
-  const plugins: string[] = []
-  const cssRequires: string[] = []
-  const lessRequires: string[] = []
-  const publicComponents: string[] = []
-  const version = require(UI_PACKAGE_JSON).version
-
-  publicDirs.forEach((dirname) => {
-    if (dirname.startsWith('_')) return
-    const publicComponent = upperFirst(camelCase(dirname))
-    publicComponents.push(publicComponent)
-    requires.push(`var ${publicComponent} = require('./${dirname}')['default']`)
-    plugins.push(`${publicComponent}.install && app.use(${publicComponent})`)
-    if (!existsSync(resolve(dir, `./${dirname}/style`))) return
-    cssRequires.push(`require('./${dirname}/style')`)
-    lessRequires.push(`require('./${dirname}/style/less')`)
-  })
-  const install = `\
-const installTargets = [];
-function install(app) {
-  if (~installTargets.indexOf(app)) return
-  installTargets.push(app)
-  ${plugins.join('\n  ')}
-}`
-
-  const indexTemplate = `\
-${requires.join('\n')}\n
-${install}
-
-const version = '${version}';
-
-module.exports = {
-  default: {
-    install,
-    version,
-  },
-  install,
-  version,
-  ${publicComponents.join(',\n  ')}
-}
-`
-  const styleTemplate = `\
-${cssRequires.join('\n')}
-`
-
-  const lessTemplate = `\
-${lessRequires.join('\n')}
-`
-  await Promise.all([
-    writeFile(resolve(dir, 'index.js'), indexTemplate, 'utf-8'),
-    writeFile(resolve(dir, 'style.js'), styleTemplate, 'utf-8'),
-    writeFile(resolve(dir, 'less.js'), lessTemplate, 'utf-8'),
   ])
 }
 

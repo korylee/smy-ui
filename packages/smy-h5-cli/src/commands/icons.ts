@@ -84,7 +84,9 @@ async function buildComponents(svgFiles: string[]) {
   ${file}
 </template>
 <script>
-export default { name: "${componentName}" }
+import { defineComponent } from 'vue'
+
+export default defineComponent({ name: "${componentName}" })
 </script>
 `
       const path = resolve(tempPath, `${componentName}.vue`)
@@ -94,6 +96,7 @@ export default { name: "${componentName}" }
     })
   )
   await generateIndex(names, '.js', '', tempPath)
+  // await generateIndex(names, '.d.ts', '', tempPath)
   await generateAsyncIndex(names, '.js', '', tempPath)
 
   await Promise.all(paths.map((path) => compileSFCFile(path)))
@@ -105,6 +108,7 @@ export default { name: "${componentName}" }
     lib: ['ESNext', 'DOM'],
     allowJs: true,
     checkJs: false,
+    declaration: true,
   }
 
   await tsc({

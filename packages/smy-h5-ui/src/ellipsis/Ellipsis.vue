@@ -15,27 +15,28 @@
   </div>
 </template>
 
-<script>
-import { computed, onMounted, ref, watch } from 'vue'
+<script lang="ts">
+import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { toPxNum } from '../_utils/dom'
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 
 const [name, bem] = createNamespace('ellipsis')
-export default {
+
+type Ellipsis = { leading?: string; tailing?: string }
+
+export default defineComponent({
   name,
   props,
   emits: ['change'],
   setup(props, { emit }) {
-    let container
+    let container: HTMLElement
     let maxHeight = 0
     const root = ref(null)
     const exceeded = ref(false)
     const expanded = ref(false)
-    const ellipsis = ref({
-      leading: undefined,
-      tailing: undefined,
-    })
+    const ellipsis = ref<Ellipsis>({})
+
     const actionText = computed(() => (expanded.value ? props.collapseText : props.expandText))
 
     const calcEllipsis = () => {
@@ -81,7 +82,7 @@ export default {
       document.body.appendChild(container)
       calcEllipsis()
     }
-    const tailor = (left, right) => {
+    const tailor = (left: number, right: number): Ellipsis => {
       const { content, symbol, direction } = props
       const isEnd = direction === 'end'
       const end = content.length
@@ -106,7 +107,7 @@ export default {
         return tailor(middle, right)
       }
     }
-    const tailorMiddle = (leftPart, rightPart) => {
+    const tailorMiddle = (leftPart: [number, number], rightPart: [number, number]): Ellipsis => {
       const { content, symbol } = props
       const [leftPartStart, leftPartEnd] = leftPart
       const [rightPartStart, rightPartEnd] = rightPart
@@ -135,14 +136,14 @@ export default {
     }
 
     watch(
-      () => props.cotent,
+      () => props.content,
       (val, oldVal) => val !== oldVal && createContainer()
     )
     onMounted(createContainer)
 
     return { root, exceeded, expanded, ellipsis, actionText, bem, onExpand }
   },
-}
+})
 </script>
 
 <style lang="less">

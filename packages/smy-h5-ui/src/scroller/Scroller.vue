@@ -1,5 +1,5 @@
 <template>
-  <div ref="scroller" v-intersect="onIntersect" class="smy-scroller">
+  <div ref="scroller" class="smy-scroller">
     <div :class="bem('container')"><slot /></div>
     <div class="smy-scroller__control">
       <div v-if="isInfiniting" class="smy-scroller__control-loading">
@@ -17,17 +17,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { getScrollTopRoot, requestAnimationFrame } from '../_utils/dom'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
 import { createNamespace } from '../_utils/vue/create'
-import { useScrollParent } from '../_hooks/useScrollParent'
 import { defineComponent, ref, unref, watch, nextTick } from 'vue'
-import { useEventListener } from '../_hooks/useEventListener'
-import Intersect from '../intersect'
+import { useScrollParent } from '../composables/useScrollParent'
+import { useEventListener } from '../composables/useEventListener'
 
-const calculateTopPosition = (el) => (!el ? 0 : el.offsetTop + calculateTopPosition(el.offsetParent))
+const calculateTopPosition = (el?: HTMLElement): number =>
+  !el ? 0 : el.offsetTop + calculateTopPosition(el.offsetParent as HTMLElement)
 
 const [name, bem] = createNamespace('scroller')
 
@@ -36,12 +36,11 @@ export default defineComponent({
   components: { SmyProgressCircular },
   props,
   emits: ['scroll-change', 'load-more', 'update:modelValue'],
-  directives: { Intersect },
   setup(props, { emit }) {
     let beforeScrollTop = 0
     let resScrollTop = 0
     const isInfiniting = ref(false)
-    const scroller = ref(null)
+    const scroller = ref<HTMLElement>()
     const scrollParent = useScrollParent(scroller)
 
     const isScrollAtBootom = () => {
@@ -55,15 +54,15 @@ export default defineComponent({
             calculateTopPosition(scrollerEl) + scrollerEl.offsetHeight - windowScrollTop - window.innerHeight
           resScrollTop = windowScrollTop
         }
-      } else {
-        const { scrollHeight, clientHeight, scrollTop } = scrollParentEl
+      } else if (scrollParentEl) {
+        const { scrollHeight, clientHeight, scrollTop } = scrollParentEl as HTMLElement
         offsetDistance = scrollHeight - clientHeight - scrollTop
         resScrollTop = scrollTop
       }
       const isDown = beforeScrollTop <= resScrollTop
       beforeScrollTop = resScrollTop
       emit('scroll-change', resScrollTop)
-      return offsetDistance <= props.threshold && isDown
+      return offsetDistance <= +props.threshold && isDown
     }
     const onScroll = () => {
       requestAnimationFrame(() => {
@@ -91,9 +90,6 @@ export default defineComponent({
       scroller,
       isInfiniting,
       bem,
-      onIntersect(...args) {
-        console.log(args)
-      },
     }
   },
 })

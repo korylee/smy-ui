@@ -1,22 +1,23 @@
-import { App } from 'vue'
+import { App, Component, createVNode, render } from 'vue'
 
-type Component = any
-
-function registerComponent(app: App<Element>, name: string, component: Component) {
-  const registered = app.component(name)
-  if (!registered) {
-    app.component(name, component)
-  }
+export type WithInstall<T> = T & {
+  withInstall(app: App): void
 }
 
-export function createInstall(component: Component) {
-  return function install(app: App<Element>) {
+export function withInstall<T extends Component>(component: T) {
+  ;(component as Record<string, unknown>).install = function install(app: App) {
     const { name } = component
-    registerComponent(app, name, component)
+    if (name) {
+      app.component(name, component)
+    }
   }
+  return component as WithInstall<T>
 }
 
-export function withInstall(component: Component): Component {
-  component.install = createInstall(component)
-  return component
+export function mountComponent(RootComponent: Component) {
+  const vnode = createVNode(RootComponent)
+  const container = document.createElement('div')
+  render(vnode, container)
+  document.body.appendChild(container.firstElementChild!)
+  return { instance: vnode }
 }

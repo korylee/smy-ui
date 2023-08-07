@@ -11,13 +11,13 @@
     <slot />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { toPxNum } from '../_utils/dom'
 import { props } from './props'
 import { useChildrenRelation } from '../composables/useRelation'
-import { computed, nextTick, watch } from 'vue'
+import { computed, defineComponent, nextTick, watch } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'SmyRow',
   props,
   setup(props) {
@@ -33,7 +33,7 @@ export default {
       average,
     }
   },
-}
+})
 </script>
 
 <style lang="less">

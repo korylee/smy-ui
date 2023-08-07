@@ -41,6 +41,6 @@ export const isVh = (str: string): boolean => isString(str) && str.endsWith('vh'
 
 export const isVw = (str: string): boolean => isString(str) && str.endsWith('vw')
 
-export const isNumString = (str: unknown): boolean => isString(str) && /^\d+$/.test(str)
+export const isNumString = (str: unknown): boolean => isString(str) && /^\d+.?\d*$/.test(str)
 
 export const isNumeric = (val: unknown): val is Numeric => isNumber(val) || isNumString(val)
