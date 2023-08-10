@@ -1,4 +1,4 @@
-import type { PropType } from 'vue'
+import type { PropType, Prop, } from 'vue'
 
 declare type InferPropType<T> = [T] extends [null]
   ? any
@@ -25,19 +25,6 @@ export declare type ExtractPropTypes<O> = {
 } & {
   [K in keyof Pick<O, OptionalKeys<O>>]?: InferPropType<O[K]>
 }
-
-export declare type Prop<T, D = T> = PropOptions<T, D> | PropType<T>
-
-declare interface PropOptions<T = any, D = T> {
-  type?: PropType<T> | true | null
-  required?: boolean
-  default?: D | DefaultFactory<D> | null | undefined | object
-  validator?(value: unknown): boolean
-}
-
-declare type DefaultFactory<T> = (props: Data) => T | null | undefined
-
-declare type Data = Record<string, unknown>
 
 declare type RequiredKeys<T> = {
   [K in keyof T]: T[K] extends {

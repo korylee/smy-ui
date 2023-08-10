@@ -1,148 +1,146 @@
 <template>
-  <div
-    class="smy-picker__column"
-    @touchstart="handleTouchstart"
-    @touchmove.prevent="handleTouchmove"
-    @touchend="handleTouchend"
-  >
-    <div :style="scrollerStyle" class="smy-picker__scroller" ref="scrollEl" @transitionend="handleTransitionend">
+  <div class="smy-picker__column" @touchstart="onTouchstart" @touchmove.prevent="onTouchmove" @touchend="onTouchend">
+    <div :style="getScrollerStyle()" class="smy-picker__scroller" ref="scroller" @transitionend="onTransitionend">
       <div
-        v-for="(item, itemIndex) in column"
-        :key="itemIndex"
+        v-for="(option, optionIndex) in column"
+        :key="optionIndex"
         :style="{ height: `${height}px` }"
         class="smy-picker__option"
       >
-        <div class="smy-picker__text"><slot name="item" :item="item" :index="itemIndex" /></div>
+        <slot name="option" :option="option" :index="optionIndex" />
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref, reactive, watch } from 'vue'
 import { getTranslate } from '../_utils/dom'
 import { range } from '../_utils/shared'
+import { createNumberProp } from '../_utils/vue/props'
 
 const MOMENTUM_RECORD_TIME = 300
 const MOMENTUM_ALLOW_DISTANCE = 15
 
-function momentum(distance, duration) {
+function momentum(distance: number, duration: number) {
   return distance / duration / 0.003
 }
 
-export default {
+export default defineComponent({
   name: 'SmyPickerColumn',
   props: {
-    height: Number,
-    column: Array,
-    columnIndex: Number,
-    pickedIndex: Number,
-    center: Number,
+    height: createNumberProp(0),
+    column: { type: Array, default: () => [] },
+    columnIndex: createNumberProp(0),
+    pickedIndex: createNumberProp(0),
+    center: createNumberProp(0),
   },
-  data: (vm) => ({
-    duration: 0,
-    prevY: undefined,
-    momentumPrevY: undefined,
-    momentumTime: 0,
-    touching: false,
-    translate: vm.center,
-    scrollEl: null,
-    scrolling: false,
-    index: 0,
-  }),
+  emits: ['change', 'update:pickedIndex'],
+  setup(props, { emit, expose }) {
+    let touching = false
+    let prevY: number | undefined
+    let momentumPrevY: number
+    let momentumTime = 0
+    let currentIndex = 0
+    let scrolling = false
 
-  computed: {
-    scrollerStyle({ translate, duration }) {
-      return {
-        transform: `translate3d(0, ${translate}px, 0)`,
-        transitionDuration: `${duration}ms`,
-        transitionProperty: duration ? 'transform' : 'none',
+    const state = reactive({
+      translate: props.center,
+      duration: 0,
+    })
+    const scroller = ref()
+
+    const scrollTo = (index: number, duration = 0, noEmit = false) => {
+      const { height, center } = props
+      const translate = center - index * height
+      if (translate === state.translate) {
+        scrolling = false
+        !noEmit && emit('change')
+      } else {
+        state.translate = translate
       }
-    },
-  },
-
-  watch: {
-    pickedIndex: {
-      immediate: true,
-      handler(pickedIndex) {
-        if (pickedIndex === this.index) return
-        this.scrollTo(pickedIndex, 0)
-      },
-    },
-  },
-
-  methods: {
-    handleTouchstart() {
-      const { scrollEl } = this.$refs
-      this.touching = true
-      this.scrolling = false
-      this.duration = 0
-      this.translate = getTranslate(scrollEl)
-    },
-    handleTouchmove(event) {
-      if (!this.touching) return
-
-      const { clientY } = event.touches[0]
-      const moveY = this.prevY !== undefined ? clientY - this.prevY : 0
-      this.prevY = clientY
-
-      this.translate = this.limitTranslate(this.translate + moveY)
-
-      const now = performance.now()
-      if (now - this.momentumTime > MOMENTUM_RECORD_TIME) {
-        this.momentumTime = now
-        this.momentumPrevY = this.translate
-      }
-    },
-    handleTouchend() {
-      this.touching = false
-      this.scrolling = true
-      this.prevY = undefined
-      const distance = this.translate - this.momentumPrevY
-      const duration = performance.now() - this.momentumTime
-      const shouldMomentum = Math.abs(distance) >= MOMENTUM_ALLOW_DISTANCE && duration <= MOMENTUM_RECORD_TIME
-      shouldMomentum && (this.translate += momentum(distance, duration))
-      this.scrollTo(this.getIndex(this.translate), shouldMomentum ? 1000 : 200)
-    },
-
-    handleTransitionend() {
-      this.scrolling = false
-      this.change()
-    },
-
-    limitTranslate(translate) {
-      const { height, center, column } = this
+      state.duration = duration
+      if (currentIndex === index) return
+      currentIndex = index
+      emit('update:pickedIndex', index)
+    }
+    const getIndex = (translate: number) => {
+      const { center, height, column } = props
+      return range(Math.round((center - translate) / height), 0, column.length - 1)
+    }
+    const stopScroll = () => {
+      if (!scrolling) return
+      const index = getIndex(getTranslate(scroller.value))
+      scrollTo(index, 0, true)
+    }
+    const limitTranslate = (translate: number) => {
+      const { height, center, column } = props
       const START_LIMIT = height + center
       const END_LIMIT = center - column.length * height
 
       return range(translate, END_LIMIT, START_LIMIT)
-    },
+    }
+    const onTouchstart = () => {
+      touching = true
+      scrolling = false
+      state.duration = 0
+      state.translate = getTranslate(scroller.value)
+    }
+    const onTouchmove = (event: TouchEvent) => {
+      if (!touching) return
 
-    scrollTo(index, duration = 0, noEmit = false) {
-      const { height, center } = this
-      const translate = center - index * height
-      if (translate === this.translate) {
-        this.scrolling = false
-        !noEmit && this.change()
-      } else {
-        this.translate = translate
+      const { clientY } = event.touches[0]
+      const moveY = prevY !== undefined ? clientY - prevY : 0
+      prevY = clientY
+
+      state.translate = limitTranslate(state.translate + moveY)
+
+      const now = performance.now()
+      if (now - momentumTime > MOMENTUM_RECORD_TIME) {
+        momentumTime = now
+        momentumPrevY = state.translate
       }
-      this.duration = duration
-      if (this.index === index) return
-      this.index = index
-      this.$emit('update:picked-index', index)
-    },
-    change() {
-      this.$emit('change')
-    },
-    stopScroll() {
-      const { scrollEl } = this.$refs
-      const index = this.getIndex(getTranslate(scrollEl))
-      this.scrollTo(index, 0, true)
-    },
-    getIndex(translate) {
-      const { center, height, column } = this
-      return range(Math.round((center - translate) / height), 0, column.length - 1)
-    },
+    }
+    const onTouchend = () => {
+      touching = false
+      scrolling = true
+      prevY = undefined
+      const distance = state.translate - momentumPrevY
+      const duration = performance.now() - momentumTime
+      const shouldMomentum = Math.abs(distance) >= MOMENTUM_ALLOW_DISTANCE && duration <= MOMENTUM_RECORD_TIME
+      shouldMomentum && (state.translate += momentum(distance, duration))
+      scrollTo(getIndex(state.translate), shouldMomentum ? 1000 : 200)
+    }
+    const onTransitionend = () => {
+      scrolling = false
+      state.duration = 0
+      emit('change')
+    }
+
+    expose({
+      stopScroll,
+    })
+
+    watch(
+      () => props.pickedIndex,
+      (value) => {
+        if (value === currentIndex) return
+        scrollTo(value, 0)
+      },
+      { immediate: true }
+    )
+    return {
+      scroller,
+      getScrollerStyle: () => ({
+        transform: `translate3d(0, ${state.translate}px, 0)`,
+        transitionDuration: `${state.duration}ms`,
+        transitionProperty: state.duration ? 'transform' : 'none',
+      }),
+      onTouchstart,
+      onTouchmove,
+      onTouchend,
+      onTransitionend,
+    }
   },
-}
+})
 </script>

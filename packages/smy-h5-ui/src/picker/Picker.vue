@@ -1,229 +1,261 @@
 <template>
-  <maybe-popup
-    :show.sync="internalShow"
-    :maybe="popup"
-    :teleport="teleport"
-    :close-on-click-overlay="closeOnClickOverlay"
+  <component
+    :is="popup ? SmyPopup : Transition"
+    v-bind="
+      popup
+        ? {
+            closeOnClickOverlay,
+            show,
+            teleport,
+            class: bem('popup'),
+            position: 'bottom',
+            onOpen,
+            onClose,
+            onOpened,
+            onClosed,
+            onRouteChange,
+            onClickOverlay,
+            'onUpdate:show': onUpdateShow,
+          }
+        : undefined
+    "
     smy-picker-cover
-    position="bottom"
-    wrapper-class="smy-picker__popup"
-    v-on="popupListeners"
   >
-    <div class="smy-picker" v-bind="$attrs">
+    <div :class="bem()" v-bind="$attrs">
       <slot name="toolbar">
-        <div class="smy-picker__toolbar">
+        <div :class="bem('toolbar')">
           <slot name="cancel">
-            <span class="smy-picker__cancel-button" smy-picker-cover @click="cancel">{{ cancelButtonText }}</span>
+            <span :class="bem('cancel-button')" smy-picker-cover @click="cancel">{{ cancelButtonText }}</span>
           </slot>
           <slot name="title">
-            <div class="smy-picker__title">{{ title }}</div>
+            <div :class="bem('title')">{{ title }}</div>
           </slot>
           <slot name="confirm">
-            <span class="smy-picker__confirm-button" smy-picker-cover @click="confirm">{{ confirmButtonText }}</span>
+            <span :class="bem('confirm-button')" smy-picker-cover @click="confirm">{{ confirmButtonText }}</span>
           </slot>
         </div>
       </slot>
       <slot name="top"></slot>
-      <div class="smy-picker__columns" :style="{ height: `${columnHeight}px` }">
+      <div :class="bem('columns')" :style="{ height: `${columnHeight}px` }">
         <picker-column
           v-for="scrollColumn in scrollColumns"
-          ref="columnRefs"
           :key="scrollColumn.id"
+          v-model:picked-index="scrollColumn.pickedIndex"
+          :ref="(el: any) => setScrollInstance(scrollColumn, el)"
           :column="scrollColumn.column"
           :column-index="scrollColumn.columnIndex"
-          :picked-index.sync="scrollColumn.pickedIndex"
           :center="center"
           :height="localOptionHeight"
           @change="change(scrollColumn)"
-          ><template #item="{ item }">{{ getText(item, scrollColumn.columnIndex) }}</template></picker-column
         >
+          <template #option="data">
+            <slot name="option" v-bind="data">
+              <div v-if="allowHtml" v-html="getItemText(data.option, data.index)" class="smy--ellipsis"></div>
+              <div v-else v-text="getItemText(data.option, data.index)" class="smy--ellipsis"></div>
+            </slot>
+          </template>
+        </picker-column>
         <div
-          class="smy-picker__picked"
           :style="{
             top: `${center}px`,
             height: `${localOptionHeight}px`,
           }"
+          :class="bem('picked')"
         ></div>
-        <div class="smy-picker__mask" :style="{ backgroundSize: `100% ${center}px` }"></div>
+        <div :class="bem('mask')" :style="{ backgroundSize: `100% ${center}px` }"></div>
       </div>
     </div>
-  </maybe-popup>
+  </component>
 </template>
 
-<script>
+<script lang="ts">
 import SmyPopup from '../popup'
-import { props } from './props'
-import { createProxiedModel } from '../_mixins/proxiedModel'
+import { props, NormalColumn, CascadeColumn } from './props'
 import { toPxNum } from '../_utils/dom'
 import { createGetPropertyFromItem, toNumber, wrapInArray } from '../_utils/shared'
 import PickerColumn from './PickerColumn.vue'
 import { isArray, isNil } from '../_utils/is'
-import { createMaybeComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
+import { ComponentPublicInstance, Ref, Transition, computed, defineComponent, ref, watch, nextTick } from 'vue'
 
 let sid = 0
 
-const MaybePopup = createMaybeComponent(SmyPopup)
-
-const getListeners = (vm, events) => {
-  return events.reduce((listeners, event) => {
-    listeners[event] = (...args) => vm.$emit(event, ...args)
-    return listeners
-  }, {})
-}
-
-function listEqual(listA, listB) {
-  if (!isArray(listA) || !isArray(listB)) return false
+function isListEqual(listA?: any[], listB?: any[]) {
   if (listA === listB) return true
+  if (!isArray(listA) || !isArray(listB)) return false
   if (listA.length !== listB.length) return false
   return listA.every((item, index) => item === listB[index])
 }
 
-const [name] = createNamespace('picker')
+type PickerColumnInstance = ComponentPublicInstance<typeof PickerColumn>
 
-export default {
+type ScrollColumn = {
+  id: number
+  columnIndex: number
+  pickedIndex: number
+  column: NormalColumn
+  columns?: CascadeColumn[]
+  columnInstance: PickerColumnInstance | null
+}
+
+const [name, bem] = createNamespace('picker')
+
+export default defineComponent({
   name,
-  components: { MaybePopup, PickerColumn },
+  components: { PickerColumn },
   inheritAttrs: false,
-  mixins: [createProxiedModel('show', 'internalShow', { passive: false, event: 'update:show' })],
   props,
+  emits: [
+    'update:show',
+    'clickOverlay',
+    'open',
+    'opened',
+    'close',
+    'closed',
+    'routeChange',
+    'update:modelValue',
+    'cancel',
+    'confirm',
+    'change',
+  ],
+  setup(props, { expose, emit }) {
+    let pickedIndexes: number[] = []
+    const scrollColumns: Ref<ScrollColumn[]> = ref([])
+    const localOptionHeight = computed(() => toPxNum(props.optionHeight))
+    const columnHeight = computed(() => toNumber(props.optionCount) * localOptionHeight.value)
+    const center = computed(() => (columnHeight.value - localOptionHeight.value) / 2)
 
-  data: () => ({ pickedIndexes: [], scrollColumns: [] }),
+    const getItemText = createGetPropertyFromItem(props.textFormatter)
+    const getItemChildren = createGetPropertyFromItem(props.childrenFormatter)
+    const getItemValue = createGetPropertyFromItem(props.valueFormatter)
 
-  computed: {
-    popupListeners: (vm) => getListeners(vm, ['click-overlay', 'open', 'opened', 'close', 'closed', 'route-change']),
-    localOptionHeight() {
-      return toPxNum(this.optionHeight)
-    },
-    center({ columnHeight, localOptionHeight }) {
-      return (columnHeight - localOptionHeight) / 2
-    },
-    columnHeight({ optionCount, localOptionHeight }) {
-      return toNumber(optionCount) * localOptionHeight
-    },
-    getText: (vm) => createGetPropertyFromItem(vm.textFormatter),
-    getValue: (vm) => createGetPropertyFromItem(vm.valueFormatter),
-    getChildren: (vm) => createGetPropertyFromItem(vm.childrenFormatter),
-  },
-
-  watch: {
-    value: 'init',
-    columns: {
-      immediate: true,
-      handler(val, oldVal) {
-        if (listEqual(val, oldVal)) return
-        this.init()
-      },
-    },
-  },
-
-  methods: {
-    confirm() {
-      this.stopScroll()
-
-      const { values, indexes } = this.getPicked()
-      this.pickedIndexes = indexes.slice()
-      this.$emit('confirm', values, indexes)
-      this.$emit('input', values)
-    },
-
-    cancel() {
-      this.stopScroll()
-
-      const { values, indexes } = this.getPicked()
-      this.pickedIndexes = indexes.slice()
-      this.$emit('cancel', values, indexes)
-    },
-
-    init() {
-      this.scrollColumns = this.cascade ? this.initCascade() : this.initNormal()
-      this.pickedIndexes = []
-    },
-
-    initNormal() {
-      const { columns } = this
-      return columns.map((column, columnIndex) => {
-        return this.createScrollColumn(column, columnIndex)
-      })
-    },
-
-    initCascade() {
-      const scrollColumns = []
-      this.setChildren(scrollColumns, 0, this.columns)
-      return scrollColumns
-    },
-
-    setChildren(scrollColumns, columnIndex, children) {
-      if (!isArray(children) || !children.length) return
-      const scrollColumn = this.createScrollColumn(children, columnIndex, children)
-      const { pickedIndex } = scrollColumn
-      this.$set(scrollColumns, columnIndex, scrollColumn)
-      const nextColumnIndex = columnIndex + 1
-      this.setChildren(scrollColumns, nextColumnIndex, this.getChildren(children[pickedIndex], nextColumnIndex))
-    },
-
-    createScrollColumn(column, columnIndex, columns) {
-      const { value, scrollColumns } = this
-      const oldScrollColumn = scrollColumns[columnIndex]
-      const pickedValue = wrapInArray(value)[columnIndex]
+    const createScrollColumn = (column: NormalColumn, columnIndex: number, columns?: CascadeColumn[]): ScrollColumn => {
+      const oldScrollColumn = scrollColumns.value[columnIndex]
+      const pickedValue = wrapInArray(props.modelValue)[columnIndex]
       const findIndex = isNil(pickedValue)
         ? -1
-        : column.findIndex((item) => this.getValue(item, columnIndex) === pickedValue)
+        : column.findIndex((item, index) => getItemValue(item, index) === pickedValue)
       const pickedIndex = findIndex === -1 ? 0 : findIndex
-      const id = oldScrollColumn && oldScrollColumn.column === column ? oldScrollColumn.id : sid++
+      const id = oldScrollColumn?.column === column ? oldScrollColumn.id : ++sid
       return {
         id,
         column,
         columnIndex,
         pickedIndex,
         columns,
+        columnInstance: null,
       }
-    },
-
-    rebuildChild(scrollColumn) {
-      const { scrollColumns } = this
-      const { columns, columnIndex, pickedIndex } = scrollColumn
+    }
+    const setChildren = (scrollColumns: ScrollColumn[], columnIndex: number, children: CascadeColumn[]) => {
+      if (!isArray(children) || !children.length) return
+      const scrollColumn = createScrollColumn(children, columnIndex, children)
+      const { pickedIndex } = scrollColumn
+      scrollColumns[columnIndex] = scrollColumn
       const nextColumnIndex = columnIndex + 1
-      const children = this.getChildren(columns[pickedIndex], nextColumnIndex)
-      this.setChildren(scrollColumns, nextColumnIndex, children)
-    },
-
-    stopScroll() {
-      const { columnRefs } = this.$refs
-      columnRefs.forEach((columnRef) => {
-        if (!columnRef?.scrolling) return
-        columnRef.stopScroll()
-        const { columnIndex, index } = columnRef
-        const scrollColumn = this.scrollColumns[columnIndex]
-        scrollColumn.pickedIndex = index
-        this.change(scrollColumn)
-      })
-    },
-
-    change(scrollColumn) {
-      const {
-        $refs: { columnRefs },
-        cascade,
-      } = this
-      cascade && this.rebuildChild(scrollColumn)
-      const hasScrolling = columnRefs.some((columnRef) => columnRef.scrolling)
-      if (hasScrolling) return
-      const { values, indexes } = this.getPicked()
-      if (listEqual(indexes, this.pickedIndexes)) return
-      this.pickedIndexes = indexes.slice()
-      this.$emit('change', values, indexes)
-    },
-
-    getPicked() {
-      const values = []
-      const indexes = this.scrollColumns.map(({ pickedIndex, column, columnIndex }) => {
-        values.push(this.getValue(column[pickedIndex], columnIndex))
+      setChildren(scrollColumns, nextColumnIndex, getItemChildren(children[pickedIndex], columnIndex))
+    }
+    const rebuildChild = (scrollColumn: ScrollColumn) => {
+      const { columns, columnIndex, pickedIndex } = scrollColumn
+      if (!columns) return
+      const nextColumnIndex = columnIndex + 1
+      const children = getItemChildren(columns[pickedIndex], columnIndex)
+      setChildren(scrollColumns.value, nextColumnIndex, children)
+    }
+    const getPicked = () => {
+      const values: any[] = []
+      const indexes = scrollColumns.value.map(({ pickedIndex, column }, index) => {
+        values.push(getItemValue(column[pickedIndex], index))
         return pickedIndex
       })
       return { values, indexes }
-    },
+    }
+    const initCascade = () => {
+      const { columns } = props
+      const scrollColumns: ScrollColumn[] = []
+      setChildren(scrollColumns, 0, columns as CascadeColumn[])
+      return scrollColumns
+    }
+    const initNormal = () => {
+      const { columns } = props
+      return (columns as NormalColumn[]).map((column, columnIndex) => createScrollColumn(column, columnIndex))
+    }
+    const init = () => {
+      scrollColumns.value = props.cascade ? initCascade() : initNormal()
+      pickedIndexes = []
+    }
+    const change = (scrollColumn?: ScrollColumn) => {
+      const { cascade } = props
+      scrollColumn && cascade && rebuildChild(scrollColumn)
+
+      const { values, indexes } = getPicked()
+      if (isListEqual(indexes, pickedIndexes)) return
+      pickedIndexes = indexes.slice()
+      emit('change', values, indexes)
+    }
+    const stopScroll = () => {
+      scrollColumns.value.forEach((scrollColumn) => {
+        const { columnInstance } = scrollColumn
+        if (!columnInstance) return
+        columnInstance.stopScroll()
+      })
+      nextTick(() => change())
+    }
+    const setScrollInstance = (scrollColumn: ScrollColumn, instance: PickerColumnInstance | null) => {
+      scrollColumn.columnInstance = instance
+    }
+    const confirm = () => {
+      stopScroll()
+
+      const { values, indexes } = getPicked()
+      pickedIndexes = indexes.slice()
+      emit('confirm', values, indexes)
+      emit('update:modelValue', values)
+    }
+
+    const cancel = () => {
+      stopScroll()
+
+      const { values, indexes } = getPicked()
+      pickedIndexes = indexes.slice()
+      emit('cancel', values, indexes)
+    }
+
+    watch(
+      [() => props.modelValue, () => props.columns],
+      ([value, column], [oldValue, oldColumn]) => {
+        if (isListEqual(value, oldValue) && isListEqual(column, oldColumn)) return
+        init()
+      },
+      { immediate: true }
+    )
+
+    expose({
+      init,
+    })
+
+    return {
+      Transition,
+      SmyPopup,
+      localOptionHeight,
+      center,
+      columnHeight,
+      scrollColumns,
+      bem,
+      getItemText,
+      setScrollInstance,
+      cancel,
+      confirm,
+      change,
+      onOpen: () => emit('open'),
+      onOpened: () => emit('opened'),
+      onClose: () => emit('close'),
+      onClosed: () => emit('closed'),
+      onClickOverlay: () => emit('clickOverlay'),
+      onRouteChange: () => emit('routeChange'),
+      onUpdateShow: () => emit('update:show'),
+    }
   },
-}
+})
 </script>
 
 <style lang="less">

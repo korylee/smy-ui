@@ -1,5 +1,6 @@
 import { dirname, extname, resolve } from 'node:path'
 import { transformAsync } from '@babel/core'
+import esbuild from 'esbuild'
 import {
   writeFileSync,
   readFileSync,
@@ -88,9 +89,20 @@ export function resolveDependence(file: string, script: string) {
 }
 
 export async function compileScript(script: string, file: string) {
-  // ts -> js
-  const result = await transformAsync(script, { filename: file })
-  let code = result?.code
+  // ts|tsx|jsx -> js
+  const result = await transformAsync(script, {
+    filename: file,
+  })
+  let code = script
+  if (result?.code) {
+    code = result.code
+  }
+  const esbuildResult = await esbuild.transform(code, {
+    loader: 'ts',
+    target: 'es2016',
+    format: 'esm',
+  })
+  code = esbuildResult.code
   if (!code) return logger.error(`${file} code is empty`)
   code = resolveDependence(file, code)
   code = extractStyleDependencies(file, code, IMPORT_CSS_RE)

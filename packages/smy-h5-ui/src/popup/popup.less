@@ -7,7 +7,7 @@
 }
 
 .transition-mixin(@transform, @transition-duration: 0.25s, @transition-timing-function: ease) {
-  &-enter,
+  &-enter-from,
   &-leave-to {
     transform: @transform;
   }
@@ -18,8 +18,8 @@
   }
 }
 
-.pop-transition(@position, @transform) {
-  .smy-pop-@{position} {
+.pop-transition(@type, @transform) {
+  .smy-pop-@{type} {
     .transition-mixin(@transform);
   }
 }

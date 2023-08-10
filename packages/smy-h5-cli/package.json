@@ -39,6 +39,9 @@
     "@types/node": "^16.11.45",
     "@types/semver": "^7.3.12",
     "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
+    "@vue/babel-plugin-jsx": "^1.1.5",
+    "esbuild": "^0.18.20",
     "lodash-es": "^4.17.21"
   },
   "dependencies": {

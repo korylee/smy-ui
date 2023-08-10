@@ -1,34 +1,14 @@
 import type { ToastProps, ToastType } from './props'
-import type { VNode } from 'vue'
-import type { CombinedVueInstance } from 'vue/types/vue'
-import type { SmyComponent } from '../_utils/smy/component'
 
 import { mountComponent, withInstall } from '../_utils/vue/component'
 import _Toast from './Toast.vue'
 import { isNumber, isPlainObject, isString } from '../_utils/is'
-import Vue from 'vue'
+import Vue, { reactive } from 'vue'
 import { TOAST_TYPES } from './props'
 import { throwError } from '../_utils/smy/warn'
 import { assign, keys } from '../_utils/shared'
 
-declare interface SmyToast extends SmyComponent {
-  new (): {
-    $props: ToastProps
-    $scopeSlots: {
-      default: () => VNode
-      icon: () => VNode
-    }
-    $emit: {
-      (event: 'open'): void
-      (event: 'opened'): void
-      (event: 'close'): void
-      (event: 'closed'): void
-      (event: 'route-change'): void
-    }
-  }
-}
-
-const _SmyToast = withInstall(_Toast) as unknown as SmyToast
+const SmyToast = withInstall(_Toast)
 
 export type ReactiveToastOptions = Partial<ToastProps> & {
   onOpen?: () => void
@@ -39,13 +19,6 @@ export type ReactiveToastOptions = Partial<ToastProps> & {
 
 type NeverRecord = Record<string, never>
 
-type ToastInstance = CombinedVueInstance<
-  Vue,
-  { content: string },
-  { close: () => void; open: (opts: ReactiveToastOptions) => void },
-  NeverRecord,
-  NeverRecord
->
 
 let isAllowMultiple = false
 let queue: ToastInstance[] = []
@@ -70,7 +43,7 @@ let defaultOptionsMap: { [key in ToastType]?: Omit<ReactiveToastOptions, 'type'>
 
 const Toast = function toast(options: number | string | ReactiveToastOptions) {
   const toastOptions = isString(options) || isNumber(options) ? { content: String(options) } : options
-  const reactiveToastOptions = Vue.observable({
+  const reactiveToastOptions = reactive({
     ...currentOptions,
     ...(toastOptions.type && defaultOptionsMap[toastOptions.type]),
     ...toastOptions,
@@ -145,7 +118,7 @@ Toast.resetDefaultOptions = function resetDefaultOptions(type: ToastType) {
 }
 
 function createInstance() {
-  const state = Vue.observable<ReactiveToastOptions>({ show: false })
+  const state = reactive<ReactiveToastOptions>({ show: false })
   const toggle = (val: boolean) => {
     state.show = val
   }
@@ -183,7 +156,7 @@ function createInstance() {
         opened: () => state.onOpened?.(),
         'update:show': toggle,
       }
-      return h(_SmyToast, { on, props: state })
+      return h(SmyToast, { on, props: state })
     },
   })
   return instance as ToastInstance
@@ -200,10 +173,10 @@ function getInstance() {
   }
 }
 
-Toast.Component = _SmyToast
+Toast.Component = SmyToast
 
-Toast.install = _SmyToast.install
+Toast.install = SmyToast.install
 
-export { _SmyToast as SmyToast, Toasts }
+export { SmyToast as SmyToast, Toasts }
 
 export default assign(Toast, Toasts)

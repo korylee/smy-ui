@@ -1,7 +1,7 @@
-import { App, Component, createVNode, render } from 'vue'
+import { App, Component, createApp, createVNode, render } from 'vue'
 
 export type WithInstall<T> = T & {
-  withInstall(app: App): void
+  install(app: App): void
 }
 
 export function withInstall<T extends Component>(component: T) {
@@ -14,10 +14,15 @@ export function withInstall<T extends Component>(component: T) {
   return component as WithInstall<T>
 }
 
-export function mountComponent(RootComponent: Component) {
-  const vnode = createVNode(RootComponent)
+export function mountComponent(component: Component) {
+  const app = createApp(component)
   const container = document.createElement('div')
-  render(vnode, container)
-  document.body.appendChild(container.firstElementChild!)
-  return { instance: vnode }
+  document.body.appendChild(container)
+  return {
+    instance: app.mount(container),
+    unmount() {
+      app.unmount()
+      document.body.removeChild(container)
+    },
+  }
 }

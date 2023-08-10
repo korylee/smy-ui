@@ -3,16 +3,20 @@ import { props as popupProps } from '../popup/props'
 import type { PropType } from 'vue'
 import { ExtractPropTypes, createNumberProp, createNumericProp, createStringProp, truthProp } from '../_utils/vue/props'
 
-export type ColumnItem = string | any
+export type NormalColumnItem = string | any
 
-export type Column = ColumnItem[]
+export type NormalColumn = NormalColumnItem[]
+
+export type CascadeColumn = {
+  [key: string]: any
+}
 
 const baseProps = {
-  value: Array,
+  modelValue: Array,
   title: String,
   cascade: Boolean,
   columns: {
-    type: Array as PropType<Column[]>,
+    type: Array as PropType<NormalColumn[] | CascadeColumn[]>,
     default: () => [],
   },
   optionHeight: createNumericProp(44),
@@ -25,17 +29,22 @@ const baseProps = {
   rotate: createNumberProp(20),
   popup: truthProp,
   textFormatter: {
-    type: [String, Function] as PropType<(item: ColumnItem, columnIndex: number) => any | string>,
+    type: [String, Function] as PropType<
+      (option: NormalColumnItem | CascadeColumn, columnIndex: number) => any | string
+    >,
     default: 'text',
   },
   valueFormatter: {
-    type: [String, Function] as PropType<(item: ColumnItem, columnIndex: number) => any | string>,
+    type: [String, Function] as PropType<
+      (option: NormalColumnItem | CascadeColumn, columnIndex: number) => any | string
+    >,
     default: 'value',
   },
   childrenFormatter: {
-    type: [String, Function] as PropType<(item: ColumnItem, columnIndex: number) => ColumnItem[]>,
+    type: [String, Function] as PropType<(option: CascadeColumn, columnIndex: number) => CascadeColumn[] | undefined>,
     default: 'children',
   },
+  allowHtml: Boolean,
 }
 
 export const props = assign(baseProps, pick(popupProps, ['show', 'closeOnClickOverlay', 'teleport']))

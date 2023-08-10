@@ -4,19 +4,27 @@ import { onMountedOrActivated } from '../_utils/vue/onMountedOrActivated'
 
 type TargetRef = EventTarget | Ref<EventTarget | undefined> | undefined
 
-type UseEventListenerOptions = {
-  target?: TargetRef
+type UseEventListenerOptions<T> = {
+  target?: T
   capture?: boolean
   passive?: boolean
 }
 
-export function useEventListener<K extends keyof DocumentEventMap>(
+export function useEventListener<K extends keyof DocumentEventMap, T extends TargetRef>(
   type: K,
   listener: (event: DocumentEventMap[K]) => void,
-  options?: UseEventListenerOptions
+  options?: UseEventListenerOptions<T>
 ): () => void
-export function useEventListener(type: string, listener: EventListener, options?: UseEventListenerOptions): () => void
-export function useEventListener(type: string, listener: EventListener, options: UseEventListenerOptions = {}) {
+export function useEventListener<K extends keyof WindowEventMap, T extends Window>(
+  type: K,
+  listener: (event: WindowEventMap[K]) => void,
+  options?: UseEventListenerOptions<T>
+): () => void
+export function useEventListener<T extends TargetRef | Window = Window>(
+  type: string,
+  listener: EventListener,
+  options: UseEventListenerOptions<T> = {}
+) {
   if (!IN_BROWSER) {
     return
   }

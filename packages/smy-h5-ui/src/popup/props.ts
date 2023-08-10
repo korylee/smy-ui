@@ -1,5 +1,5 @@
 import { ExtractPropTypes, truthProp } from '../_utils/vue/props'
-import type { PropType } from 'vue'
+import type { PropType, StyleValue } from 'vue'
 
 const POPUP_POSITIONS = ['top', 'bottom', 'center', 'left', 'right'] as const
 
@@ -19,9 +19,7 @@ export const props = {
   overlay: truthProp,
   wrapperClass: [String, Object, Array],
   overlayClass: [String, Object, Array],
-  overlayStyle: [String, Object, Array],
-  contentClass: [String, Object, Array],
-  contentStyle: [String, Object, Array],
+  overlayStyle: [String, Object, Array] as PropType<StyleValue>,
   lockScroll: truthProp,
   closeOnClickOverlay: truthProp,
   teleport: String,

@@ -13,7 +13,7 @@
     </smy-cell>
     <smy-picker
       v-model="basic.value"
-      :show.sync="basic.show"
+      v-model:show="basic.show"
       :popup="basic.popup"
       :columns="[column]"
       title="请选择"
@@ -27,7 +27,7 @@
     </smy-cell>
     <smy-picker
       v-model="multiple.value"
-      :show.sync="multiple.show"
+      v-model:show="multiple.show"
       :columns="multipleColumns"
       :popup="multiple.popup"
       title="请选择"
@@ -41,7 +41,7 @@
     </smy-cell>
     <smy-picker
       v-model="cascade.value"
-      :show.sync="cascade.show"
+      v-model:show="cascade.show"
       :columns="cascadeColumns"
       :popup="cascade.popup"
       cascade
@@ -58,7 +58,7 @@
     </smy-cell>
     <smy-picker
       v-model="defaultValue.value"
-      :show.sync="defaultValue.show"
+      v-model:show="defaultValue.show"
       :columns="multipleColumns"
       :popup="defaultValue.popup"
       title="请选择"
@@ -71,11 +71,12 @@
 
 <script>
 import { AppDemoTitle } from '@smy-h5/cli/client'
-import Picker from '../'
+import Picker from '..'
 import SmyCell from '../../cell'
 import SmyCellGroup from '../../cell-group'
 import SmySwitch from '../../switch'
-import Toast from '../../toast'
+
+const Toast = console.log
 
 const cascadeColumns = [
   {
@@ -177,7 +178,7 @@ export default {
       )
     },
     showDefaultSelectedPicker() {
-      Picker({ columns: multipleColumns, value: ['Tuesday', 'Afternoon'] }).then(({ state, values, indexes }) => {
+      Picker({ columns: multipleColumns, modelValue: ['Tuesday', 'Afternoon'] }).then(({ state, values, indexes }) => {
         Toast(`${state}: ${values}`)
         console.log(state, values, indexes)
       })

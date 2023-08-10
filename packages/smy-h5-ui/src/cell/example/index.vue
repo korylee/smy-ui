@@ -51,6 +51,7 @@
         </template>
       </smy-cell>
     </smy-cell-group>
+    <test-popup show :overlay-style="{color: 'red'}" />
   </div>
 </template>
 
@@ -58,12 +59,20 @@
 import Cell from '../'
 import Icon from '../../icon'
 import CellGroup from '../../cell-group'
-// import { WindowClose } from '@smy-h5/icons'
-// import { AppDemoTitle } from '@smy-h5/cli/client'
+import { WindowClose } from '@smy-h5/icons'
+import TestPopup from '../../popup/Popup.tsx'
+import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {
   name: 'CellExample',
-  components: { [Cell.name]: Cell, [CellGroup.name]: CellGroup, [Icon.name]: Icon },
+  components: {
+    [Cell.name]: Cell,
+    [CellGroup.name]: CellGroup,
+    [Icon.name]: Icon,
+    WindowClose,
+    AppDemoTitle,
+    TestPopup,
+  },
 }
 </script>
 

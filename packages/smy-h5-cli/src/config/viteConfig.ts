@@ -15,6 +15,7 @@ import { injectHtml } from 'vite-plugin-html'
 import { resolve } from 'path'
 import markdownPlugin from '@smy-h5/markdown-vite-plugin'
 import createVuePlugin from '@vitejs/plugin-vue'
+import createVueJsxPlugin from '@vitejs/plugin-vue-jsx'
 import { SmyConfig } from './smyConfig'
 import { pathExistsSync, readFileSync, removeSync, writeFileSync } from 'fs-extra'
 
@@ -44,6 +45,7 @@ export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
       markdownPlugin({
         style: get(smyConfig, 'highlight.style'),
       }),
+      createVueJsxPlugin(),
       injectHtml({
         data: {
           pcTitle: get(smyConfig, `pc.title`),

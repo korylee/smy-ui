@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes" :style="style" @click="$emit('click', $event)">
+  <div :class="classes" :style="style">
     <slot></slot>
     <smy-icon v-if="closeable" size="12" @click.stop="$emit('close', $event)" class="smy-tag__close"
       ><slot name="icon"><window-close /></slot
@@ -12,10 +12,11 @@ import { props } from './props'
 import Icon from '../icon'
 import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 import { createNamespace } from '../_utils/vue/create'
+import { defineComponent } from 'vue'
 
 const [name, bem] = createNamespace('tag')
 
-export default {
+export default defineComponent({
   name,
   components: { [Icon.name]: Icon, WindowClose },
   props,
@@ -40,7 +41,7 @@ export default {
       return style
     },
   },
-}
+})
 </script>
 
 <style lang="less">
