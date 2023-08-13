@@ -4,13 +4,15 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 const { defineConfig } = require('eslint-define-config')
 
 module.exports = defineConfig({
-  root: true,
-  extends: [
-    'plugin:vue/essential',
-    'eslint:recommended',
-    '@vue/eslint-config-typescript/recommended',
-    '@vue/eslint-config-prettier',
-  ],
+  // root: true,
+  extends: ['plugin:@typescript-eslint/recommended', 'plugin:vue/vue3-recommended', 'prettier'],
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    extraFileExtensions: ['.vue'],
+  },
+  plugins: ['@typescript-eslint'],
   env: {
     es6: true,
     node: true,
@@ -51,9 +53,9 @@ module.exports = defineConfig({
     'vue/no-v-html': 'off',
     'vue/attributes-order': 'off',
     'vue/require-default-prop': 'off',
-    'vue/no-unused-components': 'off',
-    'vue/valid-v-bind': 'off',
-    'vue/component-name-in-template-casing': ['error', 'kebab-case'],
+    // 'vue/require-explicit-emits': 'off',
+    'vue/multi-word-component-names': 'off',
+    'vue/valid-next-tick': 'off',
     // typescript-eslint
     '@typescript-eslint/class-name-casing': 'off',
     '@typescript-eslint/camelcase': 'off',
