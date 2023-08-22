@@ -25,15 +25,15 @@ const baseProps = {
   rotate: createNumberProp(20),
   popup: truthProp,
   textFormatter: {
-    type: [String, Function] as PropType<(item: ColumnItem, columnIndex: number) => any | string>,
+    type: [String, Function] as PropType<(item: ColumnItem, index: number) => any | string>,
     default: 'text',
   },
   valueFormatter: {
-    type: [String, Function] as PropType<(item: ColumnItem, columnIndex: number) => any | string>,
+    type: [String, Function] as PropType<(item: ColumnItem, index: number) => any | string>,
     default: 'value',
   },
   childrenFormatter: {
-    type: [String, Function] as PropType<(item: ColumnItem, columnIndex: number) => ColumnItem[]>,
+    type: [String, Function] as PropType<(item: ColumnItem, index: number) => ColumnItem[]>,
     default: 'children',
   },
 }

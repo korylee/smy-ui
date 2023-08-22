@@ -29,7 +29,7 @@ test('test cell props', async () => {
       extra: '<div>text</div>',
     },
   })
-  expect(wrapper.classes('smy-cell--border')).toBe(true)
+  expect(wrapper.classes('smy-cell--borderless')).toBe(false)
   expect(wrapper.find('.smy-cell__title').text()).toBe('This is Cell')
   expect(wrapper.find('.smy-cell__desc').text()).toBe('This is desc')
   expect(wrapper.find('.test-extra-class').text()).toBe('text')

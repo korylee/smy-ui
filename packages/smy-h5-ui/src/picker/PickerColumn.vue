@@ -12,7 +12,7 @@
         :style="{ height: `${height}px` }"
         :class="bem('option')"
       >
-        <div :class="bem('text')"><slot name="item" :item="item" :index="itemIndex" /></div>
+        <slot name="item" :item="item" :index="itemIndex" />
       </div>
     </div>
   </div>
@@ -46,7 +46,6 @@ export default {
     momentumTime: 0,
     touching: false,
     translate: vm.center,
-    scrollEl: null,
     scrolling: false,
     index: 0,
   }),

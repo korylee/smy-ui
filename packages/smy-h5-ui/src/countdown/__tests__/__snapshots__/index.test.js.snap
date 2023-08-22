@@ -9,7 +9,7 @@ exports[`test countdown example 1`] = `
   <div class=\\"app-demo-title\\">展示毫秒</div>
   <div class=\\"smy-countdown\\"> 30 : 00 : 00 : 000</div>
   <div class=\\"app-demo-title\\">控制开始和暂停的倒计时</div>
-  <div class=\\"smy-cell\\">
+  <div class=\\"smy-cell smy-cell--borderless\\">
     <!---->
     <div class=\\"smy-cell__content\\">
       <div class=\\"smy-cell__title\\">
