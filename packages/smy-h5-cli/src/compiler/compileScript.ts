@@ -8,6 +8,7 @@ import logger from '../shared/logger'
 import { CWD, UI_PACKAGE_JSON } from '../shared/constant'
 import { getSmyConfig } from '../config/smyConfig'
 import execa from 'execa'
+import esbuild from 'esbuild'
 
 export const IMPORT_VUE_PATH_RE = /((?<!['"`])import\s+.+from\s+['"]\s*\.{1,2}\/.+)\.vue(\s*['"`]);?(?!\s*['"`])/g
 export const IMPORT_TS_PATH_RE = /((?<!['"`])import\s+.+from\s+['"]\s*\.{1,2}\/.+)\.ts(\s*['"`]);?(?!\s*['"`])/g
@@ -40,8 +41,8 @@ export function moduleCompatible(script: string): string {
 }
 
 export async function compileScript(script: string, file: string) {
-  const moduleType = process.env.BABEL_MODULE
-  const isCjs = moduleType === 'commonjs'
+  const { BABEL_MODULE } = process.env
+  const isCjs = BABEL_MODULE === 'commonjs'
 
   if (isCjs) {
     script = moduleCompatible(script)
@@ -51,6 +52,9 @@ export async function compileScript(script: string, file: string) {
   const result = await transformAsync(script, { filename: file })
   let code = result?.code
   if (!code) return logger.error(`${file} code is empty`)
+
+  const esbuildResult = await esbuild.transform(code, { loader: 'ts', target: 'es2015', format: isCjs ? 'cjs' : 'esm' })
+  code = esbuildResult.code
 
   code = extractStyleDependencies(file, code, { expect: 'css', self: true })
   code = extractStyleDependencies(file, code, { expect: 'less', self: true })
@@ -93,10 +97,7 @@ export async function compileESEntry(dir: string, publicDirs: string[]) {
   })
 
   const install = `
-const installTargets = [];
 function install(app) {
-  if (~installTargets.indexOf(app)) return;
-  installTargets.push(app);
   ${plugins.join('\n  ')}
 }
 `
@@ -168,10 +169,7 @@ export async function compileCommonJSEntry(dir: string, publicDirs: string[]) {
     lessRequires.push(`require('./${dirname}/style/less')`)
   })
   const install = `\
-const installTargets = [];
 function install(app) {
-  if (~installTargets.indexOf(app)) return
-  installTargets.push(app)
   ${plugins.join('\n  ')}
 }`
 

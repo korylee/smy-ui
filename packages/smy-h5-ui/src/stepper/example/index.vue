@@ -16,14 +16,14 @@
     <app-demo-title>支持小数</app-demo-title>
     <smy-stepper value="0" step="0.1" decimal-places="1" />
     <app-demo-title>自定义按钮大小</app-demo-title>
-    <smy-stepper value="0" step="1" width="200" height="40" button-width="40" button-size="25" />
+    <smy-stepper value="0" step="1" width="200" height="40" button-width="40" button-size="30" />
     <app-demo-title>自定义按钮</app-demo-title>
     <smy-stepper value="0">
       <template #minus>
-        <smy-icon><close-circle /></smy-icon>
+        <smy-icon><arrow-left /></smy-icon>
       </template>
       <template #plus>
-        <smy-icon><close-circle-outline /></smy-icon>
+        <smy-icon><arrow-right /></smy-icon>
       </template>
     </smy-stepper>
   </div>
@@ -34,11 +34,11 @@ import { AppDemoTitle } from '@smy-h5/cli/client'
 import SmyStepper from '..'
 import SmyCell from '../../cell'
 import SmyIcon from '../../icon'
-import { CloseCircle, CloseCircleOutline } from '@smy-h5/icons'
+import { ArrowLeft, ArrowRight } from '@smy-h5/icons'
 
 export default {
   name: 'StepperExample',
-  components: { SmyStepper, AppDemoTitle, SmyCell, SmyIcon, CloseCircle, CloseCircleOutline },
+  components: { SmyStepper, AppDemoTitle, SmyCell, SmyIcon, ArrowLeft, ArrowRight },
   data: () => ({
     val1: 1,
     val2: 1,

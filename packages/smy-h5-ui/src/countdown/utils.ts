@@ -52,7 +52,7 @@ export function formatTime(durationTime: number) {
     minutes,
     seconds,
     milliseconds,
-    time: durationTime,
+    total: durationTime,
   }
 }
 

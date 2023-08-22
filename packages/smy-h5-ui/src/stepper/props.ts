@@ -1,4 +1,4 @@
-import { createNumericProp, type ExtractPropTypes } from '../_utils/vue/props'
+import { createNumericProp, truthProp, type ExtractPropTypes } from '../_utils/vue/props'
 
 export const props = {
   value: {
@@ -8,22 +8,12 @@ export const props = {
   min: createNumericProp(0),
   max: createNumericProp(Infinity),
   step: createNumericProp(1),
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  disabledPlus: {
-    type: Boolean,
-    default: false,
-  },
-  disabledMinus: {
-    type: Boolean,
-    default: false,
-  },
+  readonly: Boolean,
+  disabled: Boolean,
+  disabledPlus: Boolean,
+  disabledMinus: Boolean,
+  longPress: truthProp,
+  placeholder: String,
   decimalPlaces: createNumericProp(0),
   width: [String, Number],
   height: [String, Number],

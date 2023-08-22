@@ -1,17 +1,13 @@
 {
+  "extends": "../../tsconfig.json",
   "exclude": ["node_modules", "es", "site"],
   "include": ["src/**/*", "jest-utils/**/*", "global.d.ts", "*/**.vue"],
   "compilerOptions": {
     "allowJs": true,
-    "target": "ES2016",
-    "module": "esnext",
     "composite": true,
     "outDir": "./es",
     "strict": true,
-    "downlevelIteration": true,
-    "declaration": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
     "jsx": "preserve",
     "isolatedModules": true,
     "moduleResolution": "node"

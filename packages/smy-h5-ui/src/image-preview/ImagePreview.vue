@@ -25,7 +25,7 @@
       <smy-swiper-item v-for="(image, index) of images" :key="index" :class="bem('swiper-item')">
         <div
           :style="zoomContainerStyle"
-          class="smy-image-preview__zoom-container"
+          :class="bem('zoom-container')"
           @touchstart="handleTouchStart"
           @touchmove="handleTouchMove"
           @touchend="handleTouchEnd"

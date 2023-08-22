@@ -31,6 +31,7 @@ import { toPxNum, doubleRaf, getRect, preventDefault } from '../_utils/dom'
 import { useTouch } from '../_utils/composable/useTouch'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
+import { useWindowSize } from '../_utils/composable/useWindowSize'
 
 const [name, bem] = createNamespace('swiper')
 
@@ -47,6 +48,7 @@ export default {
     touchTime: 0,
     autoplayTimer: null,
     style: {},
+    windowSize: useWindowSize(),
   }),
   computed: {
     isCorrectDirection({ touch, vertical }) {
@@ -82,6 +84,9 @@ export default {
       this.$nextTick(this.init)
     },
     childrenCount() {
+      this.$nextTick(this.init)
+    },
+    'windowSize.width'() {
       this.$nextTick(this.init)
     },
     autoplay(val) {
@@ -169,7 +174,7 @@ export default {
       this.style = {
         transitionDuration: `${moving ? 0 : duration}ms`,
         transform: `translate${vertical ? 'Y' : 'X'}(${offset}px)`,
-        [vertical ? 'height' : 'width']: `${trackSize}px`,
+        [vertical ? 'height' : 'width']: trackSize ? `${trackSize}px` : '',
         [crossName]: crossAxis ? `${crossAxis}px` : '',
       }
     },

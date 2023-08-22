@@ -1,9 +1,7 @@
-@import '../_styles/var.less';
-
 @notice-bar-height: 40px;
 @notice-bar-line-height: 24px;
 @notice-bar-padding: 0 16px;
-@notice-bar-font-size: @font-size-md;
+@notice-bar-font-size: var(--font-size-md);
 @notice-bar-text-color: rgba(211, 125, 066, 1);
 @notice-bar-bg-color: rgba(251, 248, 220, 1);
 
@@ -64,6 +62,13 @@
     cursor: pointer;
   }
   &__content {
+    &--play {
+      animation: smy-notice-bar-play linear both running;
+      &-infinite {
+        animation: smy-notice-bar-play linear infinite both running;
+      }
+    }
+
     &-wrap {
       display: flex;
       align-items: center;
@@ -81,19 +86,8 @@
   }
 }
 
-.smy-notice-bar-play {
-  @keyframes smy-notice-bar-play {
-    to {
-      transform: translate3d(-100%, 0, 0);
-    }
+@keyframes smy-notice-bar-play {
+  to {
+    transform: translate3d(-100%, 0, 0);
   }
-  animation: smy-notice-bar-play linear both running;
-}
-.smy-notice-bar-play-infinite {
-  @keyframes smy-notice-bar-play-infinite {
-    to {
-      transform: translate3d(-100%, 0, 0);
-    }
-  }
-  animation: smy-notice-bar-play-infinite linear infinite both running;
 }

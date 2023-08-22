@@ -1,5 +1,5 @@
 <template>
-  <div :class="bem({ border, insert, clickable })" v-on="$listeners">
+  <div :class="bem({ borderless: !border, insert, clickable })" v-on="$listeners">
     <div v-if="hasSlot('icon')" class="smy-cell__icon"><slot name="icon" /></div>
     <div class="smy-cell__content">
       <div class="smy-cell__title" :class="titleClass">

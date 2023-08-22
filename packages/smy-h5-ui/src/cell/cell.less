@@ -1,3 +1,5 @@
+@import '../_styles/mixins/hairline.less';
+
 @cell-color: #333;
 @cell-background: #fff;
 @cell-font-size: 14px;
@@ -29,6 +31,7 @@
 }
 
 .smy-cell {
+  position: relative;
   align-items: center;
   display: flex;
   min-height: var(--cell-min-height);
@@ -40,23 +43,15 @@
   color: var(--cell-color);
   background: var(--cell--background);
 
-  &--border {
-    position: relative;
-    &::after {
-      position: absolute;
-      content: ' ';
-      box-sizing: border-box;
-      bottom: 0;
-      left: var(--cell-border-left);
-      right: var(--cell-border-right);
-      pointer-events: none;
-      border-bottom: 1px solid var(--cell-border-color);
-      transform: scaleY(0.5);
-    }
-    &:last-child::after {
-      display: none;
-    }
+  &::after {
+    .hairline-bottom(var(--cell-border-color), var(--cell-border-left), var(--cell-border-right));
   }
+
+  &:last-child::after,
+  &--borderless::after {
+    display: none;
+  }
+
   &--insert {
     border-radius: 6px;
     box-shadow: var(--cell-insert-box-shadow);

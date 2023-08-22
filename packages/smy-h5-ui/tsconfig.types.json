@@ -4,6 +4,7 @@
     "baseUrl": "./",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "strict": false
+    "strict": false,
+    "downlevelIteration": true
   }
 }

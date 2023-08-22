@@ -4,7 +4,7 @@ export const props = {
   text: createStringProp(''),
   closable: Boolean,
   wrapable: Boolean,
-  delay: createNumericProp(1),
+  delay: createNumericProp(1000), // ms
   scrollable: truthProp,
   speed: createNumericProp(50),
 }

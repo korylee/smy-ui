@@ -1,0 +1,16 @@
+.hairline-common() {
+  position: absolute;
+  box-sizing: border-box;
+  content: ' ';
+  pointer-events: none;
+}
+
+.hairline-bottom(@color : var(--border-color), @left: 0, @right: 0) {
+  .hairline-common();
+
+  bottom: 0;
+  left: @left;
+  right: @right;
+  border-bottom: 1px solid @color;
+  transform: scaleY(0.5);
+}

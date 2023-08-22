@@ -1,0 +1,85 @@
+:root {
+  --divider-margin: 16px 0;
+  --divider-vertical-marigin: 0 8px;
+  --divider-text-color: #969799;
+  --divider-font-size: 14px;
+  --divider-line-height: 24px;
+  --divider-border-width: var(--border-width, 1px);
+  --divider-content-padding: 16px;
+  --divider-content-left-width: 10%;
+  --divider-content-right-width: 10%;
+}
+
+.smy-divider {
+  display: flex;
+  align-items: center;
+  border-style: solid;
+  margin: var(--divider-margin);
+  color: var(--divider-text-color);
+  font-size: var(--divider-font-size);
+  line-height: var(--divider-line-height);
+  border-width: 0;
+
+  &::after,
+  &::before {
+    display: block;
+    flex: 1;
+    box-sizing: border-box;
+    height: 1px;
+    border-color: inherit;
+    border-style: inherit;
+    border-width: var(--divider-border-width) 0 0;
+  }
+  &::before {
+    content: '';
+  }
+  &--hairline {
+    &::before,
+    &::after {
+      transform: scaleY(0.5);
+    }
+  }
+  &--dashed {
+    border-style: dashed;
+  }
+  &--content-center,
+  &--content-left,
+  &--content-right {
+    &::before {
+      margin-right: var(--divider-content-padding);
+    }
+    &::after {
+      content: '';
+      margin-left: var(--divider-content-padding);
+    }
+  }
+
+  &--content-left {
+    &::before {
+      max-width: var(--divider-content-left-width);
+    }
+  }
+  &--content-right {
+    &::after {
+      max-width: var(--divider-content-left-width);
+    }
+  }
+  &--vertical {
+    display: inline-block;
+    width: 1px;
+    height: 1em;
+    margin: var(--divider-vertical-marigin);
+    vertical-align: middle;
+
+    &::before {
+      height: 100%;
+      border-width: 0 0 0 1px;
+    }
+    &::after {
+      display: none;
+    }
+    &.smy-divider--hairline::before {
+      transform: scaleX(0.5);
+    }
+  }
+}

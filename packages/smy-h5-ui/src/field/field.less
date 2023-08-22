@@ -1,0 +1,56 @@
+:root {
+  --field-placeholder-text-color: #ccc;
+  --field-limit-color: #ccc;
+  --field-limit-font-size: var(--font-size-sm);
+  --field-limit-line-height: 16px;
+}
+
+.smy-field {
+  flex-wrap: wrap;
+  &__body {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+
+  &__control {
+    width: 100%;
+    outline: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    resize: none;
+    box-sizing: border-box;
+    user-select: auto;
+    line-height: inherit;
+    font: inherit;
+
+    &::placeholder {
+      color: var(--field-placeholder-text-color);
+    }
+    &:read-only {
+      cursor: default;
+    }
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 1;
+    }
+
+    &--center {
+      justify-content: center;
+      text-align: center;
+    }
+    &--right {
+      justify-content: flex-end;
+      text-align: right;
+    }
+  }
+  &__word-limit {
+    word-break: keep-all;
+    color: var(--field-limit-color);
+    font-size: var(--field-limit-font-size);
+    line-height: var(--field-limit-line-height);
+    text-align: right;
+  }
+}

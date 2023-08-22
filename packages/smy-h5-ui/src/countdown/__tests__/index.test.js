@@ -95,7 +95,7 @@ test('test change event argument', async () => {
     minutes: 0,
     seconds: 0,
     milliseconds: 1,
-    time: 1,
+    total: 1,
   })
 
   wrapper.destroy()

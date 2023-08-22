@@ -16,7 +16,7 @@
           class="smy-popup__overlay"
           @click="hidePopup"
         />
-        <transition :name="transition || `smy-pop-${position}`">
+        <transition :name="getTransition()">
           <div
             v-if="show"
             :class="[bem('content', position), contentClass]"
@@ -63,6 +63,16 @@ export default {
   methods: {
     bem,
     mergeStyles,
+    getTransition() {
+      const { transition, position } = this
+      if (transition) {
+        return transition
+      }
+      if (position === 'center') {
+        return 'smy-scale'
+      }
+      return `smy-slide-${position}`
+    },
     hidePopup() {
       this.$emit('click-overlay')
       if (!this.closeOnClickOverlay) return

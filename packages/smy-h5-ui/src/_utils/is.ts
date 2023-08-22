@@ -33,14 +33,16 @@ export const isObject = (val: unknown): val is object => typeof val === 'object'
 
 export const isArray: <T = any>(val: unknown) => val is T[] = Array.isArray
 
-export const isRem = (str: string): boolean => isString(str) && str.endsWith('rem')
+const isEndsWith = (str: string, affix: string): boolean => isString(str) && str.endsWith(affix)
 
-export const isPx = (str: string): boolean => isString(str) && str.endsWith('px')
+export const isRem = (str: string): boolean => isEndsWith(str, 'rem')
 
-export const isVh = (str: string): boolean => isString(str) && str.endsWith('vh')
+export const isPx = (str: string): boolean => isEndsWith(str, 'px')
 
-export const isVw = (str: string): boolean => isString(str) && str.endsWith('vw')
+export const isVh = (str: string): boolean => isEndsWith(str, 'vh')
 
-export const isNumString = (str: unknown): boolean => isString(str) && /^\d+$/.test(str)
+export const isVw = (str: string): boolean => isEndsWith(str, 'vw')
+
+export const isNumString = (str: unknown): boolean => isString(str) && /^\d+(\.\d+)?$/.test(str)
 
 export const isNumeric = (val: unknown): val is Numeric => isNumber(val) || isNumString(val)

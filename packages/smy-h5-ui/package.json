@@ -65,7 +65,8 @@
   ],
   "browserslist": [
     "Chrome >= 51",
-    "iOS >= 10"
+    "Android >= 5.0",
+    "iOS >= 8"
   ],
   "dependencies": {
     "@smy-h5/icons": "workspace:*"

@@ -9,7 +9,7 @@ import { isNumber, isPlainObject, isString } from '../_utils/is'
 import Vue from 'vue'
 import { TOAST_TYPES } from './props'
 import { throwError } from '../_utils/smy/warn'
-import { assign, keys } from '../_utils/shared'
+import { assign } from '../_utils/shared'
 
 declare interface SmyToast extends SmyComponent {
   new (): {
@@ -57,7 +57,6 @@ const getDefaultOptions = (): ReactiveToastOptions => ({
   duration: 3500,
   contentClass: undefined,
   loadingType: 'circle',
-  loadingSize: undefined,
   lockScroll: false,
   teleport: undefined,
   forbidClick: false,
@@ -145,23 +144,19 @@ Toast.resetDefaultOptions = function resetDefaultOptions(type: ToastType) {
 }
 
 function createInstance() {
-  const state = Vue.observable<ReactiveToastOptions>({ show: false })
+  const state = Vue.observable<{ value: ReactiveToastOptions }>({ value: { show: false } })
   const toggle = (val: boolean) => {
-    state.show = val
+    Vue.set(state.value, 'show', val)
   }
   const open = (props: Record<string, any>) => {
-    const propKeys = keys(props)
-    if (!propKeys.length) return
-    propKeys.forEach((key) => {
-      Vue.set(state, key, props[key])
-    })
+    Vue.set(state, 'value', props)
     toggle(true)
   }
   const { instance, unmount } = mountComponent({
     data: () => ({ content: '' }),
     watch: {
       content(val) {
-        ;(this as any).$set(state, 'content', val)
+        ;(this as any).$set(state.value, 'content', val)
       },
     },
     methods: {
@@ -169,21 +164,22 @@ function createInstance() {
       close: () => toggle(false),
     },
     render(h) {
+      const stateValue = state.value
       const closed = () => {
         if (isAllowMultiple) {
           queue = queue.filter((item) => item !== instance)
           unmount()
         }
-        state.onClosed?.()
+        stateValue.onClosed?.()
       }
       const on = {
-        open: () => state.onOpen?.(),
-        close: () => state.onClose?.(),
+        open: () => stateValue.onOpen?.(),
+        close: () => stateValue.onClose?.(),
         closed,
-        opened: () => state.onOpened?.(),
+        opened: () => stateValue.onOpened?.(),
         'update:show': toggle,
       }
-      return h(_SmyToast, { on, props: state })
+      return h(_SmyToast, { on, props: stateValue })
     },
   })
   return instance as ToastInstance

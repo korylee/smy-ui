@@ -20,7 +20,7 @@ function genBem(name: string, mods?: Mods): string {
 }
 
 function createBem(name: string) {
-  return (el?: Mods, mods?: Mods) => {
+  function bem(el?: Mods, mods?: Mods) {
     if (el && !isString(el)) {
       mods = el
       el = ''
@@ -28,9 +28,14 @@ function createBem(name: string) {
     el = el ? `${name}__${el}` : name
     return `${el}${genBem(el, mods)}`
   }
+  return bem
 }
 
+type BEM = ReturnType<typeof createBem>
+
+export function createNamespace<C extends string, D extends string>(name: C, prefix: D): [`${D}-${C}`, BEM]
+export function createNamespace<C extends string>(name: C): [`smy-${C}`, BEM]
 export function createNamespace(name: string, prefix = 'smy') {
-  const prefixedName = `${prefix}-${name}`
-  return [prefixedName, createBem(prefixedName)] as const
+  const componentName = `${prefix}-${name}` as const
+  return [componentName, createBem(componentName)] as const
 }

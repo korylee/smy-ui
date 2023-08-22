@@ -2,12 +2,11 @@
   <component
     ref="root"
     :is="tag"
-    :class="rootClass"
+    :class="bem({ indeterminate: !!indeterminate, 'disable-shrink': indeterminate === 'disable-shrink' })"
     :style="rootStyle"
     :aria-valuenow="indeterminate ? undefined : normalizedValue"
     aria-valuemin="0"
     aria-valuemax="100"
-    class="smy-progress-circular"
     role="progressbar"
   >
     <svg
@@ -18,7 +17,6 @@
       xmlns="http://www.w3.org/2000/svg"
     >
       <circle
-        class="smy-progress-circular__underlay"
         fill="transparent"
         cx="50%"
         cy="50%"
@@ -27,9 +25,9 @@
         :stroke-dashoffset="0"
         :stroke-width="strokeWidth"
         :stroke-dasharray="CIRCUMFERENCE"
+        :class="bem('underlay')"
       ></circle>
       <circle
-        class="smy-progress-circular__overlay"
         fill="transparent"
         cx="50%"
         cy="50%"
@@ -37,9 +35,10 @@
         :stroke-dashoffset="strokeDashOffset"
         :stroke-width="strokeWidth"
         :stroke-dasharray="CIRCUMFERENCE"
+        :class="bem('overlay')"
       ></circle>
     </svg>
-    <div v-if="hasSlot()" class="smy-progress-circular__content">
+    <div v-if="hasSlot()" :class="bem('content')">
       <slot name="default" :value="normalizedValue" />
     </div>
   </component>
@@ -66,18 +65,11 @@ export default {
     internalSize: 0,
   }),
   computed: {
-    rootClass({ indeterminate }) {
-      return bem({
-        indeterminate: !!indeterminate,
-        'disable-shrink': indeterminate === 'disable-shrink',
-      })
-    },
     rootStyle({ color, size }) {
       return {
         color,
         caretColor: color,
-        width: convertToUnit(size),
-        height: convertToUnit(size),
+        fontSize: convertToUnit(size),
       }
     },
     normalizedValue({ value }) {
@@ -102,6 +94,9 @@ export default {
         })
       },
     },
+  },
+  methods: {
+    bem,
   },
 }
 </script>

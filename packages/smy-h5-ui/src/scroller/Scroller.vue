@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getParentScroller, getScrollTopRoot, requestAnimationFrame } from '../_utils/dom'
+import { getParentScroller, getRootScrollTop, requestAnimationFrame } from '../_utils/dom'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
 import { createNamespace } from '../_utils/vue/create'
@@ -51,7 +51,7 @@ export default {
       let offsetDistance = 0
       const { scroller } = this.$refs
       if (scrollParent === window) {
-        const windowScrollTop = getScrollTopRoot()
+        const windowScrollTop = getRootScrollTop()
         if (scroller) {
           offsetDistance = calculateTopPosition(scroller) + scroller.offsetHeight - windowScrollTop - window.innerHeight
           resScrollTop = windowScrollTop

@@ -106,7 +106,7 @@ export function mergeData(...args: VNodeData[]) {
           break
         default: // slot, key, ref, tag, show, keepAlive
           if (!mergeTarget[prop]) {
-            mergeTarget[prop] = value
+            ;(mergeTarget as any)[prop] = value
           }
       }
     }

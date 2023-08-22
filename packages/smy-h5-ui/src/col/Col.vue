@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes" :style="style" v-on="$listeners">
+  <div :class="bem({ [`span-${span}`]: span, [`offset-${offset}`]: offset })" :style="style" v-on="$listeners">
     <slot />
   </div>
 </template>
@@ -23,16 +23,8 @@ export default {
     },
   }),
 
-  computed: {
-    classes({ span, offset }) {
-      return bem({
-        [`span-${span}`]: span,
-        [`offset-${offset}`]: offset,
-      })
-    },
-  },
-
   methods: {
+    bem,
     setPadding({ left, right }) {
       this.style = {
         paddingLeft: convertToUnit(left),

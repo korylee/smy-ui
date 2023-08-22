@@ -1,4 +1,4 @@
-import { IN_BROWSER } from './env'
+import { IN_BROWSER, IN_IOS } from './env'
 import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow, isNumeric } from './is'
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
@@ -65,8 +65,27 @@ export function getScrollTop(el: ScrollerElement) {
   return Math.max(top, 0)
 }
 
-export const getScrollTopRoot = () =>
+export function setScrollTop(el: ScrollerElement, value: number) {
+  if ('scrollTop' in el) {
+    el.scrollTop = value
+  } else {
+    el.scrollTo(el.scrollX, value)
+  }
+}
+
+export const getRootScrollTop = () =>
   window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+
+export function setRootScrollTop(value: number) {
+  setScrollTop(window, value)
+  setScrollTop(document.body, value)
+}
+
+export function resetScroll(force = IN_IOS) {
+  if (force) {
+    setRootScrollTop(getRootScrollTop())
+  }
+}
 
 export function convertToUnit(str: string | number | null | undefined, unit = 'px'): string | undefined {
   if (str == null || str === '') return undefined
@@ -105,7 +124,7 @@ export function toPxNum(value: number | string) {
   return 0
 }
 
-export const makeDomRect = (width = 0, height = 0) =>
+export const createDomRect = (width = 0, height = 0) =>
   ({
     top: 0,
     left: 0,
@@ -118,9 +137,9 @@ export const makeDomRect = (width = 0, height = 0) =>
 export function getRect(el: Element | Window | undefined) {
   if (isWindow(el)) {
     const { innerWidth, innerHeight } = el
-    return makeDomRect(innerWidth, innerHeight)
+    return createDomRect(innerWidth, innerHeight)
   }
-  return el?.getBoundingClientRect?.() ?? makeDomRect()
+  return el?.getBoundingClientRect?.() ?? createDomRect()
 }
 
 export function getTranslate(el: HTMLElement) {
@@ -132,7 +151,7 @@ export function getElementTop(el: ScrollerElement, scroller?: ScrollerElement) {
   if (el === window) {
     return 0
   }
-  const scrollTop = scroller ? getScrollTop(scroller) : getScrollTopRoot()
+  const scrollTop = scroller ? getScrollTop(scroller) : getRootScrollTop()
   return getRect(el).top + scrollTop
 }
 

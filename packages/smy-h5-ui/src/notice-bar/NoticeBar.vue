@@ -1,12 +1,12 @@
 <template>
-  <div v-show="showNoticeBar" :class="bem({ closable, wrapable })" role="alert" @click="$emit('click', $event)">
+  <div v-show="show" :class="bem({ closable, wrapable })" role="alert" @click="$emit('click', $event)">
     <div v-if="hasSlot('left-icon')" :class="bem('left-icon')">
       <slot name="left-icon"> </slot>
     </div>
     <div ref="wrap" :class="bem('content-wrap')" role="marquee">
       <div
         ref="content"
-        :class="[bem('content'), animationClass, { 'smy--ellipsis': !scrollable && !wrapable }]"
+        :class="[bem('content', [animation]), { 'smy--ellipsis': !scrollable && !wrapable }]"
         :style="contentStyle"
         @animationend="onAnimationEnd"
         @webkitAnimationEnd="onAnimationEnd"
@@ -29,6 +29,7 @@ import SmyIcon from '../icon'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { doubleRaf, getRect } from '../_utils/dom'
 import { createNamespace } from '../_utils/vue/create'
+import { useWindowSize } from '../_utils/composable/useWindowSize'
 
 const [name, bem] = createNamespace('notice-bar')
 
@@ -39,19 +40,19 @@ export default {
   props,
   data: () => ({
     wrapWidth: 0,
-    showNoticeBar: true,
+    show: true,
     animate: false,
     firstRound: true,
     duration: 0,
     offsetWidth: 0,
-    animationClass: '',
-    distance: 0,
+    animation: '',
+    windowSize: useWindowSize(),
   }),
   computed: {
     contentStyle({ firstRound, wrapWidth, delay, duration }) {
       return {
         paddingLeft: firstRound ? 0 : wrapWidth + 'px',
-        animationDelay: (firstRound ? delay : 0) + 's',
+        animationDelay: (firstRound ? delay : 0) + 'ms',
         animationDuration: duration + 's',
       }
     },
@@ -62,12 +63,13 @@ export default {
       handler: 'reset',
     },
     scrollable: 'reset',
+    'windowSize.width': 'reset',
   },
   methods: {
     bem,
     reset() {
       this.$nextTick(() => {
-        if (!this.showNoticeBar) return
+        if (!this.show) return
         const { wrap, content } = this.$refs
         if (!wrap || !content) return
         const wrapWidth = getRect(wrap).width
@@ -76,15 +78,15 @@ export default {
           this.wrapWidth = wrapWidth
           this.offsetWidth = offsetWidth
           this.duration = offsetWidth / +this.speed
-          this.animationClass = 'smy-notice-bar-play'
+          this.animation = 'play'
         } else {
-          this.animationClass = ''
+          this.animation = ''
         }
       })
     },
     onClickRightIcon(event) {
       if (this.closable) {
-        this.showNoticeBar = false
+        this.show = false
         this.$emit('close', event)
       }
     },
@@ -93,7 +95,7 @@ export default {
       doubleRaf(() => {
         const { offsetWidth, wrapWidth, speed } = this
         this.duration = (offsetWidth + wrapWidth) / speed
-        this.animationClass = 'smy-notice-bar-play-infinite'
+        this.animation = 'play-infinite'
       })
     },
   },

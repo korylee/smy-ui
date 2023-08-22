@@ -21,6 +21,13 @@ export function toNumber(val: number | string | boolean | undefined | null): num
   return val
 }
 
+export function formatNumber(value: string, allowDot = true) {
+  value = value.replace(/-/, '')
+  const reg = allowDot ? /[^-0-9.]/g : /[^-0-9]/g
+  value = value.replace(reg, '')
+  return value
+}
+
 export const range = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
 export const removeItem = (arr: Array<unknown>, item: unknown) => {

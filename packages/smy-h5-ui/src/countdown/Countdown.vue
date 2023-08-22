@@ -22,7 +22,7 @@ export default {
       minutes: 0,
       seconds: 0,
       milliseconds: 0,
-      timestamp: 0,
+      total: 0,
     },
     countdown: useCountdown({
       onChange: (time) => {

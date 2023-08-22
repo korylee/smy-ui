@@ -21,7 +21,7 @@
 </template>
 <script>
 import { useTouch } from '../_utils/composable/useTouch'
-import { getParentScroller, getScrollTopRoot, toPxNum, convertToUnit } from '../_utils/dom'
+import { getParentScroller, getRootScrollTop, toPxNum, convertToUnit } from '../_utils/dom'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
 import { createNamespace } from '../_utils/vue/create'
@@ -86,7 +86,7 @@ export default {
     },
     isScrollTop() {
       const { scrollParent } = this
-      if (scrollParent === window) return getScrollTopRoot() === 0
+      if (scrollParent === window) return getRootScrollTop() === 0
       return scrollParent?.scrollTop === 0
     },
     onTouchStart(event) {

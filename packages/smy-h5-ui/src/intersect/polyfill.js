@@ -1,4 +1,4 @@
-import { getRect, makeDomRect } from '../_utils/dom'
+import { getRect, createDomRect } from '../_utils/dom'
 import { IN_BROWSER } from '../_utils/env'
 import { isFunction } from '../_utils/is'
 import { throttle } from '../_utils/shared'
@@ -101,7 +101,7 @@ const SUPPORT_INTERSECTION =
     this.target = entry.target
     this.rootBounds = ensureDOMRect(entry.rootBounds)
     this.boundingClientRect = ensureDOMRect(entry.boundingClientRect)
-    this.intersectionRect = ensureDOMRect(entry.intersectionRect || makeDomRect())
+    this.intersectionRect = ensureDOMRect(entry.intersectionRect || createDomRect())
     this.isIntersecting = !!entry.intersectionRect
 
     // Calculates the intersection ratio.
@@ -201,7 +201,7 @@ const SUPPORT_INTERSECTION =
        */
       crossOriginUpdater = function (boundingClientRect, intersectionRect) {
         if (!boundingClientRect || !intersectionRect) {
-          crossOriginRect = makeDomRect()
+          crossOriginRect = createDomRect()
         } else {
           crossOriginRect = convertFromParentRect(boundingClientRect, intersectionRect)
         }
@@ -475,7 +475,7 @@ const SUPPORT_INTERSECTION =
     }
 
     const rootIsInDom = this._rootIsInDom()
-    const rootRect = rootIsInDom ? this._getRootRect() : makeDomRect()
+    const rootRect = rootIsInDom ? this._getRootRect() : createDomRect()
 
     this._observationTargets.forEach(function (item) {
       const target = item.element
@@ -487,7 +487,7 @@ const SUPPORT_INTERSECTION =
 
       let rootBounds = null
       if (!this._rootContainsTarget(target)) {
-        rootBounds = makeDomRect()
+        rootBounds = createDomRect()
       } else if (!crossOriginUpdater || this.root) {
         rootBounds = rootRect
       }

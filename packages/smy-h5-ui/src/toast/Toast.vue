@@ -3,19 +3,21 @@
     :show.sync="internalShow"
     v-bind="popupProps"
     :content-class="toastClass"
-    :wrapper-class="toastPopupClass"
+    :wrapper-class="bem('popup', { unclickable: type === 'loading' || forbidClick })"
     @click="onClick"
-    @closed="$emit('closed')"
+    @open="$emit('open')"
     @opened="$emit('opened')"
+    @close="$emit('close')"
+    @closed="$emit('closed')"
     @route-change="$emit('route-change')"
   >
-    <div v-if="hasIcon" class="smy-toast__icon">
+    <div v-if="hasIcon" :class="bem('icon')">
       <slot name="icon">
         <toast-icon v-if="icon" :icon="icon" :size="iconSize" />
-        <smy-loading v-else-if="type === 'loading'" :type="loadingType" :size="loadingSize" />
+        <smy-loading v-else-if="type === 'loading'" :type="loadingType" :size="iconSize" />
       </slot>
     </div>
-    <div class="smy-toast__content" :class="contentClass">
+    <div v-if="hasContent" class="smy-toast__content" :class="contentClass">
       <slot> <span v-html="content"></span> </slot>
     </div>
   </smy-popup>
@@ -59,21 +61,18 @@ export default {
     hasIcon({ icon, type }) {
       return this.hasSlot('icon') || icon || ['loading'].includes(type)
     },
-    toastClass({ position, wordBreak, type, icon, iconPosition, hasIcon }) {
+    hasContent({ content }) {
+      return content || this.hasSlot()
+    },
+    toastClass({ position, wordBreak, type, icon, iconPosition, hasIcon, hasContent }) {
       return bem([
         position,
         wordBreak === 'normal' ? 'break-normal' : wordBreak,
         {
-          [`icon-${iconPosition}`]: hasIcon && iconPosition,
+          [`icon-${hasContent ? iconPosition : 'center'}`]: hasIcon && iconPosition,
           [type]: !icon && type,
         },
       ])
-    },
-    toastPopupClass({ type, forbidClick }) {
-      const isForbidClick = type === 'loading' || forbidClick
-      return bem('popup', {
-        unclickable: isForbidClick,
-      })
     },
     popupProps() {
       return pick(this.$props, popupInheritProps)
@@ -82,27 +81,24 @@ export default {
   watch: {
     show: {
       immediate: true,
-      handler(show, oldShow) {
-        if (Boolean(show) === Boolean(oldShow)) return
-        if (show) {
-          this.$emit('open')
-          this.updateAfterDuration()
-        } else {
-          clearTimeout(this.timer)
-          this.$emit('close')
-        }
-      },
+      handler: 'updateAfterDuration',
     },
+    duration: 'updateAfterDuration',
   },
   methods: {
+    bem,
     onClick() {
       if (!this.closeOnClick) return
       this.$emit('update:show', false)
     },
     updateAfterDuration() {
-      this.timer = setTimeout(() => {
-        this.$emit('update:show', false)
-      }, this.duration)
+      const { duration, show } = this
+      clearTimeout(this.timer)
+      if (show && duration > 0) {
+        this.timer = setTimeout(() => {
+          this.$emit('update:show', false)
+        }, duration)
+      }
     },
   },
 }

@@ -1,15 +1,15 @@
-import { ExtractPropTypes, createNumericProp, numericProp } from '../_utils/vue/props'
+import { ExtractPropTypes, createNumericProp } from '../_utils/vue/props'
 import type { PropType } from 'vue'
 import { props as loadingProps } from '../loading/props'
 
 export const TOAST_TYPES = ['loading', 'success', 'warning', 'info', 'error'] as const
-export type ToastType = typeof TOAST_TYPES[number]
+export type ToastType = (typeof TOAST_TYPES)[number]
 
 export const TOAST_POSITIONS = ['top', 'center', 'bottom'] as const
-export type ToastPosition = typeof TOAST_POSITIONS[number]
+export type ToastPosition = (typeof TOAST_POSITIONS)[number]
 
 export const TOAST_ICON_POSITIONS = ['top', 'bottom', 'left', 'right'] as const
-export type ToastIconPosition = typeof TOAST_ICON_POSITIONS[number]
+export type ToastIconPosition = (typeof TOAST_ICON_POSITIONS)[number]
 
 export const popupInheritProps = [
   'show',
@@ -58,9 +58,8 @@ export const props = {
     default: false,
   },
   loadingType: loadingProps.type,
-  loadingSize: numericProp,
   icon: [String, Function],
-  iconSize: numericProp,
+  iconSize: createNumericProp(30),
   iconPosition: {
     type: String as PropType<ToastIconPosition>,
     default: 'top',

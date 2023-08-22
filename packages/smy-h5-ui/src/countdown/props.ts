@@ -1,18 +1,12 @@
-import type { ExtractPropTypes } from '../_utils/vue/props'
+import { ExtractPropTypes, createStringProp, truthProp } from '../_utils/vue/props'
 
 export const props = {
   time: {
     type: [String, Number],
     default: 0,
   },
-  format: {
-    type: String,
-    default: 'HH : mm : ss',
-  },
-  autoStart: {
-    type: Boolean,
-    default: true,
-  },
+  format: createStringProp('HH : mm : ss'),
+  autoStart: truthProp,
   paused: {
     type: Boolean,
     default: false,

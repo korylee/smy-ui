@@ -59,14 +59,14 @@ export default {
         case 'position': {
           return Toast({
             content,
-            duration: 50000,
+            duration: 3000,
             position: 'bottom',
           })
         }
         case 'loading': {
           return Toast({
             type: 'loading',
-            duration: 500000,
+            duration: 3000,
             content,
           })
         }
@@ -99,9 +99,9 @@ export default {
     smyLoading() {
       Toast.loading({
         icon: SMY_LOADING_IMG,
-        duration: 60000,
+        duration: 3000,
+        iconSize: 50,
         position: 'center',
-        content: '这是一个超长的描述',
       })
     },
     smyToast() {
@@ -109,7 +109,7 @@ export default {
         vertical: true,
         position: 'center',
         content: '这是一个超长的描述',
-        duration: 12500,
+        duration: 2500,
       })
     },
     handleToast() {

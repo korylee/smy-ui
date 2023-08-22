@@ -6,20 +6,11 @@
       <div class="block">{{ text }}</div>
     </smy-popup>
     <app-demo-title>弹出位置</app-demo-title>
-    <smy-cell insert title="下方弹出" @click="bottom = true" />
-    <smy-cell insert title="上方弹出" @click="top = true" />
-    <smy-cell insert title="左方弹出" @click="left = true" />
-    <smy-cell insert title="右方弹出" @click="right = true" />
-    <smy-popup :show.sync="bottom" position="bottom">
-      <div class="block">{{ text }}</div>
-    </smy-popup>
-    <smy-popup :show.sync="left" position="left">
-      <div class="block">{{ text }}</div>
-    </smy-popup>
-    <smy-popup :show.sync="top" position="top">
-      <div class="block">{{ text }}</div>
-    </smy-popup>
-    <smy-popup :show.sync="right" position="right">
+    <smy-cell insert title="上方弹出" @click="position = 'top'" />
+    <smy-cell insert title="下方弹出" @click="position = 'bottom'" />
+    <smy-cell insert title="左方弹出" @click="position = 'left'" />
+    <smy-cell insert title="右方弹出" @click="position = 'right'" />
+    <smy-popup :show.sync="positionShow" :position="position">
       <div class="block">{{ text }}</div>
     </smy-popup>
 
@@ -49,13 +40,21 @@ export default {
   data: () => ({
     text: '素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。',
     basic: false,
-    top: false,
-    bottom: false,
-    left: false,
-    right: false,
     event: false,
     teleport: false,
+    position: undefined,
   }),
+  computed: {
+    positionShow: {
+      get() {
+        return !!this.position
+      },
+      set(val) {
+        if (val) return
+        this.position = undefined
+      },
+    },
+  },
   methods: {
     popupOpen() {
       Toast('open')

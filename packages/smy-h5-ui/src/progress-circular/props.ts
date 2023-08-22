@@ -1,33 +1,18 @@
 import { type PropType } from 'vue'
-import { type ExtractPropTypes } from '../_utils/vue/props'
+import { createNumericProp, createStringProp, type ExtractPropTypes } from '../_utils/vue/props'
 
 export const props = {
-  value: {
-    type: [Number, String],
-    default: 0,
-  },
-  tag: {
-    type: String,
-    default: 'div',
-  },
-  color: {
-    type: String,
-    default: 'currentColor',
-  },
+  value: createNumericProp(0),
+  tag: createStringProp('div'),
+  color: createStringProp('currentColor'),
   bgColor: String,
-  rotate: {
-    type: [Number, String],
-    default: 0,
-  },
+  rotate: createNumericProp(0),
   indeterminate: [Boolean, String] as PropType<boolean | 'disable-shrink'>,
   size: {
     type: [Number, String],
     default: '1em',
   },
-  width: {
-    type: [Number, String],
-    default: 2,
-  },
+  width: createNumericProp(2),
 }
 
 export type ProgressCircularProps = ExtractPropTypes<typeof props>
