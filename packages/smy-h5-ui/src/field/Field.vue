@@ -21,12 +21,14 @@
         @compositionend="onEndComposing"
         @compositionstart="onStartComposing"
       />
-      <smy-icon :class="bem('clear')" />
-      <div :class="bem('right-icon')">
-        <slot name="right-icon">
-          <smy-icon></smy-icon>
-        </slot>
-      </div>
+      <smy-icon
+        v-if="!readonly && clearable"
+        v-show="showClear"
+        :class="bem('clear')"
+        :name="clearIcon"
+        @click.stop="onClear"
+      />
+      <div v-if="$slots['button']" :class="bem('button')"><slot name="button" /></div>
     </div>
     <div v-if="showWordLimit && maxlength" :class="bem('word-limit')">
       <span :class="bem('word-num')">{{ count }}</span
@@ -38,65 +40,60 @@
 <script>
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
-import { getStringLength, cutString, resizeTextarea } from './utils'
+import { getStringLength, cutString, resizeTextarea, mapInputType } from './utils'
 import SmyIcon from '../icon'
 import { formatNumber } from '../_utils/shared'
 import { resetScroll } from '../_utils/dom'
+import { useIconCache } from '../icon/utils'
+import CloseCircle from '@smy-h5/icons/dist/es/CloseCircle'
+import { createProxiedModel } from '../_mixins/proxiedModel'
 
 const [name, bem] = createNamespace('field')
-
-function mapInputType(type) {
-  if (type === 'textarea') {
-    return
-  }
-
-  if (type === 'number') {
-    return {
-      type: 'text',
-      inputmode: 'decimal',
-    }
-  }
-  if (type === 'digit') {
-    return {
-      type: 'tel',
-      inputmode: 'numeric',
-    }
-  }
-  return { type }
-}
 
 export default {
   name,
   components: { SmyIcon },
+  mixins: [
+    createProxiedModel('value', 'modelValue', {
+      passive: false,
+      transformIn: (value) => String(value || ''),
+    }),
+  ],
   props,
   data: () => ({
     focused: false,
   }),
   computed: {
     count() {
-      return getStringLength(String(this.value || ''))
+      return getStringLength(this.modelValue)
+    },
+    showClear() {
+      const hasValue = this.modelValue !== ''
+      return hasValue
     },
   },
   watch: {
     value() {
-      this.updateValue(String(this.value || ''))
+      this.updateValue(this.modelValue)
       this.$nextTick(this.adjustTextareaSize)
     },
   },
+  beforeCreate() {
+    useIconCache(this, CloseCircle)
+  },
   mounted() {
-    this.updateValue(String(this.value || ''))
+    this.updateValue(this.modelValue)
     this.$nextTick(this.adjustTextareaSize)
   },
   methods: {
     bem,
     mapInputType,
     limitValueLength(value) {
-      const { maxlength, focused } = this
+      const { maxlength, focused, modelValue } = this
       const { input } = this.$refs
       if (maxlength == null || getStringLength(value) <= +maxlength) {
         return value
       }
-      const modelValue = String(this.value || '')
       if (modelValue && getStringLength(modelValue) === +maxlength) {
         return modelValue
       }
@@ -118,7 +115,7 @@ export default {
       const limitDiffLen = getStringLength(originalValue) - getStringLength(value)
       if (['number', 'digit'].includes(type)) {
         const isNumber = type === 'number'
-        value = formatNumber(value, isNumber)
+        value = formatNumber(value, isNumber, isNumber)
       }
       if (input && input.value !== value) {
         if (this.focused) {
@@ -142,8 +139,12 @@ export default {
     },
     onBlur(event) {
       this.focused = false
-      this.updateValue(String(this.value || ''))
+      this.updateValue(this.modelValue)
       this.$emit('blur', event)
+      if (this.readonly) {
+        return
+      }
+      this.$nextTick(this.adjustTextareaSize)
       resetScroll()
     },
     onInput(event) {
@@ -168,6 +169,10 @@ export default {
       if (!target.composing) return
       target.composing = false
       target.dispatchEvent(new Event('input'))
+    },
+    onClear(event) {
+      this.$emit('input', '')
+      this.$emit('clear', event)
     },
     adjustTextareaSize() {
       const { type, autosize } = this

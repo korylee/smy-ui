@@ -1,19 +1,19 @@
 <template>
   <div
-    class="smy-swipe"
+    :class="bem()"
     :style="touchStyle"
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
     @touchend="onTouchEnd"
     @touchcancel="onTouchEnd"
   >
-    <div ref="leftRef" class="smy-swipe__left">
+    <div ref="leftRef" :class="bem('left')">
       <slot name="left"></slot>
     </div>
-    <div class="smy-swipe__content">
+    <div :class="bem('content')">
       <slot name="default" />
     </div>
-    <div ref="rightRef" class="smy-swipe__right">
+    <div ref="rightRef" :class="bem('right')">
       <slot name="right"></slot>
     </div>
   </div>
@@ -23,12 +23,14 @@
 import { props } from './props'
 import { useTouch } from '../_utils/composable/useTouch'
 import { range } from '../_utils/shared'
+import { createNamespace } from '../_utils/vue/create'
 
+const [name, bem] = createNamespace('swipe')
 const getRefWidth = (ref) => ref?.clientWidth || 0
 const THRESHOLD = 0.15
 
 export default {
-  name: 'SmySwipe',
+  name,
   props,
   data: () => ({
     offset: 0,
@@ -52,6 +54,7 @@ export default {
     },
   },
   methods: {
+    bem,
     open(position) {
       this.opened = true
       this.offset = position === 'left' ? -this.rightRefWidth : this.leftRefWidth

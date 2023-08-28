@@ -9,7 +9,7 @@ export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Windo
   return allParentScroller
 }
 
-type ScrollerElement = HTMLElement | Window
+export type ScrollerElement = HTMLElement | Window
 
 const overflowScrollReg = /scroll|auto|overlay/i
 

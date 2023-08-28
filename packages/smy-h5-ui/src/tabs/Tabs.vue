@@ -1,8 +1,14 @@
 <template>
   <div ref="root" v-intersect="setLine" :class="bem()">
-    <maybe-sticky ref="sticky" :maybe="sticky" :container="$refs.root">
+    <maybe-sticky ref="sticky" :maybe="sticky" :container="$refs.root" @scroll="$emit('scroll', $event)">
       <div ref="wrap" :class="bem('wrap')">
-        <div ref="nav" :class="bem('nav', { line: true, shrink })" :style="navStyle" aria-orientation="horizontal">
+        <div
+          ref="nav"
+          :class="bem('nav', { line: true, shrink, scrollable })"
+          :style="navStyle"
+          role="tablist"
+          aria-orientation="horizontal"
+        >
           <slot name="nav-left"></slot>
           <tab-title
             v-for="(item, index) of children"
@@ -37,12 +43,20 @@
 import { ListenersMixin } from '../_mixins/listeners'
 import { createParentMixin } from '../_mixins/relation'
 import { useWindowSize } from '../_utils/composable/useWindowSize'
-import { convertToUnit, doubleRaf, getParentScroller, getRect, toPxNum } from '../_utils/dom'
+import {
+  convertToUnit,
+  doubleRaf,
+  getElementTop,
+  getParentScroller,
+  getRect,
+  setRootScrollTop,
+  toPxNum,
+} from '../_utils/dom'
 import { isNil } from '../_utils/is'
 import { createMaybeComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
 import SmySticky from '../sticky'
-import { scrollLeftTo } from './utils'
+import { scrollLeftTo, scrollTopTo } from './utils'
 import Intersect from '../intersect'
 import TabsContent from './TabsContent.vue'
 import { props } from './props'
@@ -77,8 +91,8 @@ export default {
     lineStyle: {},
   }),
   computed: {
-    scrollable() {
-      return true
+    scrollable({ ellipsis, shrink, children, scrollThreshold }) {
+      return children.length > +scrollThreshold || !ellipsis || shrink
     },
     currentName({ children, currentIndex }) {
       const activeTab = children[currentIndex]
@@ -86,10 +100,7 @@ export default {
       return getTabName(activeTab, currentIndex)
     },
     navStyle({ color, background }) {
-      return {
-        borderColor: color,
-        background,
-      }
+      return { borderColor: color, background }
     },
     offsetTopPx({ offsetTop }) {
       return toPxNum(offsetTop)
@@ -144,6 +155,7 @@ export default {
     scrollTo(name) {
       this.$nextTick(() => {
         this.setCurrentIndexByName(name)
+        this.scrollToCurrentContent(true)
       })
     },
     onClickTab(item, index, event) {
@@ -153,6 +165,7 @@ export default {
       if (!disabled) {
         Promise.resolve(onBeforeChange ? onBeforeChange(name) : true).then(() => {
           this.setCurrentIndex(index)
+          this.scrollToCurrentContent()
         })
       }
       onClickTab?.({ name, title, event, disabled })
@@ -204,22 +217,37 @@ export default {
           this.$emit('change', newName, newTab.title)
         }
       }
+
+      const { root, sticky } = this.$refs
+      if (sticky?.fixed && !this.scrollspy) {
+        setRootScrollTop(Math.ceil(getElementTop(root) - this.offsetTopPx))
+      }
     },
-    setCurrentIndexByName(name, skipScrollIntoView) {
+    setCurrentIndexByName(name, skipScrollIntoView = false) {
       const { children } = this
       const matchedIndex = children.findIndex((tab, index) => getTabName(tab, index) === name)
       const index = matchedIndex === -1 ? 0 : matchedIndex
       this.setCurrentIndex(index, skipScrollIntoView)
+    },
+    scrollToCurrentContent(immediate = false) {
+      if (!this.scrollspy) return
+      const { children, currentIndex, scrollOffset, scroller } = this
+      const item = children[currentIndex]
+      const target = item?.$el
+      if (!target || !scroller) return
+      const to = getElementTop(target, scroller) - scrollOffset
+      this.lockScroll = true
+      if (this.cancelScrollTopToRaf) this.cancelScrollTopToRaf()
+      this.cancelScrollTopToRaf = scrollTopTo(scroller, to, immediate ? 0 : +this.duration, () => {
+        this.lockScroll = false
+      })
     },
     setLine() {
       const shouldAnimate = this.inited
       this.$nextTick(() => {
         const { children, currentIndex, lineWidth, lineHeight, color, duration } = this
         const item = children[currentIndex]
-        if (!item) {
-          return
-        }
-        const title = item.$refs['tab-title']?.$el
+        const title = item?.$refs['tab-title']?.$el
         if (!title) {
           return
         }

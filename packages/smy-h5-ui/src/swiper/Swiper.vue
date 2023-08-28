@@ -1,7 +1,7 @@
 <template>
   <div ref="container" :class="bem({ vertical })">
     <div
-      class="smy-swiper__inner"
+      :class="bem('inner')"
       :style="style"
       @touchstart="onTouchStart"
       @touchmove="onTouchMove"
@@ -11,7 +11,7 @@
       <slot />
     </div>
     <slot name="indicator" :index="activeIndex" :length="childrenCount">
-      <div v-if="indicator" class="smy-swiper__indicator">
+      <div v-if="indicator" :class="bem('indicator')">
         <i
           v-for="(item, index) of children"
           :key="item._uid"
@@ -218,12 +218,13 @@ export default {
       })
     },
     startAutoplay() {
-      if (this.autoplay <= 0 || this.childrenCount <= 1) return
+      const { autoplay } = this
+      if (autoplay <= 0 || this.childrenCount <= 1) return
       this.stopAutoplay()
       this.autoplayTimer = setTimeout(() => {
         this.next()
         this.startAutoplay()
-      }, toNumber(this.autoplay))
+      }, toNumber(autoplay))
     },
     stopAutoplay() {
       clearTimeout(this.autoplayTimer)

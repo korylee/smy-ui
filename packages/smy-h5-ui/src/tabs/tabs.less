@@ -1,28 +1,29 @@
 @tabs-bottom-bar-width: 40px;
 @tabs-bottom-bar-height: 3px;
+@tabs-nav-background: #fff;
 
 @tab-padding-bottom: 15px;
 @tab-active-text-color: #323233;
-@tabs-nav-background: #fff;
 
 :root {
   --tabs-nav-background: @tabs-nav-background;
   --tabs-bottom-bar-width: @tabs-bottom-bar-width;
   --tabs-bottom-bar-height: @tabs-bottom-bar-height;
-  --tab-active-text-color: @tab-active-text-color;
   --tabs-bottom-bar-color: var(--color-primary);
-  --tab-font-size: 14px;
-  --tab-height: 44px;
-  --van-tabs-line-height: 44px;
-  --tab-padding-bottom: @tab-padding-bottom;
+  --tabs-line-height: 44px;
 }
 
+:root {
+  --tab-active-text-color: @tab-active-text-color;
+  --tab-font-size: 14px;
+  --tab-padding-bottom: @tab-padding-bottom;
+}
 .smy-tabs {
   position: relative;
 
   &__wrap {
     overflow: hidden;
-    height: var(--tab-height);
+    height: var(--tabs-line-height);
   }
   &__nav {
     position: relative;
@@ -30,9 +31,25 @@
     user-select: none;
     background: var(--tabs-nav-background);
 
-    box-sizing: content-box;
-    height: 100%;
-    padding-bottom: 15px;
+    &--line {
+      box-sizing: content-box;
+      height: 100%;
+      padding-bottom: 15px;
+    }
+    &--line&--scrollable,
+    &--line&--shrink {
+      padding-left: var(--padding-xs);
+      padding-right: var(--padding-xs);
+    }
+    &--scrollable {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
   &__track {
     position: relative;
@@ -51,6 +68,12 @@
     height: var(--tabs-bottom-bar-height);
     background: var(--tabs-bottom-bar-color);
     border-radius: var(--tabs-bottom-bar-height);
+  }
+
+  &__content {
+    &--animated {
+      overflow: hidden;
+    }
   }
 }
 
@@ -71,5 +94,13 @@
   &--active {
     color: var(--tab-active-text-color);
     font-weight: 600;
+  }
+  &--grow {
+    flex: 1 0 auto;
+    padding: 0 var(--padding-sm);
+  }
+  &--shrink {
+    flex: none;
+    padding: 0 var(--padding-xs);
   }
 }

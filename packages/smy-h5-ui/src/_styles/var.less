@@ -5,15 +5,45 @@
 @font-size-lg: 16px;
 
 // 颜色
-@color-body: #fff;
-@color-text: #333;
 @color-primary: #3a7afe;
 @color-primary-end: #3a7afe;
 @color-info: #00afef;
 @color-success: #00c48f;
 @color-warning: #ff9f00;
 @color-disabled: #e0e0e0;
-@color-text-disabled: #aaa;
 
 // 动画函数
 @cubic-bezier: cubic-bezier(0.25, 0.8, 0.5, 1);
+
+:root {
+  // color
+  --color-primary: @color-primary;
+  --color-primary-end: @color-primary-end;
+  --color-info: @color-info;
+  --color-success: @color-success;
+  --color-disabled: @color-disabled;
+
+  // padding
+  --padding-base: 4px;
+  --padding-xs: 8px;
+  --padding-sm: 12px;
+  --padding-md: 16px;
+  --padding-lg: 24px;
+
+  // color
+  --border-width: 1px;
+  --border-color: #ebedf0;
+
+  //  font
+  --font-size-xs: @font-size-xs;
+  --font-size-sm: @font-size-sm;
+  --font-size-md: @font-size-md;
+  --font-size-lg: @font-size-lg;
+
+  // animation
+  --duration-base: 300ms;
+  --duration-fast: 200ms;
+  --ease-out: ease-out;
+  --ease-in: ease-in;
+  --cubic-bezier: @cubic-bezier;
+}

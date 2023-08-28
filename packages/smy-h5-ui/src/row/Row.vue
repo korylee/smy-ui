@@ -1,15 +1,27 @@
 <template>
-  <div :style="style" class="smy-row smy--flex smy--box" v-on="$listeners">
+  <div
+    :style="{
+      justifyContent: justify,
+      alignItems: align,
+      margin: average ? `0 -${average}px` : undefined,
+      flexWrap: wrap,
+    }"
+    :class="bem(['$--flex', '$--box'])"
+    v-on="$listeners"
+  >
     <slot />
   </div>
 </template>
 <script>
 import { createParentMixin } from '../_mixins/relation'
 import { toPxNum } from '../_utils/dom'
+import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 
+const [name, bem] = createNamespace('row')
+
 export default {
-  name: 'SmyRow',
+  name,
   mixins: [createParentMixin('row', { children: 'cols' })],
   props,
   computed: {
@@ -18,14 +30,6 @@ export default {
     },
     paddingWatchDispatcher({ gutter, cols }) {
       return [gutter, cols]
-    },
-    style({ average, justify, align, wrap }) {
-      return {
-        justifyContent: justify,
-        alignItems: align,
-        margin: average ? `0 -${average}px` : undefined,
-        flexWrap: wrap,
-      }
     },
   },
 
@@ -38,6 +42,10 @@ export default {
         })
       })
     },
+  },
+
+  methods: {
+    bem,
   },
 }
 </script>

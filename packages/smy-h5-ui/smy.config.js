@@ -58,6 +58,7 @@ module.exports = defineConfig({
       { text: 'Divider 分割线', type: 2, doc: 'divider' },
       { text: '导航组件', type: 1 },
       { text: 'NoticeBar 通告栏', doc: 'notice-bar', type: 2 },
+      { text: 'Tabs 导航', doc: 'tabs', type: 2 },
       { text: '功能指令', type: 1 },
       { text: 'Lazyload 懒加载', type: 2, doc: 'lazyload' },
       { text: '反馈组件', type: 1 },

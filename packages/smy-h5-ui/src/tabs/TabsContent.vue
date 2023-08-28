@@ -6,10 +6,12 @@
       :loop="false"
       :class="bem('track')"
       :indicators="false"
+      :duration="duration"
+      :touchable="swipeable"
       @change="$emit('change', $event)"
     >
-      <slot
-    /></maybe-swiper>
+      <slot />
+    </maybe-swiper>
   </div>
 </template>
 
@@ -39,7 +41,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.swipeToCurrentTab()
+      this.swipeToCurrentTab(this.currentIndex)
     })
   },
   methods: {
@@ -51,7 +53,6 @@ export default {
       if (active !== index && to) {
         to(index)
       }
-      console.log(active)
     },
   },
 }

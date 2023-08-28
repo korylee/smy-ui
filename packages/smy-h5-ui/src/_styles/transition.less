@@ -34,11 +34,13 @@
     transition: @transition;
   }
 }
-.smy-slide-top {
+.smy-slide-top,
+.smy-slide-up {
   .transition-mixin(translate3d(0, -100%, 0));
 }
 
-.smy-slide-bottom {
+.smy-slide-bottom,
+.smy-slide-down {
   .transition-mixin(translate3d(0, 100%, 0));
 }
 

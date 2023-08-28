@@ -1,7 +1,14 @@
 import { assign, pick } from '../_utils/shared'
 import { props as popupProps } from '../popup/props'
 import type { PropType } from 'vue'
-import { ExtractPropTypes, createNumberProp, createNumericProp, createStringProp, truthProp } from '../_utils/vue/props'
+import {
+  ExtractPropTypes,
+  createArrayProp,
+  createNumberProp,
+  createNumericProp,
+  createStringProp,
+  truthProp,
+} from '../_utils/vue/props'
 
 export type ColumnItem = string | any
 
@@ -11,10 +18,7 @@ const baseProps = {
   value: Array,
   title: String,
   cascade: Boolean,
-  columns: {
-    type: Array as PropType<Column[]>,
-    default: () => [],
-  },
+  columns: createArrayProp<Column>(),
   optionHeight: createNumericProp(44),
   optionCount: createNumericProp(6),
   confirmButtonText: createStringProp('确认'),
@@ -36,6 +40,7 @@ const baseProps = {
     type: [String, Function] as PropType<(item: ColumnItem, index: number) => ColumnItem[]>,
     default: 'children',
   },
+  allowHtml: Boolean,
 }
 
 export const props = assign(baseProps, pick(popupProps, ['show', 'closeOnClickOverlay', 'teleport']))

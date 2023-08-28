@@ -14,6 +14,7 @@ export const props = {
   active: createNumericProp(0),
   offsetTop: createNumericProp(0),
   duration: createNumericProp(300),
+  scrollThreshold: createNumericProp(5),
 }
 
 export type TabsProp = ExtractPropTypes<typeof props>

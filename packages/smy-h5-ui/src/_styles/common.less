@@ -1,9 +1,17 @@
 @import './var.less';
+@import './mixins/ellipsis.less';
+@import './mixins/hairline.less';
+
+[class*='smy--hairline'] {
+  position: relative;
+  &::after {
+    .hairline();
+  }
+}
 
 .smy {
   &--box {
-    box-sizing: border-box;
-
+    &,
     * {
       box-sizing: border-box;
     }
@@ -42,22 +50,27 @@
   }
 
   &--ellipsis {
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
+    .ellipsis();
   }
-}
 
-:root {
-  --font-size-xs: @font-size-xs;
-  --font-size-sm: @font-size-sm;
-  --font-size-md: @font-size-md;
-  --font-size-lg: @font-size-lg;
-  --color-primary: @color-primary;
-  --color-primary-end: @color-primary-end;
-  --color-info: @color-info;
-  --color-success: @color-success;
-  --color-disabled: @color-disabled;
-  --cubic-bezier: @cubic-bezier;
+  &--hairline {
+    &-top::after {
+      border-top-width: 1px;
+    }
+    &-left::after {
+      border-left-width: 1px;
+    }
+    &-right::after {
+      border-right-width: 1px;
+    }
+    &-bottom::after {
+      border-bottom-width: 1px;
+    }
+    &-top-bottom::after {
+      border-width: 1px 0;
+    }
+    &-suround::after {
+      border-width: 1px;
+    }
+  }
 }

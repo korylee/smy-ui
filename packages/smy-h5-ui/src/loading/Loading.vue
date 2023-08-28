@@ -3,8 +3,7 @@
     <div v-if="hasDefaultSlot" :class="bem('content', { active: loading })"><slot /></div>
     <div
       v-if="isShow"
-      class="smy--box"
-      :class="bem('body', { inside: hasDefaultSlot })"
+      :class="bem('body', { inside: hasDefaultSlot, '$--box': true })"
       :style="{ fontSize: convertToUnit(size) }"
     >
       <smy-progress-circular
@@ -23,7 +22,7 @@
           :class="bem(`${type}-item`)"
         ></div>
       </div>
-      <div v-if="hasSlot('desc') || desc" class="smy-loading__desc">
+      <div v-if="hasSlot('desc') || desc" :class="bem('desc')">
         <slot name="desc">{{ desc }}</slot>
       </div>
     </div>

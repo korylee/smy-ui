@@ -1,8 +1,11 @@
 :root {
+  --field-input-disabled-text-color: #c8c9cc;
   --field-placeholder-text-color: #ccc;
-  --field-limit-color: #ccc;
-  --field-limit-font-size: var(--font-size-sm);
-  --field-limit-line-height: 16px;
+  --field-word-limit-color: #ccc;
+  --field-word-limit-font-size: var(--font-size-sm);
+  --field-word-limit-line-height: 16px;
+  --field-clear-icon-color: #c8c9cc;
+  --field-clear-icon-size: 16px;
 }
 
 .smy-field {
@@ -14,6 +17,8 @@
   }
 
   &__control {
+    display: block;
+    min-width: 0;
     width: 100%;
     outline: none;
     border: none;
@@ -25,6 +30,9 @@
     user-select: auto;
     line-height: inherit;
     font: inherit;
+    color: #323233;
+    font-size: 12px;
+    line-height: 12px;
 
     &::placeholder {
       color: var(--field-placeholder-text-color);
@@ -33,6 +41,8 @@
       cursor: default;
     }
     &:disabled {
+      color: var(--field-input-disabled-text-color);
+      -webkit-text-fill-color: var(--field-input-disabled-text-color);
       cursor: not-allowed;
       opacity: 1;
     }
@@ -46,11 +56,25 @@
       text-align: right;
     }
   }
+
   &__word-limit {
     word-break: keep-all;
-    color: var(--field-limit-color);
-    font-size: var(--field-limit-font-size);
-    line-height: var(--field-limit-line-height);
+    color: var(--field-word-limit-color);
+    font-size: var(--field-word-limit-font-size);
+    line-height: var(--field-word-limit-line-height);
     text-align: right;
+  }
+
+  &__clear,
+  &__button {
+    flex-shrink: 0;
+    line-height: inherit;
+    padding: 0 0 0 var(--padding-xs);
+  }
+
+  &__clear {
+    color: var(--field-clear-icon-color);
+    font-size: var(--field-clear-icon-size);
+    cursor: pointer;
   }
 }

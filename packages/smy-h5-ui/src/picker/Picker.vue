@@ -38,7 +38,8 @@
         >
           <template #item="{ item, index }">
             <slot name="option" :option="item" :option-index="index" v-bind="scrollColumn">
-              <div :class="bem('text')" v-text="getText(item, index)"></div>
+              <div v-if="allowHtml" :class="bem('text')" v-html="getText(item, index)"></div>
+              <div v-else :class="bem('text')" v-text="getText(item, index)"></div>
             </slot>
           </template>
         </picker-column>

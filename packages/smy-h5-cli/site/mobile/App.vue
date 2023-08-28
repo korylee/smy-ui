@@ -94,7 +94,6 @@ body {
   padding-top: var(--site-app-bar-height);
   min-height: 100vh;
   background: rgb(247, 248, 250);
-  overflow: hidden auto;
   box-sizing: border-box;
 }
 </style>

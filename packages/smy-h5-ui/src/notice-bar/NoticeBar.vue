@@ -6,7 +6,7 @@
     <div ref="wrap" :class="bem('content-wrap')" role="marquee">
       <div
         ref="content"
-        :class="[bem('content', [animation]), { 'smy--ellipsis': !scrollable && !wrapable }]"
+        :class="[bem('content', { [animation]: animation, '$--ellipsis': !scrollable && !wrapable })]"
         :style="contentStyle"
         @animationend="onAnimationEnd"
         @webkitAnimationEnd="onAnimationEnd"

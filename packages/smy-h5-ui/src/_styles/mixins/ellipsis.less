@@ -1,0 +1,16 @@
+.multi-ellipsis(@lines) {
+  display: -webkit-box;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: @lines;
+  line-break: anywhere;
+
+  -webkit-box-orient: vertical;
+}
+
+.ellipsis() {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}

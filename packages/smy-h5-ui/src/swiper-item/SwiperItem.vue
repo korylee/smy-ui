@@ -1,14 +1,17 @@
 <template>
-  <div v-on="$listeners" class="smy-swiper-item" :style="style">
+  <div v-on="$listeners" :class="bem()" :style="style">
     <slot />
   </div>
 </template>
 
 <script>
 import { createChildrenMixin } from '../_mixins/relation'
+import { createNamespace } from '../_utils/vue/create'
+
+const [name, bem] = createNamespace('swiper-item')
 
 export default {
-  name: 'SmySwiperItem',
+  name,
   mixins: [createChildrenMixin('swiper')],
   data: () => ({
     offset: 0,
@@ -28,6 +31,7 @@ export default {
     },
   },
   methods: {
+    bem,
     setOffset(offset) {
       this.offset = offset
     },

@@ -7,18 +7,18 @@
   >
     <div :class="bem('panel')"><slot /></div>
   </smy-swiper-item>
-  <div v-else v-show="active" :class="bem('panel')" role="tabpanel"><slot /></div>
+  <div v-else v-show="tabs.scrollspy || active" :class="bem('panel')" role="tabpanel">
+    <slot v-if="inited || tabs.scrollspy" />
+  </div>
 </template>
 <script>
-import { createNamespace } from '../_utils/vue/create'
 import { createChildrenMixin } from '../_mixins/relation'
 import { SlotsMixin } from '../_mixins/slots'
 import TabTitle from './TabTitle.vue'
 import { assign, pick } from '../_utils/shared'
 import { props } from './props'
 import SmySwiperItem from '../swiper-item'
-
-const [name, bem] = createNamespace('tab')
+import { name, bem } from './utils'
 
 export default {
   name,
@@ -59,7 +59,7 @@ export default {
     init() {
       this.inited = true
       const { tabs, name, index } = this
-      if (this.tabs.lazyRender) {
+      if (tabs.lazyRender) {
         tabs.$emit('rendered', name || index)
       }
     },

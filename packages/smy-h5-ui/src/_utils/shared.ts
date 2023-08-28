@@ -21,10 +21,17 @@ export function toNumber(val: number | string | boolean | undefined | null): num
   return val
 }
 
-export function formatNumber(value: string, allowDot = true) {
-  value = value.replace(/-/, '')
-  const reg = allowDot ? /[^-0-9.]/g : /[^-0-9]/g
-  value = value.replace(reg, '')
+export function formatNumber(value: string, allowDot = true, allowMinus = true) {
+  const minusIndex = value.indexOf('-')
+  const minusSymbol = allowMinus && minusIndex === 0 ? '-' : ''
+  value = minusSymbol + value.replace(/-/g, '')
+
+  const dotIndex = value.indexOf('.')
+  if (dotIndex > -1) {
+    const affix = allowDot ? '.' + value.slice(dotIndex).replace(/\./g, '') : ''
+    value = value.slice(0, dotIndex) + affix
+  }
+  value = value.replace(/[^-0-9.]/g, '')
   return value
 }
 

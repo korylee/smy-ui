@@ -60,6 +60,9 @@ export default {
       return value
     },
   },
+  methods: {
+    bem,
+  },
 }
 </script>
 

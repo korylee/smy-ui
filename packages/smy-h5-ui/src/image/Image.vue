@@ -1,12 +1,9 @@
 <template>
-  <div :style="style" :class="{ 'smy--inline-block': !block }" class="smy-image smy--box">
+  <div :style="style" :class="bem({ '$--inline-block': !block, '$--box': true })">
     <img
       v-if="lazy"
       key="directive"
-      v-lazyload="{
-        src,
-        options: lazyOptions,
-      }"
+      v-lazyload="{ src, options: lazyOptions }"
       :alt="alt"
       :style="{ objectFit: fit }"
       :class="bem('image')"

@@ -47,3 +47,23 @@ export function resizeTextarea(input: HTMLInputElement, autosize: true | FieldAu
   inputStyle.height = `${height}px`
   resetScroll(true)
 }
+
+export function mapInputType(type: string) {
+  if (type === 'textarea') {
+    return
+  }
+
+  if (type === 'number') {
+    return {
+      type: 'text',
+      inputmode: 'decimal',
+    }
+  }
+  if (type === 'digit') {
+    return {
+      type: 'tel',
+      inputmode: 'numeric',
+    }
+  }
+  return { type }
+}
