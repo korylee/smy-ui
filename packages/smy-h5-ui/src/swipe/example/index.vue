@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="swipe-example">
     <app-demo-title>基础用法</app-demo-title>
     <smy-swipe>
       <smy-cell title="基本用法" insert></smy-cell>
@@ -39,6 +39,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.swipe-example {
+  overflow: hidden;
+}
 .btn {
   position: relative;
   display: inline-block;
