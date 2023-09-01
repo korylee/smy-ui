@@ -19,6 +19,7 @@ export const popupInheritProps = [
   'overlayClass',
   'overlayStyle',
   'closeOnClickOverlay',
+  'lockScroll',
 ] as const
 
 export const props = {

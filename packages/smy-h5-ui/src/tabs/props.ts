@@ -17,4 +17,4 @@ export const props = {
   scrollThreshold: createNumericProp(5),
 }
 
-export type TabsProp = ExtractPropTypes<typeof props>
+export type TabsProps = ExtractPropTypes<typeof props>

@@ -2,6 +2,7 @@ import { getSlot } from '../_utils/vue/slots'
 import Vue from 'vue'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
+import { getTargetElement } from '../_utils/dom'
 
 const [name, bem] = createNamespace('teleport')
 
@@ -38,13 +39,15 @@ export default {
       const Ctor = Vue.extend({
         render: () => <div class={bem('container')}>{getSlot(this)}</div>,
       })
-      this.instance = new Ctor()
-      this.instance.$parent = this
-      this.el = this.instance.$mount().$el
+      const instance = new Ctor()
+      instance.$parent = this
+      this.el = instance.$mount().$el
+      this.instance = instance
     },
     transfer() {
       const { el, disabled } = this
-      const container = disabled ? this.$refs.teleport : document.querySelector(this.to)
+      const { teleport } = this.$refs
+      const container = disabled ? teleport : getTargetElement(this.to)
       const parentNode = el.parentNode
       if (parentNode === container) return
       parentNode?.removeChild(el)

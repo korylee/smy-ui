@@ -1,5 +1,6 @@
 import { IN_BROWSER, IN_IOS } from './env'
-import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow, isNumeric } from './is'
+import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow, isNumeric, isString } from './is'
+import { warn } from './smy/warn'
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
   const allParentScroller: Array<HTMLElement | Window> = []
@@ -159,4 +160,25 @@ export function preventDefault(event: Event) {
   if (event.cancelable) {
     event.preventDefault()
   }
+}
+
+export function getTargetElement(target: string | Element) {
+  if (!isString(target)) {
+    return target
+  }
+  const el = document.querySelector(target)
+  if (el) {
+    return el
+  }
+  warn('getTargetElement', `target element "${target}" was not found!`)
+}
+
+export function isHidden(el?: HTMLElement) {
+  if (!el) {
+    return false
+  }
+  const style = window.getComputedStyle(el)
+  const hidden = style.display === 'none'
+
+  return hidden || (el.offsetParent == null && style.position !== 'fixed')
 }

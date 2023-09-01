@@ -1,0 +1,37 @@
+:root {
+  --back-top-size: 40px;
+  --back-top-right: 30px;
+  --back-top-bottom: 40px;
+  --back-top-z-index: 1000;
+  --back-top-icon-size: 20px;
+  --back-top-text-color: #fff;
+  --bank-top-background: #1989fa;
+}
+
+.smy-back-top {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--back-top-size);
+  height: var(--back-top-size);
+  right: var(--back-top-right);
+  bottom: var(--back-top-bottom);
+  cursor: pointer;
+  color: var(--back-top-text-color);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px 0px rgba(0, 0, 0, 0.12);
+  transform: scale(0);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  background-color: var(--bank-top-background);
+
+  &:active {
+    opacity: 0.6;
+  }
+  &--active {
+    transform: scale(1);
+  }
+  &__icon {
+    font-size: var(--back-top-icon-size);
+  }
+}

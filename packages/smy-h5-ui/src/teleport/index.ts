@@ -1,9 +1,9 @@
 export type { TeleportProps } from './props'
 import { type VNode } from 'vue'
 import { type SmyComponent } from '../_utils/smy/component'
-import { withInstall } from '../_utils/vue/component'
+import { createMaybeComponent, withInstall } from '../_utils/vue/component'
 import { type TeleportProps } from './props'
-import Teleport from './Teleport'
+import _Teleport from './Teleport'
 
 declare interface SmyTeleport extends SmyComponent {
   new (): {
@@ -12,4 +12,8 @@ declare interface SmyTeleport extends SmyComponent {
   }
 }
 
-export default withInstall(Teleport) as SmyTeleport
+const Teleport = withInstall(_Teleport) as SmyTeleport
+
+export const MaybeTeleport = createMaybeComponent(Teleport)
+
+export default Teleport

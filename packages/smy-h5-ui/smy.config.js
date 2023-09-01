@@ -59,6 +59,7 @@ module.exports = defineConfig({
       { text: '导航组件', type: 1 },
       { text: 'NoticeBar 通告栏', doc: 'notice-bar', type: 2 },
       { text: 'Tabs 导航', doc: 'tabs', type: 2 },
+      { text: 'BackTop 回到顶部', doc: 'back-top', type: 2 },
       { text: '功能指令', type: 1 },
       { text: 'Lazyload 懒加载', type: 2, doc: 'lazyload' },
       { text: '反馈组件', type: 1 },
