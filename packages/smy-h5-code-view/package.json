@@ -1,0 +1,44 @@
+{
+  "name": "@smy-h5/code-view",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Vue SFC REPL as a Vue 2.7+ component.",
+  "main": "dist/ssr-stub.js",
+  "module": "dist/vue-code-view.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/vue-code-view.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-code-view.js",
+      "types": "./dist/vue-code-view.d.ts"
+    },
+    "./style.css": "./dist/style.css",
+    "./dist/style.css": "./dist/style.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build-types": "vue-tsc -p tsconfig.build.json && api-extractor run -c api-extractor.json && rimraf dist/src",
+    "prepublishOnly": "npm run build && npm run build-types",
+    "bootstrap": "pnpm install",
+    "clean": "rimraf dist  && rimraf node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vue/compiler-sfc": "^3.2.47",
+    "codemirror": "^5.41.0",
+    "fflate": "^0.8.1",
+    "hash-sum": "^2.0.0",
+    "sucrase": "^3.34.0",
+    "vue": "2.6.14"
+  },
+  "devDependencies": {
+    "@types/hash-sum": "^1.0.0",
+    "vite": "^4.4.9",
+    "vite-plugin-vue2": "^2.0.3"
+  }
+}
