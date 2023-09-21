@@ -73,7 +73,6 @@
 import { AppDemoTitle } from '@smy-h5/cli/client'
 import Picker from '..'
 import SmyCell from '../../cell'
-import SmyCellGroup from '../../cell-group'
 import SmySwitch from '../../switch'
 
 const Toast = console.log
@@ -140,7 +139,7 @@ const multipleColumns = [
 
 export default {
   name: 'PickerExample',
-  components: { SmyPicker: Picker.Component, AppDemoTitle, SmyCell, SmySwitch, SmyCellGroup },
+  components: { SmyPicker: Picker.Component, AppDemoTitle, SmyCell, SmySwitch },
   data: () => ({
     basic: { show: false, value: undefined, popup: true },
     multiple: { show: false, value: undefined, popup: true },

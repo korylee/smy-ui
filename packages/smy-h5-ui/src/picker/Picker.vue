@@ -48,10 +48,10 @@
           :height="localOptionHeight"
           @change="change(scrollColumn)"
         >
-          <template #option="data">
-            <slot name="option" v-bind="data">
-              <div v-if="allowHtml" v-html="getItemText(data.option, data.index)" class="smy--ellipsis"></div>
-              <div v-else v-text="getItemText(data.option, data.index)" class="smy--ellipsis"></div>
+          <template #item="{ item, index }">
+            <slot name="option" :option="item" :option-index="index" v-bind="scrollColumn">
+              <div v-if="allowHtml" v-html="getItemText(item, index)" class="smy--ellipsis"></div>
+              <div v-else v-text="getItemText(item, index)" class="smy--ellipsis"></div>
             </slot>
           </template>
         </picker-column>
@@ -75,8 +75,8 @@ import { toPxNum } from '../_utils/dom'
 import { createGetPropertyFromItem, toNumber, wrapInArray } from '../_utils/shared'
 import PickerColumn from './PickerColumn.vue'
 import { isArray, isNil } from '../_utils/is'
-import { createNamespace } from '../_utils/vue/create'
 import { ComponentPublicInstance, Ref, Transition, computed, defineComponent, ref, watch, nextTick } from 'vue'
+import { bem, name } from './utils'
 
 let sid = 0
 
@@ -97,8 +97,6 @@ type ScrollColumn = {
   columns?: CascadeColumn[]
   columnInstance: PickerColumnInstance | null
 }
-
-const [name, bem] = createNamespace('picker')
 
 export default defineComponent({
   name,

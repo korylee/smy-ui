@@ -3,12 +3,12 @@ import { IN_BROWSER } from '../_utils/env'
 import { useEventListener } from './useEventListener'
 import { wrapInArray } from '../_utils/shared'
 
-type UseClickAeayOptions = { eventName?: string }
+type UseClickAwayOptions = { eventName?: keyof DocumentEventMap }
 
 export function useClickAway(
   target: Element | Ref<Element | undefined> | Array<Element | Ref<Element | undefined>>,
   listener: EventListener,
-  options: UseClickAeayOptions = {}
+  options: UseClickAwayOptions = {}
 ) {
   if (!IN_BROWSER) return
   const { eventName = 'click' } = options

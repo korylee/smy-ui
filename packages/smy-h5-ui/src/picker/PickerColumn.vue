@@ -1,13 +1,13 @@
 <template>
-  <div class="smy-picker__column" @touchstart="onTouchstart" @touchmove.prevent="onTouchmove" @touchend="onTouchend">
-    <div :style="getScrollerStyle()" class="smy-picker__scroller" ref="scroller" @transitionend="onTransitionend">
+  <div :class="bem('column')" @touchstart="onTouchstart" @touchmove.prevent="onTouchmove" @touchend="onTouchend">
+    <div :style="getScrollerStyle()" :class="bem('scroller')" ref="scroller" @transitionend="onTransitionend">
       <div
         v-for="(option, optionIndex) in column"
         :key="optionIndex"
         :style="{ height: `${height}px` }"
-        class="smy-picker__option"
+        :class="bem('option')"
       >
-        <slot name="option" :option="option" :index="optionIndex" />
+        <slot name="item" :item="option" :index="optionIndex" />
       </div>
     </div>
   </div>
@@ -18,6 +18,7 @@ import { defineComponent, ref, reactive, watch } from 'vue'
 import { getTranslate } from '../_utils/dom'
 import { range } from '../_utils/shared'
 import { createNumberProp } from '../_utils/vue/props'
+import { bem } from './utils'
 
 const MOMENTUM_RECORD_TIME = 300
 const MOMENTUM_ALLOW_DISTANCE = 15
@@ -131,6 +132,7 @@ export default defineComponent({
     )
     return {
       scroller,
+      bem,
       getScrollerStyle: () => ({
         transform: `translate3d(0, ${state.translate}px, 0)`,
         transitionDuration: `${state.duration}ms`,
