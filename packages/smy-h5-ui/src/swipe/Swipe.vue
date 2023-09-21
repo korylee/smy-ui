@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="root"
     :class="bem()"
     :style="touchStyle"
     @touchstart="onTouchStart"
@@ -24,10 +25,28 @@ import { props } from './props'
 import { useTouch } from '../_utils/composable/useTouch'
 import { range } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
+import { getTargetElement } from '../_utils/dom'
 
 const [name, bem] = createNamespace('swipe')
 const getRefWidth = (ref) => ref?.clientWidth || 0
 const THRESHOLD = 0.15
+
+const useClickAway = (vm, target, callback) => {
+  const onClick = (event) => {
+    target = getTargetElement(target)
+    const isClickAway = target && !target.contains(event.target)
+    if (!isClickAway) {
+      return
+    }
+    callback()
+  }
+  vm.$on('hook:mounted', () => {
+    document.addEventListener('touchstart', onClick)
+  })
+  vm.$on('hook:beforeDestory', () => {
+    document.removeEventListener('touchstart', onClick)
+  })
+}
 
 export default {
   name,
@@ -40,10 +59,10 @@ export default {
     touch: useTouch(),
   }),
   computed: {
-    touchStyle() {
+    touchStyle({ touching, offset }) {
       return {
-        transform: `translate3d(${this.offset}px, 0, 0)`,
-        transitionDuration: this.touching ? '0s' : '.6s',
+        transform: `translate3d(${offset}px, 0, 0)`,
+        transitionDuration: touching ? '0s' : '.6s',
       }
     },
     rightRefWidth() {
@@ -52,6 +71,13 @@ export default {
     leftRefWidth() {
       return getRefWidth(this.$refs.leftRef)
     },
+  },
+  created() {
+    useClickAway(
+      this,
+      () => this.$refs.root,
+      () => this.close('outside')
+    )
   },
   methods: {
     bem,

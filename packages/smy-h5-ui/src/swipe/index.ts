@@ -5,6 +5,8 @@ import type { SmyComponent } from '../_utils/smy/component'
 import type { SwipeProps } from './props'
 import { type VNode } from 'vue'
 
+type SwipePosition = 'left' | 'right'
+
 declare interface SmySwipe extends SmyComponent {
   new (): {
     $props: SwipeProps
@@ -14,8 +16,8 @@ declare interface SmySwipe extends SmyComponent {
       right: () => VNode
     }
     $emit: {
-      (event: 'close', data?: { position: number }): void
-      (event: 'open', data?: { position: number }): void
+      (event: 'close', data?: { position: SwipePosition | 'outside' }): void
+      (event: 'open', data?: { position: SwipePosition }): void
     }
   }
 }

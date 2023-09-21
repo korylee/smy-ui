@@ -10,7 +10,7 @@
     </smy-sticky>
     <app-demo-title>指定容器</app-demo-title>
     <div class="sticky-container" ref="container">
-      <smy-sticky :container="$refs.container">
+      <smy-sticky :container="() => $refs.container">
         <div class="sticky-box" style="margin-left: 240px">基础使用</div>
       </smy-sticky>
     </div>
@@ -24,7 +24,6 @@ import { AppDemoTitle } from '@smy-h5/cli/client'
 export default {
   name: 'StickyExample',
   components: { SmySticky, AppDemoTitle },
-  methods: {},
 }
 </script>
 

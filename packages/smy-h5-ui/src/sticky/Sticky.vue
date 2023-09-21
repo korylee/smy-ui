@@ -8,7 +8,7 @@
 
 <script>
 import { createNamespace } from '../_utils/vue/create'
-import { doubleRaf, getParentScroller, getRect, getRootScrollTop, toPxNum } from '../_utils/dom'
+import { doubleRaf, getParentScroller, getRect, getRootScrollTop, getTargetElement, toPxNum } from '../_utils/dom'
 import intersect from '../intersect'
 import { props } from './props'
 import { useWindowSize } from '../_utils/composable/useWindowSize'
@@ -96,7 +96,8 @@ export default {
     onScroll() {
       const { root } = this.$refs
       if (!root) return
-      const { container, position, offset } = this
+      const { container: _container, position, offset } = this
+      const container = getTargetElement(_container)
       const rootRect = getRect(root)
       const scrollTop = getRootScrollTop()
       this.width = rootRect.width
