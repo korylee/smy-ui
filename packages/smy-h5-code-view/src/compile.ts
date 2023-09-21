@@ -1,7 +1,11 @@
-import { CodeFile } from './store'
+import { CodeFile, ReplStore } from './store'
 import { transformRef, shouldTransformRef, SFCDescriptor, BindingMetadata } from '@vue/compiler-sfc'
 import { transform } from 'sucrase'
 import hashId from 'hash-sum'
+import { compile, parseComponent } from 'vue-template-compiler/browser'
+import less from 'less'
+import * as sass from 'sass'
+import * as buble from 'vue-template-es2015-compiler/buble'
 
 export const COMP_IDENTIFIER = `__sfc__`
 
@@ -9,7 +13,7 @@ export function compileTs(src: string) {
   return transform(src, { transforms: ['typescript'] }).code
 }
 
-export async function compileFile(store: any, file: CodeFile) {
+export async function compileFile(store: ReplStore, file: CodeFile) {
   const { filename, compiledResult: result } = file
   let { code } = file
   const { state, compiler, options } = store
@@ -44,7 +48,7 @@ export async function compileFile(store: any, file: CodeFile) {
     state.errors = errors
     return
   }
-  if (descriptor.styles.some((s: any) => s.lang) || (descriptor.template && descriptor.template.lang)) {
+  if (descriptor.template && descriptor.template.lang) {
     state.errors = [`lang="x" pre-processors for <template> or <style> are currently not ` + `supported.`]
     return
   }
@@ -56,7 +60,6 @@ export async function compileFile(store: any, file: CodeFile) {
   }
 
   let cliendCode = ''
-  let ssrCode = ''
 
   const id = hashId(filename)
   const clientScriptResult = await compileScript(store, descriptor, {
@@ -70,55 +73,23 @@ export async function compileFile(store: any, file: CodeFile) {
   const [clientScript, bindings] = clientScriptResult
   cliendCode += clientScript
 
-  if (descriptor.scriptSetup) {
-    const ssrScriptResult = await compileScript(store, descriptor, {
-      id,
-      ssr: true,
-      isTs,
-    })
-    if (ssrScriptResult) {
-      ssrCode += ssrScriptResult[0]
-    } else {
-      ssrCode = `/* SSR compile error: ${state.errors[0]} */`
-    }
-  } else {
-    ssrCode += clientScript
-  }
   if (descriptor.template && (!descriptor.scriptSetup || options?.script?.inlineTemplate === false)) {
-    const clientTemplateResult = await compileTemplate(store, descriptor, {
-      id,
-      bindingMetadata: bindings,
-      ssr: false,
-      isTs,
-    })
+    const clientTemplateResult = await compileVue2Template(store, descriptor)
     if (!clientTemplateResult) {
       return
     }
-    cliendCode += clientScriptResult
-    const ssrTemplateResult = await compileTemplate(store, descriptor, {
-      id,
-      bindingMetadata: bindings,
-      ssr: true,
-      isTs,
-    })
-    if (ssrTemplateResult) {
-      ssrCode += ssrTemplateResult
-    } else {
-      ssrCode = `/* SSR compile error: ${state.errors[0]} */`
-    }
+    cliendCode += clientTemplateResult
   }
   const hasScoped = descriptor.styles.some((s: any) => s.scoped)
   const appendSharedCode = (code: string) => {
     cliendCode += code
-    ssrCode += code
   }
   if (hasScoped) {
-    appendSharedCode(`\n${COMP_IDENTIFIER}.__scopeId = ${JSON.stringify(`data-v-${id}`)}`)
+    appendSharedCode(`\n${COMP_IDENTIFIER}._scopeId = ${JSON.stringify(`data-v-${id}`)}`)
   }
-  if (cliendCode || ssrCode) {
+  if (cliendCode) {
     appendSharedCode(`\n${COMP_IDENTIFIER}.__file = ${JSON.stringify(filename)}\nexport default ${COMP_IDENTIFIER}`)
     result.js = cliendCode.trimStart()
-    result.ssr = ssrCode.trimStart()
   }
 
   let css = ''
@@ -143,7 +114,20 @@ export async function compileFile(store: any, file: CodeFile) {
       }
       // proceed even if css compile errors
     } else {
-      css += styleResult.code + '\n'
+      switch (style.lang) {
+        case 'less': {
+          css += (await less.render(styleResult.code)).css
+          break
+        }
+        case 'scss':
+        case 'sass': {
+          css += sass.compileString(styleResult.code).css
+          break
+        }
+        default: {
+          css += styleResult.code
+        }
+      }
     }
   }
   if (css) {
@@ -196,13 +180,13 @@ async function compileScript(
   }
 }
 
-async function compileTemplate(
-  store: any,
+async function compileVue3Template(
+  store: ReplStore,
   descriptor: SFCDescriptor,
   opts: { isTs?: boolean; id?: string; ssr?: boolean; bindingMetadata?: BindingMetadata } = {}
 ) {
   const { compiler, options, state } = store
-  const { id, isTs, ssr, bindingMetadata } = opts
+  const { id = '', isTs, ssr, bindingMetadata } = opts
   const templateResult = compiler.compileTemplate({
     ...options?.template,
     source: descriptor.template!.content,
@@ -213,7 +197,7 @@ async function compileTemplate(
     ssr,
     ssrCssVars: descriptor.cssVars,
     isProd: false,
-    compileOptions: {
+    compilerOptions: {
       ...options?.template?.compilerOptions,
       bindingMetadata,
       expressionPlugins: isTs ? ['typescript'] : undefined,
@@ -230,8 +214,35 @@ async function compileTemplate(
   let code = `\n${prefix}\n${COMP_IDENTIFIER}.${fnName} = ${fnName}`
 
   if ((descriptor.script || descriptor.scriptSetup)?.lang === 'ts') {
-    code = await compileTs(code)
+    code = compileTs(code)
   }
 
+  return code
+}
+
+const strictModeCompile = (str: string) =>
+  buble.transform(str, {
+    transforms: {
+      modules: false,
+      stripWith: true,
+      stripWithFunctional: false,
+    },
+    objectAssign: 'Object.assign',
+  }).code
+
+function compileVue2Template(store: ReplStore, descriptor: SFCDescriptor, opts: { isTs?: boolean; id?: string } = {}) {
+  const { template } = descriptor
+  if (!template) {
+    return
+  }
+  const { render, staticRenderFns } = compile(template.content)
+
+  const code = `
+    ${strictModeCompile(`${COMP_IDENTIFIER}.render = function _() {${render}}`)};
+    ${COMP_IDENTIFIER}.render._withStripped = true;
+    ${COMP_IDENTIFIER}.staticRenderFns = [${staticRenderFns
+    .map((staticRenderFn) => strictModeCompile(`function _() { ${staticRenderFn} }`))
+    .join(',\n')}];
+  `
   return code
 }

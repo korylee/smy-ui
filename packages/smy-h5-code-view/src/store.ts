@@ -8,8 +8,10 @@ const DEFAULT_MAIN_FILE = 'App.vue'
 
 const welcomeCode = `
 <template>
-  <h1>{{ msg }}</h1>
-  <input v-model="msg">
+  <div>
+    <h1>{{ msg }}</h1>
+    <input v-model="msg">
+  </div>
 </template>
 <script>
 export default {
@@ -38,7 +40,6 @@ export interface StoreState {
   activeFile: CodeFile
   errors: (string | Error)[]
   vueRuntimeUrl: string
-  vueServerRendererUrl: string
   resetFlip: boolean
 }
 
@@ -47,8 +48,6 @@ export interface StoreOptions {
   showOutput?: boolean
   outputMode?: string
   defaultVueRuntimeURL?: string
-  //  defaultVueServerRendererURL is the default URL of the server renderer to use in the preview iframe zh:defaultVueServerRendererURL是在预览iframe中使用的服务器渲染器的默认URL
-  defaultVueServerRendererURL?: string
 }
 
 export interface SFCOptions {
@@ -64,18 +63,15 @@ export class ReplStore {
   options?: SFCOptions
   initialShowOutput: boolean
   initialOutputMode: string
-  stateWatcher?: () => void
+  activeCodeWatcher?: () => void
 
   private vm?: Vue
   private defaultVueRuntimeURL: string
-  private defaultVueServerRendererURL: string
   private pendingCompiler: Promise<any> | null = null
 
   constructor({
     serializedState = '',
     defaultVueRuntimeURL = `https://unpkg.com/vue@2.6.14/dist/vue.esm.browser.min.js`,
-    // defaultVueRuntimeURL = `https://unpkg.com/@vue/runtime-dom@3.2.47/dist/runtime-dom.esm-browser.js`,
-    defaultVueServerRendererURL = `https://unpkg.com/@vue/server-renderer@3.2.47/dist/server-renderer.esm-browser.js`,
     showOutput = false,
     outputMode = 'preview',
   }: StoreOptions = {}) {
@@ -92,7 +88,6 @@ export class ReplStore {
       }
     }
     this.defaultVueRuntimeURL = defaultVueRuntimeURL
-    this.defaultVueServerRendererURL = defaultVueServerRendererURL
     this.initialOutputMode = outputMode
     this.initialShowOutput = showOutput
 
@@ -105,7 +100,6 @@ export class ReplStore {
       files,
       activeFile: files[mainFile],
       vueRuntimeUrl: defaultVueRuntimeURL,
-      vueServerRendererUrl: defaultVueServerRendererURL,
       errors: [],
       resetFlip: true,
     })
@@ -119,13 +113,13 @@ export class ReplStore {
       this.vm = new Vue({
         data: () => ({ state }),
         watch: {
-          state: {
+          'state.activeFile.code': {
             handler() {
-              compileFile(self, state.activeFile)
-
-              self.stateWatcher?.()
+              compileFile(self, state.activeFile).then(() => {
+                self.activeCodeWatcher?.()
+              })
             },
-            deep: true,
+            immediate: true,
           },
         },
       })
@@ -158,10 +152,6 @@ export class ReplStore {
         const json = JSON.parse(map.code)
         if (!json.imports.vue) {
           json.imports.vue = this.defaultVueRuntimeURL
-          map.code = JSON.stringify(json, null, 2)
-        }
-        if (!json.imports['vue/server-render']) {
-          json.imports['vue/server-renderer'] = this.defaultVueServerRendererURL
           map.code = JSON.stringify(json, null, 2)
         }
         // eslint-disable-next-line no-empty

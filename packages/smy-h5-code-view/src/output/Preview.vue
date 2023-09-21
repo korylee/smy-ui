@@ -1,6 +1,7 @@
 <script>
 import { srcdoc } from './srcdocBase64'
 import { PreviewProxy } from './PreviewProxy'
+import { process } from './process'
 
 export default {
   name: 'VuePreview',
@@ -46,21 +47,49 @@ export default {
       const sandboxSrc = srcdoc.replace(/<!--IMPORT_MAP-->/, JSON.stringify(importMap))
       sandbox.srcdoc = sandboxSrc
       container.appendChild(sandbox)
-      proxy = new PreviewProxy(sandbox, {})
+      proxy = new PreviewProxy(sandbox, {
+        console(log) {
+          if (log.duplicate) {
+            return
+          }
+          if (log.level === 'error') {
+          }
+        },
+      })
       sandbox.addEventListener('load', () => {
         proxy.handleLinks()
         updatePreview()
-        // store.stateWatcher = updatePreview
+        store.activeCodeWatcher = updatePreview
       })
     }
     async function updatePreview() {
-      console.log('--run--')
       const { state } = store
       try {
         const { mainFile } = state
-
-        const codeToEval = [`window.__modules__ = {};\nwindow.__css__ = '';\n`]
+        const modules = process(store)
+        console.log(
+          `[@smy-h5/code-view] successfully compiled ${modules.length} module${modules.length > 1 ? `s` : ``}.`
+        )
+        const codeToEval = [
+          `
+        window.__modules__ = {};
+        window.__css__ = '';
+        window.__app__ && window.__app__.$destroy();
+        document.body.innerHTML = '<div id="app"></div>';
+        `,
+          ...modules,
+          `document.getElementById('__sfc-styles').innerHTML = window.__css__`,
+        ]
         if (mainFile.endsWith('.vue')) {
+          codeToEval.push(`
+          import Vue from 'vue'
+          const _mount = () => {
+            const AppComponent = __modules__["${mainFile}"].default
+            const app = window.__app__ = new Vue({ render: (h) => h(AppComponent) })
+            app.$mount('#app');
+          }
+          _mount()
+          `)
         }
         await proxy.eval(codeToEval)
       } catch (error) {}
