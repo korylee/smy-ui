@@ -4,7 +4,8 @@ import { atou } from './utils'
 import { SFCScriptCompileOptions, SFCStyleCompileOptions, SFCTemplateCompileOptions } from '@vue/compiler-sfc'
 import * as defaultCompiler from '@vue/compiler-sfc'
 
-const DEFAULT_MAIN_FILE = 'App.vue'
+const DefaultMainFile = 'App.vue'
+export const ImportMapFile = 'import-map.json'
 
 const welcomeCode = `
 <template>
@@ -84,14 +85,14 @@ export class ReplStore {
       }
     } else {
       files = {
-        [DEFAULT_MAIN_FILE]: new CodeFile(DEFAULT_MAIN_FILE, welcomeCode),
+        [DefaultMainFile]: new CodeFile(DefaultMainFile, welcomeCode),
       }
     }
     this.defaultVueRuntimeURL = defaultVueRuntimeURL
     this.initialOutputMode = outputMode
     this.initialShowOutput = showOutput
 
-    let mainFile = DEFAULT_MAIN_FILE
+    let mainFile = DefaultMainFile
     if (!files[mainFile]) {
       mainFile = Object.keys(files)[0]
     }
@@ -109,24 +110,22 @@ export class ReplStore {
   init() {
     const self = this
     const { state } = self
-    if (!this.vm) {
-      this.vm = new Vue({
-        data: () => ({ state }),
-        watch: {
-          'state.activeFile.code': {
-            handler() {
-              compileFile(self, state.activeFile).then(() => {
-                self.activeCodeWatcher?.()
-              })
-            },
-            immediate: true,
+    this.vm = new Vue({
+      data: () => ({ state }),
+      watch: {
+        'state.activeFile.code': {
+          handler() {
+            compileFile(self, state.activeFile).then(() => {
+              self.activeCodeWatcher?.()
+            })
           },
+          immediate: true,
         },
-      })
-    }
+      },
+    })
 
     for (const file in state.files) {
-      if (file !== DEFAULT_MAIN_FILE) {
+      if (file !== DefaultMainFile) {
         compileFile(this, state.files[file])
       }
     }
@@ -162,10 +161,14 @@ export class ReplStore {
   getImportMap() {
     const { state } = this
     try {
-      return JSON.parse(state.files['import-map.json'].code)
+      return JSON.parse(state.files[ImportMapFile].code)
     } catch (e) {
-      state.errors = [`Syntax error in import-map.json: ${(e as Error).message}`]
+      state.errors = [`Syntax error in ${ImportMapFile}: ${(e as Error).message}`]
       return {}
     }
+  }
+
+  setImportMap(map: { imports: Record<string, string>; scopes?: Record<string, Record<string, string>> }) {
+    this.state.files[ImportMapFile].code = JSON.stringify(map, null, 2)
   }
 }

@@ -1,14 +1,21 @@
-<template class="vue-repl">
-  <div>
-    <editor />
-    <vue-output />
+<template>
+  <div class="vue-repl">
+    <split-pane :layout="layout">
+      <template #left>
+        <editor-container />
+      </template>
+      <template #right>
+        <code-output ref="outputRef" :editor="editor" :showCompileOutput="showCompileOutput" />
+      </template>
+    </split-pane>
   </div>
 </template>
 
 <script>
 import { ReplStore } from './store'
-import Editor from './editor/Editor.vue'
+import EditorContainer from './editor/EditorContainer.vue'
 import Output from './output/Output.vue'
+import SplitPane from './SplitPane.vue'
 
 export default {
   name: 'VueRepl',
@@ -19,14 +26,33 @@ export default {
     },
     editor: {
       type: String, // monaco || codemirror
-      default: 'monaco',
+      default: 'codemirror',
     },
-    ssr: Boolean,
+    theme: {
+      type: String,
+      default: 'light',
+    },
+    showCompileOutput: {
+      type: Boolean,
+      default: true,
+    },
+    layout: String,
+    previewOptions: {
+      type: Function,
+      default: () => ({
+        headHTML: '',
+        bodyHTML: '',
+        customCode: {
+          importCode: '',
+          useCode: '',
+        },
+      }),
+    },
   },
-  components: { Editor, VueOutput: Output },
+  components: { CodeOutput: Output, SplitPane, EditorContainer },
   provide() {
-    const { store, editor } = this
-    return { store, editor }
+    const { store, previewOptions } = this
+    return { store, previewOptions }
   },
   created() {
     const { store } = this
@@ -46,16 +72,32 @@ export default {
   --color-branding-dark: #416f9c;
   --header-height: 38px;
 
+  margin: 0;
+  overflow: hidden;
   font-size: 13px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
     'Helvetica Neue', sans-serif;
   margin: 0;
   overflow: hidden;
   background-color: var(--bg-soft);
+}
 
-  /* border: 1px solid var(--border);
-  border-radius: 4px;*/
-  /* transition: 0.3s linear border-color; */
-  /* transition: box-shadow 0.2s ease-out;  */
+.dark .vue-repl {
+  --bg: #1a1a1a;
+  --bg-soft: #242424;
+  --border: #383838;
+  --text-light: #aaa;
+  --color-branding: #42d392;
+  --color-branding-dark: #89ddff;
+}
+</style>
+
+<style>
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0;
+  background-color: transparent;
 }
 </style>

@@ -2,17 +2,17 @@
   "name": "@smy-h5/code-view",
   "version": "1.0.0",
   "type": "module",
-  "description": "Vue SFC REPL as a Vue 2.7+ component.",
+  "description": "Vue SFC REPL as a Vue 2.6+ component.",
   "main": "dist/ssr-stub.js",
-  "module": "dist/vue-code-view.js",
+  "module": "dist/code-view.js",
   "files": [
     "dist"
   ],
-  "types": "dist/vue-code-view.d.ts",
+  "types": "dist/code-view.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue-code-view.js",
-      "types": "./dist/vue-code-view.d.ts"
+      "import": "./dist/code-view.js",
+      "types": "./dist/code-view.d.ts"
     },
     "./style.css": "./dist/style.css",
     "./dist/style.css": "./dist/style.css"
@@ -35,6 +35,8 @@
     "hash-sum": "^2.0.0",
     "js-base64": "^3.7.5",
     "less": "^4.1.3",
+    "monaco-editor-core": "^0.43.0",
+    "monaco-volar": "^0.4.0",
     "sass": "^1.68.0",
     "sucrase": "^3.34.0",
     "vue": "2.6.14",
@@ -42,6 +44,7 @@
     "vue-template-es2015-compiler": "^1.9.1"
   },
   "devDependencies": {
+    "@types/codemirror": "^5.60.10",
     "@types/hash-sum": "^1.0.0",
     "vite": "^4.4.9",
     "vite-plugin-vue2": "^2.0.3"

@@ -49,7 +49,7 @@ export async function compileFile(store: ReplStore, file: CodeFile) {
     return
   }
   if (descriptor.template && descriptor.template.lang) {
-    state.errors = [`lang="x" pre-processors for <template> or <style> are currently not ` + `supported.`]
+    state.errors = [`lang="x" pre-processors for <template> are currently not ` + `supported.`]
     return
   }
   const scriptLang = descriptor.script?.lang || descriptor.scriptSetup?.lang
@@ -237,10 +237,10 @@ function compileVue2Template(store: ReplStore, descriptor: SFCDescriptor, opts: 
   }
   const { render, staticRenderFns } = compile(template.content)
 
-  const code = `
-    ${strictModeCompile(`${COMP_IDENTIFIER}.render = function _() {${render}}`)};
-    ${COMP_IDENTIFIER}.render._withStripped = true;
-    ${COMP_IDENTIFIER}.staticRenderFns = [${staticRenderFns
+  const code = `\
+${strictModeCompile(`${COMP_IDENTIFIER}.render = function _() {${render}}`)};
+${COMP_IDENTIFIER}.render._withStripped = true;
+${COMP_IDENTIFIER}.staticRenderFns = [${staticRenderFns
     .map((staticRenderFn) => strictModeCompile(`function _() { ${staticRenderFn} }`))
     .join(',\n')}];
   `

@@ -1,17 +1,23 @@
 <script>
-import { srcdoc } from './srcdocBase64'
+// import { srcdoc } from './srcdocBase64'
 import { PreviewProxy } from './PreviewProxy'
 import { process } from './process'
+import Message from '../Message.vue'
+import srcdoc from './srcdoc.html?raw'
 
 export default {
-  name: 'VuePreview',
+  name: 'code-view-preview',
   props: {
     show: Boolean,
-    ssr: Boolean,
   },
-  inject: ['store'],
+  components: { Message },
+  inject: ['store', 'previewOptions'],
+  data: () => ({
+    runtimeError: '',
+    runtimeWarning: '',
+  }),
   created() {
-    const { store } = this
+    const { store, previewOptions } = this
     const self = this
     let sandbox
     let proxy
@@ -21,6 +27,8 @@ export default {
     function createSandbox() {
       const { container } = this.$refs
       if (sandbox) {
+        proxy.destory()
+        store.activeCodeWatcher = null
         container.removeChild(sandbox)
       }
       sandbox = document.createElement('iframe')
@@ -53,7 +61,22 @@ export default {
             return
           }
           if (log.level === 'error') {
+            const arg = log.args[0]
+            self.runtimeError = arg instanceof Error ? arg.message : arg
+          } else if (log.level === 'warn') {
+            self.runtimeWarning = log.args.join('').trim()
           }
+        },
+        error(event) {
+          const msg = event.value
+          console.log(event)
+        },
+        unhandledrejection(event) {
+          let error = event.value
+          if (typeof error === 'string') {
+            error = { message: error }
+          }
+          self.runtimeError = 'Uncaugth (in primose): ' + error.message
         },
       })
       sandbox.addEventListener('load', () => {
@@ -63,6 +86,8 @@ export default {
       })
     }
     async function updatePreview() {
+      self.runtimeError = null
+      self.runtimeWarning = null
       const { state } = store
       try {
         const { mainFile } = state
@@ -75,24 +100,32 @@ export default {
         window.__modules__ = {};
         window.__css__ = '';
         window.__app__ && window.__app__.$destroy();
-        document.body.innerHTML = '<div id="app"></div>';
+        document.body.innerHTML = '<div id="app"></div>' + \`${previewOptions?.bodyHTML || ''}\`;
         `,
           ...modules,
           `document.getElementById('__sfc-styles').innerHTML = window.__css__`,
         ]
         if (mainFile.endsWith('.vue')) {
-          codeToEval.push(`
-          import Vue from 'vue'
-          const _mount = () => {
-            const AppComponent = __modules__["${mainFile}"].default
-            const app = window.__app__ = new Vue({ render: (h) => h(AppComponent) })
-            app.$mount('#app');
-          }
-          _mount()
-          `)
+          codeToEval.push(
+            `import Vue from 'vue'
+            ${previewOptions?.customCode?.importCode || ''}
+            Vue.config.errorHandler = (e) => (console.error(e));
+
+            const _mount = () => {
+              const AppComponent = __modules__["${mainFile}"].default
+              const app = window.__app__ = new Vue({ render: (h) => h(AppComponent) })
+              ${previewOptions?.customCode?.useCode || ''}
+              app.$mount('#app');
+            }
+            _mount()`
+          )
         }
+
         await proxy.eval(codeToEval)
-      } catch (error) {}
+      } catch (error) {
+        console.error(error)
+        self.runtimeError = e.message
+      }
     }
     console.log(store)
   },
@@ -103,7 +136,17 @@ export default {
 <template>
   <div class="iframe-wrapper" v-show="show">
     <div class="iframe-container" ref="container"></div>
-    <!-- <Message :err="runtimeError" />
-    <Message v-if="!runtimeError" :warn="runtimeWarning" /> -->
+    <Message :err="runtimeError" />
+    <Message v-if="!runtimeError" :warn="runtimeWarning" />
   </div>
 </template>
+
+<style scoped>
+.iframe-container,
+.iframe-container /deep/ iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #fff;
+}
+</style>
