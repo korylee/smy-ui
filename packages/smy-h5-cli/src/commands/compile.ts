@@ -29,4 +29,7 @@ export async function compile(cmd: { noUmd: boolean }) {
   await runTask('module', compileModule)
   await runTask('commonjs', () => compileModule('commonjs'))
   !cmd.noUmd && (await runTask('umd', () => compileModule('umd')))
+
+  process.env.BABEL_MODULE = ''
+  await runTask('bundle', () => compileModule('esm'))
 }

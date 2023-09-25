@@ -19,6 +19,9 @@ export default defineConfig({
       fileName: () => '[name].js',
     },
     rollupOptions: {
+      output: {
+        chunkFileNames: 'chunks/[name]-[hash].js',
+      },
       external: ['vue', '@vue/compiler-sfc'],
     },
   },

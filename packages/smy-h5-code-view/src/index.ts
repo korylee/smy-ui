@@ -1,4 +1,6 @@
-import { ReplStore as Store } from './store'
+import { ReplStore, CodeFile } from './store'
 import Repl from './Repl.vue'
+import { compileFile } from './compile'
+import Preview from './output/Preview.vue'
 
-export { Store, Repl }
+export { ReplStore, Repl, CodeFile, Preview, compileFile }

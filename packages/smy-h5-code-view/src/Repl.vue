@@ -38,7 +38,7 @@ export default {
     },
     layout: String,
     previewOptions: {
-      type: Function,
+      type: Object,
       default: () => ({
         headHTML: '',
         bodyHTML: '',

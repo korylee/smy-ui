@@ -327,6 +327,28 @@ importers:
         specifier: ^12.0.2
         version: 12.3.2
 
+  packages/smy-h5-playground:
+    dependencies:
+      '@smy-h5/code-view':
+        specifier: workspace:^
+        version: link:../smy-h5-code-view
+      vue:
+        specifier: 2.6.14
+        version: 2.6.14
+    devDependencies:
+      '@types/node':
+        specifier: ^16.11.45
+        version: 16.18.41
+      '@vue/compiler-sfc':
+        specifier: ^3.2.47
+        version: 3.3.4
+      vite:
+        specifier: ^4.4.9
+        version: 4.4.9(@types/node@16.18.41)(less@4.2.0)(sass@1.68.0)
+      vite-plugin-vue2:
+        specifier: ^2.0.3
+        version: 2.0.3(vite@4.4.9)(vue-template-compiler@2.6.14)(vue@2.6.14)
+
   packages/smy-h5-ui:
     dependencies:
       '@smy-h5/icons':

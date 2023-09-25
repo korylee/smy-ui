@@ -52,7 +52,10 @@ export default {
       if (!importMap.imports.vue) {
         importMap.imports.vue = store.state.vueRuntimeURL
       }
-      const sandboxSrc = srcdoc.replace(/<!--IMPORT_MAP-->/, JSON.stringify(importMap))
+      const sandboxSrc = srcdoc
+        .replace(/<!--IMPORT_MAP-->/, JSON.stringify(importMap))
+        .replace(/<!-- PREVIEW-OPTIONS-HEAD-HTML -->/, previewOptions?.headHTML || '')
+
       sandbox.srcdoc = sandboxSrc
       container.appendChild(sandbox)
       proxy = new PreviewProxy(sandbox, {
@@ -124,7 +127,7 @@ export default {
         await proxy.eval(codeToEval)
       } catch (error) {
         console.error(error)
-        self.runtimeError = e.message
+        self.runtimeError = error.message
       }
     }
     console.log(store)
