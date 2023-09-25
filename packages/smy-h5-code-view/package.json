@@ -1,0 +1,57 @@
+{
+  "name": "@smy-h5/code-view",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Vue SFC REPL as a Vue 2.6+ component.",
+  "main": "dist/ssr-stub.js",
+  "module": "dist/code-view.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/code-view.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/code-view.js",
+      "types": "./dist/code-view.d.ts"
+    },
+    "./style.css": "./dist/style.css",
+    "./dist/style.css": "./dist/style.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build-types": "vue-tsc -p tsconfig.build.json && api-extractor run -c api-extractor.json && rimraf dist/src",
+    "prepublishOnly": "npm run build && npm run build-types",
+    "bootstrap": "pnpm install",
+    "clean": "rimraf dist  && rimraf node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vue/compiler-sfc": "^3.2.47",
+    "codemirror": "^5.41.0",
+    "fflate": "^0.8.1",
+    "hash-sum": "^2.0.0",
+    "js-base64": "^3.7.5",
+    "less": "^4.1.3",
+    "monaco-editor-core": "^0.43.0",
+    "monaco-volar": "^0.4.0",
+    "sass": "^1.68.0"
+  },
+  "devDependencies": {
+    "@types/codemirror": "^5.60.10",
+    "@types/hash-sum": "^1.0.0",
+    "@types/less": "^3.0.3",
+    "monaco-editor": "^0.43.0",
+    "monaco-editor-textmate": "^4.0.0",
+    "monaco-textmate": "^3.0.1",
+    "onigasm": "^2.2.5",
+    "sucrase": "^3.34.0",
+    "vite": "^4.4.9",
+    "vite-plugin-vue2": "^2.0.3",
+    "vue": "2.6.14",
+    "vue-template-compiler": "2.6.14",
+    "vue-template-es2015-compiler": "^1.9.1"
+  }
+}

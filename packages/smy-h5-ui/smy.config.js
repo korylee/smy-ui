@@ -34,6 +34,9 @@ module.exports = defineConfig({
         },
       ],
     },
+    header: {
+      playground: 'http://localhost:5173',
+    },
     menu: [
       { text: '开发指南', type: 1 },
       { text: '基本介绍', type: 3, doc: 'home' },

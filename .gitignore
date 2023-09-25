@@ -32,3 +32,8 @@ packages/smy-h5-ui/coverage
 packages/smy-h5-ui/types
 packages/smy-h5-ui/.smy
 packages/smy-h5-ui/highlight
+
+packages/smy-h5-code-view/dist
+
+packages/smy-h5-playground/site
+packages/smy-h5-playground/public/smy.*

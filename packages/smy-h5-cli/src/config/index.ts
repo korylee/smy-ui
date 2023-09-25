@@ -5,7 +5,7 @@ import { CWD, ES_DIR, UMD_DIR, LIB_DIR } from '../shared/constant'
 import { pathExistsSync, removeSync, readFileSync, writeFileSync, copyFileSync } from 'fs-extra'
 
 const SmyClearVitePlugin: PluginOption = {
-  name: 'smy-clear-vitre-plugin',
+  name: 'smy-clear-vite-plugin',
   apply: 'build',
   closeBundle() {
     removeSync(resolve(CWD, 'dist'))
@@ -18,7 +18,8 @@ export function getESMBundleConfig(config: Record<string, any>): InlineConfig {
   return {
     logLevel: 'silent',
     build: {
-      emptyOutDir: true,
+      emptyOutDir: false,
+      copyPublicDir: false,
       lib: {
         name,
         formats: ['es'],
@@ -36,7 +37,7 @@ export function getESMBundleConfig(config: Record<string, any>): InlineConfig {
         },
       },
     },
-    plugins: [SmyClearVitePlugin],
+    plugins: [],
   }
 }
 
