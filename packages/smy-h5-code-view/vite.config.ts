@@ -14,9 +14,9 @@ export default defineConfig({
     target: 'esnext',
     minify: false,
     lib: {
-      entry: './src/index.ts',
+      entry: { 'code-view': './src/index.ts' },
       formats: ['es'],
-      fileName: () => 'code-view.js',
+      fileName: () => '[name].js',
     },
     rollupOptions: {
       external: ['vue', '@vue/compiler-sfc'],

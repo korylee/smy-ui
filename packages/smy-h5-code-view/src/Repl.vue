@@ -2,10 +2,10 @@
   <div class="vue-repl">
     <split-pane :layout="layout">
       <template #left>
-        <editor-container />
+        <editor-container :editor="editor" :theme="theme" />
       </template>
       <template #right>
-        <code-output ref="outputRef" :editor="editor" :showCompileOutput="showCompileOutput" />
+        <code-output ref="outputRef" :editor="editor" :showCompileOutput="showCompileOutput" :theme="theme" />
       </template>
     </split-pane>
   </div>

@@ -14,6 +14,7 @@
         readonly
         :value="activeFile.compiledResult[mode]"
         :filename="activeFile.filename"
+        :theme="theme"
       />
     </div>
   </div>
@@ -21,15 +22,17 @@
 <script>
 import Preview from './Preview.vue'
 import Codemirror from '../editor/CodeMirrorEditor.vue'
+import Monaco from '../editor/MonacoEditor.vue'
 
 export default {
-  components: { Preview, Codemirror },
+  components: { Preview, Codemirror, Monaco },
   props: {
     editor: {
       type: [String, Object], // monaco || codemirror
       default: 'codemirror',
     },
     showCompileOutput: Boolean,
+    theme: String,
   },
   inject: ['store'],
   data: (vm) => ({
@@ -48,6 +51,7 @@ export default {
   },
 }
 </script>
+
 <style scoped>
 .output-wrapper {
   height: 100%;

@@ -149,4 +149,7 @@ export default {
   border: none;
   background-color: #fff;
 }
+.iframe-wrapper {
+  height: 100%;
+}
 </style>

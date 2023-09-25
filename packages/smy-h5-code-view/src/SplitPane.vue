@@ -4,6 +4,7 @@
     class="split-pane"
     :class="{
       vertical: isVertical,
+      'show-output': showOutput,
     }"
   >
     <div class="left" :style="{ [isVertical ? 'height' : 'width']: boundSplit + '%' }">
@@ -12,6 +13,9 @@
     <div class="right" :style="{ [isVertical ? 'height' : 'width']: 100 - boundSplit + '%' }">
       <slot name="right" />
     </div>
+    <button class="toggler" @click="showOutput = !showOutput">
+      {{ showOutput ? '< Code' : 'Output >' }}
+    </button>
   </div>
 </template>
 
@@ -22,6 +26,7 @@ export default {
   },
   data: () => ({
     split: 50,
+    showOutput: false,
   }),
   computed: {
     isVertical: ({ layout }) => layout === 'vertical',
@@ -46,6 +51,25 @@ export default {
 }
 .split-pane .left {
   border-right: 1px solid var(--border);
+}
+
+.toggler {
+  display: none;
+  z-index: 3;
+  font-family: var(--font-code);
+  color: var(--text-light);
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  background-color: var(--bg);
+  padding: 8px 12px;
+  border-radius: 8px;
+  transform: translateX(-50%);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+.dark .toggler {
+  background-color: var(--bg);
 }
 
 @media (min-width: 721px) {

@@ -1,24 +1,27 @@
 <template>
   <div class="editor-container">
-    <component :is="editor" v-model="activeCode" :filename="activeFile.filename" />
+    <FileSelector />
+    <component class="editor" :is="editor" v-model="activeCode" :filename="activeFile.filename" :theme="theme" />
     <message :err="store.state.errors[0]" />
   </div>
 </template>
 <script>
 import Message from '../Message.vue'
 import Codemirror from './CodeMirrorEditor.vue'
+import Monaco from './MonacoEditor.vue'
+import FileSelector from './FileSelector.vue'
 
 export default {
   inject: ['store'],
   props: {
-    editor: {
-      type: [String, Object], // monaco || codemirror
-      default: 'codemirror',
-    },
+    editor: [String, Object], // monaco || codemirror
+    theme: String,
   },
   components: {
     Message,
     Codemirror,
+    Monaco,
+    FileSelector,
   },
   computed: {
     activeFile({ store }) {
@@ -42,8 +45,11 @@ export default {
 
 <style scoped>
 .editor-container {
-  height: calc(100% - var(--header-height));
+  height: 100%;
   overflow: hidden;
   position: relative;
+}
+.editor {
+  height: calc(100% - var(--header-height));
 }
 </style>
