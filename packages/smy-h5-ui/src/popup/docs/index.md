@@ -7,6 +7,7 @@
 ### 引入
 
 ```js
+// playground-ignore
 import Vue from 'vue'
 import { Popup } from '@smy-h5/ui'
 

@@ -145,7 +145,7 @@ async function compileScript(
   opts: { isTs?: boolean; id?: string; ssr?: boolean } = {}
 ) {
   if (!descriptor?.script && !descriptor.scriptSetup) {
-    return [`\nconst ${COMP_IDENTIFIER} = {}`, undefined]
+    return [`\nconst ${COMP_IDENTIFIER} = {};`, undefined]
   }
   const { isTs, id, ssr } = opts
   const { compiler, options, state } = store

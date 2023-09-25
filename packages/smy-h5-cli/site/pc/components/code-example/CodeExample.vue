@@ -6,10 +6,13 @@
           <Xml />
         </smy-site-icon>
       </smy-site-button>
-      <smy-site-button v-if="clipboard" @click="handleCopy" text round>
+      <smy-site-button v-if="clipboard" text round @click="handleCopy">
         <smy-site-icon size="18">
           <Copy />
         </smy-site-icon>
+      </smy-site-button>
+      <smy-site-button v-if="playground" text round @click="toPlayground">
+        <smy-site-icon size="18"><CodeJson /></smy-site-icon>
       </smy-site-button>
     </div>
     <div ref="code" :class="codeClass" :style="codeStyle" class="smy-site-code-example__code">
@@ -23,6 +26,7 @@ import config from '@config'
 import { handleCopy } from './utils'
 import Copy from '@smy-h5/icons/dist/es/Copy'
 import Xml from '@smy-h5/icons/dist/es/Xml'
+import CodeJson from '@smy-h5/icons/dist/es/CodeJson'
 import SmySiteIcon from '../../../components/icon'
 
 function doubleRaf() {
@@ -33,6 +37,10 @@ function doubleRaf() {
   })
 }
 
+function utoa(data) {
+  return btoa(unescape(encodeURIComponent(data)))
+}
+
 const offset = 10
 
 export default {
@@ -41,7 +49,9 @@ export default {
     Copy,
     Xml,
     SmySiteIcon,
+    CodeJson,
   },
+  props: { playgroundIgnore: Boolean },
   data: () => ({
     clipboard: config?.pc?.clipboard ?? true,
     fold: config?.pc?.fold,
@@ -59,6 +69,9 @@ export default {
       return {
         height: height >= 0 ? `${height}px` : undefined,
       }
+    },
+    playground() {
+      return this.playgroundIgnore ? undefined : config?.pc?.header?.playground
     },
   },
   mounted() {
@@ -88,6 +101,12 @@ export default {
     handleCopy() {
       const res = handleCopy(this.$refs.code.innerText)
       res && alert('复制成功')
+    },
+    toPlayground() {
+      const codeText = this.$refs.code?.innerText ?? ''
+      const file = { 'App.vue': codeText }
+      const url = this.playground + `/#${utoa(JSON.stringify(file))}`
+      window.open(url)
     },
   },
 }

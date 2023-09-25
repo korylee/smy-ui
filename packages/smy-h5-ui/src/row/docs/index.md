@@ -7,6 +7,7 @@
 ### 引入
 
 ```js
+// playground-ignore
 import Vue from 'vue'
 import { Row, Col } from '@smy-h5/ui'
 
@@ -65,17 +66,19 @@ Vue.use(Row).use(Col)
 ### 偏移
 
 ```html
-<smy-row wrap="wrap">
-  <smy-col offset="8" span="16">
-    <div class="flex-item">span:8</div>
-  </smy-col>
-  <smy-col span="8">
-    <div class="flex-item flex-item--light">span:8</div>
-  </smy-col>
-  <smy-col span="8">
-    <div class="flex-item">span:8</div>
-  </smy-col>
-</smy-row>
+<template>
+  <smy-row wrap="wrap">
+    <smy-col offset="8" span="16">
+      <div class="flex-item">span:8</div>
+    </smy-col>
+    <smy-col span="8">
+      <div class="flex-item flex-item--light">span:8</div>
+    </smy-col>
+    <smy-col span="8">
+      <div class="flex-item">span:8</div>
+    </smy-col>
+  </smy-row>
+</template>
 ```
 
 ### 对齐

@@ -7,6 +7,7 @@
 ### 引入
 
 ```js
+// playground-ignore
 import Vue from 'vue'
 import { Tag } from '@smy-h5/ui'
 

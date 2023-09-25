@@ -7,6 +7,7 @@
 ### 引入
 
 ```js
+// playground-ignore
 import Vue from 'vue'
 import { Picker } from '@smy-h5/ui'
 
@@ -17,21 +18,24 @@ Vue.use(Picker)
 
 ### 单列选择
 
-```js
-const column = [
-  { text: '南京市', value: 'NanJing' },
-  { text: '无锡市', value: 'WuXi' },
-  { text: '海北藏族自治区', value: 'ZangZu' },
-  { text: '北京市', value: 'BeiJing' },
-  { text: '连云港市', value: 'LianYunGang' },
-  { text: '浙江市', value: 'ZheJiang' },
-  { text: '江苏市', value: 'JiangSu' },
-]
+```html
+<script>
+  import { Picker } from '@smy-h5/ui'
+  const column = [
+    { text: '南京市', value: 'NanJing' },
+    { text: '无锡市', value: 'WuXi' },
+    { text: '海北藏族自治区', value: 'ZangZu' },
+    { text: '北京市', value: 'BeiJing' },
+    { text: '连云港市', value: 'LianYunGang' },
+    { text: '浙江市', value: 'ZheJiang' },
+    { text: '江苏市', value: 'JiangSu' },
+  ]
 
-Picker([column]).then(({ state, values, indexes }) => {
-  Toast(`${state}: ${values}`)
-  console.log(state, values, indexes)
-})
+  Picker([column]).then(({ state, values, indexes }) => {
+    Toast(`${state}: ${values}`)
+    console.log(state, values, indexes)
+  })
+</script>
 ```
 
 ### 多列选择
