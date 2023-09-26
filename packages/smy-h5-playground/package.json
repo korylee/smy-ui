@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@smy-h5/code-view": "workspace:^",
+    "@smy-h5/touch-emulator": "workspace:^",
     "vue": "2.6.14"
   },
   "devDependencies": {

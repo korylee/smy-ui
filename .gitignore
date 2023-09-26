@@ -33,6 +33,8 @@ packages/smy-h5-ui/types
 packages/smy-h5-ui/.smy
 packages/smy-h5-ui/highlight
 
+packages/smy-h5-touch-emulator/iife.js
+
 packages/smy-h5-code-view/dist
 
 packages/smy-h5-playground/site

@@ -1,4 +1,3 @@
-// @ts-nocheck
 // touch事件模拟，解决在web端不能体验的问题
 const inBrowser = typeof window !== 'undefined'
 const supportTouch = 'ontouchstart' in window

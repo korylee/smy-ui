@@ -1,0 +1,20 @@
+{
+  "name": "@smy-h5/touch-emulator",
+  "version": "1.0.0",
+  "description": "touch emulator",
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "files": [
+    "iife.js",
+    "index.js"
+  ],
+  "scripts": {
+    "build": "tsup index.js --format iife --out-dir=. --globalName=SmyTouchEmulator && node build.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tsup": "7.2.0"
+  }
+}
