@@ -1,9 +1,9 @@
 <script>
-// import { srcdoc } from './srcdocBase64'
-import { PreviewProxy } from './PreviewProxy'
 import { process } from './process'
 import Message from '../Message.vue'
 import srcdoc from './srcdoc.html?raw'
+import { PreviewProxy } from './PreviewProxy/PreviewProxy'
+import initPreviewDoc from './PreviewProxy/initPreview.js?raw'
 
 export default {
   name: 'code-view-preview',
@@ -55,6 +55,7 @@ export default {
       const sandboxSrc = srcdoc
         .replace(/<!--IMPORT_MAP-->/, JSON.stringify(importMap))
         .replace(/<!-- PREVIEW-OPTIONS-HEAD-HTML -->/, previewOptions?.headHTML || '')
+        .replace(/<!--INIT_PREVIEW-->/, initPreviewDoc)
 
       sandbox.srcdoc = sandboxSrc
       container.appendChild(sandbox)
@@ -145,11 +146,15 @@ export default {
 </template>
 
 <style scoped>
+.iframe-wrapper,
 .iframe-container,
 .iframe-container /deep/ iframe {
   width: 100%;
   height: 100%;
   border: none;
+}
+
+.iframe-container {
   background-color: #fff;
 }
 .iframe-wrapper {
