@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 
 const POPUP_POSITIONS = ['top', 'bottom', 'center', 'left', 'right'] as const
 
-export type PopupPosition = typeof POPUP_POSITIONS[number]
+export type PopupPosition = (typeof POPUP_POSITIONS)[number]
 
 export const props = {
   show: {

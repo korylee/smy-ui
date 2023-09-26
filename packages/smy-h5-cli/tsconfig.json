@@ -1,14 +1,9 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": true
   },
-  "include": [
-    "src/**/*",
-    "site/**/*",
-    "*/**.vue",
-    "module.d.ts",
-  ],
+  "include": ["src/**/*", "site/**/*", "*/**.vue", "module.d.ts"],
   "vueCompilerOptions": {
     "target": 2
   }

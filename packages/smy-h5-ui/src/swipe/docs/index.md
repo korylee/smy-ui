@@ -5,13 +5,13 @@
 常用于单元格左右滑删除等手势操作
 
 ### 引入
+
 ```js
 import Vue from 'vue'
 import { Swipe } from '@smy-h5/ui'
 
 Vue.use(Swipe)
 ```
-
 
 ### 基础用法
 
@@ -89,10 +89,10 @@ Vue.use(Swipe)
 
 ### 事件
 
-| 事件名 | 说明       | 回调参数                                      |
-| ------ | ---------- | --------------------------------------------- |
-| `open`   | 打开时触发 | `(data: {position: 'left'\|'right'}) => void` |
-| `close`  | 关闭时触发 | `(data: {position: 'left'\|'right'}) => void` |
+| 事件名  | 说明       | 回调参数                                      |
+| ------- | ---------- | --------------------------------------------- |
+| `open`  | 打开时触发 | `(data: {position: 'left'\|'right'}) => void` |
+| `close` | 关闭时触发 | `(data: {position: 'left'\|'right'}) => void` |
 
 ### 插槽
 

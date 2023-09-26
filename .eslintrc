@@ -10,7 +10,5 @@
     "packages/smy-h5-ui/public/**",
     "packages/smy-h5-code-view/**"
   ],
-  "extends": [
-    "@smy-h5"
-  ]
+  "extends": ["@smy-h5"]
 }

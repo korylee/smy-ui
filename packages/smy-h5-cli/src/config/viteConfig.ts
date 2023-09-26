@@ -6,13 +6,17 @@ import {
   SITE_PC_ROUTES,
   SITE_PUBLIC_PATH,
   VITE_RESOLVE_EXTENSION,
+  LIB_DIR,
+  ES_DIR,
 } from '../shared/constant'
 import { get } from 'lodash'
-import { InlineConfig } from 'vite'
+import { InlineConfig, LibraryFormats, Plugin } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { injectHtml } from 'vite-plugin-html'
 import { resolve } from 'path'
 import markdownPlugin from '@smy-h5/markdown-vite-plugin'
+import { SmyConfig } from './smyConfig'
+import { pathExistsSync, removeSync, readFileSync, writeFileSync, copyFileSync } from 'fs-extra'
 
 export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
   const { host } = smyConfig
@@ -69,6 +73,67 @@ export function getBuildConfig(smyConfig: Record<string, any>): InlineConfig {
           mobile: resolve(SITE_DIR, 'mobile.html'),
         },
       },
+    },
+  }
+}
+
+export interface BundleBuildOptions {
+  fileName: string
+  output: string
+  format: LibraryFormats
+  removeEnv: boolean
+  emptyOutDir: boolean
+}
+
+export function getBundleConfig(smyConfig: SmyConfig, buildOptions: BundleBuildOptions): InlineConfig {
+  const plugins = []
+  const name = smyConfig.name
+  const { fileName, output, format, emptyOutDir, removeEnv } = buildOptions
+  if (format === 'umd') {
+    plugins.push(inlineCss(fileName, output))
+  }
+  return {
+    logLevel: 'silent',
+    define: removeEnv ? { 'process.env.NODE_ENV': '"production"' } : undefined,
+    plugins,
+    build: {
+      minify: format === 'cjs' ? false : 'esbuild',
+      emptyOutDir,
+      copyPublicDir: false,
+      lib: {
+        name,
+        formats: [format],
+        fileName: () => fileName,
+        entry: resolve(ES_DIR, 'index.bundle.mjs'),
+      },
+      rollupOptions: {
+        external: ['vue'],
+        output: {
+          dir: output,
+          exports: 'named',
+          globals: {
+            vue: 'Vue',
+          },
+        },
+      },
+    },
+  }
+}
+
+function inlineCss(filename: string, dir: string): Plugin {
+  return {
+    name: 'smy-inline-css-vite-plugin',
+    apply: 'build',
+    closeBundle() {
+      const cssFile = resolve(dir, 'style.css')
+      if (!pathExistsSync(cssFile)) return
+      const jsFile = resolve(dir, filename)
+      const cssCode = readFileSync(cssFile, 'utf-8').replace(/\\/g, '\\\\')
+      const jsCode = readFileSync(jsFile, 'utf-8')
+      const injectCode = `;(function() {var style=document.createElement('style');style.type='text/css';style.rel='stylesheet';style.appendChild(document.createTextNode(\`${cssCode}\`));var head=document.querySelector('head');head.appendChild(style);})();`
+      writeFileSync(jsFile, `${injectCode}${jsCode}`)
+      copyFileSync(cssFile, resolve(LIB_DIR, 'style.css'))
+      removeSync(cssFile)
     },
   }
 }

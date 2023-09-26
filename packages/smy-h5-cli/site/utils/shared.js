@@ -1,4 +1,4 @@
-import { isBool, isNill, isString } from "./is"
+import { isBool, isNill, isString } from './is'
 
 export function toNumber(val) {
   if (isNill(val)) return 0

@@ -12,8 +12,7 @@
       </div>
     </div>
     <div v-if="$slots.extra" class="smy-site-cell__extra">
-      <slot name="extra">
-      </slot>
+      <slot name="extra"> </slot>
     </div>
   </div>
 </template>

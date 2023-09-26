@@ -101,7 +101,7 @@ export default { name: "${componentName}" }
   const compilerOptionsBase = {
     forceConsistentCasingInFileNames: true,
     moduleResolution: 'node',
-    target: 'ES6',
+    target: 'ES5',
     lib: ['ESNext', 'DOM'],
     allowJs: true,
     checkJs: false,

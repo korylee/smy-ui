@@ -1,5 +1,5 @@
-import { inBrowser } from "./env"
-import { isNumString, isNumber } from "./is"
+import { inBrowser } from './env'
+import { isNumString, isNumber } from './is'
 
 export function requestAnimationFrame(fn) {
   return inBrowser ? globalThis.requestAnimationFrame(fn) : setTimeout(fn, 1000 / 60)

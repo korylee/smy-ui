@@ -4,7 +4,7 @@ import type { LazyloadOptions } from '../lazyload'
 
 const IMAGE_FIT = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
 
-export type ImageFit = typeof IMAGE_FIT[number]
+export type ImageFit = (typeof IMAGE_FIT)[number]
 
 export const props = {
   src: String,

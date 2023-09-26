@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
 Object.defineProperty(window, 'onMobileRouteChange', {
   value(path, replace) {
     if (path === mobileRedirect) {
-      return void  router.replace(`/${replace}`)
+      return void router.replace(`/${replace}`)
     }
     router.replace(path)
   },

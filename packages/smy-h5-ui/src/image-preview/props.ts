@@ -7,7 +7,7 @@ export type Image = string
 
 const CLOSE_ICON_POSITION = ['top-right', 'bottom-right', 'top-left', 'bottom-left'] as const
 
-type CloseIconPosition = typeof CLOSE_ICON_POSITION[number]
+type CloseIconPosition = (typeof CLOSE_ICON_POSITION)[number]
 
 const baseProps = {
   show: {

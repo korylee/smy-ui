@@ -7,11 +7,11 @@ const ALIGN_OPTIONS = ['flex-start', 'flex-end', 'center'] as const
 
 const WRAP_OPTIONS = ['wrap', 'nowrap', 'reverse'] as const
 
-type JustifyType = typeof JUSTIFY_OPTIONS[number]
+type JustifyType = (typeof JUSTIFY_OPTIONS)[number]
 
-type AlignType = typeof ALIGN_OPTIONS[number]
+type AlignType = (typeof ALIGN_OPTIONS)[number]
 
-type WrapType = typeof WRAP_OPTIONS[number]
+type WrapType = (typeof WRAP_OPTIONS)[number]
 
 export const props = {
   gutter: {

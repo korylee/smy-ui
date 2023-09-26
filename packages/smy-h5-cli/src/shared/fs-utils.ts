@@ -1,6 +1,6 @@
 import { appendFileSync, ensureFileSync, lstatSync, outputFileSync, pathExistsSync, readFileSync } from 'fs-extra'
 import { extname, resolve } from 'path'
-import { PUBLIC_DIR_INDEXES, SCRIPTS_EXTENSIONS } from './constant'
+import { PUBLIC_DIR_INDEXES, SCRIPT_EXTENSIONS } from './constant'
 import globSync from 'glob'
 
 export const isDir = (file: string): boolean => pathExistsSync(file) && lstatSync(file).isDirectory()
@@ -11,9 +11,14 @@ export const isSFC = (file: string): boolean => pathExistsSync(file) && extname(
 
 export const isDTS = (file: string): boolean => pathExistsSync(file) && file.endsWith('.d.ts')
 
+export const isJsx = (file: string): boolean => pathExistsSync(file) && file.endsWith('.jsx')
+
+export const isTsx = (file: string): boolean => pathExistsSync(file) && file.endsWith('.tsx')
+
 export const isLess = (file: string): boolean => pathExistsSync(file) && extname(file) === '.less'
 
-export const isScript = (file: string): boolean => pathExistsSync(file) && SCRIPTS_EXTENSIONS.includes(extname(file))
+export const isScript = (file: string): boolean =>
+  pathExistsSync(file) && !isSFC(file) && SCRIPT_EXTENSIONS.includes(extname(file))
 
 export const replaceExt = (file: string, ext: string): string => file.replace(extname(file), ext)
 

@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import execa from 'execa'
-import ora from 'ora'
+import { createSpinner } from 'nanospinner'
 
 const CWD = process.cwd()
 const PKG_CLI = resolve(CWD, './packages/smy-h5-cli')
@@ -12,12 +12,12 @@ export const buildIcons = () => execa('pnpm', ['build'], { cwd: PKG_ICONS })
 export const buildUi = (noUmd) => execa('pnpm', ['compile', noUmd ? '--noUmd' : ''], { cwd: PKG_UI })
 
 export async function runTask(taskName, task) {
-  const s = ora().start(`Building ${taskName}`)
+  const s = createSpinner().start({ text: `Building ${taskName}` })
   try {
     await task()
-    s.succeed(`Build ${taskName} completed!`)
+    s.success({ text: `Build ${taskName} completed!` })
   } catch (e) {
-    s.fail(`Build ${taskName} failed!`)
+    s.error({ text: `Build ${taskName} failed!` })
     console.error(e.toString())
   }
 }
