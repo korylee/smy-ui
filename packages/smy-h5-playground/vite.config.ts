@@ -5,6 +5,9 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 3000,
+  },
   plugins: [
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -27,6 +30,7 @@ function copyDependencies() {
     buildStart() {
       copyFileSync(toPath('../smy-h5-ui/es/smy.esm.js'), toPath('./public/smy.esm.js'))
       copyFileSync(toPath('../smy-h5-ui/es/style.css'), toPath('./public/smy.css'))
+      copyFileSync(toPath('../smy-h5-touch-emulator/iife.js'), toPath('./public/smy-touch-emulator.js'))
     },
   }
 }

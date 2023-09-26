@@ -39,7 +39,8 @@ export default {
   computed: {
     previewOptions() {
       return {
-        headHTML: `\
+        // eslint-disable-next-line no-useless-escape
+        headHTML: `<script src="./smy-touch-emulator.js"><\/script>
         <link rel="stylesheet" href="./smy.css"></link>
         <style>
         body {
