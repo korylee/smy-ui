@@ -13,11 +13,13 @@ Vue.use(Badge)
 ### 基础用法
 
 ```html
-<smy-badge value="8"> <span class="title">标题</span> </smy-badge>
-<smy-badge value="76"> <span class="title">标题</span> </smy-badge>
-<smy-badge value="NEW"> <span class="title">标题</span> </smy-badge>
-<smy-badge value="NEW" bubble> <span class="title">标题</span> </smy-badge>
-<smy-badge value="NEW" dot> <span class="title">标题</span> </smy-badge>
+<div>
+  <smy-badge value="8"> <span class="title">标题</span> </smy-badge>
+  <smy-badge value="76"> <span class="title">标题</span> </smy-badge>
+  <smy-badge value="NEW"> <span class="title">标题</span> </smy-badge>
+  <smy-badge value="NEW" bubble> <span class="title">标题</span> </smy-badge>
+  <smy-badge value="NEW" dot> <span class="title">标题</span> </smy-badge>
+</div>
 ```
 
 ### 最大值

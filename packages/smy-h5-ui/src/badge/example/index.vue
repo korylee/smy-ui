@@ -61,9 +61,7 @@
   </div>
 </template>
 <script>
-import SmyBadge from '../'
-import SmyIcon from '../../icon'
-import SmySwitch from '../../switch'
+import { Icon as SmyIcon, Badge as SmyBadge, Switch as SmySwitch } from '@ui-entry'
 import { Xml } from '@smy-h5/icons'
 import { AppDemoTitle } from '@smy-h5/cli/client'
 

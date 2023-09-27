@@ -118,7 +118,7 @@ ${lessImports.join('\n')}
 `
   await Promise.all([
     writeFile(resolve(dir, 'index.js'), indexTemplate, 'utf-8'),
-    writeFile(resolve(dir, 'index.bundle.mjs'), bundleTemplate, 'utf-8'),
+    writeFile(resolve(dir, 'index.bundle.js'), bundleTemplate, 'utf-8'),
     writeFile(resolve(dir, 'style.js'), styleTemplate, 'utf-8'),
     writeFile(resolve(dir, 'less.js'), lessTemplate, 'utf-8'),
   ])

@@ -71,11 +71,7 @@
 
 <script>
 import { AppDemoTitle } from '@smy-h5/cli/client'
-import Picker from '../'
-import SmyCell from '../../cell'
-import SmyCellGroup from '../../cell-group'
-import SmySwitch from '../../switch'
-import Toast from '../../toast'
+import { Cell as SmyCell, CellGroup as SmyCellGroup, Switch as SmySwitch, Toast, Picker } from '@ui-entry'
 
 const cascadeColumns = [
   {

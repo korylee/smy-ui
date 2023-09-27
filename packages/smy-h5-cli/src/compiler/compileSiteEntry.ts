@@ -1,4 +1,4 @@
-import { copy, ensureDir, link, readdir, remove } from 'fs-extra'
+import { copy, ensureDir, link, readdir, remove, writeFile } from 'fs-extra'
 import { getSmyConfig } from '../config/smyConfig'
 import {
   EXAMPLE_DIR_NAME,
@@ -12,10 +12,13 @@ import {
   SITE_PC_ROUTES,
   SITE_MOBILE_ROUTES,
   ROOT_DOCS_DIR,
+  UI_PACKAGE_JSON,
+  SITE_UI_ENTRY,
 } from '../shared/constant'
-import { glob, isDir, outputFileSyncOnChange } from '../shared/fs-utils'
+import { glob, isDir, isPublicDir, outputFileSyncOnChange } from '../shared/fs-utils'
 import slash from 'slash'
 import { resolve } from 'path'
+import { camelCase, upperFirst } from 'lodash'
 
 const EXAMPLE_COMPONENT_NAME_RE = /\/([-\w]+)\/example\/index.vue/
 const ROOT_PAGE_RE = /\/pages\/([-\w]+)\/index\.([-\w]+)$/
@@ -148,7 +151,48 @@ export async function compileSiteSource(siteLink: boolean) {
   return copy(SITE, SITE_DIR)
 }
 
+async function compileUiEntry() {
+  const moduleDir: string[] = await readdir(SRC_DIR)
+  const publicDirs = moduleDir.filter((filename: string) => isPublicDir(resolve(SRC_DIR, filename)))
+
+  const imports: string[] = []
+  const plugins: string[] = []
+  const publicComponents: string[] = []
+  const version = require(UI_PACKAGE_JSON).version
+
+  publicDirs.forEach((dirname: string) => {
+    if (dirname.startsWith('_')) return
+    const publicComponent = upperFirst(camelCase(dirname))
+    publicComponents.push(publicComponent)
+    imports.push(`import ${publicComponent} from '${slash(SRC_DIR)}/${dirname}'`)
+    plugins.push(`app.use(${publicComponent})`)
+  })
+
+  const install = `
+function install(app) {
+  ${plugins.join('\n  ')}
+}
+`
+
+  const indexTemplate = `\
+${imports.join('\n')}\n
+const version = '${version}';\n
+${install}
+export {
+  install,
+  version,
+  ${publicComponents.join(',\n  ')}
+}
+
+export default {
+  install,
+  version,
+}
+`
+  await writeFile(SITE_UI_ENTRY, indexTemplate, 'utf-8')
+}
+
 export async function compileSiteEntry(siteLink = false) {
   getSmyConfig(true)
-  await Promise.all([compilePcSiteRoutes(), compileMobileSiteRoutes(), compileSiteSource(siteLink)])
+  await Promise.all([compilePcSiteRoutes(), compileMobileSiteRoutes(), compileSiteSource(siteLink), compileUiEntry()])
 }

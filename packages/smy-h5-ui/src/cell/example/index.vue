@@ -55,9 +55,7 @@
 </template>
 
 <script>
-import Cell from '../'
-import Icon from '../../icon'
-import CellGroup from '../../cell-group'
+import { CellGroup, Icon, Cell } from '@ui-entry'
 import { WindowClose } from '@smy-h5/icons'
 import { AppDemoTitle } from '@smy-h5/cli/client'
 

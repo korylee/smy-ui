@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import SmyEllipsis from '../'
+import { Ellipsis as SmyEllipsis } from '@ui-entry'
 import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {

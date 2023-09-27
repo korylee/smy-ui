@@ -3,6 +3,7 @@
 ### 引入
 
 ```js
+// playground-ignore
 import Vue from 'vue'
 import { Cell } from '@smy-h5/ui'
 

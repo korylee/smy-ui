@@ -8,6 +8,7 @@ import {
   VITE_RESOLVE_EXTENSION,
   LIB_DIR,
   ES_DIR,
+  SITE_UI_ENTRY,
 } from '../shared/constant'
 import { get } from 'lodash'
 import { InlineConfig, LibraryFormats, Plugin } from 'vite'
@@ -20,16 +21,20 @@ import { pathExistsSync, removeSync, readFileSync, writeFileSync, copyFileSync }
 
 export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
   const { host } = smyConfig
+  const { NODE_ENV } = process.env
   console.log('root: ', SITE_DIR)
+  const __DEV__ = NODE_ENV === 'development'
 
   return {
     root: SITE_DIR,
+    define: { __DEV__ },
     resolve: {
       extensions: VITE_RESOLVE_EXTENSION,
       alias: {
         '@config': SITE_CONFIG,
         '@pc-routes': SITE_PC_ROUTES,
         '@mobile-routes': SITE_MOBILE_ROUTES,
+        '@ui-entry': __DEV__ ? SITE_UI_ENTRY : resolve(ES_DIR, 'index.bundle.js'),
       },
     },
     server: {
@@ -104,7 +109,7 @@ export function getBundleConfig(smyConfig: SmyConfig, buildOptions: BundleBuildO
         name,
         formats: [format],
         fileName: () => fileName,
-        entry: resolve(ES_DIR, 'index.bundle.mjs'),
+        entry: resolve(ES_DIR, 'index.bundle.js'),
       },
       rollupOptions: {
         external: ['vue'],

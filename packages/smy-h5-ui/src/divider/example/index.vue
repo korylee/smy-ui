@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import SmyDivider from '..'
+import { Divider as SmyDivider } from '@ui-entry'
 import AppDemoTitle from '@smy-h5/cli/client/AppDemoTitle'
 
 export default {

@@ -20,7 +20,7 @@ Vue.use(Picker)
 
 ```html
 <script>
-  import { Picker } from '@smy-h5/ui'
+  import { Picker, Toast } from '@smy-h5/ui'
   const column = [
     { text: '南京市', value: 'NanJing' },
     { text: '无锡市', value: 'WuXi' },
