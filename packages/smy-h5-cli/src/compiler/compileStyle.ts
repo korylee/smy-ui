@@ -14,15 +14,6 @@ export const STYLE_EXT = /(.less)|(.css)/
 
 export const clearEmptyLine = (s: string) => s.replace(EMPTY_LINE_RE, '').replace(EMPTY_SPACE_RE, ' ')
 
-const getReg = (isCjs: boolean, expect: 'css' | 'less') => {
-  if (isCjs) {
-    if (expect === 'css') return REQUIRE_CSS_RE
-    return REQUIRE_LESS_RE
-  }
-  if (expect === 'css') return IMPORT_CSS_RE
-  return IMPORT_LESS_RE
-}
-
 interface ExtractStyleDependenciesOptions {
   expect?: 'css' | 'less'
   self?: boolean
@@ -37,28 +28,23 @@ export function extractStyleDependencies(
   code = code.trim()
   if (!code) return code
   const { dir, base } = parse(file)
-  const moduleType = process.env.BABEL_MODULE
-  const isCjs = moduleType === 'commonjs'
-  const re = reg ?? getReg(isCjs, expect)
-  const styleImports = code.match(re) ?? []
+  const styleReg = reg ?? (expect === 'css' ? IMPORT_CSS_RE : IMPORT_LESS_RE)
+  const styleImports = code.match(styleReg) ?? []
   const cssFile = resolve(dir, './style/index.js')
   const lessFile = resolve(dir, './style/less.js')
 
   styleImports.forEach((styleImport: string) => {
-    const normalizedPath = normalizeStyleDependency(styleImport, re)
-    smartAppendFileSync(cssFile, isCjs ? `require('${normalizedPath}.css')\n` : `import '${normalizedPath}.css'\n`)
-    smartAppendFileSync(
-      lessFile,
-      isCjs ? `require('${normalizedPath}.${expect}')\n` : `import '${normalizedPath}.${expect}'\n`
-    )
+    const normalizedPath = normalizeStyleDependency(styleImport, styleReg)
+    smartAppendFileSync(cssFile, `import '${normalizedPath}.css'\n`)
+    smartAppendFileSync(lessFile, `import '${normalizedPath}.${expect}'\n`)
   })
 
   if (self && STYLE_EXT.test(base)) {
-    const dirname = normalizeStyleDependency(base, re)
-    smartAppendFileSync(cssFile, isCjs ? `require('${dirname}.css')\n` : `import '${dirname}.css'\n`)
-    smartAppendFileSync(lessFile, isCjs ? `require('${dirname}.${expect}')\n` : `import '${dirname}.${expect}'\n`)
+    const dirname = normalizeStyleDependency(base, styleReg)
+    smartAppendFileSync(cssFile, `import '${dirname}.css'\n`)
+    smartAppendFileSync(lessFile, `import '${dirname}.${expect}'\n`)
   }
-  return code.replace(re, '')
+  return code.replace(styleReg, '')
 }
 
 export function normalizeStyleDependency(styleImport: string, reg: RegExp) {

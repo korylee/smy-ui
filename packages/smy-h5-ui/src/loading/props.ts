@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 
 const loadingTypes = ['circle', 'wave', 'cube'] as const
 
-type LoadingType = typeof loadingTypes[number]
+type LoadingType = (typeof loadingTypes)[number]
 
 export const props = {
   type: {

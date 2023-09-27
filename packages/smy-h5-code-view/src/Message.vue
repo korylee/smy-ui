@@ -1,13 +1,13 @@
 <template>
   <transition name="fade">
-    <div v-if="err || warn" class="smy-message" :class="err ? 'err' : 'warn'">
+    <div v-if="err || warn" class="message" :class="err ? 'err' : 'warn'">
       <pre>{{ formatMessage(err || warn) }}</pre>
     </div>
   </transition>
 </template>
 <script>
 export default {
-  name: 'smy-message',
+  name: 'message',
   props: {
     err: [String, Error],
     warn: [String],
@@ -28,7 +28,7 @@ export default {
 }
 </script>
 <style scoped>
-.smy-message {
+.message {
   position: absolute;
   bottom: 0;
   left: 8px;
@@ -48,17 +48,17 @@ export default {
   background-color: var(--bg-color);
 }
 
-.smy-message.err {
+.message.err {
   --color: #f56c6c;
   --bg-color: #fef0f0;
 }
 
-.smy-message.warn {
+.message.warn {
   --color: #e6a23c;
   --bg-color: #fdf6ec;
 }
 
-.smy-message pre {
+.message pre {
   margin: 0;
   padding: 12px 20px;
   overflow: auto;

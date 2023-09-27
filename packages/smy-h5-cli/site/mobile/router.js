@@ -8,10 +8,10 @@ import { inIframe, isPhone } from '../utils'
 const originalReplace = VueRouter.prototype.replace
 
 Vue.prototype.replace = function replace(location, onResolve, onReject) {
-  if(onReject || onResolve) {
+  if (onReject || onResolve) {
     return originalReplace.call(this, location, onResolve, onReject)
   }
-  return originalReplace.call(this,location).catch(err => err)
+  return originalReplace.call(this, location).catch((err) => err)
 }
 
 Vue.use(VueRouter)

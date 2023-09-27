@@ -2,7 +2,7 @@ import type { ExtractPropTypes } from '../_utils/vue/props'
 import type { PropType } from 'vue'
 
 const TAG_TYPES = ['primary', 'success', 'danger', 'warning'] as const
-type TagType = typeof TAG_TYPES[number]
+type TagType = (typeof TAG_TYPES)[number]
 
 export const props = {
   type: {

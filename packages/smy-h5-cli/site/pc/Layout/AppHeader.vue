@@ -20,14 +20,14 @@ export default {
     currentTheme: getBrowserTheme(themeKey),
   }),
   created() {
-    console.log('currentTheme', this.currentTheme);
+    console.log('currentTheme', this.currentTheme)
     setTheme(config, this.currentTheme)
   },
   methods: {
-    handleBackRoot () {
+    handleBackRoot() {
       this.$router.replace(`/${this.redirect}`)
-    }
-  }
+    },
+  },
 }
 </script>
 

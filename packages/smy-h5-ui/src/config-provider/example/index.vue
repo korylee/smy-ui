@@ -1,6 +1,6 @@
 <template>
   <div class="smy-config-provider-example">
-    <ConfigProvider tag="keep-alive">fasdf</ConfigProvider>
+    <config-provider tag="keep-alive">fasdf</config-provider>
   </div>
 </template>
 

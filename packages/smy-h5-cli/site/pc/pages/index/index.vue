@@ -17,8 +17,7 @@
           <div class="smy-doc-index__feature-name">{{ feature.description }}</div>
         </div>
       </div>
-      <div class="smy-doc-index__footer">
-      </div>
+      <div class="smy-doc-index__footer"></div>
     </div>
   </div>
 </template>
@@ -32,7 +31,7 @@ export default {
     indexPage: config?.pc?.indexPage ?? {},
   }),
   methods: {
-    getStart () {
+    getStart() {
       this.$router.push('/home')
     },
   },

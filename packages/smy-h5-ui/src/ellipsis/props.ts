@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 
 const ELLIPSIS_DIRECTION = ['start', 'end', 'middle'] as const
 
-type EllipsisDirection = typeof ELLIPSIS_DIRECTION[number]
+type EllipsisDirection = (typeof ELLIPSIS_DIRECTION)[number]
 
 export const props = {
   content: {

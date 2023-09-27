@@ -2,9 +2,10 @@
   "name": "@smy-h5/ui",
   "version": "0.0.1",
   "module": "es/index.js",
-  "main": "lib/index.js",
+  "main": "lib/smy.cjs.js",
   "typings": "es/index.d.ts",
-  "unpkg": "dist/index.js",
+  "unpkg": "umd/smy.js",
+  "style": "umd/style.css",
   "vetur": {
     "tags": "highlight/tags.json",
     "attributes": "highlight/attributes.json"

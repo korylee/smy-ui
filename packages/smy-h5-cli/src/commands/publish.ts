@@ -2,12 +2,12 @@ import execa from 'execa'
 import { UI_PACKAGE_JSON } from '../shared/constant'
 import logger from '../shared/logger'
 import { changelog } from './changelog'
-import ora from 'ora'
+import { createSpinner } from 'nanospinner'
 
 const ReleasePackages = ['ui', 'icons']
 
 async function doPublish(preRelease: boolean) {
-  const s = ora().start('Publishing all packages')
+  const s = createSpinner().start({ text: 'Publishing all packages' })
   const args = ['-r', 'publish', '--no-git-checks', '--access', 'public']
   // 过滤某些包，或者可以使用--filter=xxx --filter=!xxx
   ReleasePackages.forEach((pkg) => {
@@ -18,19 +18,19 @@ async function doPublish(preRelease: boolean) {
   if (ret.stderr && ret.stderr.includes('npm ERR!')) {
     throw new Error('\n' + ret.stderr)
   } else {
-    s.succeed('Publish all packages successfully')
+    s.success({ text: 'Publish all packages successfully' })
     ret.stdout && logger.info(ret.stdout)
   }
 }
 
 async function pushGit(version: string, remote = 'origin') {
-  const s = ora().start(`Pushing to remote git repository`)
+  const s = createSpinner().start({ text: `Pushing to remote git repository` })
   await execa('git', ['add', '.'])
   await execa('git', ['commit', '-m', `v${version}`])
   await execa('git', ['tag', `v${version}`])
   await execa('git', ['push', remote, `v${version}`])
   const ret = await execa('git', ['push'])
-  s.succeed('Push remote repository successfully')
+  s.success({ text: 'Push remote repository successfully' })
   ret.stdout && logger.info(ret.stdout)
 }
 

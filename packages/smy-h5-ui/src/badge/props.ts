@@ -3,7 +3,7 @@ import { type ExtractPropTypes } from '../_utils/vue/props'
 
 const BADGE_POSITIONS = ['right-top', 'right-bottom', 'left-top', 'left-bottom'] as const
 
-type PositionType = typeof BADGE_POSITIONS[number]
+type PositionType = (typeof BADGE_POSITIONS)[number]
 
 export const props = {
   value: [String, Number],

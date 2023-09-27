@@ -1,8 +1,8 @@
 <template>
   <div class="teleport-example">
-    <Teleport to="body">
+    <teleport to="body">
       <button>in</button>
-    </Teleport>
+    </teleport>
   </div>
 </template>
 

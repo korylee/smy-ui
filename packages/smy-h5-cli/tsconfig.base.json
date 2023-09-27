@@ -10,10 +10,7 @@
     "downlevelIteration": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "moduleResolution": "node"
-  },
+  }
 }

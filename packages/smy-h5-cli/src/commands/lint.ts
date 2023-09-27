@@ -1,17 +1,17 @@
 import execa from 'execa'
-import ora, { Ora } from 'ora'
 import { resolve } from 'path'
 import { CWD, ESLINT_EXTENSIONS } from '../shared/constant'
 import { isDir } from '../shared/fs-utils'
+import { createSpinner } from 'nanospinner'
 
 export async function lint() {
-  let spinner: Ora
+  const spinner = createSpinner()
   try {
-    spinner = ora('prettier starting...').start()
+    spinner.start({ text: 'prettier starting...' })
     await execa('prettier', ['--write', '.'])
-    spinner.succeed('prettier success')
+    spinner.success({ text: 'prettier success' })
 
-    spinner = ora('eslint starting...').start()
+    spinner.start({ text: 'eslint starting...' })
     const eslintPatterns: string[] = [
       './src',
       './packages/smy-h5-cli/src',
@@ -25,12 +25,12 @@ export async function lint() {
       ESLINT_EXTENSIONS.join(),
     ])
     if (stdout) {
-      spinner.warn(stdout)
+      spinner.warn({ text: stdout })
       return
     }
-    spinner.succeed('eslint success')
+    spinner.success({ text: 'eslint success' })
   } catch (e: any) {
-    spinner!.fail(e.toString())
+    spinner.error({ text: e.toString() })
     process.exit(1)
   }
 }

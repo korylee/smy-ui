@@ -26,12 +26,12 @@
     "@smy-h5/eslint-config": "workspace:*",
     "@types/node": "^16.11.45",
     "execa": "5",
-    "ora": "5",
     "lint-staged": "^10.5.0",
-    "simple-git-hooks": "^2.8.0",
     "rimraf": "^3.0.2",
+    "simple-git-hooks": "^2.8.0",
     "stylelint": "^14.11.0",
-    "typescript": "~4.7.4"
+    "typescript": "~4.7.4",
+    "nanospinner": "^1.1.0"
   },
   "packageManager": "pnpm@7.8.0"
 }
