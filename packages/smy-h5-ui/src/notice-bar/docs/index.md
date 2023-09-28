@@ -6,8 +6,7 @@
 
 ### 引入
 
-```js
-// playground-ignore
+```js playground-ignore
 import { NoticeBar } from '@smy-h5/ui'
 import Vue from 'vue'
 
@@ -15,6 +14,10 @@ Vue.use(NoticeBar)
 ```
 
 ### 基础用法
+
+```demo
+import BasicExample from '../example/BasicExample.vue'
+```
 
 ```html
 <template>

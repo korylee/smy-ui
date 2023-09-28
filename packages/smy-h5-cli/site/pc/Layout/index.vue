@@ -81,10 +81,6 @@ export default {
 };
 
 .smy {
-  &-component-preview {
-    margin-top: 20px;
-  }
-
   &-site {
     min-width: 1200px;
     padding: 60px 0 0;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-demo-title>基础使用</app-demo-title>
-    <smy-notice-bar :text="text" />
+    <basic-example />
     <app-demo-title>禁用滚动</app-demo-title>
     <smy-notice-bar :text="text" :scrollable="false" />
     <app-demo-title>可关闭</app-demo-title>
@@ -29,10 +29,11 @@ import SmyNoticeBar from '../'
 import SmySwiper from '../../swiper'
 import SmySwiperItem from '../../swiper-item'
 import { AppDemoTitle } from '@smy-h5/cli/client'
+import BasicExample from './BasicExample.vue'
 
 export default {
   name: 'NoticeBarExample',
-  components: { SmyNoticeBar, SmySwiper, SmySwiperItem, AppDemoTitle },
+  components: { SmyNoticeBar, SmySwiper, SmySwiperItem, AppDemoTitle, BasicExample },
   data: () => ({
     list: ['aaaaaaaaaaa', 'bbbbbbbbbbb'],
     text: '华为畅享9新品即将上市，活动期间0元预约可参与抽奖，赢HUAWEI WATCH等好礼，更多产品信息请持续关注！',

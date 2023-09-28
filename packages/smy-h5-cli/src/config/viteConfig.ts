@@ -9,6 +9,7 @@ import {
   LIB_DIR,
   ES_DIR,
   SITE_UI_ENTRY,
+  UI_PACKAGE_JSON,
 } from '../shared/constant'
 import { get } from 'lodash'
 import { InlineConfig, LibraryFormats, Plugin } from 'vite'
@@ -19,11 +20,12 @@ import markdownPlugin from '@smy-h5/markdown-vite-plugin'
 import { SmyConfig } from './smyConfig'
 import { pathExistsSync, removeSync, readFileSync, writeFileSync, copyFileSync } from 'fs-extra'
 
-export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
+export function getDevConfig(smyConfig: SmyConfig): InlineConfig {
   const { host } = smyConfig
   const { NODE_ENV } = process.env
   console.log('root: ', SITE_DIR)
   const __DEV__ = NODE_ENV === 'development'
+  const { name: uiName } = require(UI_PACKAGE_JSON)
 
   return {
     root: SITE_DIR,
@@ -34,7 +36,7 @@ export function getDevConfig(smyConfig: Record<string, any>): InlineConfig {
         '@config': SITE_CONFIG,
         '@pc-routes': SITE_PC_ROUTES,
         '@mobile-routes': SITE_MOBILE_ROUTES,
-        '@ui-entry': __DEV__ ? SITE_UI_ENTRY : resolve(ES_DIR, 'index.bundle.js'),
+        [uiName]: __DEV__ ? SITE_UI_ENTRY : resolve(ES_DIR, 'index.bundle.js'),
       },
     },
     server: {

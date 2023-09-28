@@ -14,6 +14,16 @@
       "import": "./dist/code-view.js",
       "types": "./dist/code-view.d.ts"
     },
+    "./monaco-editor": {
+      "types": "./dist/editor-types.d.ts",
+      "import": "./dist/monaco-editor.js",
+      "require": null
+    },
+    "./codemirror-editor": {
+      "types": "./dist/editor-types.d.ts",
+      "import": "./dist/codemirror-editor.js",
+      "require": null
+    },
     "./style.css": "./dist/style.css",
     "./dist/style.css": "./dist/style.css"
   },

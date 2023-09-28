@@ -1,18 +1,9 @@
 <template>
   <div class="smy-popup-example">
     <app-demo-title>基础用法</app-demo-title>
-    <smy-cell insert title="基础用法" @click="basic = true" />
-    <smy-popup :show.sync="basic">
-      <div class="block">{{ text }}</div>
-    </smy-popup>
+    <basic-example />
     <app-demo-title>弹出位置</app-demo-title>
-    <smy-cell insert title="上方弹出" @click="position = 'top'" />
-    <smy-cell insert title="下方弹出" @click="position = 'bottom'" />
-    <smy-cell insert title="左方弹出" @click="position = 'left'" />
-    <smy-cell insert title="右方弹出" @click="position = 'right'" />
-    <smy-popup :show.sync="positionShow" :position="position">
-      <div class="block">{{ text }}</div>
-    </smy-popup>
+    <position-example />
 
     <app-demo-title>注册事件</app-demo-title>
     <smy-cell insert title="注册事件" @click="event = true" />
@@ -33,10 +24,12 @@ import Popup from '../'
 import Toast from '../../toast'
 import SmyCell from '../../cell'
 import { AppDemoTitle } from '@smy-h5/cli/client'
+import BasicExample from './BasicExample.vue'
+import PositionExample from './PositionExample.vue'
 
 export default {
   name: 'PopupExample',
-  components: { [Popup.name]: Popup, AppDemoTitle, SmyCell },
+  components: { [Popup.name]: Popup, AppDemoTitle, SmyCell, BasicExample, PositionExample },
   data: () => ({
     text: '素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。',
     basic: false,
@@ -76,9 +69,5 @@ export default {
 .block {
   padding: 20px 24px;
   width: 250px;
-}
-
-.smy-cell {
-  margin: 4px 8px;
 }
 </style>

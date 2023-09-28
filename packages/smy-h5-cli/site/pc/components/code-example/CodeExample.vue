@@ -12,11 +12,13 @@
         </smy-site-icon>
       </smy-site-button>
       <smy-site-button v-if="playground" text round @click="toPlayground">
-        <smy-site-icon size="18"><CodeJson /></smy-site-icon>
+        <smy-site-icon size="18">
+          <CodeJson />
+        </smy-site-icon>
       </smy-site-button>
     </div>
     <div ref="code" :class="codeClass" :style="codeStyle" class="smy-site-code-example__code">
-      <slot />
+      <smy-site-code :language="language" :code="code" :trim="trim" :uri="uri" :inline="inline" />
     </div>
   </div>
 </template>
@@ -28,6 +30,7 @@ import Copy from '@smy-h5/icons/dist/es/Copy'
 import Xml from '@smy-h5/icons/dist/es/Xml'
 import CodeJson from '@smy-h5/icons/dist/es/CodeJson'
 import SmySiteIcon from '../../../components/icon'
+import SmySiteCode from '../code'
 
 function doubleRaf() {
   return new Promise((resolve) => {
@@ -50,8 +53,9 @@ export default {
     Xml,
     SmySiteIcon,
     CodeJson,
+    SmySiteCode,
   },
-  props: { playgroundIgnore: Boolean },
+  props: { playgroundIgnore: Boolean, ...SmySiteCode.props },
   data: () => ({
     clipboard: config?.pc?.clipboard ?? true,
     fold: config?.pc?.fold,
@@ -75,11 +79,13 @@ export default {
     },
   },
   mounted() {
-    const { offsetHeight } = this.$refs.code
-    const { height, default: defaultFold } = this.fold
+    this.$nextTick(() => {
+      const { offsetHeight } = this.$refs.code
+      const { height, default: defaultFold } = this.fold
 
-    this.disabledFold = offsetHeight - height < offset
-    this.height = defaultFold ? height : -1
+      this.disabledFold = offsetHeight - height < offset
+      this.height = defaultFold ? height : -1
+    })
   },
   methods: {
     async handleToggle() {

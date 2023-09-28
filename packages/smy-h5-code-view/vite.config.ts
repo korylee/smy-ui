@@ -14,7 +14,11 @@ export default defineConfig({
     target: 'esnext',
     minify: false,
     lib: {
-      entry: { 'code-view': './src/index.ts' },
+      entry: {
+        'code-view': './src/index.ts',
+        'monaco-editor': './src/editor/MonacoEditor.vue',
+        'codemirror-editor': './src/editor/CodeMirrorEditor.vue',
+      },
       formats: ['es'],
       fileName: () => '[name].js',
     },

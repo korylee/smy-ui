@@ -1,9 +1,7 @@
 <template>
   <div class="tabs-example">
     <app-demo-title>基础使用</app-demo-title>
-    <smy-tabs>
-      <smy-tab v-for="item of 4" :key="item" :title="'标签' + item"> 内容{{ item }} </smy-tab>
-    </smy-tabs>
+    <basic-example />
     <app-demo-title>通过名称匹配</app-demo-title>
     <smy-tabs :active.sync="activeName">
       <smy-tab v-for="item of ['a', 'b', 'c']" :key="item" :title="'标签' + item" :name="item">
@@ -53,10 +51,11 @@ import { AppDemoTitle } from '@smy-h5/cli/client'
 import SmyTabs from '..'
 import SmyTab from '../../tab'
 import SmyToast from '../../toast'
+import BasicExample from './BasicExample.vue'
 
 export default {
   name: 'TabsExample',
-  components: { SmyTabs, SmyTab, AppDemoTitle },
+  components: { SmyTabs, SmyTab, AppDemoTitle, BasicExample },
   data: () => ({
     activeName: 'b',
   }),

@@ -1,37 +1,6 @@
 const markdown = require('markdown-it')
-const hljs = require('highlight.js')
 
-function kebabCase(key) {
-  const ret = key.replace(/([A-Z])/g, ' $1').trim()
-  return ret.split(' ').join('-').toLowerCase()
-}
-
-function extractComponents(source) {
-  const componentRE = /import (.+) from ['"].+['"]/
-  const vueRE = /```vue((.|\r|\n)*?)```/g
-  const importRE = /import .+ from ['"].+['"]/g
-  const imports = []
-  const components = []
-
-  source = source.replace(vueRE, (_, p1) => {
-    const partImports = p1.match(importRE)
-
-    const partComponents = partImports?.map((importer) => {
-      importer = importer.replace(/(\n|\r)/g, '')
-      const component = importer.replace(componentRE, '$1')
-      !imports.includes(importer) && imports.push(importer)
-      !components.includes(component) && components.push(component)
-      return `<${kebabCase(component)} />`
-    })
-
-    return partComponents ? `<div class="smy-component-preview">${partComponents.join('\n')}</div>` : ''
-  })
-  return {
-    imports,
-    components,
-    source,
-  }
-}
+const lowerFirst = (word) => word.charAt(0).toLowerCase() + word.slice(1)
 
 function htmlWrapper(html) {
   const hGroup = html.replace(/<h3/g, ':::<h3').replace(/<h2/g, ':::<h2').split(':::')
@@ -41,68 +10,93 @@ function htmlWrapper(html) {
   return cardGroup.replace(/<code>/g, '<code v-pre>')
 }
 
-function injectCodeExample(source) {
-  const codeRE = /(<pre class="hljs">(.|\r|\n)*?<\/pre>)/g
-  return source.replace(codeRE, (str) => {
-    const flags = [
-      '// playground-ignore\n',
-      '<span class="hljs-meta">#</span><span class="bash"> playground-ignore</span>\n',
-      '<span class="hljs-comment">// playground-ignore</span>\n',
-      '<span class="hljs-comment">/* playground-ignore */</span>\n',
-      '<span class="hljs-comment">&lt;!-- playground-ignore --&gt;</span>\n',
-    ]
-    const attr = flags.some((flag) => str.includes(flag)) ? 'playground-ignore' : ''
-    str = flags.reduce((str, flag) => str.replace(flag, ''), str)
-    return `<smy-site-code-example ${attr}>${str}</smy-site-code-example>`
-  })
+const codeRE = /<pre class="hljs">(([\s\S])*?)<\/pre>/g
+
+const mdReg = /\.md$/
+
+function createHighlight(componentMap) {
+  return function highlight(str, lang, attr) {
+    if (lang === 'demo') {
+      const componentRE = /import (.+) from ['"](.+)['"]/
+      const importRE = /import .+ from ['"].+['"]/g
+      console.log(lang, str, attr)
+      const partImports = str.match(importRE)
+      const components = []
+      partImports?.forEach((importer) => {
+        importer = importer.replace(/(\n|\r)/g, '')
+        const component = importer.replace(componentRE, '$1')
+        const componentPath = importer.replace(componentRE, '$2')
+        if (!components.includes(component)) {
+          components.push(component)
+          componentMap.set(component, componentPath)
+        }
+      })
+      let replaced = ''
+      components.forEach((component) => {
+        replaced += `<smy-site-code-example ${attr} uri language="html" :code="${lowerFirst(component)}Doc" />`
+      })
+      return replaced && `<pre class="hljs">${replaced}</pre>`
+    }
+    if (lang) {
+      attr = !attr.includes('playground-ignore') && lang !== 'html' ? 'playground-ignore' : attr
+      return `\
+<pre class="hljs">
+  <smy-site-code-example ${attr} uri language="${lang}" code="${encodeURIComponent(str)}" />
+</pre>`
+    }
+    return ''
+  }
 }
 
-function highlight(str, lang, style) {
-  let link = ''
-  if (style) {
-    link = `<link class="hljs-style" rel="stylesheet" href="${style}" />`
-  }
-  if (lang && hljs.getLanguage(lang)) {
-    return `<pre class="hljs"><code>${link}${
-      hljs.highlight(str, { language: lang, ignoreIllegals: true }).value
-    }</code></pre>`
-  }
-  return ''
-}
-
-function markdownToVue(source, options) {
-  const { source: vueSource, imports, components } = extractComponents(source)
+function markdownToVue(source) {
+  const componentMap = new Map()
   const md = markdown({
     html: true,
     typographer: true,
-    highlight: (str, lang) => highlight(str, lang, options.style),
+    highlight: createHighlight(componentMap),
   })
-  let templateString = htmlWrapper(md.render(vueSource))
+
+  let templateString = htmlWrapper(md.render(source))
+  let importString = ''
+  let componentString = ''
+  let dataString = ''
+  componentMap.forEach((path, component) => {
+    const componentRaw = `${lowerFirst(component)}Doc`
+    importString += `import ${component} from '${path}'
+    import ${componentRaw} from '${path}?raw'\n`
+    componentString += `${component},\n`
+    dataString += `${componentRaw},\n`
+  })
   templateString = templateString
     .replace(/process.env/g, '<span>process.env</span>')
     .replace(/require/g, '<span>require</span>')
-  templateString = injectCodeExample(templateString)
+    .replace(codeRE, (_, str) => str)
 
-  return `<template><div class="smy-site-doc">${templateString}</div></template>
+  return `\
+  <template><div class="smy-site-doc">${templateString}</div></template>
   <script>
-  ${imports.join('\n')}
+  ${importString}
 
   export default {
-    components: {${components.join(',')}}
+    data: () => ({
+      ${dataString}
+    }),
+    components: {
+      ${componentString}
+    }
   }
   </script>
   `
 }
 
-function MardownVitePlugin(options) {
-  const mdReg = /\.md$/
+function MardownVitePlugin() {
   return {
     name: 'markdown-vite-plugin',
     enforce: 'pre',
     transform(source, id) {
       if (!mdReg.test(id)) return
       try {
-        return markdownToVue(source, options)
+        return markdownToVue(source)
       } catch (e) {
         this.error(e)
         return ''
@@ -112,7 +106,7 @@ function MardownVitePlugin(options) {
       if (!mdReg.test(ctx.file)) return
       const readSource = ctx.read
       ctx.read = async function () {
-        return markdownToVue(await readSource(), options)
+        return markdownToVue(await readSource())
       }
     },
   }

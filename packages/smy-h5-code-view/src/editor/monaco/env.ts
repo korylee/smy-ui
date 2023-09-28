@@ -34,17 +34,19 @@ export function loadMonacoEnv(store: ReplStore) {
         return new jsonWorker()
       }
       switch (label) {
+        case 'json':
+          return new jsonWorker()
         case 'css':
         case 'scss':
         case 'sass':
         case 'less':
-          return cssWorker()
+          return new cssWorker()
         case 'html':
         case 'razor':
           return new htmlWorker()
         case 'typescript':
         case 'javascript':
-          return tsWorker()
+          return new tsWorker()
         default:
           return new editorWorker()
       }

@@ -81,14 +81,12 @@ export async function compileFile(store: ReplStore, file: CodeFile) {
     cliendCode += clientTemplateResult
   }
   const hasScoped = descriptor.styles.some((s: any) => s.scoped)
-  const appendSharedCode = (code: string) => {
-    cliendCode += code
-  }
+
   if (hasScoped) {
-    appendSharedCode(`\n${COMP_IDENTIFIER}._scopeId = ${JSON.stringify(`data-v-${id}`)}`)
+    cliendCode += `\n${COMP_IDENTIFIER}._scopeId = ${JSON.stringify(`data-v-${id}`)}`
   }
   if (cliendCode) {
-    appendSharedCode(`\n${COMP_IDENTIFIER}.__file = ${JSON.stringify(filename)}\nexport default ${COMP_IDENTIFIER}`)
+    cliendCode += `\n${COMP_IDENTIFIER}.__file = ${JSON.stringify(filename)}\nexport default ${COMP_IDENTIFIER}`
     result.js = cliendCode.trimStart()
   }
 
@@ -145,7 +143,7 @@ async function compileScript(
   opts: { isTs?: boolean; id?: string; ssr?: boolean } = {}
 ) {
   if (!descriptor?.script && !descriptor.scriptSetup) {
-    return [`\nconst ${COMP_IDENTIFIER} = {};`, undefined]
+    return [`\nconst ${COMP_IDENTIFIER} = {};\n`, undefined]
   }
   const { isTs, id, ssr } = opts
   const { compiler, options, state } = store
@@ -242,7 +240,6 @@ ${strictModeCompile(`${COMP_IDENTIFIER}.render = function _() {${render}}`)};
 ${COMP_IDENTIFIER}.render._withStripped = true;
 ${COMP_IDENTIFIER}.staticRenderFns = [${staticRenderFns
     .map((staticRenderFn) => strictModeCompile(`function _() { ${staticRenderFn} }`))
-    .join(',\n')}];
-  `
+    .join(',\n')}];`
   return code
 }
