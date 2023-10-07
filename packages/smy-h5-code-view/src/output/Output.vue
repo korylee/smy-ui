@@ -21,11 +21,13 @@
 </template>
 <script>
 import Preview from './Preview.vue'
-import Codemirror from '../editor/CodeMirrorEditor.vue'
-import Monaco from '../editor/MonacoEditor.vue'
 
 export default {
-  components: { Preview, Codemirror, Monaco },
+  components: {
+    Preview,
+    Codemirror: () => import('../editor/CodeMirrorEditor.vue'),
+    Monaco: () => import('../editor/MonacoEditor.vue'),
+  },
   props: {
     editor: {
       type: [String, Object], // monaco || codemirror

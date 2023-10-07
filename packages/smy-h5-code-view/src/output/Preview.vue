@@ -72,8 +72,15 @@ export default {
           }
         },
         error(event) {
-          const msg = event.value
-          console.log(event)
+          const msg = Error(event.value).message
+
+          if (msg.includes('Failed to resolve module specifier') || msg.includes('Error resolving module specifier')) {
+            self.runtimeError =
+              msg.replace(/\. Relative references must.*$/, '') +
+              `.\nTip: edit the "Import Map" tab to specify import paths for dependencies.`
+          } else {
+            self.runtimeError = event.value
+          }
         },
         unhandledrejection(event) {
           let error = event.value

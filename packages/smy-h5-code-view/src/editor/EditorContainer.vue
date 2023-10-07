@@ -1,14 +1,12 @@
 <template>
   <div class="editor-container">
     <FileSelector />
-    <component class="editor" :is="editor" v-model="activeCode" :filename="activeFile.filename" :theme="theme" />
+    <component :is="editor" v-model="activeCode" :filename="activeFile.filename" :theme="theme" class="editor" />
     <message :err="store.state.errors[0]" />
   </div>
 </template>
 <script>
 import Message from '../Message.vue'
-import Codemirror from './CodeMirrorEditor.vue'
-import Monaco from './MonacoEditor.vue'
 import FileSelector from './FileSelector.vue'
 
 export default {
@@ -19,9 +17,9 @@ export default {
   },
   components: {
     Message,
-    Codemirror,
-    Monaco,
     FileSelector,
+    Codemirror: () => import('./CodeMirrorEditor.vue'),
+    Monaco: () => import('./MonacoEditor.vue'),
   },
   computed: {
     activeFile({ store }) {
