@@ -1,14 +1,7 @@
 <template>
-  <div class="smy-badge smy--box">
+  <div :class="bem(['$--box'])">
     <transition :name="transition">
-      <span
-        v-bind="$attrs"
-        v-on="$listeners"
-        v-show="!hidden"
-        :style="contentStyle"
-        :class="contentClass"
-        class="smy-badge__content"
-      >
+      <span v-bind="$attrs" v-on="$listeners" v-show="!hidden" :style="contentStyle" :class="contentClass">
         <slot v-if="hasSlot('icon') && !dot" name="icon"></slot>
         <template v-else>{{ internalContent }}</template>
       </span>

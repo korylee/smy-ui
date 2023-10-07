@@ -44,11 +44,12 @@ import { getStringLength, cutString, resizeTextarea, mapInputType } from './util
 import SmyIcon from '../icon'
 import { formatNumber } from '../_utils/shared'
 import { resetScroll } from '../_utils/dom'
-import { useIconCache } from '../icon/utils'
+import { registerIcons } from '../icon/utils'
 import CloseCircle from '@smy-h5/icons/dist/es/CloseCircle'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 
 const [name, bem] = createNamespace('field')
+const clear = registerIcons(CloseCircle)
 
 export default {
   name,
@@ -78,12 +79,12 @@ export default {
       this.$nextTick(this.adjustTextareaSize)
     },
   },
-  beforeCreate() {
-    useIconCache(this, CloseCircle)
-  },
   mounted() {
     this.updateValue(this.modelValue)
     this.$nextTick(this.adjustTextareaSize)
+  },
+  beforeDestroy() {
+    clear()
   },
   methods: {
     bem,

@@ -1,5 +1,5 @@
 import { type PropType } from 'vue'
-import { type ExtractPropTypes } from '../_utils/vue/props'
+import { createStringProp, type ExtractPropTypes } from '../_utils/vue/props'
 
 export const props = {
   value: Boolean,
@@ -7,14 +7,8 @@ export const props = {
     type: Object as PropType<IntersectionObserverInit>,
     default: () => ({}),
   },
-  tag: {
-    type: String,
-    default: 'div',
-  },
-  transition: {
-    type: String,
-    default: 'smy-fade',
-  },
+  tag: createStringProp('div'),
+  transition: createStringProp('smy-fade'),
   keepShow: Boolean,
 }
 

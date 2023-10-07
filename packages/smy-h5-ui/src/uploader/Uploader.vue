@@ -63,7 +63,9 @@ import { SlotsMixin } from '../_mixins/slots'
 import { ListenersMixin } from '../_mixins/listeners'
 import { isNil } from '../_utils/is'
 import ImagePreview from '../image-preview'
-import { IconCache } from '../icon/utils'
+import { registerIcons } from '../icon/utils'
+
+const clear = registerIcons(Plus)
 
 const [name, bem] = createNamespace('uploader')
 
@@ -78,14 +80,11 @@ export default {
     reuploadIndex: -1,
     urls: [],
   }),
-  beforeCreate() {
-    IconCache.register(Plus)
-  },
   mounted() {
     this.urls.forEach((url) => URL.revokeObjectURL(url))
   },
   beforeDestroy() {
-    IconCache.unregister(Plus.name)
+    clear()
   },
   methods: {
     bem,

@@ -3,7 +3,7 @@ import { props } from './props'
 import { SlotsMixin, getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
-import { IconCache } from './utils'
+import { getIcon } from './utils'
 import './icon.less'
 
 const isImage = (name) => name?.includes('/')
@@ -49,7 +49,7 @@ export default {
   render() {
     const { tag, name, $createElement: h, shrinking, namespace, nextName, style, $listeners } = this
     const defaultSlot = getSlot(this)
-    const CachedIconComponent = IconCache.get(name)
+    const CachedIconComponent = getIcon(name)
     const baseClass = bem({ shrinking })
     // iconfont 字体或图片
     if (!defaultSlot && name && !CachedIconComponent) {

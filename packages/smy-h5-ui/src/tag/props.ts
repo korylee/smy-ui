@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from '../_utils/vue/props'
+import { ExtractPropTypes, createStringProp } from '../_utils/vue/props'
 import type { PropType } from 'vue'
 
 const TAG_TYPES = ['primary', 'success', 'danger', 'warning'] as const
@@ -10,8 +10,8 @@ export const props = {
     default: '',
     validator: (val: TagType) => !val || TAG_TYPES.includes(val),
   },
-  color: { type: String, defualt: '' },
-  textColor: { type: String, default: '' },
+  color: createStringProp(''),
+  textColor: createStringProp(''),
   plain: {
     type: Boolean,
     default: false,
