@@ -2,8 +2,20 @@ const markdown = require('markdown-it')
 
 const lowerFirst = (word) => word.charAt(0).toLowerCase() + word.slice(1)
 
+const gnDocField = (component) => `${lowerFirst(component)}Doc`
+
 function htmlWrapper(html) {
-  const hGroup = html.replace(/<h3/g, ':::<h3').replace(/<h2/g, ':::<h2').split(':::')
+  const matches = html.matchAll(/<h3>(.*?)<\/h3>/g)
+
+  const hGroup = html
+    .replace(/<h3>/g, () => {
+      const content = matches.next().value[1]
+
+      return `:::<h3 id="${content}"><router-link to="#${content}">#</router-link>`
+    })
+    .replace(/<h2/g, ':::<h2')
+    .split(':::')
+
   const cardGroup = hGroup
     .map((fragment) => (fragment.includes('<h3') ? `<div class="doc-card">${fragment}</div>` : fragment))
     .join('')
@@ -19,7 +31,6 @@ function createHighlight(componentMap) {
     if (lang === 'demo') {
       const componentRE = /import (.+) from ['"](.+)['"]/
       const importRE = /import .+ from ['"].+['"]/g
-      console.log(lang, str, attr)
       const partImports = str.match(importRE)
       const components = []
       partImports?.forEach((importer) => {
@@ -33,7 +44,8 @@ function createHighlight(componentMap) {
       })
       let replaced = ''
       components.forEach((component) => {
-        replaced += `<smy-site-code-example ${attr} uri language="html" :code="${lowerFirst(component)}Doc" />`
+        const componentRaw = gnDocField(component)
+        replaced += `<smy-site-code-example ${attr} uri language="html" :code="encodeURIComponent(${componentRaw})" />`
       })
       return replaced && `<pre class="hljs">${replaced}</pre>`
     }
@@ -61,7 +73,7 @@ function markdownToVue(source) {
   let componentString = ''
   let dataString = ''
   componentMap.forEach((path, component) => {
-    const componentRaw = `${lowerFirst(component)}Doc`
+    const componentRaw = gnDocField(component)
     importString += `import ${component} from '${path}'
     import ${componentRaw} from '${path}?raw'\n`
     componentString += `${component},\n`

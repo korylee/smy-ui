@@ -1,30 +1,21 @@
 <template>
-  <div class="swipe-example">
-    <app-demo-title>基础用法</app-demo-title>
-    <basic-example />
-    <app-demo-title>禁用滑动</app-demo-title>
-    <disabled-example />
-    <app-demo-title>左右滑动</app-demo-title>
-    <swipe-example />
-  </div>
+  <smy-swipe>
+    <smy-cell title="基本用法" insert></smy-cell>
+    <template #right>
+      <div class="delete-btn btn">删除</div>
+    </template>
+  </smy-swipe>
 </template>
 
 <script>
-import { AppDemoTitle } from '@smy-h5/cli/client'
-import BasicExample from './BasicExample.vue'
-import DisabledExample from './DisabledExample.vue'
-import SwipeExample from './SwipeExample.vue'
+import { Swipe as SmySwipe, Cell as SmyCell } from '@smy-h5/ui'
 
 export default {
-  name: 'SwipeExpamle',
-  components: { AppDemoTitle, BasicExample, DisabledExample, SwipeExample },
+  components: { SmySwipe, SmyCell },
 }
 </script>
 
 <style lang="less" scoped>
-.swipe-example {
-  overflow: hidden;
-}
 .btn {
   position: relative;
   display: inline-block;

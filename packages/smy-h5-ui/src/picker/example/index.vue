@@ -8,19 +8,7 @@
 
     <h4>组件调用</h4>
     <app-demo-title>单列选择</app-demo-title>
-    <smy-cell insert :title="getTitle(basic)" @click="basic.show = true">
-      <template #extra>popup: <smy-switch v-model="basic.popup" /></template>
-    </smy-cell>
-    <smy-picker
-      v-model="basic.value"
-      :show.sync="basic.show"
-      :popup="basic.popup"
-      :columns="[column]"
-      title="请选择"
-      @confirm="basic.show = false"
-      @cancel="basic.show = false"
-      @change="onChange"
-    />
+    <componental-single-example />
     <app-demo-title>多列选择</app-demo-title>
     <smy-cell insert :title="getTitle(multiple)" @click="multiple.show = true">
       <template #extra>popup: <smy-switch v-model="multiple.popup" /></template>
@@ -72,6 +60,7 @@
 <script>
 import { AppDemoTitle } from '@smy-h5/cli/client'
 import { Cell as SmyCell, CellGroup as SmyCellGroup, Switch as SmySwitch, Toast, Picker } from '@smy-h5/ui'
+import ComponentalSingleExample from '../example/componental/SingleExample.vue'
 
 const cascadeColumns = [
   {
@@ -135,7 +124,7 @@ const multipleColumns = [
 
 export default {
   name: 'PickerExample',
-  components: { SmyPicker: Picker.Component, AppDemoTitle, SmyCell, SmySwitch, SmyCellGroup },
+  components: { ComponentalSingleExample, SmyPicker: Picker.Component, AppDemoTitle, SmyCell, SmySwitch, SmyCellGroup },
   data: () => ({
     basic: { show: false, value: undefined, popup: true },
     multiple: { show: false, value: undefined, popup: true },

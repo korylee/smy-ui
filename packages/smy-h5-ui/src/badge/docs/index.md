@@ -3,7 +3,6 @@
 ### 引入
 
 ```js
-// playground-ignore
 import Vue from 'vue'
 import { Badge } from '@smy-h5/ui'
 
@@ -12,83 +11,54 @@ Vue.use(Badge)
 
 ### 基础用法
 
-```html
-<div>
-  <smy-badge value="8"> <span class="title">标题</span> </smy-badge>
-  <smy-badge value="76"> <span class="title">标题</span> </smy-badge>
-  <smy-badge value="NEW"> <span class="title">标题</span> </smy-badge>
-  <smy-badge value="NEW" bubble> <span class="title">标题</span> </smy-badge>
-  <smy-badge value="NEW" dot> <span class="title">标题</span> </smy-badge>
-</div>
+```demo
+import BasicExample from '../example/BasicExample.vue'
 ```
 
 ### 最大值
 
 通过 `value` 和 `max` 控制徽标显示值的范围（当 `value` 与 `max` 都存在时生效）。
 
-```html
-<smy-badge value="200" max="9"> <span class="title">标题</span> </smy-badge>
-<smy-badge value="200" max="20"> <span class="title">标题</span> </smy-badge>
-<smy-badge value="200" max="99"> <span class="title">标题</span> </smy-badge>
+```demo
+import MaxExample from '../example/MaxExample.vue'
 ```
 
 ### 不同定位
 
 通过 `position` 属性设置徽标的位置。
 
-```html
-<smy-badge value="200"> <span class="title">右上</span> </smy-badge>
-<smy-badge value="200" position="right-bottom"> <span class="title">右下</span> </smy-badge>
-<smy-badge value="200" position="left-top"> <span class="title">左上</span> </smy-badge>
-<smy-badge value="200" position="left-bottom"> <span class="title">左下</span> </smy-badge>
+```demo
+import PositionExample from '../example/PositionExample.vue'
 ```
 
 ### 是否展示
 
-```html
-<button @click="hidden = !hidden">点击改变状态</button>
-<smy-badge :hidden="hidden" value="8">
-  <span class="title">标题</span>
-</smy-badge>
+```demo
+import HiddenExample from '../example/HiddenExample.vue'
 ```
 
 ### 自定义颜色
 
-```html
-<smy-badge value="8" color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
-  <span class="title">标题</span>
-</smy-badge>
-<smy-badge value="76" color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
-  <span class="title">标题</span>
-</smy-badge>
-<smy-badge value="NEW" color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
-  <span class="title">标题</span>
-</smy-badge>
-<smy-badge value="NEW" bubble color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
-  <span class="title">标题</span>
-</smy-badge>
-<smy-badge value="NEW" dot color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
-  <span class="title">标题</span>
-</smy-badge>
+```demo
+import ColorExample from '../example/ColorExample.vue'
 ```
 
 ### 自定义位置
 
-```html
-<smy-badge value="200" top="5" right="10"> <span class="title">标题</span> </smy-badge>
-<smy-badge value="200" right="-10"> <span class="title">标题</span> </smy-badge>
-<smy-badge value="200"> <span class="title">标题</span> </smy-badge>
+```demo
+import CustomPositionExample from '../example/CustomPositionExample.vue'
 ```
 
 ### 自定义徽标内容
 
-```html
-<smy-badge>
-  <span class="title">标题</span>
-  <template #icon>
-    <smy-icon><xml /></smy-icon>
-  </template>
-</smy-badge>
+```demo
+import ContentExample from '../example/ContentExample.vue'
+```
+
+### 独立使用
+
+```demo
+import AloneExample from '../example/AloneExample.vue'
 ```
 
 ## API

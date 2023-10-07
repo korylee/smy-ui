@@ -7,7 +7,6 @@
 ### 引入
 
 ```js
-// playground-ignore
 import Vue from 'vue'
 import { Swiper, SwiperItem } from '@smy-h5/ui'
 

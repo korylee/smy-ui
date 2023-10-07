@@ -7,7 +7,6 @@
 ### 引入
 
 ```js
-// playground-ignore
 import Vue from 'vue'
 import { Swipe } from '@smy-h5/ui'
 
@@ -16,78 +15,20 @@ Vue.use(Swipe)
 
 ### 基础用法
 
-```html
-<template>
-  <div class="container">
-    <smy-swipe>
-      <smy-cell title="基本用法" insert></smy-cell>
-      <template #right>
-        <div class="delete-btn btn">删除</div>
-      </template>
-    </smy-swipe>
-  </div>
-</template>
-<style lang="less" scoped>
-  .container {
-    overflow: hidden;
-    height: 100vh;
-  }
-  .btn {
-    position: relative;
-    display: inline-block;
-    width: auto;
-    flex-shrink: 0;
-    height: 38px;
-    box-sizing: border-box;
-    margin: 0px;
-    line-height: 36px;
-    padding: 0px 18px;
-    font-size: 14px;
-    text-align: center;
-    cursor: pointer;
-    transition: opacity 0.2s ease 0s;
-    appearance: none;
-    user-select: none;
-    touch-action: manipulation;
-    vertical-align: bottom;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .delete-btn {
-    height: 100%;
-    color: rgb(255, 255, 255);
-    background: rgb(250, 44, 25);
-    border: 1px solid transparent;
-  }
-</style>
+```demo
+import BasicExample from '../example/BasicExample.vue'
 ```
 
 ### 禁用滑动
 
-```html
-<template>
-  <smy-swipe disabled>
-    <smy-cell title="禁用滑动" insert></smy-cell>
-    <template #right>
-      <div class="delete-btn btn">删除</div>
-    </template>
-  </smy-swipe>
-</template>
+```demo
+import DisabledExample from '../example/DisabledExample.vue'
 ```
 
 ### 左右滑动
 
-```html
-<template>
-  <smy-swipe>
-    <smy-cell title="左滑右滑" insert></smy-cell>
-    <template #left>
-      <div class="choose-btn btn">选择</div>
-    </template>
-    <template #right>
-      <div class="delete-btn btn">删除</div>
-    </template>
-  </smy-swipe>
-</template>
+```demo
+import SwipeExample from '../example/SwipeExample.vue'
 ```
 
 ## API

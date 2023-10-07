@@ -27,44 +27,14 @@ import PositionExample from '../example/PositionExample.vue'
 
 ### 注册事件
 
-```html
-<template>
-  <div>
-    <button @click="event = true">注册事件</button>
-    <smy-popup :show.sync="event" @open="popupOpen" @opened="popupOpened" @close="popupClose" @closed="popupClosed">
-      <div class="block">{{ text }}</div>
-    </smy-popup>
-  </div>
-</template>
-<script>
-  import { Toast } from '@smy-h5/ui'
+```demo
+import EventExample from '../example/EventExample.vue'
+```
 
-  export default {
-    data: () => ({
-      event: false,
-    }),
-    methods: {
-      popupOpen() {
-        Toast.info('open')
-      },
-      popupOpened() {
-        Toast.success('opened')
-      },
-      popupClose() {
-        Toast.warning('close')
-      },
-      popupClosed() {
-        Toast.error('closed')
-      },
-    },
-  }
-</script>
-<style lang="less" scoped>
-  .block {
-    padding: 20px 24px;
-    width: 250px;
-  }
-</style>
+### 指定挂载点
+
+```demo
+import TeleportExample from '../example/TeleportExample.vue'
 ```
 
 ## API

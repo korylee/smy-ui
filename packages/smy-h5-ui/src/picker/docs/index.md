@@ -7,7 +7,6 @@
 ### 引入
 
 ```js
-// playground-ignore
 import Vue from 'vue'
 import { Picker } from '@smy-h5/ui'
 
@@ -135,39 +134,8 @@ Picker({ cascade: true, columns: cascadeColumns, textFormatter: 'text', valueFor
 
 ### 单列选择
 
-```html
-<template>
-  <div>
-    <smy-cell insert :title="value ? value.join(',') : '请选择'" @click="show = true" />
-    <smy-picker
-      v-model="value"
-      :show.sync="show"
-      :columns="[column]"
-      title="请选择"
-      @confirm="show = false"
-      @cancel="show = false"
-    />
-  </div>
-</template>
-<script>
-  const column = [
-    { text: '南京市', value: 'NanJing' },
-    { text: '无锡市', value: 'WuXi' },
-    { text: '海北藏族自治区', value: 'ZangZu' },
-    { text: '北京市', value: 'BeiJing' },
-    { text: '连云港市', value: 'LianYunGang' },
-    { text: '浙江市', value: 'ZheJiang' },
-    { text: '江苏市', value: 'JiangSu' },
-  ]
-
-  export default {
-    data: () => ({
-      show: false,
-      column,
-      value: undefined,
-    }),
-  }
-</script>
+```demo
+import ComponentalSingleExample from '../example/componental/SingleExample.vue'
 ```
 
 ### 多列使用
