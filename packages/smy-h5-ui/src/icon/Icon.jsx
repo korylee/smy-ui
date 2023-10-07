@@ -3,7 +3,7 @@ import { props } from './props'
 import { SlotsMixin, getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
-import { getIcon } from './utils'
+import { get as getIcon } from './utils'
 import './icon.less'
 
 const isImage = (name) => name?.includes('/')

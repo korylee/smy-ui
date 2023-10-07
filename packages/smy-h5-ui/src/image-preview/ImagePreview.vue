@@ -64,9 +64,9 @@ import { createTouch, isTapTouch, ANIMATION_DURATION, EVENT_DELAY, isDoubleTouch
 import { createProxiedModel } from '../_mixins/proxiedModel'
 import { createNamespace } from '../_utils/vue/create'
 import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
-import { registerIcons } from '../icon/utils'
+import { register } from '../icon/utils'
 
-const clear = registerIcons(WindowClose)
+register(WindowClose)
 
 const [name, bem] = createNamespace('image-preview')
 
@@ -95,9 +95,6 @@ export default {
         transitionDuration,
       }
     },
-  },
-  beforeDestroy() {
-    clear()
   },
   methods: {
     bem,
