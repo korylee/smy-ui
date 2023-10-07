@@ -1,10 +1,11 @@
-@switch-color-active: #f0250f;
+@switch-color-active: #18a058;
 @switch-color-inactive: #dadada;
 @switch-cubic-bezier: cubic-bezier(0.55, 0.085, 0.68, 0.53);
 @switch-transition-duration: 0.2s;
 @switch-height: 1.68em;
 @switch-padding: 0.25em;
 @switch-label-color: #fff;
+@switch-loading-color: #18a058;
 
 :root {
   --switch-color-active: @switch-color-active;
@@ -14,6 +15,7 @@
   --switch-height: @switch-height;
   --switch-padding: @switch-padding;
   --switch-label-color: @switch-label-color;
+  --switch-loading-color: @switch-loading-color;
 }
 
 .smy-switch {
@@ -71,7 +73,8 @@
     align-items: center;
 
     &-loading {
-      font-size: 0.8em;
+      font-size: 0.88em;
+      color: var(--switch-loading-color);
     }
   }
 

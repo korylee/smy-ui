@@ -34,10 +34,6 @@ const [name, bem] = createNamespace('switch')
 export default {
   name,
   components: { SmyProgressCircular },
-  model: {
-    prop: 'value',
-    event: 'change',
-  },
   props,
   computed: {
     isActive({ value, activeValue }) {
@@ -56,7 +52,9 @@ export default {
     handleToggle(e) {
       if (this.isStopPropagation) e.stopPropagation()
       if (this.disabled) return
-      this.$emit('change', this.isActive ? this.inactiveValue : this.activeValue)
+      const value = this.isActive ? this.inactiveValue : this.activeValue
+      this.$emit('input', value)
+      this.$emit('change', value)
     },
   },
 }

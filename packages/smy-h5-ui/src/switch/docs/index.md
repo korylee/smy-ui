@@ -15,113 +15,44 @@ Vue.use(Switch)
 
 ### 基础用法
 
-```html
-<template>
-  <smy-switch v-model="active" />
-</template>
-<script>
-  export default {
-    data: () => ({
-      active: false,
-    }),
-  }
-</script>
+```demo
+import BasicExample from '../example/BasicExample.vue'
 ```
 
 ### 自定义值
 
-```html
-<template>
-  <smy-switch v-model="active" active-value="hello" inactive-value="goodbye" />
-</template>
-<script>
-  export default {
-    data: () => ({
-      active: '',
-    }),
-  }
-</script>
+```demo
+import CustomExample from '../example/CustomExample.vue'
 ```
 
 ### 禁用状态
 
-```html
-<template>
-  <smy-switch v-model="active" disabled />
-</template>
-<script>
-  export default {
-    data: () => ({
-      active: false,
-    }),
-  }
-</script>
+```demo
+import DisabledExample from '../example/DisabledExample.vue'
 ```
 
 ### 加载中
 
-```html
-<template>
-  <smy-switch v-model="active" loading />
-</template>
-<script>
-  export default {
-    data: () => ({
-      active: false,
-    }),
-  }
-</script>
+```demo
+import LoadingExample from '../example/LoadingExample.vue'
 ```
 
 ### 任意尺寸
 
-```html
-<template>
-  <div>
-    <smy-switch v-model="active" size="12" />
-    <smy-switch v-model="active" size="16" />
-    <smy-switch v-model="active" size="20" />
-    <smy-switch v-model="active" size="26" />
-    <smy-switch v-model="active" size="32" />
-  </div>
-</template>
-<script>
-  export default {
-    data: () => ({
-      active: false,
-    }),
-  }
-</script>
+```demo
+import SizeExample from '../example/SizeExample.vue'
 ```
 
 ### 自定义颜色
 
-```html
-<template>
-  <smy-switch v-model="active" inactive-color="pink" active-color="blue" />
-</template>
-<script>
-  export default {
-    data: () => ({
-      active: false,
-    }),
-  }
-</script>
+```demo
+import ColorExample from '../example/ColorExample.vue'
 ```
 
 ### 支持文字
 
-```html
-<template>
-  <smy-switch v-model="active" inactive-label="关" active-label="开" />
-</template>
-<script>
-  export default {
-    data: () => ({
-      active: false,
-    }),
-  }
-</script>
+```demo
+import TextExample from '../example/TextExample.vue'
 ```
 
 ## API
