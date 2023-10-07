@@ -159,13 +159,6 @@ export default {
       code {
         position: relative;
         display: block;
-        padding: 10px 16px;
-        overflow-x: auto;
-        font-size: 13px;
-        font-family: Consolas, Monaco, monospace;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        color: var(--site-config-color-hl-code);
       }
 
       p code,

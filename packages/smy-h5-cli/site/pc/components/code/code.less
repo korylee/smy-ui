@@ -1,62 +1,66 @@
 .smy-site-code {
-  background: var(--site-config-color-hl-background) !important;
-  padding: 0 !important;
-  transition: all 0.25s;
+  background: var(--site-config-hl-background) t;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: var(--site-config-hl-font-family);
+  font-size: var(--site-config-hl-font-size);
+  padding: 10px 16px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: var(--site-config-hl-text-color);
+
   pre {
-    line-height: 31px;
+    line-height: inherit;
+    margin: 0;
+    font-size: inherit;
+    font-family: inherit;
   }
 
-  .hljs-comment,
-  .hljs-meta,
-  .hljs-quote {
-    color: var(--site-config-color-hl-group-a);
+  [class^='hljs'] {
+    color: var(--site-config-hl-text-color);
   }
 
-  .hljs-keyword,
+  .hljs-section,
   .hljs-name,
   .hljs-selector-tag,
-  .hljs-tag {
-    color: var(--site-config-color-hl-group-b);
+  .hljs-deletion,
+  .hljs-subst {
+    color: var(--site-config-hl-hue-5);
   }
-
-  .hljs-attribute,
-  .hljs-selector-id {
-    color: var(--site-config-color-hl-group-c);
-  }
-
-  .hljs-addition,
+  .hljs-attr,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-type,
+  .hljs-selector-class,
   .hljs-selector-attr,
   .hljs-selector-pseudo,
-  .hljs-string {
-    color: var(--site-config-color-hl-group-d);
+  .hljs-selector-number {
+    color: var(--site-config-hl-hue-6);
   }
 
-  .hljs-subst {
-    color: var(--site-config-color-hl-group-e);
+  .hljs-string,
+  .hljs-regexp,
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-meta-string {
+    color: var(--site-config-hl-hue-4);
   }
-
-  .hljs-link,
-  .hljs-regexp {
-    color: var(--site-config-color-hl-group-f);
-  }
-
   .hljs-doctag,
-  .hljs-section,
-  .hljs-title,
-  .hljs-type {
-    color: var(--site-config-color-hl-group-g);
+  .hljs-keyword,
+  .hljs-formula {
+    color: var(--site-config-hl-hue-3);
   }
-
-  .hljs-bullet,
-  .hljs-literal,
   .hljs-symbol,
-  .hljs-template-variable,
-  .hljs-variable {
-    color: var(--site-config-color-hl-group-h);
+  .hljs-bullet,
+  .hljs-link,
+  .hljs-meta,
+  .hljs-selector-id,
+  .hljs-title {
+    color: var(--site-config-hl-hue-2);
   }
 
-  .hljs-deletion,
-  .hljs-number {
-    color: var(--site-config-color-hl-group-i);
+  .hljs-built_in,
+  .hljs-class .hljs-title {
+    color: var(--site-config-hl-hue-6-2);
   }
 }

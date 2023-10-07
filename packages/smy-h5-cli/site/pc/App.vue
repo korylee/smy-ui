@@ -5,7 +5,4 @@
 </template>
 <style lang="less">
 @import './styles/global.less';
-body {
-  margin: 0;
-}
 </style>
