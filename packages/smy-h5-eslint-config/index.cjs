@@ -55,6 +55,7 @@ module.exports = defineConfig({
     'vue/valid-v-bind': 'off',
     'vue/component-name-in-template-casing': ['error', 'kebab-case'],
     // typescript-eslint
+    '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/class-name-casing': 'off',
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/no-this-alias': 'off',

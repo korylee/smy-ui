@@ -63,10 +63,6 @@ import { toNumber, range } from '../_utils/shared'
 import { createTouch, isTapTouch, ANIMATION_DURATION, EVENT_DELAY, isDoubleTouch } from './utils'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 import { createNamespace } from '../_utils/vue/create'
-import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
-import { register } from '../icon/utils'
-
-register(WindowClose)
 
 const [name, bem] = createNamespace('image-preview')
 

@@ -1,4 +1,6 @@
-import { ExtractPropTypes, createStringProp } from '../_utils/vue/props'
+import { ExtractPropTypes, createComponentProp } from '../_utils/vue/props'
+//@ts-ignore
+import CloseCircle from '@smy-h5/icons/dist/es/CloseCircle'
 
 export const props = {
   name: String,
@@ -13,7 +15,7 @@ export const props = {
   showWordLimit: Boolean,
   autosize: [Boolean, Object],
   clearable: Boolean,
-  clearIcon: createStringProp('close-circle'),
+  clearIcon: createComponentProp(() => CloseCircle),
 }
 
 export type FieldProps = ExtractPropTypes<typeof props>

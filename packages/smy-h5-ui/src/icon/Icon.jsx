@@ -3,7 +3,8 @@ import { props } from './props'
 import { SlotsMixin, getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
-import { get as getIcon } from './utils'
+import { isPlainObject, isString } from '../_utils/is'
+
 import './icon.less'
 
 const isImage = (name) => name?.includes('/')
@@ -49,35 +50,31 @@ export default {
   render() {
     const { tag, name, $createElement: h, shrinking, namespace, nextName, style, $listeners } = this
     const defaultSlot = getSlot(this)
-    const CachedIconComponent = getIcon(name)
     const baseClass = bem({ shrinking })
-    // iconfont 字体或图片
-    if (!defaultSlot && name && !CachedIconComponent) {
-      const isImageIcon = isImage(nextName)
-      const addClass = namespace && nextName && !isImageIcon ? ` ${namespace}--set ${namespace}-${nextName}` : ''
+    const child = defaultSlot ?? (!isString(name) ? h(name) : null)
+    if (child) {
       return h(
-        'i',
+        tag,
         {
-          class: baseClass + addClass,
+          class: baseClass,
           style,
           on: $listeners,
         },
-        [isImageIcon ? h('img', { staticClass: bem('image'), attrs: { src: name } }) : null]
+        [child]
       )
     }
+    // iconfont 字体或图片
 
-    const child = defaultSlot ?? (CachedIconComponent ? h(CachedIconComponent) : null)
-    if (!child) return null
-
-    // 组件
+    const isImageIcon = isImage(nextName)
+    const addClass = namespace && nextName && !isImageIcon ? ` ${namespace}--set ${namespace}-${nextName}` : ''
     return h(
-      tag,
+      'i',
       {
-        class: baseClass,
+        class: baseClass + addClass,
         style,
         on: $listeners,
       },
-      [child]
+      [isImageIcon ? h('img', { staticClass: bem('image'), attrs: { src: name } }) : null]
     )
   },
 }

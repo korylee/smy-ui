@@ -1,7 +1,7 @@
 import { ExtractPropTypes, createNumericProp, createStringProp, numericProp } from '../_utils/vue/props'
 
 export const props = {
-  name: String,
+  name: [String, Object, Function],
   size: numericProp,
   color: String,
   tag: createStringProp('span'),

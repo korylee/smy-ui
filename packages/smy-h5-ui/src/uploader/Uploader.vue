@@ -56,16 +56,12 @@ import SmyIcon from '../icon'
 import SmyImage from '../image'
 import { props } from './props'
 import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
-import Plus from '@smy-h5/icons/dist/es/Plus'
 import { readFileContent, isOversize, filterFiles, isImageFile } from './utils'
 import { wrapInArray } from '../_utils/shared'
 import { SlotsMixin } from '../_mixins/slots'
 import { ListenersMixin } from '../_mixins/listeners'
 import { isNil } from '../_utils/is'
 import ImagePreview from '../image-preview'
-import { register } from '../icon/utils'
-
-register(Plus)
 
 const [name, bem] = createNamespace('uploader')
 

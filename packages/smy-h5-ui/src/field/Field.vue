@@ -44,14 +44,9 @@ import { getStringLength, cutString, resizeTextarea, mapInputType } from './util
 import SmyIcon from '../icon'
 import { formatNumber } from '../_utils/shared'
 import { resetScroll } from '../_utils/dom'
-import { register } from '../icon/utils'
-import CloseCircle from '@smy-h5/icons/dist/es/CloseCircle'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 
 const [name, bem] = createNamespace('field')
-
-register(CloseCircle)
-
 export default {
   name,
   components: { SmyIcon },

@@ -1,4 +1,4 @@
-import type { PropType } from 'vue'
+import type { AsyncComponent, Component, PropType } from 'vue'
 
 declare type InferPropType<T> = [T] extends [null]
   ? any
@@ -67,6 +67,10 @@ export const unknownProp = null as unknown as PropType<unknown>
 
 export const numericProp = [Number, String]
 
+export const componentProp = [String, Object, Function] as PropType<
+  string | Component<any, any, any, any> | AsyncComponent<any, any, any, any>
+>
+
 export const truthProp = {
   type: Boolean,
   default: true,
@@ -90,4 +94,14 @@ export const createNumericProp = <T>(defaultVal: T) => ({
 export const createArrayProp = <T>() => ({
   type: Array as PropType<T[]>,
   default: () => [],
+})
+
+export const createUnknownProp = (defaultVal: unknown) => ({
+  type: unknownProp,
+  default: defaultVal,
+})
+
+export const createComponentProp = (defaultVal: unknown) => ({
+  type: componentProp,
+  default: defaultVal,
 })

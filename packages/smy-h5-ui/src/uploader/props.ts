@@ -1,8 +1,17 @@
 import { PropType } from 'vue/types/umd'
-import { ExtractPropTypes, createArrayProp, createNumericProp, createStringProp, truthProp } from '../_utils/vue/props'
+import {
+  ExtractPropTypes,
+  createArrayProp,
+  createComponentProp,
+  createNumericProp,
+  createStringProp,
+  truthProp,
+} from '../_utils/vue/props'
 import { type ImageFit } from '../image/props'
 import { type Numeric } from '../_utils/is'
 import { UploaderFileListItem } from './utils'
+//@ts-ignore
+import Plus from '@smy-h5/icons/dist/es/Plus'
 
 export type UploaderResultType = 'dataUrl' | 'text' | 'file'
 
@@ -28,7 +37,7 @@ export const props = {
   preview: truthProp,
   previewSize: [Number, String, Array] as PropType<Numeric | [Numeric, Numeric]>,
   previewImage: Boolean,
-  uploadIcon: createStringProp('plus'),
+  uploadIcon: createComponentProp(() => Plus),
   uploadText: String,
 }
 

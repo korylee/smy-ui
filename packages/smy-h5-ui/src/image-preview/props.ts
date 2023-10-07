@@ -1,7 +1,15 @@
 import { assign, pick } from '../_utils/shared'
 import { props as swiperProps } from '../swiper/props'
 import { props as popupProps } from '../popup/props'
-import { ExtractPropTypes, createArrayProp, createNumericProp, createStringProp } from '../_utils/vue/props'
+import {
+  ExtractPropTypes,
+  createArrayProp,
+  createComponentProp,
+  createNumericProp,
+  createStringProp,
+} from '../_utils/vue/props'
+// @ts-ignore
+import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 
 export type Image = string
 
@@ -20,7 +28,7 @@ const baseProps = {
     type: Boolean,
     default: false,
   },
-  closeIcon: createStringProp('window-close'),
+  closeIcon: createComponentProp(() => WindowClose),
   closeIconPosition: createStringProp<CloseIconPosition>('top-right'),
 }
 
