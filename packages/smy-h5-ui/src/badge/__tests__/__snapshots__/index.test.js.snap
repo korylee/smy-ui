@@ -3,124 +3,140 @@
 exports[`test badge example 1`] = `
 "<div class=\\"badge-example\\">
   <div class=\\"app-demo-title\\">基础用法</div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">8</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">76</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">NEW</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--bubble smy-badge__content--fixed smy-badge__content--right-top\\">NEW</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--dot smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub> <span class=\\"title\\">标题</span>
+  <div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">8</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">76</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">NEW</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--bubble smy-badge__content--fixed smy-badge__content--right-top\\">NEW</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--dot smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
   </div>
   <div class=\\"app-demo-title\\">最大值</div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">9+</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">20+</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">99+</span></transition-stub> <span class=\\"title\\">标题</span>
+  <div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">9+</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">20+</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">99+</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
   </div>
   <div class=\\"app-demo-title\\">不同定位</div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">200</span></transition-stub> <span class=\\"title\\">右上</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-bottom\\">200</span></transition-stub> <span class=\\"title\\">右下</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--left-top\\">200</span></transition-stub> <span class=\\"title\\">左上</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--left-bottom\\">200</span></transition-stub> <span class=\\"title\\">左下</span>
+  <div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">200</span></transition-stub> <span class=\\"title\\">右上</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-bottom\\">200</span></transition-stub> <span class=\\"title\\">右下</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--left-top\\">200</span></transition-stub> <span class=\\"title\\">左上</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--left-bottom\\">200</span></transition-stub> <span class=\\"title\\">左下</span>
+    </div>
   </div>
   <div class=\\"app-demo-title\\">是否显示(点击“标题”改变状态)</div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">8</span></transition-stub> <span class=\\"title\\">标题</span>
+  <div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">8</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
   </div>
   <div class=\\"app-demo-title\\">自定义颜色</div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">8</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">76</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">NEW</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--bubble smy-badge__content--fixed smy-badge__content--right-top\\">NEW</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--dot smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub> <span class=\\"title\\">标题</span>
+  <div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">8</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">76</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">NEW</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--bubble smy-badge__content--fixed smy-badge__content--right-top\\">NEW</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--dot smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
   </div>
   <div class=\\"app-demo-title\\">自定义位置</div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">200</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\" style=\\"top: 40px; right: 20px;\\">200</span></transition-stub> <span class=\\"title\\">标题</span>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\" style=\\"top: 20px; right: 40px;\\">200</span></transition-stub> <span class=\\"title\\">标题</span>
+  <div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\">200</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\" style=\\"top: 40px; right: 20px;\\">200</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\" style=\\"top: 20px; right: 40px;\\">200</span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
   </div>
   <div class=\\"app-demo-title\\">自定义徽标内容</div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--icon smy-badge__content--fixed smy-badge__content--right-top\\"><span class=\\"smy-icon\\" style=\\"transition: transform 0ms;\\"><svg xmlns=\\"http://www.w3.org/2000/svg\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" version=\\"1.1\\" width=\\"24\\" height=\\"24\\" viewBox=\\"0 0 24 24\\"><path d=\\"M12.89,3L14.85,3.4L11.11,21L9.15,20.6L12.89,3M19.59,12L16,8.41V5.58L22.42,12L16,18.41V15.58L19.59,12M1.58,12L8,5.58V8.41L4.41,12L8,15.58V18.41L1.58,12Z\\"></path></svg></span></span></transition-stub> <span class=\\"title\\">标题</span>
+  <div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--icon smy-badge__content--fixed smy-badge__content--right-top\\"><span class=\\"smy-icon\\" style=\\"transition: transform 0ms;\\"><svg xmlns=\\"http://www.w3.org/2000/svg\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" version=\\"1.1\\" width=\\"24\\" height=\\"24\\" viewBox=\\"0 0 24 24\\"><path d=\\"M12.89,3L14.85,3.4L11.11,21L9.15,20.6L12.89,3M19.59,12L16,8.41V5.58L22.42,12L16,18.41V15.58L19.59,12M1.58,12L8,5.58V8.41L4.41,12L8,15.58V18.41L1.58,12Z\\"></path></svg></span></span></transition-stub> <span class=\\"title\\">标题</span>
+    </div>
   </div>
   <div class=\\"app-demo-title\\">独立存在</div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content\\">8</span></transition-stub>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content\\">76</span></transition-stub>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content\\">NEW</span></transition-stub>
-  </div>
-  <div class=\\"smy-badge smy--box\\">
-    <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--bubble\\">NEW</span></transition-stub>
+  <div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content\\">8</span></transition-stub>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content\\">76</span></transition-stub>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content\\">NEW</span></transition-stub>
+    </div>
+    <div class=\\"smy-badge smy--box\\">
+      <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--bubble\\">NEW</span></transition-stub>
+    </div>
   </div>
 </div>"
 `;
 
 exports[`test badge position 1`] = `
 "<div class=\\"smy-badge smy--box\\">
-  <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub>
+  <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub>
   <div style=\\"width: 100px; height: 100px;\\"></div>
 </div>"
 `;
 
 exports[`test badge position 2`] = `
 "<div class=\\"smy-badge smy--box\\" position=\\"right-bottom\\">
-  <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub>
+  <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub>
   <div style=\\"width: 100px; height: 100px;\\"></div>
 </div>"
 `;
 
 exports[`test badge position 3`] = `
 "<div class=\\"smy-badge smy--box\\" position=\\"left-top\\">
-  <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub>
+  <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub>
   <div style=\\"width: 100px; height: 100px;\\"></div>
 </div>"
 `;
 
 exports[`test badge position 4`] = `
 "<div class=\\"smy-badge smy--box\\" position=\\"left-bottom\\">
-  <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub>
+  <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content--fixed smy-badge__content--right-top\\"></span></transition-stub>
   <div style=\\"width: 100px; height: 100px;\\"></div>
 </div>"
 `;
 
 exports[`test badge style 1`] = `
 "<div class=\\"smy-badge smy--box\\">
-  <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content smy-badge__content\\" style=\\"top: 100px; right: 1000px; z-index: 500; background: rgb(98, 0, 234);\\"></span></transition-stub>
+  <transition-stub name=\\"smy-badge-fade\\"><span class=\\"smy-badge__content\\" style=\\"top: 100px; right: 1000px; z-index: 500; background: rgb(98, 0, 234);\\"></span></transition-stub>
 </div>"
 `;

@@ -37,29 +37,31 @@ exports[`test picker example 1`] = `
   </div>
   <h4>组件调用</h4>
   <div class=\\"app-demo-title\\">单列选择</div>
-  <div class=\\"smy-cell smy-cell--borderless smy-cell--insert\\">
-    <!---->
-    <div class=\\"smy-cell__content\\">
-      <div class=\\"smy-cell__title\\">请选择</div>
+  <div>
+    <div class=\\"smy-cell smy-cell--borderless smy-cell--insert\\">
       <!---->
-    </div>
-    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
-        <div class=\\"smy-switch__thumb\\">
-          <!---->
-        </div>
-        <!---->
+      <div class=\\"smy-cell__content\\">
+        <div class=\\"smy-cell__title\\">请选择</div>
         <!---->
       </div>
+      <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
+          <div class=\\"smy-switch__thumb\\">
+            <!---->
+          </div>
+          <!---->
+          <!---->
+        </div>
+      </div>
     </div>
+    <transition-stub name=\\"smy-fade\\">
+      <div role=\\"dialog\\" tabindex=\\"0\\" class=\\"smy--box smy-popup smy-picker__popup\\" style=\\"z-index: 998; display: none;\\">
+        <div class=\\"smy-popup__overlay\\" style=\\"z-index: 999;\\"></div>
+        <transition-stub name=\\"smy-slide-bottom\\">
+          <!---->
+        </transition-stub>
+      </div>
+    </transition-stub>
   </div>
-  <transition-stub name=\\"smy-fade\\">
-    <div role=\\"dialog\\" tabindex=\\"0\\" class=\\"smy--box smy-popup smy-picker__popup\\" style=\\"z-index: 998; display: none;\\">
-      <div class=\\"smy-popup__overlay\\" style=\\"z-index: 999;\\"></div>
-      <transition-stub name=\\"smy-slide-bottom\\">
-        <!---->
-      </transition-stub>
-    </div>
-  </transition-stub>
   <div class=\\"app-demo-title\\">多列选择</div>
   <div class=\\"smy-cell smy-cell--borderless smy-cell--insert\\">
     <!---->
