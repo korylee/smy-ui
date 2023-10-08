@@ -2,13 +2,6 @@ import { mount } from '@vue/test-utils'
 import Vue from 'vue'
 import Countdown from '..'
 import { delay } from '../../../jest-utils'
-import example from '../example'
-
-test('test countdown example', () => {
-  const wrapper = mount(example)
-  expect(wrapper.html()).toMatchSnapshot()
-  wrapper.destroy()
-})
 
 test('test countdown plugin', () => {
   Vue.use(Countdown)

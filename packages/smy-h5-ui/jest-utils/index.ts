@@ -55,3 +55,11 @@ export async function triggerDrag(el: HTMLElement, x: number, y: number) {
   await delay(300)
   await trigger(el, 'touchend', x, y)
 }
+
+export function mockConsole(method: keyof Console, fn: any = () => {}) {
+  const originMethod = console[method] as any
+  console[method] = fn
+  return () => {
+    console[method] = originMethod
+  }
+}

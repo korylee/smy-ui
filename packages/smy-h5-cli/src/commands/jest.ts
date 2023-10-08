@@ -1,6 +1,7 @@
 import { CWD, JEST_CONFIG } from '../shared/constant'
 import { runCLI } from 'jest'
 import logger from '../shared/logger'
+import { compileUiEntry } from '../compiler/compileSiteEntry'
 
 interface JestCommandOptions {
   watch?: boolean
@@ -20,6 +21,7 @@ export async function jest(cmd: JestCommandOptions) {
     testRegex: cmd.component && `${cmd.component}/__tests__/.*.test.[jt]s?$`,
   }
   try {
+    await compileUiEntry()
     const response = await runCLI(config as any, [CWD])
     if (!response.results.success && !cmd.watch) {
       process.exit(1)

@@ -151,9 +151,11 @@ export async function compileSiteSource(siteLink: boolean) {
   return copy(SITE, SITE_DIR)
 }
 
-async function compileUiEntry() {
+export async function compileUiEntry() {
   const moduleDir: string[] = await readdir(SRC_DIR)
-  const publicDirs = moduleDir.filter((filename: string) => isPublicDir(resolve(SRC_DIR, filename)))
+  const publicDirs = moduleDir.filter(
+    (dirname: string) => isPublicDir(resolve(SRC_DIR, dirname)) && !dirname.startsWith('_')
+  )
 
   const imports: string[] = []
   const plugins: string[] = []
@@ -161,7 +163,6 @@ async function compileUiEntry() {
   const version = require(UI_PACKAGE_JSON).version
 
   publicDirs.forEach((dirname: string) => {
-    if (dirname.startsWith('_')) return
     const publicComponent = upperFirst(camelCase(dirname))
     publicComponents.push(publicComponent)
     imports.push(`import ${publicComponent} from '${slash(SRC_DIR)}/${dirname}'`)

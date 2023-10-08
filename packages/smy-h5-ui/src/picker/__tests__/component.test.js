@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import Vue from 'vue'
 import Picker from '..'
-import { triggerDrag } from '../../../jest-utils'
+import { mockConsole, triggerDrag } from '../../../jest-utils'
 import example from '../example'
 
 test('test picker compomemt plugin', () => {
@@ -10,9 +10,11 @@ test('test picker compomemt plugin', () => {
 })
 
 test('test picker example', () => {
+  const restore = mockConsole('log')
   const wrapper = mount(example)
   expect(wrapper.html()).toMatchSnapshot()
   wrapper.destroy()
+  restore()
 })
 
 const columns = [['A', 'B', 'C']]
