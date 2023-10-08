@@ -1,4 +1,4 @@
-import { copy, readdir, removeSync } from 'fs-extra'
+import { copy, readdir, remove } from 'fs-extra'
 import { build } from 'vite'
 import { getSmyConfig } from '../config/smyConfig'
 import {
@@ -58,7 +58,7 @@ export async function compileModule() {
   await copy(SRC_DIR, dest)
   const files = await getAllCompileFiles(dest)
 
-  await Promise.all([compileDts(files, dest), comipleDtsEntry(dest, publicDirs)])
+  await Promise.all([compileDts(files), comipleDtsEntry(dest, publicDirs)])
   await Promise.all(files.map((file) => compileFile(file)))
 
   await compileESEntry(dest, publicDirs)
@@ -70,11 +70,13 @@ async function getAllCompileFiles(dir: string, files: string[] = []) {
     entryDir.map(async (filename) => {
       const file = resolve(dir, filename)
       if ([EXAMPLE_DIR_NAME, DOCS_DIR_NAME, TESTS_DIR_NAME, STYLE_DIR_NAME].includes(filename)) {
-        return removeSync(file)
+        return await remove(file)
       }
-      if (isDir(file)) return await getAllCompileFiles(file, files)
-      else if (isDTS(file) || filename === STYLE_DIR_NAME) return
-      else files.push(file)
+      if (isDir(file)) {
+        return await getAllCompileFiles(file, files)
+      }
+      if (isDTS(file) || filename === STYLE_DIR_NAME) return
+      files.push(file)
     })
   )
   return files

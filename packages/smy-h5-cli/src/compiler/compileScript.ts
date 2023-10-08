@@ -10,14 +10,12 @@ import {
   readdirSync,
 } from 'fs-extra'
 import { camelCase, upperFirst } from 'lodash'
-import { isDir, isJsx, isTsx, replaceExt } from '../shared/fs-utils'
+import { isDir, replaceExt } from '../shared/fs-utils'
 import { extractStyleDependencies } from './compileStyle'
 import { dirname, extname, resolve } from 'path'
 import logger from '../shared/logger'
 import { CWD, SCRIPT_EXTENSIONS, STYLE_EXTENSIONS, UI_PACKAGE_JSON, VITE_RESOLVE_EXTENSION } from '../shared/constant'
-import { getSmyConfig } from '../config/smyConfig'
 import execa from 'execa'
-import esbuild from 'esbuild'
 
 // https://regexr.com/765a4
 export const IMPORT_FROM_DEPENDENCE_RE = /import\s+?[\w\s{},$*]+\s+from\s+?(".*?"|'.*?')/g
@@ -27,8 +25,8 @@ export const EXPORT_FROM_DEPENDENCE_RE = /export\s+?[\w\s{},$*]+\s+from\s+?(".*?
 export const IMPORT_DEPENDENCE_RE = /import\s+(".*?"|'.*?')/g
 
 export async function compileScript(script: string, file: string) {
-  // ts -> js
-  let code = isJsx(file) || isTsx(file) ? (await compileScriptByBabel(script, file))! : script
+  // -> js (es5)
+  let code = await compileScriptByBabel(script, file)
 
   if (!code) return
 
@@ -51,13 +49,10 @@ export async function compileScriptFile(file: string) {
 export async function compileESEntry(dir: string, publicDirs: string[]) {
   const imports: string[] = []
   const plugins: string[] = []
-  // const internalComponents: string[] = []
   const publicComponents: string[] = []
   const cssImports: string[] = []
   const lessImports: string[] = []
   const version = require(UI_PACKAGE_JSON).version
-  // const { namespace = "smy" } = getSmyConfig();
-  // const componentPrefix = upperFirst(namespace);
 
   publicDirs.forEach((dirname: string) => {
     if (dirname.startsWith('_')) return
@@ -70,16 +65,15 @@ export async function compileESEntry(dir: string, publicDirs: string[]) {
     lessImports.push(`import './${dirname}/style/less'`)
   })
 
-  const install = `
+  const install = `\
 function install(app) {
   ${plugins.join('\n  ')}
-}
-`
+}`
 
   const indexTemplate = `\
 ${imports.join('\n')}\n
-const version = '${version}';\n
-${install}
+var version = '${version}';\n
+${install}\n
 export {
   install,
   version,
@@ -95,8 +89,8 @@ export default {
   const bundleTemplate = `\
 ${imports.join('\n')}\n
 ${cssImports.join('\n')}\n
-const version = '${version}'\n
-${install}
+var version = '${version}'\n
+${install}\n
 export {
   install,
   version,
@@ -148,11 +142,10 @@ export async function compileScriptByBabel(script: string, file: string) {
 }
 
 export async function compileScriptByEsbuild(script: string) {
-  const smyConfig = await getSmyConfig()
-
-  const { code } = await esbuild.transform(script, {
+  const { transform } = await import('esbuild')
+  const { code } = await transform(script, {
     loader: 'ts',
-    target: smyConfig.esbuild?.target,
+    target: 'es6',
     format: 'esm',
   })
 

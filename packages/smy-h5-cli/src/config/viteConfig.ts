@@ -104,7 +104,7 @@ export function getBundleConfig(smyConfig: SmyConfig, buildOptions: BundleBuildO
     define: removeEnv ? { 'process.env.NODE_ENV': '"production"' } : undefined,
     plugins,
     build: {
-      minify: format === 'cjs' ? false : 'esbuild',
+      minify: format === 'cjs' ? false : 'terser',
       emptyOutDir,
       copyPublicDir: false,
       lib: {

@@ -6,7 +6,7 @@ import { compileTypes } from '../compiler/compileTypes'
 import { compileTemplateHighlight } from '../compiler/compileTemplateHighLight'
 import { createSpinner } from 'nanospinner'
 
-export function removeDir() {
+function removeDir() {
   return Promise.all([remove(ES_DIR), remove(TYPES_DIR), remove(HL_DIR), remove(LIB_DIR)])
 }
 

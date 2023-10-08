@@ -35,7 +35,7 @@ export interface SmyConfig {
   [k: string]: any
 }
 
-export function getSmyConfig(emit = false): Record<string, any> {
+export function getSmyConfig(emit = false): SmyConfig {
   let config: any = {}
   if (pathExistsSync(SMY_CONFIG)) {
     delete require.cache[require.resolve(SMY_CONFIG)]

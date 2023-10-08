@@ -1,14 +1,14 @@
 import type { SourceFile } from 'ts-morph'
 
-import { ensureDir, pathExistsSync, readdir, writeFile } from 'fs-extra'
+import { ensureDir, pathExistsSync, readdir, writeFile, readFile, mkdir } from 'fs-extra'
 import { getSmyConfig } from '../config/smyConfig'
 import { UI_PACKAGE_JSON, TS_CONFIG, TS_TYPES_CONFIG, SRC_DIR, TYPES_DIR } from '../shared/constant'
 import { resolve, dirname } from 'path'
 import { camelCase, upperFirst } from 'lodash'
-const fs = require('fs')
-const { Project } = require('ts-morph')
-const { parse, compileScript } = require('@vue/compiler-sfc')
+import { Project } from 'ts-morph'
+import { parse, compileScript } from '@vue/compiler-sfc'
 import { isDir, isPublicDir, isScript, isSFC } from '../shared/fs-utils'
+import logger from '../shared/logger'
 
 export async function compileTypes() {
   await ensureDir(TYPES_DIR)
@@ -19,7 +19,7 @@ let index = 1
 
 const getIsTs = (str: string) => ['ts', 'tsx'].includes(str)
 
-export async function compileDts(files: string[], outDir = TYPES_DIR) {
+export async function compileDts(files: string[]) {
   // 这部分内容具体可以查阅 ts-morph 的文档
   // 这里仅需要知道这是用来处理 ts 文件并生成类型声明文件即可
   const project = new Project({
@@ -28,8 +28,6 @@ export async function compileDts(files: string[], outDir = TYPES_DIR) {
       emitDeclarationOnly: true,
       noEmitOnError: true,
       allowJs: true, // 如果想兼容 js 语法需要加上
-      outDir, // 可以设置自定义的打包文件夹，如 'types'
-      jsx: true,
       noEmit: false,
     },
     tsConfigFilePath: pathExistsSync(TS_TYPES_CONFIG) ? TS_TYPES_CONFIG : TS_CONFIG,
@@ -41,7 +39,7 @@ export async function compileDts(files: string[], outDir = TYPES_DIR) {
     files.map(async (file: string) => {
       if (isSFC(file)) {
         // 对于 vue 文件，借助 @vue/compiler-sfc 的 parse 进行解析
-        const sfc = parse(await fs.promises.readFile(file, 'utf-8'))
+        const sfc = parse(await readFile(file, 'utf-8'))
         // 提取出 script 中的内容
         const { script, scriptSetup } = sfc.descriptor
 
@@ -52,7 +50,7 @@ export async function compileDts(files: string[], outDir = TYPES_DIR) {
           if (script && script.content) {
             content += script.content
 
-            if (getIsTs(script.lang)) isTs = true
+            if (getIsTs(script.lang!)) isTs = true
           }
 
           if (scriptSetup) {
@@ -62,7 +60,7 @@ export async function compileDts(files: string[], outDir = TYPES_DIR) {
 
             content += compiled.content
 
-            if (getIsTs(scriptSetup.lang)) isTs = true
+            if (getIsTs(scriptSetup.lang!)) isTs = true
           }
 
           sourceFiles.push(
@@ -80,7 +78,7 @@ export async function compileDts(files: string[], outDir = TYPES_DIR) {
 
   const errorLog = project.formatDiagnosticsWithColorAndContext(diagnostics)
   // 输出解析过程中的错误信息
-  errorLog && console.log(errorLog)
+  errorLog && logger.error(errorLog)
 
   project.emitToMemory()
 
@@ -91,9 +89,9 @@ export async function compileDts(files: string[], outDir = TYPES_DIR) {
     await Promise.all(
       emitOutput.getOutputFiles().map(async (outputFile) => {
         const filePath = outputFile.getFilePath()
-
-        await fs.promises.mkdir(dirname(filePath), { recursive: true })
-        await fs.promises.writeFile(filePath, outputFile.getText(), 'utf8')
+        const text = outputFile.getText()
+        await mkdir(dirname(filePath), { recursive: true })
+        await writeFile(filePath, text, 'utf8')
       })
     )
   }

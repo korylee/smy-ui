@@ -13,7 +13,6 @@ let watcher: FSWatcher | undefined
 async function startServer(cmd: DevOptions) {
   const { force, siteLink } = cmd
   const isRestart = Boolean(server)
-  console.log('site-link:', siteLink)
 
   logger.info(`${isRestart ? 'Res' : 'S'}tarting server...`)
 
@@ -27,7 +26,6 @@ async function startServer(cmd: DevOptions) {
   if (force) {
     ;(devConfig.optimizeDeps ?? (devConfig.optimizeDeps = {})).force = true
   }
-  // const inlineConfig = merge(devConfig, force ? { server: { force: true } } : {})
 
   // create all instance
   server = await createServer(devConfig)
