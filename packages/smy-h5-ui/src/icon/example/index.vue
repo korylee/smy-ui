@@ -40,7 +40,7 @@ import SmyIcon from '../'
 import * as icons from '@smy-h5/icons'
 import { kebabCase } from 'lodash-es'
 
-export function handleCopy(text = '') {
+function handleCopy(text = '') {
   const isSupported = !!document.queryCommandSupported && !!document.queryCommandSupported('copy')
   if (!isSupported) return false
   const inputId = 'copy-input-el'

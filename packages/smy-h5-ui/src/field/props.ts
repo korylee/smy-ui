@@ -1,19 +1,21 @@
-import { ExtractPropTypes, createComponentProp } from '../_utils/vue/props'
+import { PropType } from 'vue'
+import { ExtractPropTypes, createComponentProp, numericProp } from '../_utils/vue/props'
 //@ts-ignore
 import CloseCircle from '@smy-h5/icons/dist/es/CloseCircle'
+import { FieldAutosize } from './utils'
 
 export const props = {
   name: String,
-  value: [String, Number],
+  value: numericProp,
   type: String,
-  maxlength: [String, Number],
-  rows: [String, Number],
+  maxlength: numericProp,
+  rows: numericProp,
   disabled: Boolean,
   readonly: Boolean,
   placeholder: String,
   autocomplete: Boolean,
   showWordLimit: Boolean,
-  autosize: [Boolean, Object],
+  autosize: [Boolean, Object] as PropType<boolean | FieldAutosize>,
   clearable: Boolean,
   clearIcon: createComponentProp(() => CloseCircle),
 }

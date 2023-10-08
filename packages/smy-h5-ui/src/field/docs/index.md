@@ -1,5 +1,7 @@
 # Field 输入框
 
+### 介绍
+
 ### 基础用法
 
 ```demo
@@ -41,3 +43,17 @@ import WordLimitExample from '../example/WordLimitExample.vue'
 ```demo
 import AutosizeExample from '../example/AutosizeExample.vue'
 ```
+
+## API
+
+### 属性
+
+| 参数          | 说明             | 类型               | 默认值  |
+| ------------- | ---------------- | ------------------ | ------- |
+| `v-model`     | 绑定的值         | _string_           | `-`     |
+| `placeholder` | 占位符           | _string_           | `-`     |
+| `maxlength`   | 最大长度         | _string \| number_ | `-`     |
+| `rows`        | 文本域的显示行数 | _string \| number_ | `-`     |
+| `readonly`    | 是否只读         | _boolean_          | `false` |
+| `disabled`    | 是否禁用         | _boolean_          | `false` |
+| `clearable`   | 是否可清除       | _boolean_          | `false` |

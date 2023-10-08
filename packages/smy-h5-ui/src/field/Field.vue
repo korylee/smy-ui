@@ -47,6 +47,7 @@ import { resetScroll } from '../_utils/dom'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 
 const [name, bem] = createNamespace('field')
+
 export default {
   name,
   components: { SmyIcon },
@@ -61,8 +62,8 @@ export default {
     focused: false,
   }),
   computed: {
-    count() {
-      return getStringLength(this.modelValue)
+    count({ modelValue }) {
+      return getStringLength(modelValue)
     },
     showClear() {
       const hasValue = this.modelValue !== ''
@@ -70,18 +71,18 @@ export default {
     },
   },
   watch: {
-    value() {
-      this.updateValue(this.modelValue)
-      this.$nextTick(this.adjustTextareaSize)
-    },
+    value: 'init',
   },
   mounted() {
-    this.updateValue(this.modelValue)
-    this.$nextTick(this.adjustTextareaSize)
+    this.init()
   },
   methods: {
     bem,
     mapInputType,
+    init() {
+      this.updateValue(this.modelValue)
+      this.$nextTick(this.adjustTextareaSize)
+    },
     limitValueLength(value) {
       const { maxlength, focused, modelValue } = this
       const { input } = this.$refs

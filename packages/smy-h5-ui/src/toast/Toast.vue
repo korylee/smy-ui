@@ -13,7 +13,7 @@
   >
     <div v-if="hasIcon" :class="bem('icon')">
       <slot name="icon">
-        <toast-icon v-if="icon" :icon="icon" :size="iconSize" />
+        <smy-icon v-if="icon" :name="icon" :size="iconSize" />
         <smy-loading v-else-if="type === 'loading'" :type="loadingType" :size="iconSize" />
       </slot>
     </div>
@@ -28,7 +28,6 @@ import SmyPopup from '../popup'
 import SmyLoading from '../loading'
 import SmyIcon from '../icon'
 import { props, popupInheritProps } from './props'
-import { isString, isFunction } from '../_utils/is'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 import { pick } from '../_utils/shared'
@@ -36,23 +35,10 @@ import { createNamespace } from '../_utils/vue/create'
 
 const [name, bem] = createNamespace('toast')
 
-const ToastIcon = {
-  functional: true,
-  props: { icon: [String, Function], size: [String, Number] },
-  render(h, { props }) {
-    const { icon, size } = props
-    if (isFunction(icon)) return icon(h)
-    if (isString(icon)) {
-      return h(SmyIcon, { props: { name: icon, size } })
-    }
-    return null
-  },
-}
-
 export default {
   name,
   mixins: [createProxiedModel('show', 'internalShow', { passive: true, event: 'update:show' }), SlotsMixin],
-  components: { SmyPopup, SmyLoading, ToastIcon },
+  components: { SmyPopup, SmyLoading, SmyIcon },
   props,
   data: () => ({
     timer: null,
