@@ -6,24 +6,29 @@ import { compileUiEntry } from '../compiler/compileSiteEntry'
 interface JestCommandOptions {
   watch?: boolean
   watchAll?: boolean
-  component?: string
   clearCache?: boolean
 }
 
-export async function jest(cmd: JestCommandOptions) {
+/**
+ * @param dirs 单测的文件夹 空为所有
+ * @param cmd
+ */
+export async function jest(dirs?: string[], { watch, watchAll, clearCache }: JestCommandOptions = {}) {
   process.env.NODE_ENV = 'test'
+  const testRegex = dirs?.length ? dirs.map((component) => `${component}/__tests__/.*.test.[jt]s?$`) : undefined
+
   const config = {
     rootDir: CWD,
-    watch: cmd.watch,
-    watchAll: cmd.watchAll,
+    watch: watch,
+    watchAll: watchAll,
     config: JEST_CONFIG,
-    clearCache: cmd.clearCache,
-    testRegex: cmd.component && `${cmd.component}/__tests__/.*.test.[jt]s?$`,
+    clearCache: clearCache,
+    testRegex,
   }
   try {
     await compileUiEntry()
     const response = await runCLI(config as any, [CWD])
-    if (!response.results.success && !cmd.watch) {
+    if (!response.results.success && !watch) {
       process.exit(1)
     }
   } catch (e: any) {

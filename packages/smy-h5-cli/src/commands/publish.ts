@@ -4,13 +4,11 @@ import logger from '../shared/logger'
 import { changelog } from './changelog'
 import { createSpinner } from 'nanospinner'
 
-const ReleasePackages = ['ui', 'icons']
-
-async function doPublish(preRelease: boolean) {
+async function doPublish(packages: string[] | undefined, preRelease: boolean) {
   const s = createSpinner().start({ text: 'Publishing all packages' })
   const args = ['-r', 'publish', '--no-git-checks', '--access', 'public']
   // 过滤某些包，或者可以使用--filter=xxx --filter=!xxx
-  ReleasePackages.forEach((pkg) => {
+  packages?.forEach((pkg) => {
     args.push('--filter', pkg)
   })
   preRelease && args.push('--tag', 'alpha')
@@ -34,7 +32,7 @@ async function pushGit(version: string, remote = 'origin') {
   ret.stdout && logger.info(ret.stdout)
 }
 
-export async function publish(cmd: { remote?: string }) {
+export async function publish(packages?: string[], cmd: { remote?: string } = {}) {
   try {
     const version = require(UI_PACKAGE_JSON).version
     const isPreRelease = version.includes('alpha')
@@ -44,7 +42,7 @@ export async function publish(cmd: { remote?: string }) {
       await pushGit(version, cmd.remote)
     }
 
-    await doPublish(isPreRelease)
+    await doPublish(packages, isPreRelease)
 
     if (isPreRelease) {
       try {

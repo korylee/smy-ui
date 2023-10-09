@@ -19,11 +19,7 @@ const program = new Command()
 
 program.version(`smy-cli ${require(CLI_PACKAGE_JSON).version}`).usage('<command> [options]')
 
-program
-  .command('compile')
-  .description('Compile Smy components library code')
-  .option('-nu, --noUmd', 'Do not compile umd target code')
-  .action(compile)
+program.command('compile').description('Compile Smy components library code').action(compile)
 
 program.command('build').description('Build site for production').action(build)
 
@@ -46,13 +42,13 @@ program
   .action(changelog)
 
 program
-  .command('release')
+  .command('release [packages...]')
   .option('-r --remote <remote>', 'Remote name')
   .description('Release all packages and generate changelogs')
   .action(release)
 
 program
-  .command('publish')
+  .command('publish [packages...]')
   .option('-r --remote <remote>', 'Remote name')
   .description('publish all packages and generate changelogs')
   .action(publish)
@@ -62,11 +58,10 @@ program.command('update-version').description('Update all packages version').act
 program.command('lint-commit <gitParams>').description('Lint commit message').action(lintCommit)
 
 program
-  .command('jest')
+  .command('jest [dirs...]')
   .description('Run Jest in work directory')
   .option('-w, --watch', 'Watch files for changes and rerun tests related to changed files')
   .option('-wa, --watchAll', 'Watch files for changes and rerun all tests when something changes')
-  .option('-c, --component <componentName>', 'Test a specific component')
   .option('-cc --clearCache', 'Clear test cache')
   .action(jest)
 
