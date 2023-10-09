@@ -1,15 +1,15 @@
 <template>
   <div :class="bem({ borderless: !border, insert, clickable })" v-on="$listeners">
-    <div v-if="hasSlot('icon')" class="smy-cell__icon"><slot name="icon" /></div>
-    <div class="smy-cell__content">
-      <div class="smy-cell__title" :class="titleClass">
+    <div v-if="hasSlot('icon')" :class="bem('icon')"><slot name="icon" /></div>
+    <div :class="bem('content')">
+      <div :class="[bem('title'), titleClass]">
         <slot>{{ title }}</slot>
       </div>
-      <div v-if="hasSlot('desc') || desc" class="smy-cell__desc" :class="descClass">
+      <div v-if="hasSlot('desc') || desc" :class="[bem('desc'), descClass]">
         <slot name="desc">{{ desc }}</slot>
       </div>
     </div>
-    <div v-if="hasSlot('extra')" :class="extraClass" class="smy-cell__extra"><slot name="extra" /></div>
+    <div v-if="hasSlot('extra')" :class="[bem('extra'), extraClass]"><slot name="extra" /></div>
   </div>
 </template>
 

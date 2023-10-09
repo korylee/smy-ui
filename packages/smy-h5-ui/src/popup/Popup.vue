@@ -4,16 +4,14 @@
       <div
         v-show="show"
         :style="{ zIndex: zIndex - 2 }"
-        :class="wrapperClass"
-        class="smy--box smy-popup"
+        :class="[bem(['$--box']), wrapperClass]"
         role="dialog"
         tabindex="0"
       >
         <div
           v-if="overlay"
-          :class="overlayClass"
+          :class="[bem('overlay'), overlayClass]"
           :style="mergeStyles({ zIndex: zIndex - 1 }, overlayStyle)"
-          class="smy-popup__overlay"
           @click="hidePopup"
         />
         <transition :name="getTransition()">

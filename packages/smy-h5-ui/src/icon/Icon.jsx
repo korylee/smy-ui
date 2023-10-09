@@ -3,7 +3,8 @@ import { props } from './props'
 import { SlotsMixin, getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
-import { isString } from '../_utils/is'
+import { isNil, isString } from '../_utils/is'
+import Vue from 'vue'
 
 import './icon.less'
 
@@ -32,7 +33,8 @@ export default {
     name: {
       immediate: true,
       handler(newName, oldName) {
-        if (oldName == null || toNumber(this.transition) === 0) {
+        const { transition } = this
+        if (oldName == null || toNumber(transition) === 0) {
           this.nextName = newName
           return
         }
@@ -43,15 +45,25 @@ export default {
             oldName != null && (this.nextName = newName)
             this.shrinking = false
           })
-        }, toNumber(this.transition))
+        }, toNumber(transition))
       },
     },
   },
   render() {
-    const { tag, name, $createElement: h, shrinking, namespace, nextName, style, $listeners } = this
+    const { tag, name, $createElement: h, shrinking, namespace, nextName, style, $listeners, iconfont } = this
     const defaultSlot = getSlot(this)
     const baseClass = bem({ shrinking })
-    const child = defaultSlot ?? (!isString(name) ? h(name) : null)
+    let child = defaultSlot
+    let isImageIcon = false
+    if (
+      isNil(child) &&
+      name &&
+      (!isString(name) ||
+        // 仅为组件
+        (!(isImageIcon = isImage(name)) && !iconfont && Vue.component(name)))
+    ) {
+      child = h(name)
+    }
     if (child) {
       return h(
         tag,
@@ -64,8 +76,6 @@ export default {
       )
     }
     // iconfont 字体或图片
-
-    const isImageIcon = isImage(nextName)
     const addClass = namespace && nextName && !isImageIcon ? ` ${namespace}--set ${namespace}-${nextName}` : ''
     return h(
       'i',

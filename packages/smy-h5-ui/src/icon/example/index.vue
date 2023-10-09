@@ -14,9 +14,10 @@
     <div>
       <smy-icon name="https://korylee.github.io/blog/avatar.png" size="30" />
     </div>
-    <div class="app-demo-title">图标切换动画(仅iconfont方式)</div>
+    <div class="app-demo-title">图标切换动画</div>
     <div>
-      <smy-icon color="#2979ff" size="30" :transition="300" :name="iconName" @click="toggle" />
+      <smy-icon color="#2979ff" size="40" :transition="300" :name="kebabCase(iconName)" @click="toggle" />
+      <smy-icon color="#2979ff" size="40" :transition="300" :name="icons[iconName]" @click="toggle" />
     </div>
     <div class="app-demo-title">组件引入使用</div>
     <div class="icon-example__icons">
@@ -89,12 +90,16 @@ export default {
   name: 'IconExample',
   components: { SmyIcon },
   data: () => ({
-    iconList,
-    iconName: 'plus',
+    iconName: 'Plus',
   }),
+  computed: {
+    icons: () => icons,
+    iconList: () => iconList,
+  },
   methods: {
+    kebabCase,
     toggle() {
-      this.iconName = this.iconName === 'plus' ? 'minus' : 'plus'
+      this.iconName = this.iconName === 'Plus' ? 'Minus' : 'Plus'
     },
     handleCopySvgIcon(name) {
       const text = `<smy-icon><${name} /></smy-icon>`

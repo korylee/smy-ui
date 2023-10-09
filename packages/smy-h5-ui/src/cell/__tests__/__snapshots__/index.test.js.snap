@@ -6,7 +6,7 @@ exports[`test cell example 1`] = `
   <div class=\\"smy-cell smy-cell--borderless\\">
     <!---->
     <div class=\\"smy-cell__content\\">
-      <div class=\\"smy-cell__title\\">这里是cell组件</div>
+      <div class=\\"smy-cell__title test-title\\">这里是cell组件</div>
       <!---->
     </div>
     <!---->

@@ -159,7 +159,7 @@ export default {
     },
     onClickTab(item, index, event) {
       const { title, disabled } = item
-      const { onBeforeChange, onClickTab } = this.getListeners()
+      const { onBeforeChange, onClickTab } = this.getListenersWithOn()
       const name = getTabName(item, index)
       if (!disabled) {
         Promise.resolve(onBeforeChange ? onBeforeChange(name) : true).then(() => {

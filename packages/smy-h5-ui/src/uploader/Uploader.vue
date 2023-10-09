@@ -92,7 +92,7 @@ export default {
         return
       }
       const file = [].slice.call(files)
-      const { onBeforeRead } = this.getListeners()
+      const { onBeforeRead } = this.getListenersWithOn()
       Promise.resolve(onBeforeRead ? onBeforeRead(file) : file)
         .then((data) => this.readFile(data ?? file))
         .catch(this.resetInput)
@@ -104,7 +104,7 @@ export default {
       this.$emit('delete', item)
     },
     onClickUpload(event) {
-      const { onClickUpload } = this.getListeners()
+      const { onClickUpload } = this.getListenersWithOn()
       onClickUpload?.(event)
     },
     onReupload(index) {
@@ -113,7 +113,7 @@ export default {
     },
     onPreview(item) {
       if (!this.previewImage) return
-      const { onClosePreview } = this.getListeners()
+      const { onClosePreview } = this.getListenersWithOn()
       const imageFiles = this.value.filter(isImageFile)
       const images = []
       imageFiles.forEach((item) => {
@@ -132,7 +132,7 @@ export default {
       })
     },
     onClickImage(item, index) {
-      const { onClickReupload, onClickPreview } = this.getListeners()
+      const { onClickReupload, onClickPreview } = this.getListenersWithOn()
       if (this.reupload) {
         onClickReupload?.(item, index)
         this.onReupload(index)
@@ -154,7 +154,7 @@ export default {
     onAfterRead(items) {
       this.resetInput()
       const { maxSize, value, reuploadIndex } = this
-      const { onAfterRead } = this.getListeners()
+      const { onAfterRead } = this.getListenersWithOn()
       if (isOversize(items, maxSize)) {
         const result = filterFiles(items, maxSize)
         items = result.valid

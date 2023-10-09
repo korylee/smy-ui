@@ -8,11 +8,7 @@
     :wrapper-class="bem('popup')"
     :content-class="bem()"
     transition="smy-fade"
-    @open="$emit('open')"
-    @opened="$emit('opened')"
-    @close="$emit('close')"
-    @closed="$emit('closed')"
-    @route-change="$emit('route-change')"
+    v-on="getListeners(['open', 'opened', 'close', 'closed', 'route-change'])"
   >
     <smy-swiper
       v-bind="$attrs"
@@ -63,6 +59,7 @@ import { toNumber, range } from '../_utils/shared'
 import { createTouch, isTapTouch, ANIMATION_DURATION, EVENT_DELAY, isDoubleTouch } from './utils'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 import { createNamespace } from '../_utils/vue/create'
+import { ListenersMixin } from '../_mixins/listeners'
 
 const [name, bem] = createNamespace('image-preview')
 
@@ -70,7 +67,7 @@ export default {
   name,
   inheritAttrs: false,
   components: { SmyPopup, SmySwiper, SmySwiperItem, SmyIcon },
-  mixins: [createProxiedModel('show', 'internalShow', { passive: false, event: 'update:show' })],
+  mixins: [createProxiedModel('show', 'internalShow', { passive: false, event: 'update:show' }), ListenersMixin],
   props,
   data: () => ({
     scale: 1,

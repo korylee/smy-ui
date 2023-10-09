@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ImagePreview from '../index'
+import ImagePreview from '@smy-h5/ui'
 import { AppDemoTitle } from '@smy-h5/cli/client'
 
 export default {

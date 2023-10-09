@@ -18,7 +18,7 @@
         <smy-loading v-else-if="type === 'loading'" :type="loadingType" :size="iconSize" />
       </slot>
     </div>
-    <div v-if="hasContent" class="smy-toast__content" :class="contentClass">
+    <div v-if="hasContent" :class="[bem('content'), contentClass]">
       <slot> <span v-html="content"></span> </slot>
     </div>
   </smy-popup>

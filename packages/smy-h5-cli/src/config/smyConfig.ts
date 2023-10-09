@@ -32,6 +32,9 @@ export interface SmyConfig {
       features?: { name?: string; description?: string }[]
     }
   }
+  mobile?: {
+    [key: string]: any
+  }
   [k: string]: any
 }
 

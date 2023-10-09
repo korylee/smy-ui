@@ -1,7 +1,7 @@
 <template>
   <div class="cell-example">
     <app-demo-title>基础使用</app-demo-title>
-    <smy-cell>这里是cell组件</smy-cell>
+    <smy-cell :title-class="[{ 'test-title': true }]">这里是cell组件</smy-cell>
     <app-demo-title>展示描述</app-demo-title>
     <smy-cell
       >这里是cell组件

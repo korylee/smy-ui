@@ -1,12 +1,12 @@
-import { ExtractPropTypes, numericProp } from '../_utils/vue/props'
+import { ExtractPropTypes, numericProp, unknownProp } from '../_utils/vue/props'
 
 export const props = {
   title: numericProp,
   desc: String,
   border: Boolean,
-  titleClass: String,
-  descClass: String,
-  extraClass: String,
+  titleClass: unknownProp,
+  descClass: unknownProp,
+  extraClass: unknownProp,
   clickable: Boolean,
   insert: Boolean,
 }

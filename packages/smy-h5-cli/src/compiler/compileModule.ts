@@ -30,6 +30,8 @@ export async function compileBundle() {
       output: ES_DIR,
       emptyOutDir: false,
       removeEnv: true,
+      entry: resolve(ES_DIR, 'index.js'),
+      minify: 'esbuild',
     },
     {
       format: 'cjs',
@@ -37,6 +39,8 @@ export async function compileBundle() {
       output: LIB_DIR,
       emptyOutDir: false,
       removeEnv: false,
+      entry: resolve(ES_DIR, 'index.js'),
+      minify: false,
     },
     {
       format: 'umd',
@@ -44,6 +48,8 @@ export async function compileBundle() {
       output: UMD_DIR,
       emptyOutDir: true,
       removeEnv: true,
+      entry: resolve(ES_DIR, 'index.bundle.js'),
+      minify: 'terser',
     },
   ]
   const tasks = buildOptions.map((options) => build(getBundleConfig(smyConfig, options)))

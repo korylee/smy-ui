@@ -12,7 +12,7 @@ import {
   UI_PACKAGE_JSON,
 } from '../shared/constant'
 import { get } from 'lodash'
-import { InlineConfig, LibraryFormats, Plugin } from 'vite'
+import { BuildOptions, InlineConfig, LibraryFormats, Plugin } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { injectHtml } from 'vite-plugin-html'
 import { resolve } from 'path'
@@ -23,20 +23,17 @@ import { pathExistsSync, removeSync, readFileSync, writeFileSync, copyFileSync }
 export function getDevConfig(smyConfig: SmyConfig): InlineConfig {
   const { host } = smyConfig
   const { NODE_ENV } = process.env
-  console.log('root: ', SITE_DIR)
-  const __DEV__ = NODE_ENV === 'development'
   const { name: uiName } = require(UI_PACKAGE_JSON)
 
   return {
     root: SITE_DIR,
-    define: { __DEV__ },
     resolve: {
       extensions: VITE_RESOLVE_EXTENSION,
       alias: {
         '@config': SITE_CONFIG,
         '@pc-routes': SITE_PC_ROUTES,
         '@mobile-routes': SITE_MOBILE_ROUTES,
-        [uiName]: __DEV__ ? SITE_UI_ENTRY : resolve(ES_DIR, 'index.bundle.js'),
+        [uiName]: NODE_ENV === 'development' ? SITE_UI_ENTRY : resolve(ES_DIR, 'index.bundle.js'),
       },
     },
     server: {
@@ -49,14 +46,12 @@ export function getDevConfig(smyConfig: SmyConfig): InlineConfig {
         include: [/\.vue$/, /\.md$/],
         jsx: true,
       }),
-      markdownPlugin({
-        style: get(smyConfig, 'highlight.style'),
-      }),
+      markdownPlugin(),
       injectHtml({
         data: {
           pcTitle: get(smyConfig, `pc.title`),
-          mobileTitle: get(smyConfig, `mobile.title`),
-          logo: get(smyConfig, 'logo', ''),
+          mobileTitle: smyConfig?.mobile?.title,
+          logo: smyConfig?.logo,
         },
       }),
     ],
@@ -90,12 +85,14 @@ export interface BundleBuildOptions {
   format: LibraryFormats
   removeEnv: boolean
   emptyOutDir: boolean
+  entry: string
+  minify: BuildOptions['minify']
 }
 
 export function getBundleConfig(smyConfig: SmyConfig, buildOptions: BundleBuildOptions): InlineConfig {
   const plugins = []
   const name = smyConfig.name
-  const { fileName, output, format, emptyOutDir, removeEnv } = buildOptions
+  const { fileName, output, format, emptyOutDir, removeEnv, entry, minify } = buildOptions
   if (format === 'umd') {
     plugins.push(inlineCss(fileName, output))
   }
@@ -104,14 +101,14 @@ export function getBundleConfig(smyConfig: SmyConfig, buildOptions: BundleBuildO
     define: removeEnv ? { 'process.env.NODE_ENV': '"production"' } : undefined,
     plugins,
     build: {
-      minify: format === 'cjs' ? false : 'terser',
+      minify,
       emptyOutDir,
       copyPublicDir: false,
       lib: {
         name,
         formats: [format],
         fileName: () => fileName,
-        entry: resolve(ES_DIR, 'index.bundle.js'),
+        entry,
       },
       rollupOptions: {
         external: ['vue'],

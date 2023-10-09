@@ -8,7 +8,7 @@
     :wrapper-class="bem('popup')"
     smy-picker-cover
     position="bottom"
-    v-on="popupListeners"
+    v-on="getListeners(['click-overlay', 'open', 'opened', 'close', 'closed', 'route-change'])"
     v-bind="$attrs"
   >
     <slot name="toolbar">
@@ -65,7 +65,8 @@ import { createGetPropertyFromItem, toNumber, wrapInArray } from '../_utils/shar
 import PickerColumn from './PickerColumn.vue'
 import { isArray, isNil } from '../_utils/is'
 import { createMaybeComponent } from '../_utils/vue/component'
-import { bem, getListeners, name, listEqual } from './utils'
+import { bem, name, listEqual } from './utils'
+import { ListenersMixin } from '../_mixins/listeners'
 
 let sid = 0
 
@@ -75,13 +76,12 @@ export default {
   name,
   components: { MaybePopup, PickerColumn },
   inheritAttrs: false,
-  mixins: [createProxiedModel('show', 'internalShow', { passive: false, event: 'update:show' })],
+  mixins: [createProxiedModel('show', 'internalShow', { passive: false, event: 'update:show' }), ListenersMixin],
   props,
 
   data: () => ({ pickedIndexes: [], scrollColumns: [] }),
 
   computed: {
-    popupListeners: (vm) => getListeners(vm, ['click-overlay', 'open', 'opened', 'close', 'closed', 'route-change']),
     localOptionHeight({ optionHeight }) {
       return toPxNum(optionHeight)
     },
