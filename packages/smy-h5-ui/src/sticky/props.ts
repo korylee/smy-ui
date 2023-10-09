@@ -1,13 +1,11 @@
-import { PropType } from 'vue'
-import { ExtractPropTypes, createNumericProp, createStringProp, numericProp } from '../_utils/vue/props'
-import { GetTargetElementParam } from '../_utils/dom'
+import { ExtractPropTypes, createNumericProp, createStringProp, elProp, numericProp } from '../_utils/vue/props'
 
 type StickyPosition = 'top' | 'bottom'
 
 export const props = {
   zIndex: numericProp,
   position: createStringProp<StickyPosition>('top'),
-  container: [HTMLDivElement, Object, String, Function] as PropType<GetTargetElementParam>,
+  container: elProp,
   offsetTop: createNumericProp(0),
   offsetBottom: createNumericProp(0),
 }

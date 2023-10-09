@@ -161,8 +161,9 @@ export function preventDefault(event: Event) {
     event.preventDefault()
   }
 }
+export type ElementSelector = string | Element | (() => Element)
 
-export function getTargetElement(target: string | Element | (() => Element)) {
+export function getElement(target: ElementSelector) {
   if (isFunction(target)) {
     return target()
   }
@@ -173,10 +174,8 @@ export function getTargetElement(target: string | Element | (() => Element)) {
   if (el) {
     return el
   }
-  warn('getTargetElement', `target element "${target}" was not found!`)
+  warn('getElement', `element "${target}" was not found!`)
 }
-
-export type GetTargetElementParam = Parameters<typeof getTargetElement>[0]
 
 export function isHidden(el?: HTMLElement) {
   if (!el) {

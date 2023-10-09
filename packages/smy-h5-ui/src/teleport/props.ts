@@ -1,8 +1,8 @@
-import type { ExtractPropTypes } from '../_utils/vue/props'
+import { ExtractPropTypes, elProp } from '../_utils/vue/props'
 
 export const props = {
   to: {
-    type: String,
+    type: elProp,
     required: true,
   },
   disabled: {

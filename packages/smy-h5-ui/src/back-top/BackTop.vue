@@ -12,7 +12,7 @@
 
 <script>
 import { getScrollTop } from '../_utils/dom'
-import { getParentScroller, getTargetElement } from '../_utils/dom'
+import { getParentScroller, getElement } from '../_utils/dom'
 import { IN_BROWSER } from '../_utils/env'
 import { throttle } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
@@ -76,7 +76,7 @@ export default {
       if (!IN_BROWSER) return
       this.$nextTick(() => {
         const { target } = this
-        this.scrollParent = target ? getTargetElement(target) : getParentScroller(this.$refs.root)
+        this.scrollParent = target ? getElement(target) : getParentScroller(this.$refs.root)
         this.onScroll()
       })
     },

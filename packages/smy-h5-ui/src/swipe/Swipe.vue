@@ -25,7 +25,7 @@ import { props } from './props'
 import { useTouch } from '../_utils/composable/useTouch'
 import { range } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
-import { getTargetElement } from '../_utils/dom'
+import { getElement } from '../_utils/dom'
 
 const [name, bem] = createNamespace('swipe')
 const getRefWidth = (ref) => ref?.clientWidth || 0
@@ -33,7 +33,7 @@ const THRESHOLD = 0.15
 
 const useClickAway = (vm, target, callback) => {
   const onClick = (event) => {
-    target = getTargetElement(target)
+    target = getElement(target)
     const isClickAway = target && !target.contains(event.target)
     if (!isClickAway) {
       return

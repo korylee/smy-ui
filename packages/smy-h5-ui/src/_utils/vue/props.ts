@@ -1,4 +1,5 @@
 import type { AsyncComponent, Component, PropType } from 'vue'
+import type { ElementSelector } from '../dom'
 
 declare type InferPropType<T> = [T] extends [null]
   ? any
@@ -75,6 +76,8 @@ export const truthProp = {
   type: Boolean,
   default: true,
 } as const
+
+export const elProp = [String, Function, Element] as PropType<ElementSelector>
 
 export const createNumberProp = <T>(defaultVal: T) => ({
   type: Number,

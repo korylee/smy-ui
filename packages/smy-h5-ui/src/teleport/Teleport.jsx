@@ -2,7 +2,7 @@ import { getSlot } from '../_utils/vue/slots'
 import Vue from 'vue'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
-import { getTargetElement } from '../_utils/dom'
+import { getElement } from '../_utils/dom'
 
 const [name, bem] = createNamespace('teleport')
 
@@ -45,9 +45,9 @@ export default {
       this.instance = instance
     },
     transfer() {
-      const { el, disabled } = this
+      const { el, disabled, to } = this
       const { teleport } = this.$refs
-      const container = disabled ? teleport : getTargetElement(this.to)
+      const container = disabled ? teleport : getElement(to)
       const parentNode = el.parentNode
       if (parentNode === container) return
       parentNode?.removeChild(el)
