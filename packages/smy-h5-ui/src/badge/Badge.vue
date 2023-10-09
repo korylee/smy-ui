@@ -2,21 +2,25 @@
   <div :class="bem(['$--box'])">
     <transition :name="transition">
       <span v-bind="$attrs" v-on="$listeners" v-show="!hidden" :style="contentStyle" :class="contentClass">
-        <slot v-if="hasSlot('icon') && !dot" name="icon"></slot>
-        <template v-else>{{ internalContent }}</template>
+        <slot v-if="!dot" name="icon">{{ content }}</slot>
       </span>
     </transition>
     <slot />
   </div>
 </template>
 <script>
-import { isNumeric } from '../_utils/is'
 import { convertToUnit } from '../_utils/dom'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
+import { normalizeBadge } from './utils'
 
 const [name, bem] = createNamespace('badge')
+
+const getMinusOffset = (val) => {
+  val = String(val)
+  return val.startsWith('-') ? val.replace('-', '') : `-${val}`
+}
 
 export default {
   name,
@@ -24,33 +28,37 @@ export default {
   mixins: [SlotsMixin],
   props,
   computed: {
-    contentStyle({ zIndex, color }) {
-      return {
-        top: convertToUnit(this.top),
-        right: convertToUnit(this.right),
-        zIndex,
-        background: color,
-      }
-    },
-    contentClass() {
-      const { dot, bubble, position, hasSlot } = this
+    contentStyle({ color, offset, position, hasSlot }) {
+      const style = { background: color }
 
-      const hasDefaultSlot = hasSlot()
+      if (offset) {
+        const [x = 0, y = 0] = offset
+        if (hasSlot()) {
+          const [offsetY, offsetX] = position.split('-')
+          style[offsetX] = offsetX === 'left' ? convertToUnit(x) : convertToUnit(getMinusOffset(x))
+          style[offsetY] = offsetY === 'top' ? convertToUnit(y) : convertToUnit(getMinusOffset(y))
+        } else {
+          style.marginLeft = convertToUnit(x)
+          style.marginTop = convertToUnit(y)
+        }
+      }
+      return style
+    },
+    contentClass({ bubble, position, hasSlot, value, dot: _dot }) {
+      const fixed = hasSlot()
+      const hasIconSlot = hasSlot('icon')
+      const dot = _dot || (!value && !hasIconSlot)
+
       return bem('content', {
         dot,
         bubble: !dot && bubble,
-        icon: !dot && hasSlot('icon'),
-        fixed: hasDefaultSlot,
-        [position]: position && hasDefaultSlot,
+        icon: hasIconSlot,
+        fixed,
+        [position]: position && fixed,
       })
     },
-    internalContent() {
-      if (this.dot) return
-      const { value, max } = this
-      if (isNumeric(value) && isNumeric(max)) {
-        return max < +value ? `${max}+` : value
-      }
-      return value
+    content({ max, value }) {
+      return normalizeBadge(value, max)
     },
   },
   methods: {

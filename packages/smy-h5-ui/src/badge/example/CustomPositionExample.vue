@@ -1,8 +1,9 @@
 <template>
   <div>
-    <smy-badge value="200"> <span class="title">标题</span> </smy-badge>
-    <smy-badge value="200" top="40" right="20"> <span class="title">标题</span> </smy-badge>
-    <smy-badge value="200" right="40" top="20"> <span class="title">标题</span> </smy-badge>
+    <smy-badge value="200" :offset="[0, 0]"><span class="title">标题</span> </smy-badge>
+    <smy-badge value="200" :offset="[10, 10]"><span class="title">标题</span> </smy-badge>
+    <smy-badge value="200" :offset="[10, 20]"><span class="title">标题</span> </smy-badge>
+    <smy-badge :offset="[10, 10]" position="bottom-right" value="200"><span class="title">标题</span> </smy-badge>
   </div>
 </template>
 

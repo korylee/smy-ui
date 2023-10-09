@@ -12,7 +12,7 @@
     <smy-badge value="NEW" bubble color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
       <span class="title">标题</span>
     </smy-badge>
-    <smy-badge value="NEW" dot color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
+    <smy-badge color="linear-gradient(135deg, #fa2c19 0%, #fa6419 100%)">
       <span class="title">标题</span>
     </smy-badge>
   </div>

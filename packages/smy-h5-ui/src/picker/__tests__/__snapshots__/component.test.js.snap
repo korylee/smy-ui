@@ -142,27 +142,25 @@ exports[`test scroll up & onConfirm 1`] = `
   <div role=\\"dialog\\" tabindex=\\"0\\" class=\\"smy--box smy-popup smy-picker__popup\\" style=\\"z-index: 1001;\\">
     <div class=\\"smy-popup__overlay\\" style=\\"z-index: 1002;\\"></div>
     <transition-stub name=\\"smy-slide-bottom\\">
-      <div smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom\\" style=\\"z-index: 1003;\\">
-        <div class=\\"smy-picker\\">
-          <div class=\\"smy-picker__toolbar\\"><span smy-picker-cover=\\"\\" class=\\"smy-picker__cancel-button\\">取消</span>
-            <div class=\\"smy-picker__title\\"></div> <span smy-picker-cover=\\"\\" class=\\"smy-picker__confirm-button\\">确认</span></div>
-          <div class=\\"smy-picker__columns\\" style=\\"height: 264px;\\">
-            <div class=\\"smy-picker__column\\">
-              <div class=\\"smy-picker__scroller\\" style=\\"transform: translate3d(0, 110px, 0); transition-duration: 0ms; transition-property: none;\\">
-                <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
-                  <div class=\\"smy-picker__text\\">A</div>
-                </div>
-                <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
-                  <div class=\\"smy-picker__text\\">B</div>
-                </div>
-                <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
-                  <div class=\\"smy-picker__text\\">C</div>
-                </div>
+      <div smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom smy-picker\\" style=\\"z-index: 1003;\\">
+        <div class=\\"smy-picker__toolbar\\"><span smy-picker-cover=\\"\\" class=\\"smy-picker__cancel-button\\">取消</span>
+          <div class=\\"smy-picker__title\\"></div> <span smy-picker-cover=\\"\\" class=\\"smy-picker__confirm-button\\">确认</span></div>
+        <div class=\\"smy-picker__columns\\" style=\\"height: 264px;\\">
+          <div class=\\"smy-picker__column\\">
+            <div class=\\"smy-picker__scroller\\" style=\\"transform: translate3d(0, 110px, 0); transition-duration: 0ms; transition-property: none;\\">
+              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+                <div class=\\"smy-picker__text\\">A</div>
+              </div>
+              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+                <div class=\\"smy-picker__text\\">B</div>
+              </div>
+              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+                <div class=\\"smy-picker__text\\">C</div>
               </div>
             </div>
-            <div class=\\"smy-picker__picked\\" style=\\"top: 110px; height: 44px;\\"></div>
-            <div class=\\"smy-picker__mask\\" style=\\"background-size: 100% 110px;\\"></div>
           </div>
+          <div class=\\"smy-picker__picked\\" style=\\"top: 110px; height: 44px;\\"></div>
+          <div class=\\"smy-picker__mask\\" style=\\"background-size: 100% 110px;\\"></div>
         </div>
       </div>
     </transition-stub>
@@ -175,27 +173,25 @@ exports[`test scroll up & onConfirm 2`] = `
   <div role=\\"dialog\\" tabindex=\\"0\\" class=\\"smy--box smy-popup smy-picker__popup\\" style=\\"z-index: 1001;\\">
     <div class=\\"smy-popup__overlay\\" style=\\"z-index: 1002;\\"></div>
     <transition-stub name=\\"smy-slide-bottom\\">
-      <div smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom\\" style=\\"z-index: 1003;\\">
-        <div class=\\"smy-picker\\">
-          <div class=\\"smy-picker__toolbar\\"><span smy-picker-cover=\\"\\" class=\\"smy-picker__cancel-button\\">取消</span>
-            <div class=\\"smy-picker__title\\"></div> <span smy-picker-cover=\\"\\" class=\\"smy-picker__confirm-button\\">确认</span></div>
-          <div class=\\"smy-picker__columns\\" style=\\"height: 264px;\\">
-            <div class=\\"smy-picker__column\\">
-              <div class=\\"smy-picker__scroller\\" style=\\"transform: translate3d(0, 22px, 0); transition-duration: 200ms; transition-property: transform;\\">
-                <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
-                  <div class=\\"smy-picker__text\\">A</div>
-                </div>
-                <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
-                  <div class=\\"smy-picker__text\\">B</div>
-                </div>
-                <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
-                  <div class=\\"smy-picker__text\\">C</div>
-                </div>
+      <div smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom smy-picker\\" style=\\"z-index: 1003;\\">
+        <div class=\\"smy-picker__toolbar\\"><span smy-picker-cover=\\"\\" class=\\"smy-picker__cancel-button\\">取消</span>
+          <div class=\\"smy-picker__title\\"></div> <span smy-picker-cover=\\"\\" class=\\"smy-picker__confirm-button\\">确认</span></div>
+        <div class=\\"smy-picker__columns\\" style=\\"height: 264px;\\">
+          <div class=\\"smy-picker__column\\">
+            <div class=\\"smy-picker__scroller\\" style=\\"transform: translate3d(0, 22px, 0); transition-duration: 200ms; transition-property: transform;\\">
+              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+                <div class=\\"smy-picker__text\\">A</div>
+              </div>
+              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+                <div class=\\"smy-picker__text\\">B</div>
+              </div>
+              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+                <div class=\\"smy-picker__text\\">C</div>
               </div>
             </div>
-            <div class=\\"smy-picker__picked\\" style=\\"top: 110px; height: 44px;\\"></div>
-            <div class=\\"smy-picker__mask\\" style=\\"background-size: 100% 110px;\\"></div>
           </div>
+          <div class=\\"smy-picker__picked\\" style=\\"top: 110px; height: 44px;\\"></div>
+          <div class=\\"smy-picker__mask\\" style=\\"background-size: 100% 110px;\\"></div>
         </div>
       </div>
     </transition-stub>

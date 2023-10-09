@@ -3,7 +3,7 @@
   "exclude": ["node_modules", "es", "site"],
   "include": ["src/**/*", "jest-utils/**/*", "global.d.ts", "*/**.vue"],
   "compilerOptions": {
-    "baseUrl": ".",
+    // "baseUrl": "./",
     "allowJs": true,
     "composite": true,
     "outDir": "./es",

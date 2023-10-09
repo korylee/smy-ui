@@ -140,8 +140,7 @@ export default {
       this.scroller && this.scroller.removeEventListener('scroll', this.onScroll)
     }
     onMountedOrActivated(this, add)
-    this.$on('hook:beforeDestory', remove)
-    this.$on('hook:deactivated', remove)
+    this.$on(['hook:beforeDestory', 'hook:deactivated'], remove)
   },
   methods: {
     bem,
@@ -249,6 +248,9 @@ export default {
         const item = children[currentIndex]
         const title = item?.$refs['tab-title']?.$el
         if (!title) {
+          this.lineStyle = {
+            display: 'none',
+          }
           return
         }
         const left = title.offsetLeft + title.offsetWidth / 2
@@ -300,5 +302,6 @@ export default {
 </script>
 
 <style lang="less">
+@import '../sticky/sticky.less';
 @import './tabs.less';
 </style>

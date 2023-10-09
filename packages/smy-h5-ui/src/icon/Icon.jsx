@@ -3,7 +3,7 @@ import { props } from './props'
 import { SlotsMixin, getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
-import { isPlainObject, isString } from '../_utils/is'
+import { isString } from '../_utils/is'
 
 import './icon.less'
 

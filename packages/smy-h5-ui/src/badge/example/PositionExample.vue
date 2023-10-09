@@ -1,9 +1,9 @@
 <template>
   <div>
     <smy-badge value="200"> <span class="title">右上</span> </smy-badge>
-    <smy-badge value="200" position="right-bottom"> <span class="title">右下</span> </smy-badge>
-    <smy-badge value="200" position="left-top"> <span class="title">左上</span> </smy-badge>
-    <smy-badge value="200" position="left-bottom"> <span class="title">左下</span> </smy-badge>
+    <smy-badge value="200" position="bottom-right"> <span class="title">右下</span> </smy-badge>
+    <smy-badge value="200" position="top-left"> <span class="title">左上</span> </smy-badge>
+    <smy-badge value="200" position="bottom-left"> <span class="title">左下</span> </smy-badge>
   </div>
 </template>
 

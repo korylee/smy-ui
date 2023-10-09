@@ -65,8 +65,8 @@ export default {
     count({ modelValue }) {
       return getStringLength(modelValue)
     },
-    showClear() {
-      const hasValue = this.modelValue !== ''
+    showClear({ modelValue }) {
+      const hasValue = modelValue !== ''
       return hasValue
     },
   },

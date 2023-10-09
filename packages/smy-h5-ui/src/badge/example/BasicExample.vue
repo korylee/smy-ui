@@ -4,7 +4,7 @@
     <smy-badge value="76"> <span class="title">标题</span> </smy-badge>
     <smy-badge value="NEW"> <span class="title">标题</span> </smy-badge>
     <smy-badge value="NEW" bubble> <span class="title">标题</span> </smy-badge>
-    <smy-badge value="NEW" dot> <span class="title">标题</span> </smy-badge>
+    <smy-badge> <span class="title">标题</span> </smy-badge>
   </div>
 </template>
 

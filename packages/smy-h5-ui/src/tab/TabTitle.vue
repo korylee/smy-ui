@@ -9,7 +9,7 @@
     :aria-controls="controls"
     v-on="$listeners"
   >
-    <maybe-badge :maybe="dot || badge || badge == 0" :dot="dot" :value="badge">
+    <maybe-badge :maybe="!!badge || badge == 0" :value="badge">
       <span :class="bem('text')">
         <slot>{{ title }}</slot>
       </span></maybe-badge
@@ -28,7 +28,6 @@ const MaybeBadge = createMaybeComponent(SmyBadge)
 export default {
   name: name + '-title',
   props: {
-    dot: Boolean,
     type: String,
     color: String,
     title: String,
