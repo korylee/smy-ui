@@ -4,54 +4,54 @@
     :maybe="popup"
     :teleport="teleport"
     :close-on-click-overlay="closeOnClickOverlay"
+    :content-class="bem()"
     :wrapper-class="bem('popup')"
     smy-picker-cover
     position="bottom"
     v-on="popupListeners"
+    v-bind="$attrs"
   >
-    <div class="smy-picker" v-bind="$attrs">
-      <slot name="toolbar">
-        <div :class="bem('toolbar')">
-          <slot name="cancel">
-            <span :class="bem('cancel-button')" smy-picker-cover @click="cancel">{{ cancelButtonText }}</span>
-          </slot>
-          <slot name="title">
-            <div :class="bem('title')">{{ title }}</div>
-          </slot>
-          <slot name="confirm">
-            <span :class="bem('confirm-button')" smy-picker-cover @click="confirm">{{ confirmButtonText }}</span>
-          </slot>
-        </div>
-      </slot>
-      <slot name="top"></slot>
-      <div :class="bem('columns')" :style="{ height: `${columnHeight}px` }">
-        <picker-column
-          v-for="scrollColumn in scrollColumns"
-          ref="columnRefs"
-          :key="scrollColumn.id"
-          :column="scrollColumn.column"
-          :column-index="scrollColumn.columnIndex"
-          :picked-index.sync="scrollColumn.pickedIndex"
-          :center="center"
-          :height="localOptionHeight"
-          @change="change(scrollColumn)"
-        >
-          <template #item="{ item, index }">
-            <slot name="option" :option="item" :option-index="index" v-bind="scrollColumn">
-              <div v-if="allowHtml" :class="bem('text')" v-html="getText(item, index)"></div>
-              <div v-else :class="bem('text')" v-text="getText(item, index)"></div>
-            </slot>
-          </template>
-        </picker-column>
-        <div
-          :class="bem('picked')"
-          :style="{
-            top: `${center}px`,
-            height: `${localOptionHeight}px`,
-          }"
-        ></div>
-        <div :class="bem('mask')" :style="{ backgroundSize: `100% ${center}px` }"></div>
+    <slot name="toolbar">
+      <div :class="bem('toolbar')">
+        <slot name="cancel">
+          <span :class="bem('cancel-button')" smy-picker-cover @click="cancel">{{ cancelButtonText }}</span>
+        </slot>
+        <slot name="title">
+          <div :class="bem('title')">{{ title }}</div>
+        </slot>
+        <slot name="confirm">
+          <span :class="bem('confirm-button')" smy-picker-cover @click="confirm">{{ confirmButtonText }}</span>
+        </slot>
       </div>
+    </slot>
+    <slot name="top"></slot>
+    <div :class="bem('columns')" :style="{ height: `${columnHeight}px` }">
+      <picker-column
+        v-for="scrollColumn in scrollColumns"
+        ref="columnRefs"
+        :key="scrollColumn.id"
+        :column="scrollColumn.column"
+        :column-index="scrollColumn.columnIndex"
+        :picked-index.sync="scrollColumn.pickedIndex"
+        :center="center"
+        :height="localOptionHeight"
+        @change="change(scrollColumn)"
+      >
+        <template #item="{ item, index }">
+          <slot name="option" :option="item" :option-index="index" v-bind="scrollColumn">
+            <div v-if="allowHtml" :class="bem('text')" v-html="getText(item, index)"></div>
+            <div v-else :class="bem('text')" v-text="getText(item, index)"></div>
+          </slot>
+        </template>
+      </picker-column>
+      <div
+        :class="bem('picked')"
+        :style="{
+          top: `${center}px`,
+          height: `${localOptionHeight}px`,
+        }"
+      ></div>
+      <div :class="bem('mask')" :style="{ backgroundSize: `100% ${center}px` }"></div>
     </div>
   </maybe-popup>
 </template>
@@ -82,8 +82,8 @@ export default {
 
   computed: {
     popupListeners: (vm) => getListeners(vm, ['click-overlay', 'open', 'opened', 'close', 'closed', 'route-change']),
-    localOptionHeight() {
-      return toPxNum(this.optionHeight)
+    localOptionHeight({ optionHeight }) {
+      return toPxNum(optionHeight)
     },
     center({ columnHeight, localOptionHeight }) {
       return (columnHeight - localOptionHeight) / 2

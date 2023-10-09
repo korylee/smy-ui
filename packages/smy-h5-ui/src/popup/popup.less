@@ -1,8 +1,8 @@
-@popup-overlay-background-color: rgba(0, 0, 0, 0.6);
+@popup-overlay-background: rgba(0, 0, 0, 0.6);
 @popup-content-background-color: #fff;
 
 :root {
-  --popup-overlay-background-color: @popup-overlay-background-color;
+  --popup-overlay-background: @popup-overlay-background;
   --popup-content-background-color: @popup-content-background-color;
 }
 
@@ -25,7 +25,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: var(--popup-overlay-background-color);
+    background: var(--popup-overlay-background);
     transition: all 0.25s;
   }
 

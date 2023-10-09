@@ -43,6 +43,7 @@
       pointer-events: auto;
     }
   }
+
   max-width: var(--toast-max-width);
   position: fixed;
   display: flex;
@@ -50,7 +51,6 @@
   justify-content: center;
   border-radius: var(--toast-border-radius);
   color: var(--toast-color);
-  background: var(--toast-background);
   opacity: var(--toast-opacity);
   font-size: var(--toast-font-size);
   white-space: pre-wrap;
@@ -58,6 +58,10 @@
   text-align: center;
   border-color: var(--toast-border-color);
   transition: 0.3s var(--cubic-bezier);
+
+  &[smy-toast-cover] {
+    background: var(--toast-background);
+  }
 
   &--icon-right,
   &--icon-left {

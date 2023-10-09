@@ -4,6 +4,7 @@
     v-bind="popupProps"
     :content-class="toastClass"
     :wrapper-class="bem('popup', { unclickable: type === 'loading' || forbidClick })"
+    smy-toast-cover
     @click="onClick"
     @open="$emit('open')"
     @opened="$emit('opened')"

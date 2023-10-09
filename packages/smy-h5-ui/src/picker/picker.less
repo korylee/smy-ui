@@ -23,11 +23,13 @@
 
 .smy-picker {
   width: 100%;
-  background: var(--picker-background);
   user-select: none;
-  transition: 0.25s background-color;
 
-  &__popup[smy-picker-cover] {
+  &[smy-picker-cover] {
+    background: var(--picker-background);
+  }
+
+  &__popup {
     width: 100%;
   }
 
