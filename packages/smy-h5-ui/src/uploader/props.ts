@@ -37,7 +37,7 @@ export const props = {
   preview: truthProp,
   previewSize: [Number, String, Array] as PropType<Numeric | [Numeric, Numeric]>,
   previewImage: Boolean,
-  uploadIcon: createComponentProp(() => Plus),
+  uploadIcon: createComponentProp(Plus),
   uploadText: String,
 }
 

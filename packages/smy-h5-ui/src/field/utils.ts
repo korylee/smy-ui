@@ -1,19 +1,15 @@
+import Vue from 'vue'
 import { resetScroll } from '../_utils/dom'
-import { isObject } from '../_utils/is'
+import { isNil, isObject } from '../_utils/is'
 import { range } from '../_utils/shared'
 
 /**
  * 字符串切割成数组
  * emoji表情占两个字符，用split时会被切割  例：'💛'.split('') -> ['\uD83D', '\uDC9B']
- * （T_T）es6这种写法 [...str]会被polyfill成 [].concat(str)
- * babel没办法分辨str是数组还是一个iterable对象，链接：https://babeljs.io/docs/assumptions#iterableisarray
+ * （T_T）es5无法处理emoji, es6这种写法 [...str]会被polyfill成 [].concat(str) --- babel（宽松模式）没办法分辨str是数组还是一个iterable对象，链接：https://babeljs.io/docs/assumptions#iterableisarray。除非关闭宽松模式，但会打包出特别多的东西
  */
-function stringToArray(str: string) {
-  const arr: string[] = []
-  for (const i of str) {
-    arr.push(i)
-  }
-  return arr
+export function stringToArray(str: string) {
+  return Array.from ? Array.from(str) : str.split('')
 }
 
 export const getStringLength = (str: string) => stringToArray(str).length
@@ -66,4 +62,15 @@ export function mapInputType(type: string) {
     }
   }
   return { type }
+}
+
+export const createGetProp = (vm: Vue, provider: string) => (key: string) => {
+  const currentProp = vm.$props[key]
+  if (!isNil(currentProp)) {
+    return currentProp
+  }
+  const providerProp = (vm as any)[provider]?.$props[key]
+  if (!isNil(providerProp)) {
+    return providerProp
+  }
 }

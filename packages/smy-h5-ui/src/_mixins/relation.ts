@@ -1,11 +1,11 @@
 import type Vue from 'vue'
-import { type VNode } from 'vue'
+import { ComponentOptions, type VNode } from 'vue'
 import { isNil } from '../_utils/is'
-import { throwError } from '../_utils/smy/warn'
 
 interface RelationOptions {
   children?: string
   index?: string
+  sort?: boolean
 }
 
 function flatVNodes(subTree: VNode[], vNodes: VNode[] = []) {
@@ -39,43 +39,42 @@ export function createParentMixin(parent: string, { children = 'children' }: Pic
       return { [parent]: this }
     },
     data: () => ({ [children]: [] }),
-  }
+  } as ComponentOptions<Vue>
 }
 
-export function createChildrenMixin(parent: string, { index = 'index', children = 'children' }: RelationOptions = {}) {
+export function createChildrenMixin(
+  parent: string,
+  { index = 'index', children = 'children', sort = true }: RelationOptions = {}
+) {
+  function findIndex(this: Vue) {
+    const vm = this as any
+    return vm[parent]?.[children]?.indexOf(vm)
+  }
   return {
     inject: {
       [parent]: {
         default: null,
       },
     },
-    computed: {
-      [index]() {
-        const vm = this as any
-        return vm[parent]?.[children]?.indexOf(vm)
-      },
-    },
+    computed: sort ? { [index]: findIndex } : undefined,
     watch: {
       [`${parent}.${children}`]: {
         immediate: true,
         handler() {
           const vm = this as any
           const parentVNode = vm[parent]
-          if (!parentVNode) return throwError('relation-mixin', `该组件必须为${parent}子组件`)
-
-          vm.$nextTick(() => {
-            const childrenList = parentVNode[children]
-            if (~childrenList.indexOf(vm)) return
-            parentVNode[children] = sortChildren([...childrenList, vm], parentVNode)
-          })
+          const childrenList = parentVNode?.[children]
+          if (!childrenList || ~childrenList.indexOf(vm)) return
+          const newChildrenList = [...childrenList, vm]
+          parentVNode[children] = sort ? sortChildren(newChildrenList, parentVNode) : newChildrenList
         },
       },
     },
-    beforeDestroy() {
+    beforeDestroy(this: Vue) {
       const vm = this as any
-      const currentIndex = vm[index]
+      const currentIndex = sort ? vm[index] : findIndex.call(this)
       if (isNil(currentIndex) || currentIndex === -1) return
       vm[parent]?.[children]?.splice(currentIndex, 1)
     },
-  }
+  } as ComponentOptions<Vue>
 }

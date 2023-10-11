@@ -106,5 +106,6 @@ export const createUnknownProp = (defaultVal: unknown) => ({
 
 export const createComponentProp = (defaultVal: unknown) => ({
   type: componentProp,
-  default: defaultVal,
+  // 对象或数组的默认值必须从一个工厂函数返回。 ，function 都被自动执行了==！
+  default: () => defaultVal,
 })

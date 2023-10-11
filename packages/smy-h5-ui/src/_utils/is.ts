@@ -46,3 +46,6 @@ export const isVw = (str: string): boolean => isEndsWith(str, 'vw')
 export const isNumString = (str: unknown): boolean => isString(str) && /^\d+(\.\d+)?$/.test(str)
 
 export const isNumeric = (val: unknown): val is Numeric => isNumber(val) || isNumString(val)
+
+export const isPromise = <T = any>(val: unknown): val is Promise<T> =>
+  isPlainObject(val) && isFunction(val.then) && isFunction(val.catch)

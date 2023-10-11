@@ -28,7 +28,7 @@ const baseProps = {
     type: Boolean,
     default: false,
   },
-  closeIcon: createComponentProp(() => WindowClose),
+  closeIcon: createComponentProp(WindowClose),
   closeIconPosition: createStringProp<CloseIconPosition>('top-right'),
 }
 

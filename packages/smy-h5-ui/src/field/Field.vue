@@ -11,6 +11,12 @@
           rows,
           disabled,
           readonly,
+          autocomplete,
+          autocapitalize,
+          autocorrect,
+          enterkeyhint,
+          spellcheck,
+          autofocus,
         }"
         :class="bem('control')"
         @input="onInput"
@@ -45,6 +51,7 @@ import SmyIcon from '../icon'
 import { formatNumber } from '../_utils/shared'
 import { resetScroll } from '../_utils/dom'
 import { createProxiedModel } from '../_mixins/proxiedModel'
+import { createChildrenMixin } from '../_mixins/relation'
 
 const [name, bem] = createNamespace('field')
 
@@ -56,6 +63,7 @@ export default {
       passive: false,
       transformIn: (value) => String(value || ''),
     }),
+    createChildrenMixin('form', { sort: false, children: 'formItems' }),
   ],
   props,
   data: () => ({
@@ -65,9 +73,10 @@ export default {
     count({ modelValue }) {
       return getStringLength(modelValue)
     },
-    showClear({ modelValue }) {
+    showClear({ modelValue, clearTrigger, focused }) {
       const hasValue = modelValue !== ''
-      return hasValue
+      const trigger = clearTrigger === 'always' || (clearTrigger === 'focus' && focused)
+      return hasValue && trigger
     },
   },
   watch: {
@@ -94,7 +103,7 @@ export default {
       }
       const selectionEnd = input ? input.selectionEnd : undefined
       if (focused && selectionEnd) {
-        const valueArr = [...value]
+        const valueArr = stringToArray(value)
         const exceededLength = valueArr.length - +maxlength
         valueArr.splice(selectionEnd - exceededLength, exceededLength)
         return valueArr.join('')
@@ -104,7 +113,7 @@ export default {
     updateValue(value) {
       const originalValue = value
       value = this.limitValueLength(value)
-      const { type } = this
+      const { type, formatter, focused, maxlength } = this
       const { input } = this.$refs
 
       const limitDiffLen = getStringLength(originalValue) - getStringLength(value)
@@ -112,8 +121,23 @@ export default {
         const isNumber = type === 'number'
         value = formatNumber(value, isNumber, isNumber)
       }
+
+      let formatterDiffLen = 0
+      if (formatter) {
+        value = formatter(value)
+        if (maxlength != null && getStringLength(value) > +maxlength) {
+          value = cutString(value, +maxlength)
+        }
+
+        if (input && focused) {
+          const { selectionEnd } = input
+          const bcoVal = cutString(originalValue, selectionEnd)
+          formatterDiffLen = getStringLength(formatter(bcoVal)) - getStringLength(bcoVal)
+        }
+      }
+
       if (input && input.value !== value) {
-        if (this.focused) {
+        if (focused) {
           let { selectionStart, selectionEnd } = input
           input.value = value
           if (selectionStart != null && selectionEnd != null) {
@@ -121,6 +145,9 @@ export default {
             if (limitDiffLen) {
               selectionStart -= limitDiffLen
               selectionEnd -= limitDiffLen
+            } else if (formatterDiffLen) {
+              selectionStart += formatterDiffLen
+              selectionEnd += formatterDiffLen
             }
             input.setSelectionRange(Math.min(selectionStart, valueLen), Math.min(selectionEnd, valueLen))
           }
