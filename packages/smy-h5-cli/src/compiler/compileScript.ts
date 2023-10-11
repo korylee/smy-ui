@@ -80,10 +80,12 @@ export {
   ${publicComponents.join(',\n  ')}
 }
 
-export default {
+var _default = {
   install,
   version,
 }
+
+export default _default
 `
 
   const bundleTemplate = `\
@@ -97,10 +99,12 @@ export {
   ${publicComponents.join(',\n  ')}
 }
 
-export default {
+var _default = {
   install,
   version,
 }
+
+export default _default
 `
 
   const styleTemplate = `\

@@ -18,7 +18,7 @@ import { compileESEntry, compileScriptFile } from './compileScript'
 import { compileLess } from './compileStyle'
 import { comipleDtsEntry, compileDts } from './compileTypes'
 import { kebabCase } from 'lodash'
-import { BundleBuildOptions, getBundleConfig } from '../config/viteConfig'
+import { BundleBuildOptions, getBundleConfig } from '../config/vite.config'
 
 export async function compileBundle() {
   const smyConfig = await getSmyConfig()

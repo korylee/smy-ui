@@ -1,6 +1,6 @@
 import { ensureDirSync } from 'fs-extra'
 import { compileSiteEntry } from '../compiler/compileSiteEntry'
-import { getBuildConfig } from '../config/viteConfig'
+import { getBuildConfig } from '../config/vite.config'
 import { SRC_DIR } from '../shared/constant'
 import { build as buildVite } from 'vite'
 import { getSmyConfig } from '../config/smyConfig'

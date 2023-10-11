@@ -19,6 +19,7 @@ import { resolve } from 'path'
 import markdownPlugin from '@smy-h5/markdown-vite-plugin'
 import { SmyConfig } from './smyConfig'
 import { pathExistsSync, removeSync, readFileSync, writeFileSync, copyFileSync } from 'fs-extra'
+import stripWith from 'vue-template-es2015-compiler'
 
 export function getDevConfig(smyConfig: SmyConfig): InlineConfig {
   const { host } = smyConfig
@@ -135,7 +136,7 @@ function inlineCss(filename: string, dir: string): Plugin {
       const cssCode = readFileSync(cssFile, 'utf-8').replace(/\\/g, '\\\\')
       const jsCode = readFileSync(jsFile, 'utf-8')
       const injectCode = `;(function() {var style=document.createElement('style');style.type='text/css';style.rel='stylesheet';style.appendChild(document.createTextNode(\`${cssCode}\`));var head=document.querySelector('head');head.appendChild(style);})();`
-      writeFileSync(jsFile, `${injectCode}${jsCode}`)
+      writeFileSync(jsFile, stripWith(`${injectCode}${jsCode}`))
       copyFileSync(cssFile, resolve(LIB_DIR, 'style.css'))
       removeSync(cssFile)
     },
