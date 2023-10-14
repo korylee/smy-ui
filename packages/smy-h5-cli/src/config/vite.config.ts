@@ -136,7 +136,7 @@ function inlineCss(filename: string, dir: string): Plugin {
       const cssCode = readFileSync(cssFile, 'utf-8').replace(/\\/g, '\\\\')
       const jsCode = readFileSync(jsFile, 'utf-8')
       const injectCode = `;(function() {var style=document.createElement('style');style.type='text/css';style.rel='stylesheet';style.appendChild(document.createTextNode(\`${cssCode}\`));var head=document.querySelector('head');head.appendChild(style);})();`
-      writeFileSync(jsFile, stripWith(`${injectCode}${jsCode}`))
+      writeFileSync(jsFile, `${stripWith(injectCode)}${stripWith(jsCode)}`)
       copyFileSync(cssFile, resolve(LIB_DIR, 'style.css'))
       removeSync(cssFile)
     },

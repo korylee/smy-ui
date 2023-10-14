@@ -1,6 +1,7 @@
 import type Vue from 'vue'
 import { ComponentOptions, type VNode } from 'vue'
-import { isNil } from '../_utils/is'
+import { isNil, isString } from '../_utils/is'
+import { throwError } from '../_utils/smy/warn'
 
 interface RelationOptions {
   children?: string
@@ -77,4 +78,25 @@ export function createChildrenMixin(
       vm[parent]?.[children]?.splice(currentIndex, 1)
     },
   } as ComponentOptions<Vue>
+}
+
+export function createGetProp<T = any>(parent: string): (prop: string) => T
+export function createGetProp<T = any>(vm: Vue, parent: string): (prop: string) => T
+export function createGetProp(...args: [Vue, string] | [string]) {
+  return function getProp(this: Vue, prop: string) {
+    const [arg] = args
+    const [vm, parent] = isString(arg) ? [this, arg] : (args as [Vue, string])
+    if (!vm || !parent) {
+      return throwError('createGetProp', `Cannot find ${parent}`)
+    }
+
+    const childProp = vm.$props[prop]
+    if (!isNil(childProp)) {
+      return childProp
+    }
+    const parentProp = (vm as any)[parent]?.$props[prop]
+    if (!isNil(parentProp)) {
+      return parentProp
+    }
+  }
 }

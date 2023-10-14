@@ -30,7 +30,7 @@ export async function compileBundle() {
       output: ES_DIR,
       emptyOutDir: false,
       removeEnv: true,
-      entry: resolve(ES_DIR, 'index.js'),
+      entry: resolve(ES_DIR, 'index.bundle.js'),
       minify: 'esbuild',
     },
     {

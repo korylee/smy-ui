@@ -40,6 +40,9 @@
       <span :class="bem('word-num')">{{ count }}</span
       >/{{ maxlength }}
     </div>
+    <smy-form-details :error-message="test" extra-message="5">
+      <!-- <template #error-message>12345</template> -->
+    </smy-form-details>
   </div>
 </template>
 
@@ -51,23 +54,25 @@ import SmyIcon from '../icon'
 import { formatNumber } from '../_utils/shared'
 import { resetScroll } from '../_utils/dom'
 import { createProxiedModel } from '../_mixins/proxiedModel'
-import { createChildrenMixin } from '../_mixins/relation'
+import { ValidateProvider, getPropComputed } from '../_mixins/validate'
+import SmyFormDetails from '../form-details'
 
 const [name, bem] = createNamespace('field')
 
 export default {
   name,
-  components: { SmyIcon },
+  components: { SmyIcon, SmyFormDetails },
   mixins: [
     createProxiedModel('value', 'modelValue', {
       passive: false,
       transformIn: (value) => String(value || ''),
     }),
-    createChildrenMixin('form', { sort: false, children: 'formItems' }),
+    ValidateProvider,
   ],
   props,
   data: () => ({
     focused: false,
+    test: '',
   }),
   computed: {
     count({ modelValue }) {
@@ -78,12 +83,16 @@ export default {
       const trigger = clearTrigger === 'always' || (clearTrigger === 'focus' && focused)
       return hasValue && trigger
     },
+    getProp: getPropComputed,
   },
   watch: {
     value: 'init',
   },
   mounted() {
     this.init()
+    setTimeout(() => {
+      this.test = '12345'
+    }, 1000)
   },
   methods: {
     bem,

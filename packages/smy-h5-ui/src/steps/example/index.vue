@@ -55,7 +55,7 @@ export default {
   components: { SmySteps, SmyStep, AppDemoTitle },
   data: () => ({
     current1: 0,
-    current2: 0,
+    current2: 1,
   }),
   methods: {
     handleNext(key) {
