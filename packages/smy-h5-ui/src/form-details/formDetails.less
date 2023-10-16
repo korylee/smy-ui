@@ -1,7 +1,9 @@
 :root {
-  --form-details-font-size: 12px;
+  --form-details-font-size: var(--font-size-sm);
   --form-details-margin-top: 6px;
   --form-details-extra-message-color: #888;
+  --form-details-message-margin-right: 4px;
+  --form-details-error-message-color: var(--color-danger);
 }
 
 .smy-form-details {
@@ -14,6 +16,8 @@
     flex-grow: 1;
     user-select: none;
     text-align: left;
+    margin-right: var(--form-details-message-margin-right);
+    color: var(--form-details-error-message-color);
   }
   &__extra-message {
     flex-shrink: 0;

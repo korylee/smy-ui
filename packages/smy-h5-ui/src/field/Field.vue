@@ -36,12 +36,9 @@
       />
       <div v-if="$slots['button']" :class="bem('button')"><slot name="button" /></div>
     </div>
-    <div v-if="showWordLimit && maxlength" :class="bem('word-limit')">
-      <span :class="bem('word-num')">{{ count }}</span
-      >/{{ maxlength }}
-    </div>
-    <smy-form-details :error-message="test" extra-message="5">
-      <!-- <template #error-message>12345</template> -->
+    <smy-form-details :error-message="errorMessage || $data._errorMessage" :extra-message="wordLimit">
+      <template #error-message><slot name="error-message" /></template>
+      <template #extra-message><slot name="word-limit" /></template>
     </smy-form-details>
   </div>
 </template>
@@ -72,7 +69,6 @@ export default {
   props,
   data: () => ({
     focused: false,
-    test: '',
   }),
   computed: {
     count({ modelValue }) {
@@ -84,15 +80,18 @@ export default {
       return hasValue && trigger
     },
     getProp: getPropComputed,
+    wordLimit({ showWordLimit, count, maxlength }) {
+      if (!showWordLimit || !maxlength) {
+        return ''
+      }
+      return `${count}/${maxlength}`
+    },
   },
   watch: {
     value: 'init',
   },
   mounted() {
     this.init()
-    setTimeout(() => {
-      this.test = '12345'
-    }, 1000)
   },
   methods: {
     bem,

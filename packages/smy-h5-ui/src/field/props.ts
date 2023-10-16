@@ -26,6 +26,7 @@ export const props = {
   clearable: Boolean,
   clearIcon: createComponentProp(CloseCircle),
   clearTrigger: createStringProp<FieldClearTrigger>('always'),
+  errorMessage: String,
 }
 
 export type FieldProps = ExtractPropTypes<typeof props>
