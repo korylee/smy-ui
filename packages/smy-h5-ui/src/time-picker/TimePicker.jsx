@@ -1,8 +1,7 @@
 import Picker from '../picker'
-import { props } from './props'
+import { TIME_PICKER_COLUMN_TYPE, props } from './props'
 import { createNamespace } from '../_utils/vue/create'
 import { range, padZero, pick, assign, genArray, isSameValue } from '../_utils/shared'
-import { getMonthEndDay } from './utils'
 import { pickerSharedPropKeys } from '../picker/props'
 import { getListeners } from '../_mixins/listeners'
 import { pickerSharedListeners } from '../picker/utils'
@@ -10,7 +9,7 @@ import { pickerSharedListeners } from '../picker/utils'
 import '../popup/popup.less'
 import '../picker/picker.less'
 
-const [name] = createNamespace('date-picker')
+const [name] = createNamespace('time-picker')
 
 export default {
   name,
@@ -19,9 +18,6 @@ export default {
   computed: {
     initialParam({ columnsType }) {
       return this.genParam(columnsType[0])
-    },
-    initialColumns({ columnsType }) {
-      return this.genOptions(columnsType[0])
     },
   },
   watch: {
@@ -34,55 +30,46 @@ export default {
     },
   },
   methods: {
-    getValue(type) {
-      const { minDate, columnsType, currentValue } = this
-      const index = columnsType.indexOf(type)
-      const target = currentValue[index]
-      if (target) {
-        return +target
-      }
-      switch (type) {
-        case 'year':
-          return minDate.getFullYear()
-        case 'month':
-          return minDate.getMonth() + 1
-        case 'day':
-          return minDate.getDate()
-      }
+    formatTime(time) {
+      const { columnsType } = this
+      const timeLimitArr = time.split(':')
+      return TIME_PICKER_COLUMN_TYPE.map((type, i) => (columnsType.includes(type) ? timeLimitArr[i] : '00'))
     },
     genParam(type) {
-      const { maxDate, minDate } = this
-      const minYear = minDate.getFullYear()
-      const maxYear = maxDate.getFullYear()
-      switch (type) {
-        case 'year':
-          return {
-            type,
-            min: minYear,
-            max: maxYear,
-          }
-        case 'month': {
-          const year = this.getValue('year')
-          const minMonth = minYear === year ? minDate.getMonth() + 1 : 1
-          const maxMonth = maxYear === year ? maxDate.getMonth() + 1 : 12
-          return {
-            type,
-            min: minMonth,
-            max: maxMonth,
-          }
+      const { minTime, maxTime } = this
+      let { minHour, maxHour, minMinute, maxMinute, minSecond, maxSecond } = this
+
+      if (minTime || maxTime) {
+        const { columnsType, currentValue } = this
+        const fullTime = { hour: 0, minute: 0, second: 0 }
+        columnsType.forEach((type, i) => {
+          fullTime[type] = currentValue[i] ?? 0
+        })
+        const { hour, minute } = fullTime
+        if (minTime) {
+          const [minH, minM, minS] = this.formatTime(minTime)
+          minHour = minH
+          const overlimitHour = +hour <= +minHour
+          minMinute = overlimitHour ? minM : '00'
+          minSecond = overlimitHour && +minute <= +minMinute ? minS : '00'
         }
-        case 'day': {
-          const year = this.getValue('year')
-          const month = this.getValue('month')
-          const minMonth = minDate.getMonth() + 1
-          const maxMonth = maxDate.getMonth() + 1
-          const minDay = year === minYear && month === minMonth ? minDate.getDate() : 1
-          const maxDay = year === maxYear && month === maxMonth ? maxDate.getDate() : getMonthEndDay(year, month)
-          return {
-            type,
-            min: minDay,
-            max: maxDay,
-          }
+        if (maxTime) {
+          const [maxH, maxM, maxS] = this.formatTime(maxTime)
+          maxHour = maxH
+          const overlimitHour = +hour >= +maxHour
+          maxMinute = overlimitHour ? maxM : '59'
+          maxSecond = overlimitHour && +minute >= +maxMinute ? maxS : '59'
+        }
+      }
+
+      switch (type) {
+        case 'hour':
+          return { type, min: minHour, max: maxHour }
+        case 'minute': {
+          return { type, min: minMinute, max: maxMinute }
+        }
+        case 'second': {
+          return { type, min: minSecond, max: maxSecond }
         }
         default:
           return
@@ -94,6 +81,7 @@ export default {
       const { filter, formatter } = this
 
       const length = max - min + 1
+
       return genArray(
         length,
         (index) => {

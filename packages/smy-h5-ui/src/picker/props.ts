@@ -22,7 +22,7 @@ export type ChildrenFormatter = (item: PickerColumnItem, scrollColumn: ScrollCol
 
 export type TextFormatter = (item: PickerColumnItem, scrollColumn: ScrollColumn) => string
 
-export type ValueFormatter = (item: PickerColumnItem, scrollColumn: ScrollColumn) => string | number
+export type ValueFormatter = (item: PickerColumnItem, scrollColumn: ScrollColumn) => Numeric
 
 export interface ScrollColumn {
   id: number

@@ -17,6 +17,9 @@ importers:
       '@types/node':
         specifier: ^16.11.45
         version: 16.18.41
+      execa:
+        specifier: 5.1.1
+        version: 5.1.1
       lint-staged:
         specifier: ^14.0.1
         version: 14.0.1

@@ -25,6 +25,7 @@
     "@smy-h5/cli": "workspace:*",
     "@smy-h5/eslint-config": "workspace:*",
     "@types/node": "^16.11.45",
+    "execa": "5.1.1",
     "lint-staged": "^14.0.1",
     "simple-git-hooks": "^2.8.0",
     "stylelint": "^14.11.0",

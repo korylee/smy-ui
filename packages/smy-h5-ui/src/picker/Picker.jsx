@@ -40,10 +40,16 @@ export default {
 
   watch: {
     value(val, oldVal) {
+      if (this.initing) return
       if (listEqual(val, oldVal) || listEqual(val, this.pickedValues)) {
         return
       }
-      this.init()
+      const { scrollColumns } = this
+      val?.forEach((item, index) => {
+        const changed = item !== oldVal?.[index]
+        const scrollColumn = scrollColumns[index]
+        changed && scrollColumn && this.updatePicked(scrollColumn)
+      })
     },
     columns: {
       immediate: true,
@@ -72,17 +78,17 @@ export default {
 
     init() {
       const { columns } = this
+      this.initing = true
       this.pickedIndexes = []
       this.pickedValues = []
       this.scrollColumns = this.cascade
         ? this.initCascade(columns)
         : this.initNormal(isArray(columns[0]) ? columns : [columns])
+      this.initing = false
     },
 
     initNormal(columns) {
-      return columns.map((column, columnIndex) => {
-        return this.createScrollColumn(column, columnIndex)
-      })
+      return columns.map(this.createScrollColumn)
     },
 
     initCascade(columns) {
@@ -100,20 +106,12 @@ export default {
       this.setChildren(scrollColumns, nextColumnIndex, this.getChildren(children[pickedIndex], scrollColumn))
     },
 
-    createScrollColumn(column, columnIndex, columns) {
-      const { value, scrollColumns, pickedIndexes, pickedValues, presetValue } = this
-      const oldScrollColumn = scrollColumns[columnIndex]
-      const id = oldScrollColumn && oldScrollColumn.column === column ? oldScrollColumn.id : sid++
-
-      const scrollColumn = {
-        id,
-        column,
-        columnIndex,
-        columns,
-      }
-
+    updatePicked(scrollColumn) {
+      const { value, pickedIndexes, pickedValues, presetValue } = this
+      const { column, columnIndex, pickedIndex: oldPickedIndex } = scrollColumn
       const pickedValue = wrapInArray(value)[columnIndex]
       const values = column.map((item) => this.getValue(item, scrollColumn))
+      if (!isNil(oldPickedIndex) && pickedValue === values[oldPickedIndex]) return
       let findedIndex = -1
       if (!isNil(pickedValue)) {
         findedIndex = values.indexOf(pickedValue)
@@ -123,9 +121,24 @@ export default {
         isNil(defaultValue) || (findedIndex = values.indexOf(defaultValue))
       }
       const pickedIndex = findIndexFromColumn(findedIndex, scrollColumn, this.getDisabled)
+      if (oldPickedIndex === pickedIndex) return
       pickedIndexes[columnIndex] = pickedIndex
       pickedValues[columnIndex] = values[pickedIndex]
       scrollColumn.pickedIndex = pickedIndex
+    },
+
+    createScrollColumn(column, columnIndex, columns) {
+      const { scrollColumns } = this
+      const oldScrollColumn = scrollColumns[columnIndex]
+      const id = listEqual(oldScrollColumn?.column, column) ? oldScrollColumn.id : sid++
+
+      const scrollColumn = {
+        id,
+        column,
+        columnIndex,
+        columns,
+      }
+      this.updatePicked(scrollColumn)
       return scrollColumn
     },
 

@@ -10,8 +10,7 @@ export type DatePickerColumnType = (typeof DATE_PICKER_COLUMN_TYPE)[number]
 
 const currentYear = new Date().getFullYear()
 
-type Formatter = (item: PickerBaseColumnItem) => PickerBaseColumnItem
-type Filter = (item: PickerBaseColumnItem) => boolean
+export type TimePickerColumnItem = PickerBaseColumnItem & { type: DatePickerColumnType }
 
 export const props = assign(
   {
@@ -20,10 +19,10 @@ export const props = assign(
     minDate: { type: Date, default: () => new Date(currentYear - 10, 0, 1), validator: isDate },
     maxDate: { type: Date, default: () => new Date(currentYear + 10, 11, 31), validator: isDate },
     formatter: {
-      type: Function as PropType<Formatter>,
-      default: (item: Formatter) => item,
+      type: Function as PropType<(item: TimePickerColumnItem) => TimePickerColumnItem>,
+      default: (item: TimePickerColumnItem) => item,
     },
-    filter: Function as PropType<Filter>,
+    filter: Function as PropType<(item: TimePickerColumnItem) => boolean>,
   },
   pickerSharedProps
 )

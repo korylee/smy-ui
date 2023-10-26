@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import { isArray, isNil } from '../_utils/is'
-import { range } from '../_utils/shared'
+import { Numeric, isArray, isNil } from '../_utils/is'
+import { isSameValue, range } from '../_utils/shared'
 import { SmyComponent } from '../_utils/smy/component'
 import { mountComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
@@ -10,7 +10,7 @@ export function listEqual(listA: any[], listB: any[]) {
   if (!isArray(listA) || !isArray(listB)) return false
   if (listA === listB) return true
   if (listA.length !== listB.length) return false
-  return listA.every((item, index) => item === listB[index])
+  return listA.every((item, index) => isSameValue(item, listB[index]))
 }
 
 const [name, bem] = createNamespace('picker')
@@ -29,7 +29,7 @@ export const pickerPopupListeners = [
   'update:show',
 ] as const
 
-export const pickerSharedListeners = [...pickerPopupListeners, 'confirm', 'cancel', 'change'] as const
+export const pickerSharedListeners = [...pickerPopupListeners, 'confirm', 'cancel', 'change', 'update:value'] as const
 
 export function findIndexFromColumn(index: number, scrollColumn: ScrollColumn, getDisabled: DisabledFormatter) {
   const { column } = scrollColumn
@@ -52,7 +52,7 @@ export type PartialRequired<T, R extends keyof T> = Omit<T, R> &
     [O in R]: T[O]
   }>
 
-export type PickedValues = string[]
+export type PickedValues = Numeric[]
 
 export type PickerResolvedState = 'confirm' | 'close' | 'cancel'
 
