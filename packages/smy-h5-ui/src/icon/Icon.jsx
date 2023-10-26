@@ -50,7 +50,8 @@ export default {
     },
   },
   render() {
-    const { tag, name, $createElement: h, shrinking, namespace, nextName, style, $listeners, iconfont } = this
+    const vm = this
+    const { tag, name, $createElement: h, shrinking, namespace, nextName, style, $listeners, iconfont } = vm
     const defaultSlot = getSlot(this)
     const baseClass = bem({ shrinking })
     let child = defaultSlot

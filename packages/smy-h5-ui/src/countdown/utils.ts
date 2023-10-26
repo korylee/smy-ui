@@ -1,4 +1,4 @@
-import { toNumber } from '../_utils/shared'
+import { padZero, toNumber } from '../_utils/shared'
 import { cancelAnimationFrame, requestAnimationFrame } from '../_utils/dom'
 
 export type TimeData = ReturnType<typeof formatTime>
@@ -13,7 +13,7 @@ export function parseTime(format: string, time: TimeData): string {
     if (!format.includes(scannedFormat)) {
       scannedTimes[index + 1] += scannedTimes[index] * padValues[index]
     } else {
-      format = format.replace(scannedFormat, String(scannedTimes[index]).padStart(2, '0'))
+      format = format.replace(scannedFormat, padZero(scannedTimes[index], 2))
     }
   })
 
@@ -21,7 +21,7 @@ export function parseTime(format: string, time: TimeData): string {
   const msMatch = format.match(msReg)
 
   if (msMatch?.length) {
-    const ms = String(scannedTimes[scannedTimes.length - 1]).padStart(3, '0')
+    const ms = padZero(scannedTimes[scannedTimes.length - 1], 3)
     format = format.replace(msReg, ms.slice(0, msMatch[0].length))
   }
   return format

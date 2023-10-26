@@ -7,7 +7,8 @@
 @picker-toolbar-padding: 0 4px;
 @picker-mask-background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4)),
   linear-gradient(0deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4));
-@picker-option-color: rgba(0, 0, 0, 0.9);
+@picker-item-color: rgba(0, 0, 0, 0.9);
+@picker-item-disabled-opacity: 0.3;
 
 :root {
   --picker-background: @picker-background;
@@ -18,7 +19,8 @@
   --picker-title-font-size: @picker-title-font-size;
   --picker-toolbar-padding: @picker-toolbar-padding;
   --picker-mask-background-image: @picker-mask-background-image;
-  --picker-option-color: @picker-option-color;
+  --picker-item-color: @picker-item-color;
+  --picker-item-disabled-opacity: @picker-item-disabled-opacity;
 }
 
 .smy-picker {
@@ -56,13 +58,17 @@
     transition-timing-function: cubic-bezier(0.23, 1, 0.68, 1);
   }
 
-  &__option {
+  &__item {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     padding: 0 4px;
-    color: var(--picker-option-color);
+    color: var(--picker-item-color);
+    &--disabled {
+      cursor: not-allowed;
+      opacity: var(--picker-item-disabled-opacity);
+    }
   }
 
   &__picked {
@@ -99,11 +105,11 @@
     padding: var(--picker-toolbar-padding);
   }
 
-  &__confirm-button[smy-picker-cover] {
+  &__confirm[smy-picker-cover] {
     color: var(--picker-confirm-button-text-color);
   }
 
-  &__cancel-button[smy-picker-cover] {
+  &__cancel[smy-picker-cover] {
     color: var(--picker-cancel-button-text-color);
   }
 

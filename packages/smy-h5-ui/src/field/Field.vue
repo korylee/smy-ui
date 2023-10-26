@@ -61,7 +61,7 @@ export default {
   components: { SmyIcon, SmyFormDetails },
   mixins: [
     createProxiedModel('value', 'modelValue', {
-      passive: false,
+      // passive: false,
       transformIn: (value) => String(value || ''),
     }),
     ValidateProvider,
@@ -86,6 +86,7 @@ export default {
       }
       return `${count}/${maxlength}`
     },
+    resetValidate: ({ _reset }) => _reset,
   },
   watch: {
     value: 'init',
@@ -164,7 +165,7 @@ export default {
         }
       }
       if (value !== this.value) {
-        this.$emit('input', value)
+        this.modelValue = value
       }
     },
     onBlur(event) {
@@ -201,7 +202,7 @@ export default {
       target.dispatchEvent(new Event('input'))
     },
     onClear(event) {
-      this.$emit('input', '')
+      this.modelValue = ''
       this.$emit('clear', event)
     },
     adjustTextareaSize() {
@@ -209,6 +210,15 @@ export default {
       const { input } = this.$refs
       if (type !== 'textarea' || !input || !autosize) return
       resizeTextarea(input, autosize)
+    },
+    validate() {
+      this._reset()
+      this.$emit('startValidate')
+      return this._validate(this.modelValue).then(() => {
+        const { _status, _errorMessage, name } = this
+        this.$emit('endValidate')
+        return _status === 'failed' ? { name, message: _errorMessage } : undefined
+      })
     },
   },
 }

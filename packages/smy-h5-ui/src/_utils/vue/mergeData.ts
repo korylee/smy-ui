@@ -1,5 +1,4 @@
-import { VNodeData } from 'vue'
-import { assign, camelize, keys, wrapInArray } from '../shared'
+import { camelize } from '../shared'
 import { isString } from '../is'
 
 const pattern = {
@@ -29,6 +28,7 @@ export function mergeStyles(...args: (string | undefined | object | object[])[])
   return result
 }
 
+/**
 export function mergeClasses(...args: (undefined | string | object[] | object)[]) {
   return args.reduce((acc, cur) => {
     if (!cur) return acc
@@ -114,3 +114,5 @@ export function mergeData(...args: VNodeData[]) {
   }
   return mergeTarget
 }
+
+**/

@@ -34,8 +34,8 @@
       :popup="cascade.popup"
       cascade
       title="请选择"
-      text-formatter="text"
-      value-formatter="text"
+      item-text="text"
+      item-value="text"
       @cancel="cascade.show = false"
       @confirm="cascade.show = false"
       @change="onChange"
@@ -154,7 +154,7 @@ export default {
       })
     },
     showCascadePicker() {
-      Picker({ cascade: true, columns: cascadeColumns, textFormatter: 'text', valueFormatter: 'text' }).then(
+      Picker({ cascade: true, columns: cascadeColumns, itemText: 'text', itemValue: 'text' }).then(
         ({ state, values, indexes }) => {
           Toast(`${state}: ${values}`)
           console.log(state, values, indexes)

@@ -3,10 +3,12 @@ import { ExtractPropTypes, createComponentProp, createStringProp, numericProp } 
 //@ts-ignore
 import CloseCircle from '@smy-h5/icons/dist/es/CloseCircle'
 import { FieldAutosize } from './utils'
+import { assign } from '../_utils/shared'
+import { validateProviderProp } from '../_mixins/validate'
 
 type FieldClearTrigger = 'always' | 'focus'
 
-export const props = {
+const baseProps = {
   name: String,
   value: numericProp,
   type: String,
@@ -28,5 +30,7 @@ export const props = {
   clearTrigger: createStringProp<FieldClearTrigger>('always'),
   errorMessage: String,
 }
+
+export const props = assign(baseProps, validateProviderProp)
 
 export type FieldProps = ExtractPropTypes<typeof props>

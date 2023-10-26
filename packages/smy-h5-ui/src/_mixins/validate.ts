@@ -18,6 +18,7 @@ type ProviderNode = Vue & {
   $_vObserver: ObserverNode
   _reset: () => void
   _errorMessage: string
+  _status: 'unvalidated' | 'passed' | 'failed'
   _validate: (value: any) => Promise<any>
   validate?: () => Promise<any>
   rules: ProviderRules
@@ -66,25 +67,28 @@ export const validateProviderProp = {
 
 export const ValidateProvider: ComponentOptions<ProviderNode> = {
   mixins: [createChildrenMixin(OBSERVER_FIELD, { sort: false, children: PROVIDER_FIELD })],
-  data: () => ({ _errorMessage: '' }),
+  data: () => ({ _errorMessage: '', _status: 'unvalidated' }),
   methods: {
-    _validate(value: any) {
+    _validate(this: ProviderNode, value: any, rules = this.rules) {
       const vm = this
-      const { rules } = vm
       return validate(value, rules).then((res) => {
         const { valid, errors } = res
         if (!valid) {
           const [message] = errors
           vm._errorMessage = message
+          vm._status = 'failed'
           return res
         }
 
-        valid && (vm._errorMessage = '')
+        vm._errorMessage = ''
+        vm._status = 'passed'
         return res
       })
     },
     _reset() {
-      ;(this as any)._errorMessage = ''
+      const vm = this
+      vm._errorMessage = ''
+      vm._status = 'unvalidated'
     },
   },
 }

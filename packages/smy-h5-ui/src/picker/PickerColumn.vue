@@ -1,16 +1,11 @@
 <template>
-  <div
-    :class="bem('column')"
-    @touchstart="handleTouchstart"
-    @touchmove.prevent="handleTouchmove"
-    @touchend="handleTouchend"
-  >
-    <div :style="scrollerStyle" :class="bem('scroller')" ref="scrollEl" @transitionend="handleTransitionend">
+  <div :class="bem('column')" @touchstart="onTouchstart" @touchmove.prevent="onTouchmove" @touchend="onTouchend">
+    <div :style="scrollerStyle" :class="bem('scroller')" ref="scrollEl" @transitionend="onTransitionend">
       <div
-        v-for="(item, itemIndex) in column"
+        v-for="(item, itemIndex) in scrollColumn.column"
         :key="itemIndex"
         :style="{ height: `${height}px` }"
-        :class="bem('option')"
+        :class="bem('item', { disabled: getDisabled(item) })"
       >
         <slot name="item" :item="item" :index="itemIndex" />
       </div>
@@ -21,23 +16,23 @@
 <script>
 import { getTranslate } from '../_utils/dom'
 import { range } from '../_utils/shared'
-import { bem, name } from './utils'
+import { bem, name, findIndexFromColumn } from './utils'
 
 const MOMENTUM_RECORD_TIME = 300
 const MOMENTUM_ALLOW_DISTANCE = 15
+const MOMENTUM_DISTANCE_MULTIPLES = 0.003
 
 function momentum(distance, duration) {
-  return distance / duration / 0.003
+  return distance / duration / MOMENTUM_DISTANCE_MULTIPLES
 }
 
 export default {
   name: name + '-column',
   props: {
     height: Number,
-    column: Array,
-    columnIndex: Number,
-    pickedIndex: Number,
     center: Number,
+    getDisabled: Function,
+    scrollColumn: Object,
   },
   data: (vm) => ({
     duration: 0,
@@ -47,7 +42,6 @@ export default {
     touching: false,
     translate: vm.center,
     scrolling: false,
-    index: 0,
   }),
 
   computed: {
@@ -61,25 +55,25 @@ export default {
   },
 
   watch: {
-    pickedIndex: {
+    'scrollColumn.pickedIndex': {
       immediate: true,
-      handler(pickedIndex) {
-        if (pickedIndex === this.index) return
-        this.scrollTo(pickedIndex, 0)
+      handler(val) {
+        if (val === this.pickedIndex) return
+        this.scrollTo(val, 0)
       },
     },
   },
 
   methods: {
     bem,
-    handleTouchstart() {
+    onTouchstart() {
       const { scrollEl } = this.$refs
       this.touching = true
       this.scrolling = false
       this.duration = 0
       this.translate = getTranslate(scrollEl)
     },
-    handleTouchmove(event) {
+    onTouchmove(event) {
       if (!this.touching) return
 
       const { clientY } = event.touches[0]
@@ -94,7 +88,7 @@ export default {
         this.momentumPrevY = this.translate
       }
     },
-    handleTouchend() {
+    onTouchend() {
       this.touching = false
       this.scrolling = true
       this.prevY = undefined
@@ -102,16 +96,20 @@ export default {
       const duration = performance.now() - this.momentumTime
       const shouldMomentum = Math.abs(distance) >= MOMENTUM_ALLOW_DISTANCE && duration <= MOMENTUM_RECORD_TIME
       shouldMomentum && (this.translate += momentum(distance, duration))
-      this.scrollTo(this.getIndex(this.translate), shouldMomentum ? 1000 : 200)
+      const index = this.getIndex(this.translate)
+      this.scrollTo(index, shouldMomentum ? 800 : 200)
     },
 
-    handleTransitionend() {
-      this.scrolling = false
+    onTransitionend() {
       this.change()
     },
 
     limitTranslate(translate) {
-      const { height, center, column } = this
+      const {
+        height,
+        center,
+        scrollColumn: { column },
+      } = this
       const START_LIMIT = height + center
       const END_LIMIT = center - column.length * height
 
@@ -119,21 +117,27 @@ export default {
     },
 
     scrollTo(index, duration = 0, noEmit = false) {
-      const { height, center } = this
+      const { height, center, scrollColumn } = this
       const translate = center - index * height
+      this.prevIndex = scrollColumn.pickedIndex
+
       if (translate === this.translate) {
         this.scrolling = false
-        !noEmit && this.change()
+        this.change(noEmit)
       } else {
         this.translate = translate
       }
       this.duration = duration
-      if (this.index === index) return
-      this.index = index
-      this.$emit('update:picked-index', index)
+      if (scrollColumn.pickedIndex === index) return
+      this.pickedIndex = index
+      scrollColumn.pickedIndex = index
+      this.$emit('scroll-into')
     },
-    change() {
-      this.$emit('change')
+    change(onEmit = false) {
+      const { scrollColumn, prevIndex } = this
+      this.scrolling = false
+      const moved = prevIndex !== scrollColumn.pickedIndex
+      !onEmit && moved && this.$emit('change')
     },
     stopScroll() {
       const { scrollEl } = this.$refs
@@ -141,8 +145,9 @@ export default {
       this.scrollTo(index, 0, true)
     },
     getIndex(translate) {
-      const { center, height, column } = this
-      return range(Math.round((center - translate) / height), 0, column.length - 1)
+      const { center, height, scrollColumn, getDisabled } = this
+      const index = Math.round((center - translate) / height)
+      return findIndexFromColumn(index, scrollColumn, getDisabled)
     },
   },
 }

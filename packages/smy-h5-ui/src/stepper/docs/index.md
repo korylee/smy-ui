@@ -13,142 +13,60 @@ Vue.use(Stepper)
 
 ### 基础用法
 
-```html
-<template>
-  <smy-stepper v-model="value" />
-</template>
-<script>
-  export default {
-    data: () => ({
-      value: 0,
-    }),
-  }
-</script>
+```demo
+import BasicExample from '../example/BasicExample.vue'
 ```
 
 ### 步长设置
 
 设置步长为`2`
 
-```html
-<template>
-  <smy-stepper v-model="value" step="2" />
-</template>
-<script>
-  export default {
-    data: () => ({
-      value: 0,
-    }),
-  }
-</script>
+```demo
+import StepExample from '../example/StepExample.vue'
 ```
 
 ### 限制输入范围
 
 `min` 和 `max` 属性分别表示最小值和最大值
 
-```html
-<template>
-  <smy-stepper v-model="value" min="10" max="20" />
-</template>
-<script>
-  export default {
-    data: () => ({
-      value: 0,
-    }),
-  }
-</script>
+```demo
+import LimitExample from '../example/LimitExample.vue'
 ```
 
 ### 禁用操作
 
 `disabled` 禁用状态下无法点击按钮或修改输入框。
 
-```html
-<template>
-  <smy-stepper v-model="value" disabled />
-</template>
-<script>
-  export default {
-    data: () => ({
-      value: 0,
-    }),
-  }
-</script>
+```demo
+import DisabledExample from '../example/DisabledExample.vue'
 ```
 
 ### 只读禁用输入框
 
 `readonly` 设置只读禁用输入框输入行为
 
-```html
-<template>
-  <smy-stepper v-model="value" readonly />
-</template>
-<script>
-  export default {
-    data: () => ({
-      value: 0,
-    }),
-  }
-</script>
+```demo
+import ReadonlyExample from '../example/ReadonlyExample.vue'
 ```
 
 ### 支持小数
 
 设置步长 `step` 0.1 `decimal-places` 小数保留 1 位
 
-```html
-<template>
-  <smy-stepper v-model="value" step="0.1" decimal-places="1" />
-</template>
-<script>
-  export default {
-    data: () => ({
-      value: 0,
-    }),
-  }
-</script>
+```demo
+import DecimalExample from '../example/DecimalExample.vue'
 ```
 
 ### 自定义按钮大小
 
-```html
-<template>
-  <smy-stepper v-model="value" width="200" height="40" button-width="40" button-size="25" />
-</template>
-<script>
-  export default {
-    data: () => ({
-      value: 0,
-    }),
-  }
-</script>
+```demo
+import CustomSizeExample from '../example/CustomSizeExample.vue'
 ```
 
 ### 自定义按钮
 
-```html
-<template>
-  <smy-stepper v-model="value">
-    <template #minus>
-      <smy-icon><close-circle /></smy-icon>
-    </template>
-    <template #plus>
-      <smy-icon><close-circle-outline /></smy-icon>
-    </template>
-  </smy-stepper>
-</template>
-<script>
-  import { CloseCircle, CloseCircleOutline } from '@smy-h5/icons'
-
-  export default {
-    components: { CloseCircle, CloseCircleOutline },
-    data: () => ({
-      value: 0,
-    }),
-  }
-</script>
+```demo
+import ButtonExample from '../example/ButtonExample.vue'
 ```
 
 ## API

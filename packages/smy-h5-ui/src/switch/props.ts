@@ -1,16 +1,9 @@
-import {
-  ExtractPropTypes,
-  createNumericProp,
-  createStringProp,
-  createUnknownProp,
-  numericProp,
-  truthProp,
-} from '../_utils/vue/props'
+import { ExtractPropTypes, createStringProp, createUnknownProp, numericProp, truthProp } from '../_utils/vue/props'
 
 export const props = {
   value: createUnknownProp(false),
   disabled: Boolean,
-  size: createNumericProp(12),
+  size: numericProp,
   activeColor: createStringProp(''),
   inactiveColor: createStringProp(''),
   activeLabel: createStringProp(''),

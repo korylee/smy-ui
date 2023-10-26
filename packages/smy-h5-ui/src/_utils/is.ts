@@ -27,7 +27,7 @@ export const isPlainObject = createIsType<Record<string, any>>('Object')
 
 export const isRegExp = createIsType<RegExp>('RegExp')
 
-export const isDate = createIsType<Date>('Date')
+export const isDate = (val: unknown): val is Date => createIsType<Date>('Date')(val) && !Number.isNaN(val.getTime())
 
 export const isObject = (val: unknown): val is object => typeof val === 'object' && val !== null
 
@@ -49,3 +49,5 @@ export const isNumeric = (val: unknown): val is Numeric => isNumber(val) || isNu
 
 export const isPromise = <T = any>(val: unknown): val is Promise<T> =>
   isPlainObject(val) && isFunction(val.then) && isFunction(val.catch)
+
+export const isInteger = (num: number) => Math.floor(num) === num

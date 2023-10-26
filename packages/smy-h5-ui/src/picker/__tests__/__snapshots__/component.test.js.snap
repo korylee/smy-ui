@@ -44,7 +44,7 @@ exports[`test picker example 1`] = `
         <div class=\\"smy-cell__title\\">请选择</div>
         <!---->
       </div>
-      <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
+      <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\">
           <div class=\\"smy-switch__thumb\\">
             <!---->
           </div>
@@ -69,7 +69,7 @@ exports[`test picker example 1`] = `
       <div class=\\"smy-cell__title\\">请选择</div>
       <!---->
     </div>
-    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
+    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\">
         <div class=\\"smy-switch__thumb\\">
           <!---->
         </div>
@@ -93,7 +93,7 @@ exports[`test picker example 1`] = `
       <div class=\\"smy-cell__title\\">请选择</div>
       <!---->
     </div>
-    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
+    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\">
         <div class=\\"smy-switch__thumb\\">
           <!---->
         </div>
@@ -117,7 +117,7 @@ exports[`test picker example 1`] = `
       <div class=\\"smy-cell__title\\">Tuesday,Afternoon</div>
       <!---->
     </div>
-    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\" style=\\"font-size: 12px;\\">
+    <div class=\\"smy-cell__extra\\">popup: <div tabindex=\\"0\\" aria-checked=\\"true\\" role=\\"switch\\" class=\\"smy-switch smy-switch--active\\">
         <div class=\\"smy-switch__thumb\\">
           <!---->
         </div>
@@ -143,18 +143,18 @@ exports[`test scroll up & onConfirm 1`] = `
     <div class=\\"smy-popup__overlay\\" style=\\"z-index: 1002;\\"></div>
     <transition-stub name=\\"smy-slide-bottom\\">
       <div smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom smy-picker\\" style=\\"z-index: 1003;\\">
-        <div class=\\"smy-picker__toolbar\\"><span smy-picker-cover=\\"\\" class=\\"smy-picker__cancel-button\\">取消</span>
-          <div class=\\"smy-picker__title\\"></div> <span smy-picker-cover=\\"\\" class=\\"smy-picker__confirm-button\\">确认</span></div>
+        <div class=\\"smy-picker__toolbar\\"><span smy-picker-cover=\\"\\" class=\\"smy-picker__cancel\\">取消</span>
+          <div class=\\"smy-picker__title\\"></div> <span smy-picker-cover=\\"\\" class=\\"smy-picker__confirm\\">确认</span></div>
         <div class=\\"smy-picker__columns\\" style=\\"height: 264px;\\">
           <div class=\\"smy-picker__column\\">
             <div class=\\"smy-picker__scroller\\" style=\\"transform: translate3d(0, 110px, 0); transition-duration: 0ms; transition-property: none;\\">
-              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+              <div class=\\"smy-picker__item\\" style=\\"height: 44px;\\">
                 <div class=\\"smy-picker__text\\">A</div>
               </div>
-              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+              <div class=\\"smy-picker__item\\" style=\\"height: 44px;\\">
                 <div class=\\"smy-picker__text\\">B</div>
               </div>
-              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+              <div class=\\"smy-picker__item\\" style=\\"height: 44px;\\">
                 <div class=\\"smy-picker__text\\">C</div>
               </div>
             </div>
@@ -174,18 +174,18 @@ exports[`test scroll up & onConfirm 2`] = `
     <div class=\\"smy-popup__overlay\\" style=\\"z-index: 1002;\\"></div>
     <transition-stub name=\\"smy-slide-bottom\\">
       <div smy-picker-cover=\\"\\" class=\\"smy-popup__content smy-popup__content--bottom smy-picker\\" style=\\"z-index: 1003;\\">
-        <div class=\\"smy-picker__toolbar\\"><span smy-picker-cover=\\"\\" class=\\"smy-picker__cancel-button\\">取消</span>
-          <div class=\\"smy-picker__title\\"></div> <span smy-picker-cover=\\"\\" class=\\"smy-picker__confirm-button\\">确认</span></div>
+        <div class=\\"smy-picker__toolbar\\"><span smy-picker-cover=\\"\\" class=\\"smy-picker__cancel\\">取消</span>
+          <div class=\\"smy-picker__title\\"></div> <span smy-picker-cover=\\"\\" class=\\"smy-picker__confirm\\">确认</span></div>
         <div class=\\"smy-picker__columns\\" style=\\"height: 264px;\\">
           <div class=\\"smy-picker__column\\">
             <div class=\\"smy-picker__scroller\\" style=\\"transform: translate3d(0, 22px, 0); transition-duration: 200ms; transition-property: transform;\\">
-              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+              <div class=\\"smy-picker__item\\" style=\\"height: 44px;\\">
                 <div class=\\"smy-picker__text\\">A</div>
               </div>
-              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+              <div class=\\"smy-picker__item\\" style=\\"height: 44px;\\">
                 <div class=\\"smy-picker__text\\">B</div>
               </div>
-              <div class=\\"smy-picker__option\\" style=\\"height: 44px;\\">
+              <div class=\\"smy-picker__item\\" style=\\"height: 44px;\\">
                 <div class=\\"smy-picker__text\\">C</div>
               </div>
             </div>

@@ -13,7 +13,6 @@
 </template>
 <script>
 import { createChildrenMixin } from '../_mixins/relation'
-import { SlotsMixin } from '../_mixins/slots'
 import TabTitle from './TabTitle.vue'
 import { assign, pick } from '../_utils/shared'
 import { props } from './props'
@@ -23,7 +22,7 @@ import { name, bem } from './utils'
 export default {
   name,
   props,
-  mixins: [createChildrenMixin('tabs'), SlotsMixin],
+  mixins: [createChildrenMixin('tabs')],
   components: { SmySwiperItem },
   data: () => ({
     inited: false,
@@ -47,14 +46,24 @@ export default {
   methods: {
     bem,
     renderTitle({ data, listeners }) {
-      const { getSlot, $createElement: h, $props, active } = this
-      const attrs = assign({ role: 'tab', active }, data.attrs, pick($props, ['badge', 'title', 'disabled']))
+      const vm = this
+      const { $createElement: h, $props, active, titleClass, titleStyle } = vm
+      const attrs = assign(
+        {
+          role: 'tab',
+          active,
+        },
+        data.attrs,
+        pick($props, ['badge', 'title', 'disabled'])
+      )
       const mergedData = {
         on: listeners,
         attrs,
+        class: titleClass,
+        style: titleStyle,
         ref: 'tab-title',
       }
-      return h(TabTitle, mergedData, [getSlot('title')])
+      return h(TabTitle, mergedData, [vm._t('title')])
     },
     init() {
       this.inited = true

@@ -16,6 +16,7 @@
   --switch-padding: @switch-padding;
   --switch-label-color: @switch-label-color;
   --switch-loading-color: @switch-loading-color;
+  --switch-size: 12px;
 }
 
 .smy-switch {
@@ -32,6 +33,7 @@
   transition: all var(--switch-transition-duration) var(--switch-cubic-bezier);
   cursor: pointer;
   flex: 0 0 auto;
+  font-size: var(--switch-size);
 
   &__label {
     box-sizing: border-box;

@@ -41,7 +41,7 @@ export default {
     },
     style({ size, activeColor, inactiveColor }) {
       return {
-        fontSize: convertToUnit(size),
+        '--switch-size': convertToUnit(size),
         '--switch-color-active': activeColor,
         '--switch-color-inactive': inactiveColor,
       }
@@ -50,9 +50,10 @@ export default {
   methods: {
     bem,
     handleToggle(e) {
+      const { activeValue, inactiveValue, disabled, isActive } = this
       if (this.isStopPropagation) e.stopPropagation()
-      if (this.disabled) return
-      const value = this.isActive ? this.inactiveValue : this.activeValue
+      if (disabled) return
+      const value = isActive ? inactiveValue : activeValue
       this.$emit('input', value)
       this.$emit('change', value)
     },

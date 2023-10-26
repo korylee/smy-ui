@@ -33,7 +33,7 @@ function createBem(namespace: string, name: string) {
   return bem
 }
 
-type BEM = ReturnType<typeof createBem>
+export type BEM = ReturnType<typeof createBem>
 
 export function createNamespace<C extends string, D extends string>(name: C, namespace: D): [`${D}-${C}`, BEM]
 export function createNamespace<C extends string>(name: C): [`smy-${C}`, BEM]

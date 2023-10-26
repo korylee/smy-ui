@@ -69,6 +69,8 @@ module.exports = defineConfig({
       { text: 'Toast 吐司气泡', doc: 'toast', type: 2 },
       { text: 'Popup 弹出层', doc: 'popup', type: 2 },
       { text: 'Picker 多列选择器', doc: 'picker', type: 2 },
+      { text: 'DatePicker 日期选择器', doc: 'date-picker', type: 2 },
+      { text: 'PickerGroup 多列选择器', doc: 'picker-group', type: 2 },
       { text: 'Swipe 滑动手势', doc: 'swipe', type: 2 },
       { text: 'Scroller 滚动加载', doc: 'scroller', type: 2 },
       { text: 'PullRefresh 下拉刷新', doc: 'pull-refresh', type: 2 },

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Picker from '..'
-import { trigger, delay } from '../../../jest-utils'
+import { trigger, delay, mockConsole } from '../../../jest-utils'
 
 test('test picker plugin', () => {
   Vue.use(Picker)
@@ -10,6 +10,7 @@ test('test picker plugin', () => {
 const columns = [['A', 'B', 'C']]
 
 test('test picker functional show & close', async () => {
+  const restore = mockConsole('info')
   const onOpen = jest.fn()
   const onOpened = jest.fn()
   const onClose = jest.fn()
@@ -34,9 +35,12 @@ test('test picker functional show & close', async () => {
   await delay(300)
   expect(document.querySelector('.smy-picker')).toBeFalsy()
   expect(onClosed).toHaveBeenCalledTimes(1)
+  restore()
 })
 
 test('test picker functional confirm', async () => {
+  const restore = mockConsole('info')
+
   const onConfirm = jest.fn()
 
   Picker({
@@ -45,11 +49,14 @@ test('test picker functional confirm', async () => {
   })
   await delay(300 + 16)
 
-  await trigger(document.querySelector('.smy-picker__confirm-button'), 'click')
+  await trigger(document.querySelector('.smy-picker__confirm'), 'click')
   expect(onConfirm).toHaveBeenCalledTimes(1)
+  restore()
 })
 
 test('test picker functional cancel', async () => {
+  const restore = mockConsole('info')
+
   const onCancel = jest.fn()
 
   Picker({
@@ -58,25 +65,29 @@ test('test picker functional cancel', async () => {
   })
   await delay(300 + 16)
 
-  await trigger(document.querySelector('.smy-picker__cancel-button'), 'click')
+  await trigger(document.querySelector('.smy-picker__cancel'), 'click')
   expect(onCancel).toHaveBeenCalledTimes(1)
+  restore()
 })
 
-test('test picker functional textFormatter', async () => {
-  const textFormatter = jest.fn().mockReturnValue('text')
+test('test picker functional itemText', async () => {
+  const restore = mockConsole('info')
+
+  const itemText = jest.fn().mockReturnValue('text')
   const onCancel = jest.fn()
   const columns = [['A']]
 
   Picker({
     columns,
-    textFormatter,
+    itemText,
     onCancel,
   })
 
   await delay(300 + 16)
 
-  await trigger(document.querySelector('.smy-picker__cancel-button'), 'click')
+  await trigger(document.querySelector('.smy-picker__cancel'), 'click')
 
-  expect(textFormatter).toHaveBeenLastCalledWith('A', 0)
+  expect(itemText).toHaveBeenCalled()
   expect(document.querySelector('.smy-picker__text').innerHTML).toBe('text')
+  restore()
 })

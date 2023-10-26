@@ -1,124 +1,166 @@
 <template>
   <div :style="style" :class="bem()">
     <div
-      :style="buttonStyle"
-      :class="bem('button', { disabled: !minusable })"
-      @click.prevent="onMinusOrPlus('minus', $event)"
+      v-show="showMinus"
+      :class="bem('minus', { disabled: !minusable })"
+      type="button"
+      :aira-disabled="!minusable || undefined"
+      @click.prevent="onStep('minus', $event)"
       @touchstart.passive="onTouchStart('minus', $event)"
       @touchend="onTouchEnd"
       @touchcancel="onTouchEnd"
     >
-      <slot name="minus">
-        <smy-icon><minus /></smy-icon>
-      </slot>
+      <slot name="minus-icon"> <smy-icon :name="minusIcon" /></slot>
     </div>
     <input
-      :value="internalValue"
-      :min="min"
-      :max="max"
+      ref="input"
+      v-show="showInput"
+      :value="modelValue"
+      :aria-valuemax="max"
+      :aria-valuemin="min"
+      :aria-valuenow="modelValue"
       :readonly="readonly || !isLegal"
       :disabled="disabled || !isLegal"
       :class="bem('input')"
       :placeholder="placeholder"
+      :type="integer ? 'tel' : 'text'"
+      :inputmode="integer ? 'numeric' : 'decimal'"
+      role="spinbutton"
       v-bind="$attrs"
-      type="number"
       @input="onInput"
       @keyup="$emit('keyup', $event)"
-      @focus="$emit('focus', $event)"
+      @focus="onFocus"
       @blur="onBlur"
     />
     <div
-      :class="bem('button', { disabled: !plusable })"
-      :style="buttonStyle"
-      @click.prevent="onMinusOrPlus('plus', $event)"
+      v-show="showPlus"
+      :class="bem('plus', { disabled: !plusable })"
+      type="button"
+      :aira-disabled="!plusable || undefined"
+      @click.prevent="onStep('plus', $event)"
       @touchstart.passive="onTouchStart('plus', $event)"
       @touchend="onTouchEnd"
       @touchcancel="onTouchEnd"
     >
-      <slot name="plus">
-        <smy-icon><plus /></smy-icon>
-      </slot>
+      <slot name="plus-icon"> <smy-icon :name="plusIcon" /> </slot>
     </div>
   </div>
 </template>
 
 <script>
 import { props } from './props'
-import Plus from '@smy-h5/icons/dist/es/Plus'
-import Minus from '@smy-h5/icons/dist/es/Minus'
 import SmyIcon from '../icon'
-import { range, toNumber, formatNumber } from '../_utils/shared'
+import { range, toNumber, formatNumber, decimal } from '../_utils/shared'
 import { throwError } from '../_utils/smy/warn'
-import { createProxiedModel } from '../_mixins/proxiedModel'
-import { convertToUnit, preventDefault } from '../_utils/dom'
+import { convertToUnit, preventDefault, resetScroll } from '../_utils/dom'
 import { createNamespace } from '../_utils/vue/create'
+import { isNil } from '../_utils/is'
 
 const [name, bem] = createNamespace('stepper')
 
 const LONG_PRESS_INTERVAL = 200
 
+const isEqualString = (a, b) => String(a) === String(b)
+
 export default {
   name,
-  mixins: [
-    createProxiedModel('value', 'internalValue', {
-      transformIn: 'normalizeValue',
-    }),
-  ],
   props,
-  components: { Plus, Minus, SmyIcon },
+  components: { SmyIcon },
+  data: (vm) => {
+    const defaultValue = vm.value
+    const modelValue = vm.format(defaultValue)
+    return {
+      modelValue,
+    }
+  },
   computed: {
-    minusable({ internalValue, step, min, disabledMinus, disabled }) {
-      return internalValue - step >= min && !disabledMinus && !disabled
+    minusable({ modelValue, step, min, disabledMinus, disabled }) {
+      return modelValue - step >= min && !disabledMinus && !disabled
     },
-    plusable({ max, internalValue, step, disabled, disabledPlus }) {
-      return (!max || toNumber(internalValue) + toNumber(step) <= max) && !disabledPlus && !disabled
+    plusable({ max, modelValue, step, disabled, disabledPlus }) {
+      return (!max || toNumber(modelValue) + toNumber(step) <= max) && !disabledPlus && !disabled
     },
     isLegal({ min, max }) {
       return min < max && min >= 0
     },
-    style({ width, height }) {
+    style({ width, height, buttonSize, buttonWidth }) {
       return {
         '--stepper-width': convertToUnit(width),
         '--stepper-height': convertToUnit(height),
+        '--stepper-button-font-size': convertToUnit(buttonSize),
+        '--stepper-button-width': convertToUnit(buttonWidth),
       }
-    },
-    buttonStyle({ buttonWidth, buttonSize }) {
-      return { width: convertToUnit(buttonWidth), fontSize: convertToUnit(buttonSize) }
     },
   },
   watch: {
     isLegal(val) {
       !val && throwError(name, `max必须大于min!`)
     },
+    value(value) {
+      if (!isEqualString(value, this.modelValue)) {
+        this.modelValue = this.format(value)
+      }
+    },
+    modelValue: {
+      handler(value) {
+        this.$emit('input', value)
+      },
+      immediate: true,
+    },
   },
   methods: {
     bem,
-    normalizeValue(value) {
-      const { decimalPlaces, min, max } = this
-      return toNumber(toNumber(range(toNumber(value) || min, min, max)).toFixed(decimalPlaces))
+    format(value) {
+      const { decimalPlaces, min, max, allowEmpty, integer } = this
+      if (allowEmpty && value === '') {
+        return value
+      }
+      value = formatNumber(String(value), !integer)
+      value = value === '' ? 0 : toNumber(value, +min)
+      value = range(value, +min, +max)
+      value = isNil(decimalPlaces) || !value ? value : value.toFixed(+decimalPlaces)
+
+      return value
     },
+
+    onFocus(event) {
+      const { readonly } = this
+      const { target } = event
+      readonly ? target.blur() : this.$emit('focus', event)
+    },
+
     onBlur(event) {
       const { target } = event
-      const formatted = this.normalizeValue(formatNumber(String(target.value)))
-      target.value = this.internalValue = formatted
-      this.$emit('blur', event)
+      const value = this.format(target.value)
+      target.value = String(value)
+      this.modelValue = value
+      this.$nextTick(() => {
+        this.$emit('blur', event)
+        resetScroll()
+      })
     },
-    onMinusOrPlus(type, event) {
-      const { plusable, minusable, step, internalValue } = this
+    onStep(type, event) {
+      const { plusable, minusable, step, modelValue } = this
       if ((type === 'plus' && !plusable) || (type === 'minus' && !minusable)) {
         this.$emit('overlimit', type)
         return
       }
-      const diff = type === 'minus' ? -step : +step
-      const value = this.normalizeValue(internalValue + diff)
-      this.internalValue = value
+      const operate = type === 'minus' ? 'subtract' : 'add'
+      const value = this.format(decimal[operate](+modelValue, +step))
+      this.modelValue = value
       this.$emit(type, event)
     },
     onInput(event) {
       const { target } = event
-      const formatted = this.normalizeValue(formatNumber(String(target.value)))
+      const { value } = target
+      const { integer } = this
+      const formatted = formatNumber(String(value), !integer)
+
+      if (!isEqualString(value, formatted)) {
+        input.value = formatted
+      }
+      this.modelValue = formatted
       this.$emit('change', event)
-      this.internalValue = target.value = formatted
     },
     onTouchStart(type, event) {
       if (!this.longPress) return
@@ -127,7 +169,7 @@ export default {
         clearTimeout(this.longPressTimer)
         this.longPressTimer = setTimeout(() => {
           this.isLongPress = true
-          this.onMinusOrPlus(type, event)
+          this.onStep(type, event)
           longPressStep()
         }, LONG_PRESS_INTERVAL)
       }

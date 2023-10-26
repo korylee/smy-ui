@@ -32,7 +32,7 @@ test('test scroll up & onConfirm', async () => {
   await triggerDrag(element, 0, -600)
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.find('.smy-picker__confirm-button').trigger('click')
+  await wrapper.find('.smy-picker__confirm').trigger('click')
   expect(onConfirm).lastCalledWith(['C'], [2])
 
   wrapper.destroy()

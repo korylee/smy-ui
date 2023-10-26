@@ -1,4 +1,4 @@
-import { isBool, isNil, isString, isArray, type Func, isObject, isRegExp, isDate, isFunction } from './is'
+import { isBool, isNil, isString, isArray, type Func, isObject, isRegExp, isDate, isFunction, isInteger } from './is'
 
 const cameLizeRE = /-(\w)/g
 
@@ -11,12 +11,12 @@ export function kebabCase(str: string): string {
 
 export const upperFirst = (word: string) => word.charAt(0).toUpperCase() + word.slice(1)
 
-export function toNumber(val: number | string | boolean | undefined | null): number {
-  if (isNil(val)) return 0
+export function toNumber(val: number | string | boolean | undefined | null, defaultValue = 0): number {
+  if (isNil(val)) return defaultValue
   if (isBool(val)) return Number(val)
   if (isString(val)) {
     val = parseFloat(val)
-    return Number.isNaN(val) ? 0 : val
+    return Number.isNaN(val) ? defaultValue : val
   }
   return val
 }
@@ -34,6 +34,48 @@ export function formatNumber(value: string, allowDot = true, allowMinus = true) 
   value = value.replace(/[^-0-9.]/g, '')
   return value
 }
+
+export const decimal = (() => {
+  /**
+   * 将一个浮点数转化为整数，返回整数和倍数
+   */
+  function toInteger(num: number) {
+    const ret = { num: 0, multiple: 0 }
+    if (isInteger(num)) {
+      ret.num = num
+      return ret
+    }
+    const strNum = num + ''
+    const dotPos = strNum.indexOf('.')
+    const len = strNum.substring(dotPos + 1).length
+    ret.multiple = len
+    ret.num = Number(strNum.replace('.', ''))
+    return ret
+  }
+  const pow = (num: number) => Math.pow(10, num)
+  function operationFactory(operate: 'add' | 'subtract') {
+    return function (a: number, b: number) {
+      const { num: numA, multiple: mulA } = toInteger(a)
+      const { num: numB, multiple: mulB } = toInteger(b)
+
+      switch (operate) {
+        case 'add':
+        case 'subtract': {
+          const [tempA, tempB, max] = mulA > mulB ? [1, pow(mulA - mulB), pow(mulA)] : [pow(mulB - mulA), 1, pow(mulB)]
+          const diff = operate === 'add' ? 1 : -1
+
+          return (numA * tempA + numB * tempB * diff) / max
+        }
+      }
+    }
+  }
+  return {
+    add: operationFactory('add'),
+    subtract: operationFactory('subtract'),
+  }
+})()
+
+export const addNumber = decimal.add
 
 export const range = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
@@ -95,6 +137,7 @@ export function assignWith<T extends AnyObject, U extends AnyObject>(
 
 export function assign<T, U>(object: T, source: U): T & U
 export function assign<T, U, R>(object: T, source1: U, source2: R): T & U & R
+export function assign<T, U, R, P>(object: T, source1: U, source2: R, source3: P): T & U & R & P
 export function assign<T extends AnyObject>(target: T, ...sources: any[]): any {
   return sources.reduce((acc, cur) => (isMergeableObject(cur) ? assignWith(acc, cur, (t, s) => s) : acc), target)
 }
@@ -126,7 +169,10 @@ export function createLRUCache<T, R>(max: number, cache: Map<T, R> = new Map()) 
   }
 }
 
-export function pick<T extends Record<string, any>, R extends keyof T>(source: T, props: R | R[]): Pick<T, R> {
+export function pick<T extends Record<string, any>, R extends keyof T>(
+  source: T,
+  props: R | R[] | Readonly<R>[]
+): Pick<T, R> {
   if (!isObject(source)) return {} as any
   const wrapProps = wrapInArray(props)
   return wrapProps.reduce((res, key: R) => {
@@ -153,8 +199,41 @@ export function createGetPropertyFromItem<R, T>(property: string | ((item: R, ..
   return function (item: R, ...args: T[]) {
     if (isNil(property)) return item ?? fallback
     if (isFunction(property)) return property(item, ...args) ?? fallback
-    if (!isObject(item)) return item ?? fallback
+    if (!isObject(item)) return isNil(fallback) ? item : fallback
     if (isString(property)) return getObjectValueByPath(item, property, fallback)
     return item ?? fallback
   }
 }
+
+function genFillerString(str: string, maxlength: number, fillString: string) {
+  const stringLength = str.length
+  if (maxlength <= stringLength) {
+    return ''
+  }
+  let filler = fillString
+  if (filler === '') return ''
+  const fillLen = maxlength - stringLength
+  while (filler.length < fillLen) {
+    const fLen = filler.length
+    const remainingCodeUnits = fillLen - fLen
+    filler += fLen > remainingCodeUnits ? filler.slice(0, remainingCodeUnits) : filler
+  }
+  return filler.slice(0, fillLen)
+}
+
+const StringPrototype = String.prototype
+
+if (!StringPrototype.padEnd) {
+  StringPrototype.padEnd = function padEnd(maxlength: number, fillString = ' ') {
+    const str = String(this)
+    const filler = genFillerString(str, maxlength, fillString)
+    return str + filler
+  }
+  StringPrototype.padStart = function padStart(maxlength: number, fillString = ' ') {
+    const str = String(this)
+    const filler = genFillerString(str, maxlength, fillString)
+    return filler + str
+  }
+}
+
+export const padZero = (num: number, targetLength = 2) => (num + '').padStart(targetLength, '0')

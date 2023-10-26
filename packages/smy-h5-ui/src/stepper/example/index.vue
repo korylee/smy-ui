@@ -1,53 +1,47 @@
 <template>
   <div>
     <app-demo-title>基础用法</app-demo-title>
-    <smy-cell>
-      <smy-stepper v-model="val1" />
-      <template #extra> {{ val1 }}</template>
-    </smy-cell>
+    <basic-example />
     <app-demo-title>步长设置</app-demo-title>
-    <smy-stepper value="0" :step="2" />
+    <step-example />
     <app-demo-title>限制输入范围</app-demo-title>
-    <smy-stepper value="0" min="10" max="20" />
+    <limit-example />
     <app-demo-title>禁用操作</app-demo-title>
-    <smy-stepper disabled value="0" />
+    <disabled-example />
     <app-demo-title>只读禁用输入框</app-demo-title>
-    <smy-stepper readonly value="0" />
+    <readonly-example />
     <app-demo-title>支持小数</app-demo-title>
-    <smy-stepper value="0" step="0.1" decimal-places="1" />
+    <decimal-example />
     <app-demo-title>自定义按钮大小</app-demo-title>
-    <smy-stepper value="0" step="1" width="200" height="40" button-width="40" button-size="30" />
+    <custom-size-example />
     <app-demo-title>自定义按钮</app-demo-title>
-    <smy-stepper value="0">
-      <template #minus>
-        <smy-icon><arrow-left /></smy-icon>
-      </template>
-      <template #plus>
-        <smy-icon><arrow-right /></smy-icon>
-      </template>
-    </smy-stepper>
+    <button-example />
   </div>
 </template>
 
 <script>
 import { AppDemoTitle } from '@smy-h5/cli/client'
-import SmyStepper from '..'
-import SmyCell from '../../cell'
-import SmyIcon from '../../icon'
-import { ArrowLeft, ArrowRight } from '@smy-h5/icons'
+import BasicExample from './BasicExample.vue'
+import StepExample from './StepExample.vue'
+import LimitExample from './LimitExample.vue'
+import DisabledExample from './DisabledExample.vue'
+import ReadonlyExample from './ReadonlyExample.vue'
+import DecimalExample from './DecimalExample.vue'
+import CustomSizeExample from './CustomSizeExample.vue'
+import ButtonExample from './ButtonExample.vue'
 
 export default {
   name: 'StepperExample',
-  components: { SmyStepper, AppDemoTitle, SmyCell, SmyIcon, ArrowLeft, ArrowRight },
-  data: () => ({
-    val1: 1,
-    val2: 1,
-    val: 0,
-  }),
-  methods: {
-    onEvent(name, event) {
-      console.log(name, event)
-    },
+  components: {
+    AppDemoTitle,
+    BasicExample,
+    StepExample,
+    LimitExample,
+    DisabledExample,
+    ReadonlyExample,
+    DecimalExample,
+    CustomSizeExample,
+    ButtonExample,
   },
 }
 </script>

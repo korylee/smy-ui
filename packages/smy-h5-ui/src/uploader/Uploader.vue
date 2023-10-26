@@ -91,8 +91,9 @@ export default {
       if (this.disabled || !files?.length) {
         return
       }
-      const file = [].slice.call(files)
-      const { onBeforeRead } = this.getListenersWithOn()
+      const file = Array.from(files)
+      const { getListener } = this
+      const onBeforeRead = getListener('before-read')
       Promise.resolve(onBeforeRead ? onBeforeRead(file) : file)
         .then((data) => this.readFile(data ?? file))
         .catch(this.resetInput)
@@ -104,8 +105,9 @@ export default {
       this.$emit('delete', item)
     },
     onClickUpload(event) {
-      const { onClickUpload } = this.getListenersWithOn()
-      onClickUpload?.(event)
+      const { getListener } = this
+      const onClickUpload = getListener('click-upload')
+      onClickUpload(event)
     },
     onReupload(index) {
       this.chooseFile()
@@ -113,7 +115,8 @@ export default {
     },
     onPreview(item) {
       if (!this.previewImage) return
-      const { onClosePreview } = this.getListenersWithOn()
+      const { getListener } = this
+      const onClosePreview = getListener('close-preview')
       const imageFiles = this.value.filter(isImageFile)
       const images = []
       imageFiles.forEach((item) => {
@@ -132,13 +135,15 @@ export default {
       })
     },
     onClickImage(item, index) {
-      const { onClickReupload, onClickPreview } = this.getListenersWithOn()
+      const { getListener } = this
+      const onClickReupload = getListener('click-reupload')
+      const onClickPreview = getListener('click-preview')
       if (this.reupload) {
-        onClickReupload?.(item, index)
+        onClickReupload(item, index)
         this.onReupload(index)
         return
       }
-      onClickPreview?.(item, index)
+      onClickPreview(item, index)
       this.onPreview(item)
     },
     chooseFile() {
@@ -154,7 +159,8 @@ export default {
     onAfterRead(items) {
       this.resetInput()
       const { maxSize, value, reuploadIndex } = this
-      const { onAfterRead } = this.getListenersWithOn()
+      const { getListener } = this
+      const onAfterRead = getListener('after-read')
       if (isOversize(items, maxSize)) {
         const result = filterFiles(items, maxSize)
         items = result.valid
