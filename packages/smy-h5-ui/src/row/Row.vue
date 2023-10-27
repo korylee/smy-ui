@@ -28,19 +28,20 @@ export default {
     average({ gutter }) {
       return toPxNum(gutter) / 2
     },
-    paddingWatchDispatcher({ gutter, cols }) {
-      return [gutter, cols]
+    paddingWatcher({ average, cols }) {
+      return () => {
+        this.$nextTick(() => {
+          cols.forEach((col) => {
+            col.setPadding({ left: average, right: average })
+          })
+        })
+      }
     },
   },
 
   watch: {
-    paddingWatchDispatcher() {
-      const { average, cols } = this
-      this.$nextTick(() => {
-        cols.forEach((col) => {
-          col.setPadding({ left: average, right: average })
-        })
-      })
+    paddingWatcher(run) {
+      run()
     },
   },
 

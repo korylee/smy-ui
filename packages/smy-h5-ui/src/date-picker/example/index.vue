@@ -8,7 +8,7 @@
 
 <script>
 import { AppDemoTitle } from '@smy-h5/cli/client'
-import { Cell, DatePicker } from '@smy-h5/ui'
+import { Cell, DatePicker, Toast } from '@smy-h5/ui'
 
 export default {
   name: 'DatePickerExample',
@@ -19,6 +19,9 @@ export default {
         columnsType: ['year', 'month', 'day'],
         minDate: new Date(2023, 10, 21),
         maxDate: new Date(2024, 5, 23),
+      }).then(({ state, values, indexes }) => {
+        Toast(`${state}: ${values}`)
+        console.log(state, values, indexes)
       })
     },
   },

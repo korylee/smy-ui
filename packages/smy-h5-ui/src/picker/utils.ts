@@ -1,17 +1,15 @@
 import Vue from 'vue'
-import { Numeric, isArray, isNil } from '../_utils/is'
+import { Numeric, isNil } from '../_utils/is'
 import { isSameValue, range } from '../_utils/shared'
 import { SmyComponent } from '../_utils/smy/component'
 import { mountComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
 import { DisabledFormatter, ScrollColumn } from './props'
 
-export function listEqual(listA: any[], listB: any[]) {
-  if (!isArray(listA) || !isArray(listB)) return false
-  if (listA === listB) return true
-  if (listA.length !== listB.length) return false
-  return listA.every((item, index) => isSameValue(item, listB[index]))
-}
+// @ts-ignore
+const functionRenderContextPrototype = Vue.FunctionalRenderContext.prototype
+
+export const looseEqual: (a: any, b: any) => boolean = functionRenderContextPrototype._q || isSameValue
 
 const [name, bem] = createNamespace('picker')
 

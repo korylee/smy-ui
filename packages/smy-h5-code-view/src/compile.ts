@@ -2,9 +2,7 @@ import { CodeFile, ReplStore } from './store'
 import { transformRef, shouldTransformRef, SFCDescriptor, BindingMetadata } from '@vue/compiler-sfc'
 import { transform } from 'sucrase'
 import hashId from 'hash-sum'
-import { compile, parseComponent } from 'vue-template-compiler/browser'
-import less from 'less'
-import * as sass from 'sass'
+import { compile } from 'vue-template-compiler/browser'
 import * as buble from 'vue-template-es2015-compiler/buble'
 
 export const COMP_IDENTIFIER = `__sfc__`
@@ -114,12 +112,14 @@ export async function compileFile(store: ReplStore, file: CodeFile) {
     } else {
       switch (style.lang) {
         case 'less': {
+          const { default: less } = await import('less')
           css += (await less.render(styleResult.code)).css
           break
         }
         case 'scss':
         case 'sass': {
-          css += sass.compileString(styleResult.code).css
+          const { compileString } = await import('sass')
+          css += compileString(styleResult.code).css
           break
         }
         default: {

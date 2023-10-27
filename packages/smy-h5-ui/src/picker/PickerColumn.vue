@@ -58,7 +58,6 @@ export default {
     'scrollColumn.pickedIndex': {
       immediate: true,
       handler(val) {
-        console.log('-----', this._isMounted, this.scrollColumn, val, this.pickedIndex)
         if (val === this.pickedIndex) return
         this.scrollTo(val, 0)
       },

@@ -1,4 +1,4 @@
-import { ExtractPropTypes, createNumericProp } from '../_utils/vue/props'
+import { ExtractPropTypes, componentProp, createNumericProp } from '../_utils/vue/props'
 import type { PropType } from 'vue'
 import { props as loadingProps } from '../loading/props'
 
@@ -59,7 +59,7 @@ export const props = {
     default: false,
   },
   loadingType: loadingProps.type,
-  icon: [String, Function],
+  icon: componentProp,
   iconSize: createNumericProp(30),
   iconPosition: {
     type: String as PropType<ToastIconPosition>,

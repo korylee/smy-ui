@@ -1,10 +1,10 @@
 import Picker from '../picker'
 import { TIME_PICKER_COLUMN_TYPE, props } from './props'
 import { createNamespace } from '../_utils/vue/create'
-import { range, padZero, pick, assign, genArray, isSameValue } from '../_utils/shared'
+import { range, padZero, pick, assign, genArray } from '../_utils/shared'
 import { pickerSharedPropKeys } from '../picker/props'
 import { getListeners } from '../_mixins/listeners'
-import { pickerSharedListeners } from '../picker/utils'
+import { looseEqual, pickerSharedListeners } from '../picker/utils'
 
 import '../popup/popup.less'
 import '../picker/picker.less'
@@ -24,7 +24,7 @@ export default {
     initialParam: {
       immediate: true,
       handler(param, oldParam) {
-        if (isSameValue(param, oldParam)) return
+        if (looseEqual(param, oldParam)) return
         this.columns = this.genOptions(param)
       },
     },

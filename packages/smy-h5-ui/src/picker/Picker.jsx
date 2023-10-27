@@ -4,7 +4,7 @@ import { toPxNum } from '../_utils/dom'
 import { assign, createGetPropertyFromItem, pick, toNumber, wrapInArray } from '../_utils/shared'
 import PickerColumn from './PickerColumn.vue'
 import { isArray, isNil } from '../_utils/is'
-import { bem, name, listEqual, pickerToolbarSlots, pickerPopupListeners, findIndexFromColumn } from './utils'
+import { bem, name, looseEqual, pickerToolbarSlots, pickerPopupListeners, findIndexFromColumn } from './utils'
 import { getListeners } from '../_mixins/listeners'
 import { createChildrenMixin } from '../_mixins/relation'
 import PickerToolbar from './PickerToolbar.vue'
@@ -41,7 +41,7 @@ export default {
   watch: {
     value(val, oldVal) {
       if (this.initing) return
-      if (listEqual(val, oldVal) || listEqual(val, this.pickedValues)) {
+      if (looseEqual(val, oldVal) || looseEqual(val, this.pickedValues)) {
         return
       }
       const { scrollColumns } = this
@@ -54,7 +54,7 @@ export default {
     columns: {
       immediate: true,
       handler(val, oldVal) {
-        if (listEqual(val, oldVal)) return
+        if (looseEqual(val, oldVal)) return
         this.init()
       },
     },
@@ -130,7 +130,7 @@ export default {
     createScrollColumn(column, columnIndex, columns) {
       const { scrollColumns } = this
       const oldScrollColumn = scrollColumns[columnIndex]
-      const id = listEqual(oldScrollColumn?.column, column) ? oldScrollColumn.id : sid++
+      const id = looseEqual(oldScrollColumn?.column, column) ? oldScrollColumn.id : sid++
 
       const scrollColumn = {
         id,

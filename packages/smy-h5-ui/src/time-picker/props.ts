@@ -11,6 +11,11 @@ export type TimePickerColumnItem = PickerBaseColumnItem & { type: TimePickerColu
 
 const validateTime = (val: string) => /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/.test(val)
 
+const timeProp = {
+  type: String,
+  validator: validateTime,
+}
+
 export const props = assign(
   {
     value: createArrayProp<string>(),
@@ -21,14 +26,8 @@ export const props = assign(
     maxMinute: createNumericProp(59),
     minSecond: createNumericProp(0),
     maxSecond: createNumericProp(59),
-    minTime: {
-      type: String,
-      validator: validateTime,
-    },
-    maxTime: {
-      type: String,
-      validator: validateTime,
-    },
+    minTime: timeProp,
+    maxTime: timeProp,
     formatter: {
       type: Function as PropType<(item: TimePickerColumnItem) => TimePickerColumnItem>,
       default: (item: TimePickerColumnItem) => item,
