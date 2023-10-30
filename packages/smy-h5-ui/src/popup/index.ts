@@ -23,4 +23,14 @@ declare interface SmyPopup extends SmyComponent {
   }
 }
 
+export const popupListeners = [
+  'click-overlay',
+  'open',
+  'opened',
+  'close',
+  'closed',
+  'route-change',
+  'update:show',
+] as const
+
 export default withInstall(_Popup) as SmyPopup

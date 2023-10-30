@@ -5,6 +5,7 @@ import { SmyComponent } from '../_utils/smy/component'
 import { mountComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
 import { DisabledFormatter, ScrollColumn } from './props'
+import { popupListeners } from '../popup'
 
 // @ts-ignore
 const functionRenderContextPrototype = Vue.FunctionalRenderContext.prototype
@@ -17,15 +18,7 @@ export { name, bem }
 
 export const pickerToolbarSlots = ['cancel', 'confirm', 'title', 'toolbar'] as const
 
-export const pickerPopupListeners = [
-  'click-overlay',
-  'open',
-  'opened',
-  'close',
-  'closed',
-  'route-change',
-  'update:show',
-] as const
+export const pickerPopupListeners = popupListeners
 
 export const pickerSharedListeners = [...pickerPopupListeners, 'confirm', 'cancel', 'change', 'update:value'] as const
 

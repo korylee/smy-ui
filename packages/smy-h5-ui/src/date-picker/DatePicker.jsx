@@ -20,9 +20,6 @@ export default {
     initialParam({ columnsType }) {
       return this.genParam(columnsType[0])
     },
-    initialColumns({ columnsType }) {
-      return this.genOptions(columnsType[0])
-    },
   },
   watch: {
     initialParam: {
@@ -128,16 +125,13 @@ export default {
     const _c = _vm._self._c || _h
     const listeners = getListeners.call(_vm, pickerSharedListeners)
 
-    const attrs = assign(
-      {
-        value: _vm.currentValue,
-        columns: _vm.columns,
-        'item-children': _vm.genChildren,
-        'preset-value': _vm.genDefaultVal,
-        cascade: '',
-      },
-      pick(_vm.$props, pickerSharedPropKeys)
-    )
+    const attrs = assign(pick(_vm.$props, pickerSharedPropKeys), {
+      value: _vm.currentValue,
+      columns: _vm.columns,
+      'item-children': _vm.genChildren,
+      'preset-value': _vm.genDefaultVal,
+      cascade: '',
+    })
     const scopedSlots = assign({}, _vm.$scopedSlots)
 
     const data = _vm._g(

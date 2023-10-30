@@ -1,16 +1,12 @@
 <template>
   <smy-popup
-    :show.sync="internalShow"
-    v-bind="popupProps"
+    :show="show"
     :content-class="toastClass"
     :wrapper-class="bem('popup', { unclickable: type === 'loading' || forbidClick })"
     smy-toast-cover
     @click="onClick"
-    @open="$emit('open')"
-    @opened="$emit('opened')"
-    @close="$emit('close')"
-    @closed="$emit('closed')"
-    @route-change="$emit('route-change')"
+    v-bind="popupProps"
+    v-on="popupListeners"
   >
     <div v-if="hasIcon" :class="bem('icon')">
       <slot name="icon">
@@ -25,20 +21,20 @@
 </template>
 
 <script>
-import SmyPopup from '../popup'
+import SmyPopup, { popupListeners } from '../popup'
 import SmyLoading from '../loading'
 import SmyIcon from '../icon'
 import { props, popupInheritProps } from './props'
 import { SlotsMixin } from '../_utils/vue/slots'
-import { createProxiedModel } from '../_mixins/proxiedModel'
 import { pick } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
+import { getListeners } from '../_mixins/listeners'
 
 const [name, bem] = createNamespace('toast')
 
 export default {
   name,
-  mixins: [createProxiedModel('show', 'internalShow', { passive: true, event: 'update:show' }), SlotsMixin],
+  mixins: [SlotsMixin],
   components: { SmyPopup, SmyLoading, SmyIcon },
   props,
   data: () => ({
@@ -63,6 +59,9 @@ export default {
     },
     popupProps() {
       return pick(this.$props, popupInheritProps)
+    },
+    popupListeners() {
+      return getListeners.call(this, popupListeners)
     },
   },
   watch: {

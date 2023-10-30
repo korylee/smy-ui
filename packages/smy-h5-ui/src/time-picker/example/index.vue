@@ -8,7 +8,7 @@
 
 <script>
 import { AppDemoTitle } from '@smy-h5/cli/client'
-import { Cell, TimePicker } from '@smy-h5/ui'
+import { Cell, TimePicker, Toast } from '@smy-h5/ui'
 
 export default {
   name: 'TimePickerExample',
@@ -16,7 +16,10 @@ export default {
   methods: {
     showBasicPicker() {
       TimePicker({
-        columnsType: ['hour'],
+        columnsType: ['hour', 'minute', 'second'],
+      }).then(({ state, values, indexes }) => {
+        Toast(`${state}: ${values}`)
+        console.log(state, values, indexes)
       })
     },
   },

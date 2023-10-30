@@ -1,7 +1,7 @@
 import { getRect, createDomRect } from '../_utils/dom'
 import { IN_BROWSER } from '../_utils/env'
 import { isFunction } from '../_utils/is'
-import { throttle } from '../_utils/shared'
+import { removeItem, throttle } from '../_utils/shared'
 
 const SUPPORT_INTERSECTION =
   'IntersectionObserver' in window &&
@@ -717,8 +717,7 @@ const SUPPORT_INTERSECTION =
    * @private
    */
   IOPrototype._unregisterInstance = function () {
-    const index = registry.indexOf(this)
-    if (index != -1) registry.splice(index, 1)
+    removeItem(registry, this)
   }
 
   /**

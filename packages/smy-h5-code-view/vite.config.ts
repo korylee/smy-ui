@@ -10,6 +10,10 @@ export default defineConfig({
       jsx: true,
     }),
   ],
+  optimizeDeps: {
+    include: ['onigasm', 'typescript'],
+  },
+  base: './',
   build: {
     target: 'esnext',
     minify: false,

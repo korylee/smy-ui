@@ -1,13 +1,13 @@
 import { CodeFile, ReplStore } from './store'
 import { transformRef, shouldTransformRef, SFCDescriptor, BindingMetadata } from '@vue/compiler-sfc'
-import { transform } from 'sucrase'
 import hashId from 'hash-sum'
 import { compile } from 'vue-template-compiler/browser'
 import * as buble from 'vue-template-es2015-compiler/buble'
 
 export const COMP_IDENTIFIER = `__sfc__`
 
-export function compileTs(src: string) {
+export async function compileTs(src: string) {
+  const { transform } = await import('sucrase')
   return transform(src, { transforms: ['typescript'] }).code
 }
 
@@ -31,7 +31,7 @@ export async function compileFile(store: ReplStore, file: CodeFile) {
       code = transformRef(code, { filename }).code
     }
     if (isTsFile) {
-      code = compileTs(code)
+      code = await compileTs(code)
     }
     result.js = result.ssr = code
     state.errors = []
@@ -212,7 +212,7 @@ async function compileVue3Template(
   let code = `\n${prefix}\n${COMP_IDENTIFIER}.${fnName} = ${fnName}`
 
   if ((descriptor.script || descriptor.scriptSetup)?.lang === 'ts') {
-    code = compileTs(code)
+    code = await compileTs(code)
   }
 
   return code

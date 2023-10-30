@@ -111,14 +111,17 @@ export default {
       const { column, columnIndex, pickedIndex: oldPickedIndex } = scrollColumn
       const pickedValue = wrapInArray(value)[columnIndex]
       const values = column.map((item) => this.getValue(item, scrollColumn))
-      if (!isNil(oldPickedIndex) && pickedValue === values[oldPickedIndex]) return
       let findedIndex = -1
       if (!isNil(pickedValue)) {
         findedIndex = values.indexOf(pickedValue)
       }
-      if (findedIndex === -1 && presetValue) {
-        const defaultValue = presetValue(scrollColumn)
-        isNil(defaultValue) || (findedIndex = values.indexOf(defaultValue))
+      if (findedIndex === -1) {
+        if (presetValue) {
+          const defaultValue = presetValue(scrollColumn)
+          isNil(defaultValue) || (findedIndex = values.indexOf(defaultValue))
+        } else if (!isNil(oldPickedIndex)) {
+          findedIndex = oldPickedIndex
+        }
       }
       const pickedIndex = findIndexFromColumn(findedIndex, scrollColumn, this.getDisabled)
       if (oldPickedIndex === pickedIndex) return
@@ -128,15 +131,20 @@ export default {
     },
 
     createScrollColumn(column, columnIndex, columns) {
-      const { scrollColumns } = this
-      const oldScrollColumn = scrollColumns[columnIndex]
-      const id = looseEqual(oldScrollColumn?.column, column) ? oldScrollColumn.id : sid++
-
-      const scrollColumn = {
-        id,
-        column,
-        columnIndex,
-        columns,
+      let scrollColumn = column.$_scrollColumn
+      if (!scrollColumn) {
+        scrollColumn = {
+          id: sid++,
+          column,
+          columnIndex,
+          columns,
+        }
+        Object.defineProperty(column, '$_scrollColumn', {
+          value: scrollColumn,
+          enumerable: false,
+          writable: false,
+          configurable: false,
+        })
       }
       this.updatePicked(scrollColumn)
       return scrollColumn
