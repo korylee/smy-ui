@@ -97,7 +97,7 @@ async function compilePcSiteRoutes() {
     path: '${getRootRoutePath(rootPath)}',
     // @ts-ignore
     component: () => import('${rootPath}')
-  }`
+  }`,
   )
 
   const rootDocsRoutes = rootDocs.map((rootDoc) => {
@@ -139,7 +139,7 @@ async function linkDir(path: string, newPath: string): Promise<void> {
         return linkDir(dirPath, newDirPath)
       }
       return link(dirPath, newDirPath)
-    })
+    }),
   )
 }
 
@@ -154,7 +154,7 @@ export async function compileSiteSource(siteLink: boolean) {
 export async function compileUiEntry() {
   const moduleDir: string[] = await readdir(SRC_DIR)
   const publicDirs = moduleDir.filter(
-    (dirname: string) => isPublicDir(resolve(SRC_DIR, dirname)) && !dirname.startsWith('_')
+    (dirname: string) => isPublicDir(resolve(SRC_DIR, dirname)) && !dirname.startsWith('_'),
   )
 
   const imports: string[] = []

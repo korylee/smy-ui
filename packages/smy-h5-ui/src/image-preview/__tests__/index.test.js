@@ -1,13 +1,16 @@
 import Vue from 'vue'
 import ImagePreview from '..'
-import { delay, trigger, triggerDrag } from '../../../jest-utils'
+import { delay, mockConsole, trigger, triggerDrag } from '../../../jest-utils'
 
 test('test image-preview plugin', () => {
+  const reset = mockConsole('info')
   Vue.use(ImagePreview)
   expect(Vue.component(ImagePreview.Component.name)).toBeTruthy()
+  reset()
 })
 
 test('test image preview functional show & close', async () => {
+  const reset = mockConsole('info')
   const onOpen = jest.fn()
   const onOpened = jest.fn()
   const onClose = jest.fn()
@@ -33,9 +36,11 @@ test('test image preview functional show & close', async () => {
   await delay(300)
   expect(onClosed).toHaveBeenCalledTimes(1)
   expect(document.querySelector('.smy-popup')).toBeFalsy()
+  reset()
 })
 
 test('test image-preview onChange callback', async () => {
+  const reset = mockConsole('info')
   const onChange = jest.fn()
   ImagePreview({
     images: ['https://korylee.github.io/blog/avatar.png', 'https://korylee.github.io/blog/avatar.png'],
@@ -51,13 +56,16 @@ test('test image-preview onChange callback', async () => {
   expect(onChange).toHaveBeenLastCalledWith(0)
 
   ImagePreview.close()
+  reset()
 })
 
 test('test image-preview closeable', async () => {
+  const reset = mockConsole('info')
   ImagePreview({ closeable: true })
   await delay(200)
   await trigger(document.querySelector('.smy-image-preview__close-icon'), 'click')
   await delay(300)
   expect(document.querySelector('.smy-popup')).toBeFalsy()
   ImagePreview.close()
+  reset()
 })

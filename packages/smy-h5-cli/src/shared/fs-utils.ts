@@ -2,6 +2,7 @@ import { appendFileSync, ensureFileSync, lstatSync, outputFileSync, pathExistsSy
 import { extname, resolve } from 'path'
 import { PUBLIC_DIR_INDEXES, SCRIPT_EXTENSIONS } from './constant'
 import globSync from 'glob'
+import slash from 'slash'
 
 export const isDir = (file: string): boolean => pathExistsSync(file) && lstatSync(file).isDirectory()
 
@@ -45,7 +46,7 @@ export function outputFileSyncOnChange(path: string, code: string) {
 
 export function glob(pattern: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
-    globSync(pattern, (err: any, files: string[]) => {
+    globSync(slash(pattern), (err: any, files: string[]) => {
       if (err) reject(err)
       else resolve(files)
     })

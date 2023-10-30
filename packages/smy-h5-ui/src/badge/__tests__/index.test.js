@@ -2,12 +2,15 @@ import { mount } from '@vue/test-utils'
 import example from '../example'
 import Badge from '..'
 import Vue from 'vue'
+import { mockConsole } from '../../../jest-utils'
 
 test('test badge example', () => {
+  const reset = mockConsole()
   const wrapper = mount(example)
 
   expect(wrapper.html()).toMatchSnapshot()
   wrapper.destroy()
+  reset()
 })
 
 test('test badge plugin', () => {

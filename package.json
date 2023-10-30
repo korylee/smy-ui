@@ -27,10 +27,10 @@
     "@types/node": "^16.11.45",
     "execa": "5.1.1",
     "lint-staged": "^14.0.1",
-    "simple-git-hooks": "^2.8.0",
+    "nanospinner": "^1.1.0",
+    "simple-git-hooks": "^2.9.0",
     "stylelint": "^14.11.0",
-    "typescript": "~4.7.4",
-    "nanospinner": "^1.1.0"
+    "typescript": "~5.2.2"
   },
   "packageManager": "pnpm@7.8.0"
 }

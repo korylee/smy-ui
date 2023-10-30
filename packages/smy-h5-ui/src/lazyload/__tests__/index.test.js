@@ -1,7 +1,7 @@
 import Lazy from '..'
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { delay } from '../../../jest-utils'
+import { delay, mockConsole } from '../../../jest-utils'
 
 test('test lazy plugin', () => {
   Vue.use(Lazy)
@@ -19,7 +19,9 @@ const Wrapper = {
 }
 
 test('test lazy load', async () => {
+  const reset = mockConsole('info')
   const wrapper = mount(Wrapper)
   await delay(80)
   expect(wrapper.html()).toMatchSnapshot()
+  reset()
 })

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render textColor correctly 1`] = `
-"<div class=\\"smy-tag smy-tag--plain\\" style=\\"color: blue; background: rgb(255, 255, 255); border-color: red;\\">
+"<div class="smy-tag smy-tag--plain" style="color: blue; background: rgb(255, 255, 255); border-color: red;">
   <!---->
 </div>"
 `;

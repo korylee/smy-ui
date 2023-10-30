@@ -23,7 +23,7 @@ interface ExtractStyleDependenciesOptions {
 export function extractStyleDependencies(
   file: string,
   code: string,
-  { expect = 'css', self = false, reg }: ExtractStyleDependenciesOptions = {}
+  { expect = 'css', self = false, reg }: ExtractStyleDependenciesOptions = {},
 ) {
   code = code.trim()
   if (!code) return code
