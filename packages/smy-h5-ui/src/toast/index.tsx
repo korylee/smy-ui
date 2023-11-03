@@ -69,11 +69,9 @@ let defaultOptionsMap: { [key in ToastType]?: Omit<ReactiveToastOptions, 'type'>
 
 const Toast = function toast(options: number | string | ReactiveToastOptions) {
   const toastOptions = isString(options) || isNumber(options) ? { content: String(options) } : options
-  const reactiveToastOptions = Vue.observable({
-    ...currentOptions,
-    ...(toastOptions.type && defaultOptionsMap[toastOptions.type]),
-    ...toastOptions,
-  })
+  const reactiveToastOptions = Vue.observable(
+    assign({}, currentOptions, toastOptions.type && defaultOptionsMap[toastOptions.type], toastOptions),
+  )
   const instance = getInstance()
   instance.open(reactiveToastOptions)
 
@@ -91,10 +89,13 @@ const getToast =
     return Toast(options)
   }
 
-const Toasts = TOAST_TYPES.reduce((acc, cur) => {
-  acc[cur] = getToast(cur)
-  return acc
-}, {} as { [type in ToastType]: ReturnType<typeof getToast> })
+const Toasts = TOAST_TYPES.reduce(
+  (acc, cur) => {
+    acc[cur] = getToast(cur)
+    return acc
+  },
+  {} as { [type in ToastType]: ReturnType<typeof getToast> },
+)
 
 Toast.allowMultiple = function allowMultiple(bool = true) {
   if (!bool !== isAllowMultiple) {

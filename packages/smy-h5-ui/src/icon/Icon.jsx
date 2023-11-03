@@ -51,19 +51,19 @@ export default {
   },
   render() {
     const vm = this
-    const { tag, name, $createElement: h, shrinking, namespace, nextName, style, $listeners, iconfont } = vm
+    const { tag, $createElement: h, shrinking, namespace, nextName, style, $listeners, iconfont } = vm
     const defaultSlot = getSlot(this)
     const baseClass = bem({ shrinking })
     let child = defaultSlot
     let isImageIcon = false
     if (
       isNil(child) &&
-      name &&
-      (!isString(name) ||
+      nextName &&
+      (!isString(nextName) ||
         // 仅为组件
-        (!(isImageIcon = isImage(name)) && !iconfont && Vue.component(name)))
+        (!(isImageIcon = isImage(nextName)) && !iconfont && Vue.component(nextName)))
     ) {
-      child = h(name)
+      child = h(nextName)
     }
     if (child) {
       return h(
@@ -73,7 +73,7 @@ export default {
           style,
           on: $listeners,
         },
-        [child]
+        [child],
       )
     }
     // iconfont 字体或图片
@@ -85,7 +85,7 @@ export default {
         style,
         on: $listeners,
       },
-      [isImageIcon ? h('img', { staticClass: bem('image'), attrs: { src: name } }) : null]
+      [isImageIcon ? h('img', { staticClass: bem('image'), attrs: { src: nextName } }) : null],
     )
   },
 }
