@@ -140,7 +140,7 @@ export async function compileFile(store: ReplStore, file: CodeFile) {
 async function compileScript(
   store: any,
   descriptor: SFCDescriptor,
-  opts: { isTs?: boolean; id?: string; ssr?: boolean } = {}
+  opts: { isTs?: boolean; id?: string; ssr?: boolean } = {},
 ) {
   if (!descriptor?.script && !descriptor.scriptSetup) {
     return [`\nconst ${COMP_IDENTIFIER} = {};\n`, undefined]
@@ -181,7 +181,7 @@ async function compileScript(
 async function compileVue3Template(
   store: ReplStore,
   descriptor: SFCDescriptor,
-  opts: { isTs?: boolean; id?: string; ssr?: boolean; bindingMetadata?: BindingMetadata } = {}
+  opts: { isTs?: boolean; id?: string; ssr?: boolean; bindingMetadata?: BindingMetadata } = {},
 ) {
   const { compiler, options, state } = store
   const { id = '', isTs, ssr, bindingMetadata } = opts

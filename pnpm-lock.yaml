@@ -217,7 +217,7 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
 
-  packages/smy-h5-code-view:
+  packages/smy-h5-repl:
     dependencies:
       '@vue/compiler-sfc':
         specifier: ^3.3.7
@@ -332,9 +332,9 @@ importers:
 
   packages/smy-h5-playground:
     dependencies:
-      '@smy-h5/code-view':
+      '@smy-h5/repl':
         specifier: workspace:^
-        version: link:../smy-h5-code-view
+        version: link:../smy-h5-repl
       '@smy-h5/touch-emulator':
         specifier: workspace:^
         version: link:../smy-h5-touch-emulator

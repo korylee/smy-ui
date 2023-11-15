@@ -6,7 +6,7 @@ import { PreviewProxy } from './PreviewProxy/PreviewProxy'
 import initPreviewDoc from './PreviewProxy/initPreview.js?raw'
 
 export default {
-  name: 'code-view-preview',
+  name: 'repl-preview',
   props: {
     show: Boolean,
   },
@@ -42,7 +42,7 @@ export default {
           'allow-same-origin',
           'allow-scripts',
           'allow-top-navigation-by-user-activation',
-        ].join(' ')
+        ].join(' '),
       )
 
       const importMap = store.getImportMap()
@@ -103,9 +103,7 @@ export default {
       try {
         const { mainFile } = state
         const modules = process(store)
-        console.log(
-          `[@smy-h5/code-view] successfully compiled ${modules.length} module${modules.length > 1 ? `s` : ``}.`
-        )
+        console.log(`[@smy-h5/repl] successfully compiled ${modules.length} module${modules.length > 1 ? `s` : ``}.`)
         const codeToEval = [
           `
         window.__modules__ = {};
@@ -128,7 +126,7 @@ export default {
               ${previewOptions?.customCode?.useCode || ''}
               app.$mount('#app');
             }
-            _mount()`
+            _mount()`,
           )
         }
 

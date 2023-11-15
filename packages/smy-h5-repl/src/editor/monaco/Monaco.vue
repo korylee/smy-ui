@@ -73,7 +73,7 @@ export default {
         if (editorInstance.getValue() === value) return
         editorInstance.setValue(value || '')
       },
-      { immediate: true }
+      { immediate: true },
     )
     this.$watch('lang', (lang) => {
       monaco.editor.setModelLanguage(editorInstance.getModel(), lang)
@@ -101,7 +101,7 @@ export default {
         },
         {
           immediate: true,
-        }
+        },
       )
     }
 

@@ -4,7 +4,10 @@ export class PreviewProxy {
   pendingCmds: Map<number, { resolve: (value: unknown) => void; reject: (reason?: any) => void }>
   handleEvent: (e: any) => void
 
-  constructor(public iframe: HTMLIFrameElement, public handlers: Record<string, (data: any) => void | undefined> = {}) {
+  constructor(
+    public iframe: HTMLIFrameElement,
+    public handlers: Record<string, (data: any) => void | undefined> = {},
+  ) {
     this.pendingCmds = new Map()
     this.handleEvent = (e) => this.handleReplMessage(e)
     window.addEventListener('message', this.handleEvent, false)

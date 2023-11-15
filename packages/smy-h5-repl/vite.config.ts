@@ -19,7 +19,7 @@ export default defineConfig({
     minify: false,
     lib: {
       entry: {
-        'code-view': './src/index.ts',
+        repl: './src/index.ts',
         'monaco-editor': './src/editor/MonacoEditor.vue',
         'codemirror-editor': './src/editor/CodeMirrorEditor.vue',
       },

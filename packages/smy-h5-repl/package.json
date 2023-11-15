@@ -1,18 +1,18 @@
 {
-  "name": "@smy-h5/code-view",
+  "name": "@smy-h5/repl",
   "version": "1.0.0",
   "type": "module",
   "description": "Vue SFC REPL as a Vue 2.6+ component.",
   "main": "dist/ssr-stub.js",
-  "module": "dist/code-view.js",
+  "module": "dist/repl.js",
   "files": [
     "dist"
   ],
-  "types": "dist/code-view.d.ts",
+  "types": "dist/repl.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/code-view.js",
-      "types": "./dist/code-view.d.ts"
+      "import": "./dist/repl.js",
+      "types": "./dist/repl.d.ts"
     },
     "./monaco-editor": {
       "types": "./dist/editor-types.d.ts",

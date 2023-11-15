@@ -152,7 +152,7 @@
               level,
               args: normalizedArgs,
             },
-            '*'
+            '*',
           )
         }
       }
@@ -188,7 +188,7 @@
     if (timers.has(label)) {
       parent.postMessage(
         { action: 'console', level: 'system-log', args: [`${label}: ${now - timers.get(label)}ms`] },
-        '*'
+        '*',
       )
     } else {
       parent.postMessage({ action: 'console', level: 'system-warn', args: [`Timer '${label}' does not exist`] }, '*')
@@ -200,7 +200,7 @@
     if (timers.has(label)) {
       parent.postMessage(
         { action: 'console', level: 'system-log', args: [`${label}: ${now - timers.get(label)}ms`] },
-        '*'
+        '*',
       )
     } else {
       parent.postMessage({ action: 'console', level: 'system-warn', args: [`Timer '${label}' does not exist`] }, '*')

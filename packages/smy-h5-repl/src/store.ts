@@ -32,7 +32,11 @@ export class CodeFile {
     ssr: '',
   }
 
-  constructor(public filename: string, public code = '', public hidden = false) {}
+  constructor(
+    public filename: string,
+    public code = '',
+    public hidden = false,
+  ) {}
 }
 
 export interface StoreState {
@@ -143,8 +147,8 @@ export class ReplStore {
             imports: { vue: this.defaultVueRuntimeURL },
           },
           null,
-          2
-        )
+          2,
+        ),
       )
     } else {
       try {
