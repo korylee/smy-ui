@@ -1,23 +1,28 @@
 <template>
   <div :class="bem({ [type]: type, plain, round, mark })" :style="style" @click="$emit('click', $event)">
     <slot></slot>
-    <smy-icon v-if="closeable" :class="bem('close')" size="12" @click.stop="$emit('close', $event)"
-      ><slot name="icon"><window-close /></slot
-    ></smy-icon>
+    <slot name="icon">
+      <smy-icon
+        v-if="closeable"
+        :name="closeIcon"
+        :class="bem('close')"
+        size="12"
+        @click.stop="$emit('close', $event)"
+      />
+    </slot>
   </div>
 </template>
 
 <script>
 import { props } from './props'
 import Icon from '../icon'
-import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 import { createNamespace } from '../_utils/vue/create'
 
 const [name, bem] = createNamespace('tag')
 
 export default {
   name,
-  components: { [Icon.name]: Icon, WindowClose },
+  components: { [Icon.name]: Icon },
   props,
   computed: {
     style() {

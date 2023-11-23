@@ -4,6 +4,7 @@ import { type VNode } from 'vue'
 
 import { withInstall } from '../_utils/vue/component'
 import _Icon from './Icon.jsx'
+import { IconCache } from './utils'
 
 declare interface SmyIcon extends SmyComponent {
   new (): {
@@ -14,4 +15,8 @@ declare interface SmyIcon extends SmyComponent {
   }
 }
 
-export default withInstall(_Icon) as unknown as SmyIcon
+const Icon = withInstall(_Icon) as unknown as SmyIcon & { use: typeof IconCache.use }
+
+Icon.use = IconCache.use
+
+export default Icon

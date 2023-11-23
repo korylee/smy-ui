@@ -16,7 +16,7 @@
     </div>
     <div v-if="closable || hasSlot('right-icon')" :class="bem('right-icon')">
       <slot name="right-icon">
-        <smy-icon @click.stop="onClickRightIcon"><window-close /></smy-icon>
+        <smy-icon name="window-close" @click.stop="onClickRightIcon" />
       </slot>
     </div>
   </div>
@@ -31,12 +31,14 @@ import { doubleRaf, getRect } from '../_utils/dom'
 import { createNamespace } from '../_utils/vue/create'
 import { useWindowSize } from '../_utils/composable/useWindowSize'
 
+SmyIcon.use('window-close', WindowClose)
+
 const [name, bem] = createNamespace('notice-bar')
 
 export default {
   name,
   mixins: [SlotsMixin],
-  components: { WindowClose, SmyIcon },
+  components: { SmyIcon },
   props,
   data: () => ({
     wrapWidth: 0,

@@ -3,7 +3,7 @@
     <maybe-teleport :maybe="!!teleport" :to="teleport">
       <div :class="bem({ active: show })" :style="style" v-bind="$attrs" v-on="$listeners" @click="onClick">
         <slot>
-          <smy-icon :class="bem('icon')"> <chevron-up /> </smy-icon>
+          <smy-icon :class="bem('icon')" name="chevron-up" />
         </slot>
       </div>
     </maybe-teleport>
@@ -22,6 +22,8 @@ import { props } from './props'
 import SmyIcon from '../icon'
 import ChevronUp from '@smy-h5/icons/dist/es/ChevronUp'
 
+SmyIcon.use('chevron-up', ChevronUp)
+
 const [name, bem] = createNamespace('back-top')
 
 export default {
@@ -31,7 +33,6 @@ export default {
   components: {
     MaybeTeleport,
     SmyIcon,
-    ChevronUp,
   },
   data: () => ({
     show: false,

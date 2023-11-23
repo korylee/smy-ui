@@ -4,9 +4,9 @@ import { SlotsMixin, getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { isNil, isString } from '../_utils/is'
-import Vue from 'vue'
 
 import './icon.less'
+import { IconCache } from './utils'
 
 const isImage = (name) => name?.includes('/')
 
@@ -51,19 +51,21 @@ export default {
   },
   render() {
     const vm = this
-    const { tag, $createElement: h, shrinking, namespace, nextName, style, $listeners, iconfont } = vm
+    const { tag, $createElement: h, shrinking, namespace, nextName, style, $listeners } = vm
     const defaultSlot = getSlot(this)
     const baseClass = bem({ shrinking })
     let child = defaultSlot
     let isImageIcon = false
-    if (
-      isNil(child) &&
-      nextName &&
-      (!isString(nextName) ||
-        // 仅为组件
-        (!(isImageIcon = isImage(nextName)) && !iconfont && Vue.component(nextName)))
-    ) {
-      child = h(nextName)
+    if (isNil(child) && nextName) {
+      if (isString(nextName)) {
+        isImageIcon = isImage(nextName)
+        const icon = IconCache.resolve(nextName)
+        if (icon) {
+          child = h(icon)
+        }
+      } else {
+        child = h(nextName)
+      }
     }
     if (child) {
       return h(
