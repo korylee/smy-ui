@@ -1,4 +1,4 @@
-import { isBool, isNil, isString, isArray, type Func, isObject, isRegExp, isDate, isFunction, isInteger } from './is'
+import { isBool, isNil, isString, isArray, type Func, isObject, isRegExp, isDate, isFunction } from './is'
 
 const cameLizeRE = /-(\w)/g
 
@@ -35,43 +35,39 @@ export function formatNumber(value: string, allowDot = true, allowMinus = true) 
   return value
 }
 
+function getDecimalLength(num: number) {
+  const decimal = String(num).split('.')[1]
+  return decimal ? decimal.length : 0
+}
+
 export const decimal = (() => {
-  /**
-   * 将一个浮点数转化为整数，返回整数和倍数
-   */
-  function toInteger(num: number) {
-    const ret = { num: 0, multiple: 0 }
-    if (isInteger(num)) {
-      ret.num = num
-      return ret
-    }
-    const strNum = num + ''
-    const dotPos = strNum.indexOf('.')
-    const len = strNum.substring(dotPos + 1).length
-    ret.multiple = len
-    ret.num = Number(strNum.replace('.', ''))
-    return ret
-  }
   const pow = (num: number) => Math.pow(10, num)
-  function operationFactory(operate: 'add' | 'subtract') {
-    return function (a: number, b: number) {
-      const { num: numA, multiple: mulA } = toInteger(a)
-      const { num: numB, multiple: mulB } = toInteger(b)
 
-      switch (operate) {
-        case 'add':
-        case 'subtract': {
-          const [tempA, tempB, max] = mulA > mulB ? [1, pow(mulA - mulB), pow(mulA)] : [pow(mulB - mulA), 1, pow(mulB)]
-          const diff = operate === 'add' ? 1 : -1
-
-          return (numA * tempA + numB * tempB * diff) / max
-        }
-      }
-    }
+  function getMaxMultiple(a: number, b: number) {
+    const precision = Math.max(getDecimalLength(a), getDecimalLength(b))
+    return pow(precision)
+  }
+  function add(a: number, b: number) {
+    const multiple = getMaxMultiple(a, b)
+    return (a * multiple + b * multiple) / multiple
+  }
+  function subtract(a: number, b: number) {
+    const multiple = getMaxMultiple(a, b)
+    return (a * multiple - b * multiple) / multiple
+  }
+  function multiply(a: number, b: number) {
+    const multiple = getMaxMultiple(a, b)
+    return (a * multiple * b) / multiple
+  }
+  function divide(a: number, b: number) {
+    const multiple = getMaxMultiple(a, b)
+    return (a * multiple) / (b * multiple)
   }
   return {
-    add: operationFactory('add'),
-    subtract: operationFactory('subtract'),
+    add,
+    subtract,
+    multiply,
+    divide,
   }
 })()
 
@@ -114,7 +110,7 @@ type AssignCustomizer = (
   sourceValue: any,
   key?: string,
   target?: AnyObject,
-  source?: AnyObject
+  source?: AnyObject,
 ) => any
 
 const ObjectProto = Object.prototype
@@ -124,7 +120,7 @@ const isMergeableObject = (val: unknown) => isObject(val) && !isRegExp(val) && !
 export function assignWith<T extends AnyObject, U extends AnyObject>(
   target: T,
   source: U,
-  customizer: AssignCustomizer
+  customizer: AssignCustomizer,
 ) {
   for (const key in source) {
     if (hasOwnProperty.call(source, key)) {
@@ -171,17 +167,17 @@ export function createLRUCache<T, R>(max: number, cache: Map<T, R> = new Map()) 
 
 export function pick<T extends Record<string, any>, R extends keyof T>(
   source: T,
-  props: R | R[] | Readonly<R>[]
+  props: R | R[] | Readonly<R>[],
 ): Pick<T, R> {
   if (!isObject(source)) return {} as any
   const wrapProps = wrapInArray(props)
-  return wrapProps.reduce((res, key: R) => {
-    const exist = Reflect.has(source, key)
-    if (exist) {
-      Reflect.set(res, key, source[key])
+  const res = {} as unknown as Pick<T, R>
+  wrapProps.forEach((key: R) => {
+    if (key in source) {
+      res[key] = source[key]
     }
-    return res
-  }, {} as Pick<T, R>)
+  })
+  return res
 }
 
 export const keys: <O extends Record<string, any>>(obj: O) => (keyof O)[] = Object.keys
