@@ -1,5 +1,3 @@
-import { throwError } from '../_utils/smy/warn'
-
 export const IconCache = (() => {
   const IconMap: Record<string, any> = {}
 
@@ -8,9 +6,6 @@ export const IconCache = (() => {
   }
 
   function use(name: string, component: any): void {
-    if (IconMap[name]) {
-      return throwError('icon/use', `${name} is exist`)
-    }
     if (!component) {
       return
     }

@@ -59,6 +59,7 @@ import { SlotsMixin } from '../_mixins/slots'
 import { ListenersMixin } from '../_mixins/listeners'
 import { isNil } from '../_utils/is'
 import ImagePreview from '../image-preview'
+import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 
 const [name, bem] = createNamespace('uploader')
 

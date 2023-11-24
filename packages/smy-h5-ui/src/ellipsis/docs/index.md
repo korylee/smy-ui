@@ -4,6 +4,37 @@
 
 展示空间不足时，隐去部分内容并用“…”替代。
 
+### 头部省略
+
+```demo
+import StartExample from '../example/StartExample.vue'
+```
+
+### 尾部省略
+
+```demo
+import EndExample from '../example/EndExample.vue'
+```
+
+### 居中省略
+
+```demo
+import MiddleExample from '../example/MiddleExample.vue'
+```
+
+### 多行展示
+
+```demo
+import RowsExample from '../example/RowsExample.vue'
+```
+
+### 自定义省略符号
+
+```demo
+import SymbolExample from '../example/SymbolExample.vue'
+```
+
+
 ## API
 
 ### 属性

@@ -1,9 +1,9 @@
 <template>
   <div class="smy-countdown-example">
     <app-demo-title>基础使用</app-demo-title>
-    <smy-countdown time="10800000" />
+    <basic-example />
     <app-demo-title>自定义格式化</app-demo-title>
-    <smy-countdown time="10800000" format="DD 天 HH 时 mm 分 ss 秒" />
+    <format-example />
     <app-demo-title>展示毫秒</app-demo-title>
     <smy-countdown time="108000000" format="HH : mm : ss : SSS" />
     <app-demo-title>控制开始和暂停的倒计时</app-demo-title>
@@ -37,10 +37,12 @@
 import SmyCountdown from '../'
 import SmyCell from '../../cell'
 import { AppDemoTitle } from '@smy-h5/cli/client'
+import BasicExample from './BasicExample.vue'
+import FormatExample from './FormatExample.vue'
 
 export default {
   name: 'CountdownExample',
-  components: { SmyCountdown, SmyCell, AppDemoTitle },
+  components: { SmyCountdown, SmyCell, AppDemoTitle, BasicExample, FormatExample },
   data: () => ({
     end: Date.now() + 60 * 1000,
     paused: true,

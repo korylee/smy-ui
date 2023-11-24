@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import { Wrapper } from '@vue/test-utils'
 
+Vue.config.productionTip = false
+
 export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time))
 
 export function getTouch(el: Element | Window | Document, x: number, y: number) {
@@ -24,7 +26,7 @@ export function trigger(
   x = 0,
   y = 0,
   offsetX = 0,
-  offsetY = 0
+  offsetY = 0,
 ) {
   const el = 'element' in wrapper ? wrapper.element : wrapper
   const touchList = [getTouch(el, x, y)]

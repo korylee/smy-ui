@@ -15,17 +15,16 @@ Vue.use(Countdown)
 
 ### 基本使用
 
-```html
-<template>
-  <smy-countdown :time="time" />
-</template>
-<script>
-  export default {
-    data: () => ({
-      time: 30 * 60 * 60 * 1000,
-    }),
-  }
-</script>
+
+```demo
+import BasicExample from '../example/BasicExample.vue'
+```
+
+### 自定义格式化
+
+
+```demo
+import FormatExample from '../example/FormatExample.vue'
 ```
 
 ## API
