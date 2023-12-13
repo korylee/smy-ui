@@ -11,7 +11,7 @@ export type { ConfigProviderProps } from './props'
 declare interface SmyConfigProvider extends SmyComponent {
   new (): {
     $props: ConfigProviderProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
     }
   }

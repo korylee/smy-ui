@@ -79,6 +79,7 @@ module.exports = defineConfig({
       { text: 'Field 输入框', doc: 'field', type: 2 },
       { text: 'Stepper 步进器', doc: 'stepper', type: 2 },
       { text: 'Switch 开关', doc: 'switch', type: 2 },
+      { text: 'Checkbox 开关', doc: 'checkbox', type: 2 },
       { text: 'Uploader 文件上传', doc: 'uploader', type: 2 },
     ],
   },

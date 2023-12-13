@@ -9,7 +9,7 @@ import { IconCache } from './utils'
 declare interface SmyIcon extends SmyComponent {
   new (): {
     $props: IconProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
     }
   }

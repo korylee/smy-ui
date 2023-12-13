@@ -4,9 +4,9 @@ import { SlotsMixin, getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { isNil, isString } from '../_utils/is'
+import { IconCache } from './utils'
 
 import './icon.less'
-import { IconCache } from './utils'
 
 const isImage = (name) => name?.includes('/')
 
@@ -21,11 +21,11 @@ export default {
     nextName: '',
   }),
   computed: {
-    style({ transition, size, color }) {
+    style({ transition, size, color, shrinking }) {
       return {
         color,
         fontSize: convertToUnit(size),
-        transition: `transform ${toNumber(transition)}ms`,
+        transitionDuration: shrinking ? `${toNumber(transition)}ms` : undefined,
       }
     },
   },

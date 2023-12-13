@@ -14,7 +14,7 @@ import { assign } from '../_utils/shared'
 declare interface SmyToast extends SmyComponent {
   new (): {
     $props: ToastProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
       icon: () => VNode
     }

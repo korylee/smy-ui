@@ -9,4 +9,5 @@ declare interface SmyTag extends SmyComponent {
     $props: TagProps
   }
 }
+
 export default withInstall(_Tag) as unknown as SmyTag
