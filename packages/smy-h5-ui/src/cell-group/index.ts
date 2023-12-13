@@ -8,7 +8,7 @@ import CellGroup from './CellGroup.vue'
 declare interface SmyCellGroup extends SmyComponent {
   new (): {
     $props: CellGroupProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
     }
   }

@@ -12,7 +12,7 @@ type PickerOptions = PartialRequired<Omit<PickerProps, 'popup'>, 'columns'> & Pi
 export declare interface SmyPicker extends SmyComponent {
   new (): {
     $props: PickerProps
-    $scopeSlots: {
+    $scopedSlots: {
       toolbar: () => VNode
       cancel: () => VNode
       title: () => VNode

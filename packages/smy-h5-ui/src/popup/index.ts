@@ -17,7 +17,7 @@ declare interface SmyPopup extends SmyComponent {
       (event: 'click-overlay'): void
       (event: 'update:show', data: boolean): void
     }
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
     }
   }

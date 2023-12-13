@@ -7,7 +7,7 @@ import { VNode } from 'vue'
 declare interface SmyFormDetails extends SmyComponent {
   new (): {
     $props: FormDetailsProps
-    $scopeSlots: {
+    $scopedSlots: {
       'error-message': () => VNode
       'extra-message': () => VNode
     }

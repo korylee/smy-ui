@@ -9,7 +9,7 @@ type PullRefreshStatus = 'normal' | 'loading' | 'loosing' | 'pulling'
 interface SmyPullRefresh extends SmyComponent {
   new (): {
     $props: PullRefreshProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
       header: (data: { status: PullRefreshStatus; distance: number }) => VNode
     }

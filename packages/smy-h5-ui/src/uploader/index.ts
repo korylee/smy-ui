@@ -9,7 +9,7 @@ import _Uploader from './Uploader.vue'
 declare interface SmyUploader extends SmyComponent {
   new (): {
     $props: UploaderProps
-    $scopeSlots: {
+    $scopedSlots: {
       'preview-delete': () => VNode
     }
     $emit: {

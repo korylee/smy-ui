@@ -6,7 +6,7 @@ import { BackTopProps } from './props'
 interface SmyBackTop extends SmyComponent {
   new (): {
     $props: BackTopProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => any
     }
     $emits: {

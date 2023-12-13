@@ -8,7 +8,7 @@ import _NoticeBar from './NoticeBar.vue'
 declare interface SmyNoticeBar extends SmyComponent {
   new (): {
     $props: NoticeBarProps
-    $scopeSlots: {
+    $scopedSlots: {
       'left-icon': () => VNode
       default: () => VNode
       'right-icon': () => VNode

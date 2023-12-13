@@ -8,7 +8,7 @@ import { withInstall } from '../_utils/vue/component'
 declare interface SmyLoading extends SmyComponent {
   new (): {
     $props: LoadingProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
       desc: () => VNode
     }

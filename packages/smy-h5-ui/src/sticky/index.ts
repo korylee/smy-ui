@@ -6,7 +6,7 @@ import { StickyProp } from './props'
 declare interface SmySticky extends SmyComponent {
   new (): {
     $props: StickyProp
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => any
     }
     $emit: {

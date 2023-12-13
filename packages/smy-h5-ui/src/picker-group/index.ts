@@ -6,7 +6,7 @@ import { PickerGroupProps } from './props'
 declare class SmyPickerGroup extends SmyComponent {
   new(): {
     $props: PickerGroupProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => any
     }
     $emit: {

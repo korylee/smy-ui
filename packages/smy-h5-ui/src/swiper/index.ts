@@ -8,7 +8,7 @@ import _Swiper from './Swiper.vue'
 declare interface SmySwiper extends SmyComponent {
   new (): {
     $props: SwiperProps
-    $scopeSlots: {
+    $scopedSlots: {
       indicator: (data: { index: number; length: number }) => VNode
       default: () => VNode
       extra: () => VNode

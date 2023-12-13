@@ -8,7 +8,7 @@ import Col from './Col.vue'
 interface SmyCol extends SmyComponent {
   new (): {
     $props: ColProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
     }
   }

@@ -7,7 +7,7 @@ import ProgressCircular from './ProgressCircular.vue'
 declare interface SmyProgressCircular extends SmyComponent {
   new (): {
     $props: ProgressCircularProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: (data: { value: number }) => VNode
     }
   }

@@ -10,7 +10,7 @@ type SwipePosition = 'left' | 'right'
 declare interface SmySwipe extends SmyComponent {
   new (): {
     $props: SwipeProps
-    $scopeSlots: {
+    $scopedSlots: {
       left: () => VNode
       default: () => VNode
       right: () => VNode

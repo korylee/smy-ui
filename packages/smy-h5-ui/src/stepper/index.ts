@@ -8,7 +8,7 @@ import { withInstall } from '../_utils/vue/component'
 declare interface SmyStepper extends SmyComponent {
   new (): {
     $props: StepperProps
-    $scopeSlots: {
+    $scopedSlots: {
       'right-icon': () => VNode
       'left-icon': () => VNode
     }

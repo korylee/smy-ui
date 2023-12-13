@@ -8,7 +8,7 @@ import { type VNode } from 'vue'
 declare interface SmySteps extends SmyComponent {
   new (): {
     $props: StepsProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
     }
     $emits: {

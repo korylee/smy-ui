@@ -6,7 +6,7 @@ import { FieldProps } from './props'
 interface SmyField extends SmyComponent {
   new (): {
     $props: FieldProps
-    // $scopeSlots: {}
+    // $scopedSlots: {}
   }
 }
 

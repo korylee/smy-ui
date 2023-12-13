@@ -8,7 +8,7 @@ import Lazy from './Lazy.jsx'
 declare interface SmyLazy extends SmyComponent {
   new (): {
     $props: LazyProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: (data: { value: boolean }) => VNode
     }
     $emit: {

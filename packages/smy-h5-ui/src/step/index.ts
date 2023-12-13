@@ -7,7 +7,7 @@ import { withInstall } from '../_utils/vue/component'
 declare interface SmyStep extends SmyComponent {
   new (): {
     $props: StepProps
-    $scopeSlots: {
+    $scopedSlots: {
       title: () => void
       default: () => void
       'header-icon': () => void

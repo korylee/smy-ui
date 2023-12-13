@@ -10,7 +10,7 @@ import { IN_BROWSER } from '../_utils/env'
 declare interface SmyImagePreview extends SmyComponent {
   new (): {
     $props: ImagePreviewProps
-    $scopeSlots: {
+    $scopedSlots: {
       image: (data: { image: Image }) => VNode
       indicator: (data: { index: number; length: number }) => VNode
       'close-icon': () => VNode

@@ -6,7 +6,7 @@ import _Tab from './Tab.vue'
 declare interface SmyTab extends SmyComponent {
   new (): {
     $props: TabProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => any
       title: () => any
     }

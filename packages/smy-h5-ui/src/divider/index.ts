@@ -6,7 +6,7 @@ import _Divider from './Divider.vue'
 interface SmyDivider extends SmyComponent {
   new (): {
     $props: DividerProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => any
     }
   }

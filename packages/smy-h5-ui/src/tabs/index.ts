@@ -6,7 +6,7 @@ import { TabsProps } from './props'
 declare interface SmyTabs extends SmyComponent {
   new (): {
     $props: TabsProps
-    $scopeSlots: {
+    $scopedSlots: {
       'nav-left': () => any
       'nav-right': () => any
       'nav-bottom': () => any

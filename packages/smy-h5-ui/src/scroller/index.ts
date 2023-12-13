@@ -8,7 +8,7 @@ import { withInstall } from '../_utils/vue/component'
 declare interface SmyScroller extends SmyComponent {
   new (): {
     $props: ScrollerProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
       loading: () => VNode
       'loading-icon': () => VNode

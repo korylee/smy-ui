@@ -8,7 +8,7 @@ import _Cell from './Cell.vue'
 declare interface SmyCell extends SmyComponent {
   new (): {
     $props: CellProps
-    $scopeSlots: {
+    $scopedSlots: {
       icon: () => VNode
       default: () => VNode
       desc: () => VNode

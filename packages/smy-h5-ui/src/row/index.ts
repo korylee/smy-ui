@@ -7,7 +7,7 @@ import Row from './Row.vue'
 interface SmyRow extends SmyComponent {
   new (): {
     $props: RowProps
-    $scopeSlots: {
+    $scopedSlots: {
       default: () => VNode
     }
   }

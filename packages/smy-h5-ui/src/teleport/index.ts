@@ -8,7 +8,7 @@ import _Teleport from './Teleport'
 declare interface SmyTeleport extends SmyComponent {
   new (): {
     $props: TeleportProps
-    $scopeSlots: { default: () => VNode }
+    $scopedSlots: { default: () => VNode }
   }
 }
 

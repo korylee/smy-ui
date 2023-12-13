@@ -9,7 +9,7 @@ import _Switch from './Switch.vue'
 declare interface SmySwitch extends SmyComponent {
   new (): {
     $props: SwtichProps
-    $scopeSlots: {
+    $scopedSlots: {
       loading: () => VNode
     }
     $emit: {
