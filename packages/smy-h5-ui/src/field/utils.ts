@@ -1,6 +1,5 @@
-import Vue from 'vue'
 import { resetScroll } from '../_utils/dom'
-import { isNil, isObject } from '../_utils/is'
+import { isObject } from '../_utils/is'
 import { range } from '../_utils/shared'
 
 /**
@@ -62,15 +61,4 @@ export function mapInputType(type: string) {
     }
   }
   return { type }
-}
-
-export const createGetProp = (vm: Vue, provider: string) => (key: string) => {
-  const currentProp = vm.$props[key]
-  if (!isNil(currentProp)) {
-    return currentProp
-  }
-  const providerProp = (vm as any)[provider]?.$props[key]
-  if (!isNil(providerProp)) {
-    return providerProp
-  }
 }

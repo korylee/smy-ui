@@ -22,7 +22,7 @@ const [name, bem] = createNamespace('tag')
 
 export default {
   name,
-  components: { [Icon.name]: Icon },
+  components: { SmyIcon: Icon },
   props,
   computed: {
     style() {

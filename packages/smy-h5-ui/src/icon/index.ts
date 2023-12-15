@@ -6,7 +6,7 @@ import { withInstall } from '../_utils/vue/component'
 import _Icon from './Icon.jsx'
 import { IconCache } from './utils'
 
-declare interface SmyIcon extends SmyComponent {
+export declare interface SmyIcon extends SmyComponent {
   new (): {
     $props: IconProps
     $scopedSlots: {

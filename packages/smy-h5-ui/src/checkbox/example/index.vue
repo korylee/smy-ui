@@ -12,8 +12,10 @@
     <size-example />
     <app-demo-title>自定义图标</app-demo-title>
     <icon-example />
+    <app-demo-title>复选框组</app-demo-title>
+    <checkbox-group-example />
     <app-demo-title>不确定状态</app-demo-title>
-    <smy-checkbox indeterminate />
+    <indeterminate-example />
   </div>
 </template>
 
@@ -25,6 +27,8 @@ import ShapeExample from './ShapeExample.vue'
 import ColorExample from './ColorExample.vue'
 import IconExample from './IconExample.vue'
 import DisabledExample from './DisabledExample.vue'
+import CheckboxGroupExample from './CheckboxGroupExample.vue'
+import IndeterminateExample from './IndeterminateExample.vue'
 
 export default {
   name: 'CheckboxExample',
@@ -36,9 +40,19 @@ export default {
     ShapeExample,
     ColorExample,
     IconExample,
+    CheckboxGroupExample,
+    IndeterminateExample,
   },
   data: () => ({
     checked: false,
   }),
 }
 </script>
+
+<style lang="less">
+.demo-checkbox {
+  .smy-checkbox {
+    margin: 0 0 8px 20px;
+  }
+}
+</style>

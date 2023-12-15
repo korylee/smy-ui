@@ -1,6 +1,7 @@
 <template>
   <smy-checkbox-group v-model="value">
-    <smy-checkbox v-for="item in list" :key="item" :shape="item" :value="item">shape: {{ item }}</smy-checkbox>
+    <smy-checkbox value="a">复选框a</smy-checkbox>
+    <smy-checkbox value="b">复选框b</smy-checkbox>
   </smy-checkbox-group>
 </template>
 
@@ -13,8 +14,7 @@ export default {
     SmyCheckboxGroup: CheckboxGroup,
   },
   data: () => ({
-    value: [],
-    list: ['square', 'round', 'plain'],
+    value: ['a', 'b'],
   }),
 }
 </script>

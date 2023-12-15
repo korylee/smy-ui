@@ -9,17 +9,34 @@ export default {
   name: 'InternalChecker',
   props: checkerProps,
   computed: {
-    _disabled({ disabled }) {
+    _disabled(vm) {
+      const { disabled, parent, bindGroup, role, getParentProp, checked } = vm
+      if (parent && bindGroup) {
+        const _disabled = getParentProp('disabled') || disabled
+        if (role === 'checkbox') {
+          const checkedCount = getParentProp('value').length
+          const max = getParentProp('max')
+          const overlimit = max && checkedCount >= +max
+          return _disabled || (overlimit && !checked)
+        }
+        return _disabled
+      }
       return disabled
     },
   },
   methods: {
+    getParentProp(name) {
+      const { parent, bindGroup } = this
+      if (parent && bindGroup) {
+        return parent[name]
+      }
+    },
     onClick(event) {
-      const { _disabled } = this
+      const { _disabled: disabled, labelDisabled } = this
       const { target } = event
       const { icon } = this.$refs
       const iconClicked = icon === target || icon?.contains(target)
-      if (!_disabled && iconClicked) {
+      if (!disabled && (iconClicked || !labelDisabled)) {
         this.$emit('toggle')
       }
       this.$emit('click', event)
@@ -27,8 +44,9 @@ export default {
     renderIcon() {
       const vm = this
       const c = vm.$createElement
-      const { size: iconSize, indeterminate, shape, bem, checked, role, color, _disabled: disabled } = vm
+      const { size: iconSize, indeterminate, shape: _shape, bem, checked, role, color, _disabled: disabled } = vm
       const size = convertToUnit(iconSize)
+      const shape = _shape || this.getParentProp('shape')
       const iconFallback = () => {
         if (shape === 'dot') {
           return c('div', {
@@ -55,9 +73,10 @@ export default {
     renderLabel() {
       const vm = this
       const c = vm._self._c || vm.$createElement
-      const childNodes = vm._t('default')
+      const { _disabled: disabled, checked } = vm
+      const childNodes = vm._t('default', undefined, { disabled, checked })
       if (childNodes) {
-        return c('span', { class: vm.bem('label') }, childNodes)
+        return c('span', { class: vm.bem('label', { disabled }) }, childNodes)
       }
       return null
     },
@@ -67,7 +86,7 @@ export default {
     const vm = this
     const _h = vm.$createElement
     const c = vm._self._c || _h
-    const { role, bem, checked, renderIcon, renderLabel } = vm
+    const { role, bem, checked, renderIcon, renderLabel, _disabled: disabled } = vm
     let { inline } = vm
 
     const children = [renderIcon()]
@@ -81,7 +100,7 @@ export default {
     return c(
       'div',
       {
-        attrs: { role, 'aria-checked': checked },
+        attrs: { role, 'aria-checked': checked, tabindex: disabled ? undefined : 0 },
         class: bem({ inline }),
         on: {
           click: vm.onClick,
