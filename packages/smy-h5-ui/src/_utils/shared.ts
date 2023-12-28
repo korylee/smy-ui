@@ -1,5 +1,10 @@
 import { isBool, isNil, isString, isArray, type Func, isObject, isRegExp, isDate, isFunction } from './is'
 
+export type RequiredPartial<T, R extends keyof T> = Omit<T, R> &
+  Required<{
+    [O in R]: T[O]
+  }>
+
 const cameLizeRE = /-(\w)/g
 
 export function camelize(str: string) {
@@ -167,10 +172,10 @@ export function createLRUCache<T, R>(max: number, cache: Map<T, R> = new Map()) 
 
 export function pick<T extends Record<string, any>, R extends keyof T>(
   source: T,
-  props: R | R[] | Readonly<R>[],
+  props: R | R[] | Readonly<R[]>,
 ): Pick<T, R> {
   if (!isObject(source)) return {} as any
-  const wrapProps = wrapInArray(props)
+  const wrapProps = wrapInArray(props) as R[]
   const res = {} as unknown as Pick<T, R>
   wrapProps.forEach((key: R) => {
     if (key in source) {

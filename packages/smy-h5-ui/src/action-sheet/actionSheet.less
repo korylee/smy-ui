@@ -1,0 +1,122 @@
+@import '../_styles/mixins/hairline.less';
+:root {
+  --action-sheet-max-height: 80%;
+  --action-sheet-header-height: 48px;
+  --action-sheet-header-font-size: var(--font-size-lg);
+  --action-sheet-desc-text-color: #969799;
+  --action-sheet-desc-font-size: var(--font-size-md);
+  --action-sheet-desc-line-height: 20px;
+  --action-sheet-loading-size: 22px;
+  --action-sheet-item-font-size: var(--font-size-lg);
+  --action-sheet-item-line-height: 22px;
+  --action-sheet-item-disabled-text-color: #c8c9cc;
+  --action-sheet-item-text-color: #323233;
+  --action-sheet-item-background: #fff;
+  --action-sheet-subname-color: #969799;
+  --action-sheet-subname-line-height: 18px;
+  --action-sheet-subname-font-size: var(--font-size-sm);
+  --action-sheet-cancel-padding-top: var(--padding-xs);
+  --action-sheet-cancel-padding-color: #f7f8fa;
+  --action-sheet-close-size: 22px;
+  --action-sheet-close-color: #c8c9cc;
+  --action-sheet-close-padding: 0 var(--padding-md);
+}
+
+.smy-action-sheet {
+  display: flex;
+  flex-direction: column;
+  max-height: var(--action-sheet-max-height);
+  overflow: hidden;
+  color: var(--action-sheet-item-text-color);
+
+  &__content {
+    flex: 1 auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  &__item,
+  &__cancel {
+    display: block;
+    width: 100%;
+    padding: 14px var(--padding-md);
+    font-size: var(--action-sheet-item-font-size);
+    background: var(--action-sheet-item-background);
+    border: none;
+    cursor: pointer;
+
+    &:active {
+      background-color: #f2f3f5;
+    }
+  }
+  &__item {
+    line-height: var(--action-sheet-item-line-height);
+
+    &--loading,
+    &--disabled {
+      color: var(--action-sheet-item-disabled-text-color);
+
+      &:active {
+        background-color: var(--action-sheet-item-background);
+      }
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+    }
+    &--loading {
+      cursor: default;
+    }
+  }
+  &__subname {
+    margin-top: var(--padding-xs);
+    color: var(--action-sheet-subname-color);
+    font-size: var(--action-sheet-subname-font-size);
+    line-height: var(--action-sheet-subname-line-height);
+  }
+  &__cancel {
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+  &__gap {
+    display: block;
+    height: var(--action-sheet-cancel-padding-top);
+    background: var(--action-sheet-cancel-padding-color);
+  }
+  &__header {
+    flex-shrink: 0;
+    position: relative;
+    font-weight: var(--font-bold);
+    font-size: var(--action-sheet-header-font-size);
+    line-height: var(--action-sheet-header-height);
+    text-align: center;
+  }
+  &__desc {
+    position: relative;
+    flex-shrink: 0;
+    padding: 20px var(--padding-md);
+    color: var(--action-sheet-desc-text-color);
+    font-size: var(--action-sheet-desc-font-size);
+    line-height: var(--action-sheet-desc-line-height);
+    text-align: center;
+
+    &::after {
+      .hairline-bottom(var(--border-color), var(--padding-md), var(--padding-md));
+    }
+  }
+  &__loading {
+    --process-circular-underlay-color: rgba(0, 0, 0, 0.06);
+    font-size: var(--action-sheet-loading-size);
+  }
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    display: block;
+    box-sizing: content-box;
+    line-height: inherit;
+    padding: var(--action-sheet-close-padding);
+    color: var(--action-sheet-close-color);
+    font-size: var(--action-sheet-close-size);
+  }
+}

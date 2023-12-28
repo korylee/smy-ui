@@ -67,6 +67,7 @@ module.exports = defineConfig({
       { text: 'Lazyload 懒加载', type: 2, doc: 'lazyload' },
       { text: '反馈组件', type: 1 },
       { text: 'Toast 吐司气泡', doc: 'toast', type: 2 },
+      { text: 'ActionSheet 动作面板', doc: 'action-sheet', type: 2 },
       { text: 'Popup 弹出层', doc: 'popup', type: 2 },
       { text: 'Picker 多列选择器', doc: 'picker', type: 2 },
       { text: 'DatePicker 日期选择器', doc: 'date-picker', type: 2 },

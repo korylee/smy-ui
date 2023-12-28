@@ -4,6 +4,7 @@
 :root {
   --popup-overlay-background: @popup-overlay-background;
   --popup-content-background-color: @popup-content-background-color;
+  --popup-round-radius: 10px;
 }
 
 .smy-popup {
@@ -33,6 +34,23 @@
     overflow: auto;
     background-color: var(--popup-content-background-color);
     transition: all 0.25s;
+    &--round& {
+      &--center {
+        border-radius: var(--popup-round-radius);
+      }
+      &--top {
+        border-radius: 0 0 var(--popup-round-radius) var(--popup-round-radius);
+      }
+      &--bottom {
+        border-radius: var(--popup-round-radius) var(--popup-round-radius) 0 0;
+      }
+      &--right {
+        border-radius: var(--popup-round-radius) 0 0 var(--popup-round-radius);
+      }
+      &--left {
+        border-radius: 0 var(--popup-round-radius) var(--popup-round-radius) 0;
+      }
+    }
 
     &--center {
       position: relative;

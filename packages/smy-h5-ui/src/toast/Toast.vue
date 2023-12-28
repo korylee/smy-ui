@@ -17,11 +17,12 @@
     <div v-if="hasContent" :class="[bem('content'), contentClass]">
       <slot> <span v-html="content"></span> </slot>
     </div>
+    <button type="button"></button>
   </smy-popup>
 </template>
 
 <script>
-import SmyPopup, { popupListeners } from '../popup'
+import SmyPopup from '../popup'
 import SmyLoading from '../loading'
 import SmyIcon from '../icon'
 import { props, popupInheritProps } from './props'
@@ -29,6 +30,7 @@ import { SlotsMixin } from '../_utils/vue/slots'
 import { pick } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { getListeners } from '../_mixins/listeners'
+import { popupListeners } from '../popup/shared'
 
 const [name, bem] = createNamespace('toast')
 

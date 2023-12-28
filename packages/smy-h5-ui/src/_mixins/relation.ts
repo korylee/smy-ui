@@ -7,6 +7,7 @@ interface RelationOptions {
   children?: string
   index?: string
   sort?: boolean
+  alias?: string
 }
 
 function flatVNodes(subTree: VNode[], vNodes: VNode[] = []) {
@@ -45,7 +46,7 @@ export function createParentMixin(parent: string, { children = 'children' }: Pic
 
 export function createChildrenMixin(
   parent: string,
-  { index = 'index', children = 'children', sort = true }: RelationOptions = {},
+  { index = 'index', children = 'children', sort = true, alias }: RelationOptions = {},
 ) {
   function findIndex(this: Vue) {
     const vm = this as any
@@ -53,8 +54,9 @@ export function createChildrenMixin(
   }
   return {
     inject: {
-      [parent]: {
+      [alias || parent]: {
         default: null,
+        from: parent,
       },
     },
     computed: sort ? { [index]: findIndex } : undefined,

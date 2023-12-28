@@ -1,8 +1,8 @@
-import { assign, keys, pick } from '../_utils/shared'
-import { props as popupProps } from '../popup/props'
+import { assign, keys } from '../_utils/shared'
 import type { PropType } from 'vue'
 import { ExtractPropTypes, createArrayProp, createNumericProp, createStringProp, truthProp } from '../_utils/vue/props'
 import { Numeric } from '../_utils/is'
+import { popupSharedProps } from '../popup/shared'
 
 export type PickerBaseColumnItem = {
   text?: Numeric
@@ -40,13 +40,6 @@ export const pickerToolbarProps = {
 
 export const pickerToolbarPropKeys = keys(pickerToolbarProps)
 
-export const pickerPopupPropKeys = ['show', 'closeOnClickOverlay', 'teleport'] as const
-
-export const pickerPopupProps = pick(
-  popupProps,
-  pickerPopupPropKeys as unknown as (typeof pickerPopupPropKeys)[number][]
-)
-
 export const pickerSharedProps = assign(
   {
     toolbar: truthProp,
@@ -56,7 +49,7 @@ export const pickerSharedProps = assign(
     optionCount: createNumericProp(6),
   },
   pickerToolbarProps,
-  pickerPopupProps
+  popupSharedProps,
 )
 
 export const pickerSharedPropKeys = keys(pickerSharedProps)
@@ -84,7 +77,7 @@ export const props = assign(
     },
     presetValue: Function as PropType<(scrollColumn: ScrollColumn) => string>,
   },
-  pickerSharedProps
+  pickerSharedProps,
 )
 
 export type PickerProps = ExtractPropTypes<typeof props>

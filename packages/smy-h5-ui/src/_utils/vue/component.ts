@@ -1,5 +1,4 @@
 import type { ComponentOptions, FunctionalComponentOptions, VueConstructor } from 'vue'
-import type { CombinedVueInstance } from 'vue/types/vue'
 import Vue from 'vue'
 import { onMountedOrActivated } from './lifetime'
 
@@ -38,17 +37,14 @@ export function addRouteListener(vm: Vue, cb: () => void) {
   vm.$on('hook:beforeDestory', remove)
 }
 
-export interface MountComponentApi {
-  instance: CombinedVueInstance<Vue, any, any, any, any>
-  unmount(): void
-}
+export type MountedInstance<Options = object> = Vue & Options
 
-export function mountComponent(
+export function mountComponent<Options extends Record<string, any>>(
   component: ComponentOptions<Vue>,
   container = 'body',
-  options: ComponentOptions<Vue> = {}
-): MountComponentApi {
-  const instance = new (Vue.extend(component))(options)
+  options: ComponentOptions<Vue> = {},
+) {
+  const instance = new (Vue.extend(component))(options) as unknown as MountedInstance<Options>
   const el = instance.$mount().$el
   const wrapper = document.querySelector(container)
   if (!wrapper) throw new Error(`can not query selector ${container}`)

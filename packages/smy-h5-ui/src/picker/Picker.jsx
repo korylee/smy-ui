@@ -1,5 +1,5 @@
 import SmyPopup from '../popup'
-import { props, pickerToolbarPropKeys, pickerPopupPropKeys } from './props'
+import { props, pickerToolbarPropKeys } from './props'
 import { toPxNum } from '../_utils/dom'
 import { assign, createGetPropertyFromItem, pick, toNumber, wrapInArray } from '../_utils/shared'
 import PickerColumn from './PickerColumn.vue'
@@ -11,13 +11,15 @@ import PickerToolbar from './PickerToolbar.vue'
 
 import '../popup/popup.less'
 import './picker.less'
+import { popupSharedPropKeys } from '../popup/shared'
+import { PICKER_KEY } from '../picker-group/shared'
 
 let sid = 0
 
 export default {
   name,
   components: { PickerColumn, SmyPopup, PickerToolbar },
-  mixins: [createChildrenMixin('pickerGroup')],
+  mixins: [createChildrenMixin(PICKER_KEY)],
   props,
 
   data: () => ({ pickedIndexes: [], pickedValues: [], scrollColumns: [] }),
@@ -197,7 +199,7 @@ export default {
     const c = vm._self._c || _h
     const {
       popup,
-      pickerGroup,
+      [PICKER_KEY]: pickerGroup,
       toolbar,
       columnHeight,
       scrollColumns,
@@ -285,7 +287,7 @@ export default {
           'smy-picker-cover': '',
           position: 'bottom',
         },
-        pick(vm.$props, pickerPopupPropKeys)
+        pick(vm.$props, popupSharedPropKeys),
       )
       return c(SmyPopup, { attrs, on: getListeners.call(vm, pickerPopupListeners) }, children, 2)
     }

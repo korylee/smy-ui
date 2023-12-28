@@ -17,7 +17,7 @@
         <transition :name="getTransition()">
           <div
             v-if="show"
-            :class="[bem('content', position), contentClass]"
+            :class="[bem('content', { [position]: position, round }), contentClass]"
             :style="mergeStyles({ zIndex: zIndex }, contentStyle)"
             v-bind="$attrs"
             v-on="$listeners"

@@ -9,7 +9,8 @@ import { pickerPopupListeners, pickerToolbarSlots } from '../picker/utils'
 import { getListeners } from '../_mixins/listeners'
 import SmyPopup from '../popup'
 import { assign, pick } from '../_utils/shared'
-import { pickerPopupPropKeys } from '../picker/props'
+import { popupSharedPropKeys } from '../popup/shared'
+import { PICKER_KEY } from './shared'
 
 const [name, bem] = createNamespace('picker-group')
 
@@ -17,7 +18,7 @@ export default {
   name,
   props,
   mixins: [
-    createParentMixin('pickerGroup'),
+    createParentMixin(PICKER_KEY),
     createProxiedModel('activeTab', 'currentTab', { event: 'update:activeTab', passive: false }),
   ],
   components: {
@@ -104,7 +105,7 @@ export default {
           'smy-picker-cover': '',
           position: 'bottom',
         },
-        pick(vm.$props, pickerPopupPropKeys)
+        pick(vm.$props, popupSharedPropKeys)
       )
       return h(SmyPopup, { attrs, on: getListeners.call(vm, pickerPopupListeners) }, children)
     }

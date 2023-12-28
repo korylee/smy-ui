@@ -2,9 +2,10 @@ import { VNode } from 'vue'
 import { isArray } from '../_utils/is'
 import { SmyComponent } from '../_utils/smy/component'
 import { withInstall } from '../_utils/vue/component'
-import { PartialRequired, PickedValues, PickerSharedListeners, createPicker } from '../picker/utils'
+import { PickedValues, PickerSharedListeners, createPicker } from '../picker/utils'
 import _TimePicker from './TimePicker'
 import { TimePickerColumnType, TimePickerProps } from './props'
+import { RequiredPartial } from '../_utils/shared'
 
 export declare class SmyTimePicker extends SmyComponent {
   new(): {
@@ -32,7 +33,7 @@ export declare class SmyTimePicker extends SmyComponent {
 
 const _SmyTimePicker = withInstall(_TimePicker)
 
-type TimePickerOptions = PartialRequired<Omit<TimePickerProps, 'popup'>, 'columnsType'> & PickerSharedListeners
+type TimePickerOptions = RequiredPartial<Omit<TimePickerProps, 'popup'>, 'columnsType'> & PickerSharedListeners
 
 const nomalizeOptions = (options: TimePickerOptions | TimePickerColumnType[]): TimePickerOptions =>
   isArray(options) ? { columnsType: options } : options

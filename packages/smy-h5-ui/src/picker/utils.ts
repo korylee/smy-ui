@@ -2,10 +2,11 @@ import Vue from 'vue'
 import { Numeric, isNil } from '../_utils/is'
 import { isSameValue, range } from '../_utils/shared'
 import { SmyComponent } from '../_utils/smy/component'
-import { mountComponent } from '../_utils/vue/component'
+import { MountedInstance, mountComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
 import { DisabledFormatter, ScrollColumn } from './props'
-import { popupListeners } from '../popup'
+import { popupListeners } from '../popup/shared'
+import { IN_BROWSER } from '../_utils/env'
 
 // @ts-ignore
 const functionRenderContextPrototype = Vue.FunctionalRenderContext.prototype
@@ -38,11 +39,6 @@ export function findIndexFromColumn(index: number, scrollColumn: ScrollColumn, g
   return 0
 }
 
-export type PartialRequired<T, R extends keyof T> = Omit<T, R> &
-  Required<{
-    [O in R]: T[O]
-  }>
-
 export type PickedValues = Numeric[]
 
 export type PickerResolvedState = 'confirm' | 'close' | 'cancel'
@@ -66,16 +62,19 @@ export interface PickerSharedListeners {
 
 export function createPicker<I, O extends PickerSharedListeners>(
   PickComponent: SmyComponent,
-  genOptions: (options: I) => O
+  genOptions: (options: I) => O,
 ) {
-  let singletonInstance: O | null
+  let singletonInstance: MountedInstance<O & { show: boolean }> | null
 
-  const Picker = function Picker(options: I): Promise<PickerResolvedData> {
+  const Picker = function Picker(options: I): Promise<PickerResolvedData | void> {
+    if (!IN_BROWSER) {
+      return Promise.resolve()
+    }
     return new Promise((resolve) => {
       Picker.close()
       const pickerOptions = genOptions(options)
 
-      const { instance, unmount } = mountComponent(PickComponent as any, 'body', {
+      const { instance, unmount } = mountComponent<O & { show: boolean }>(PickComponent as any, 'body', {
         propsData: pickerOptions,
       })
       instance.show = true

@@ -3,7 +3,7 @@ import { assign } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
 import Checker from '../checkbox/Checker'
 import { props } from './props'
-import { RADIO_KEY } from '../radio-group/common'
+import { RADIO_KEY } from '../radio-group/shared'
 
 import '../_styles/common.less'
 import './radio.less'

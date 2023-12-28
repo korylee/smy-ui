@@ -5,9 +5,10 @@ import { withInstall } from '../_utils/vue/component'
 import _Picker from './Picker.jsx'
 import { isArray } from '../_utils/is'
 import { type VNode } from 'vue'
-import { PartialRequired, PickedValues, PickerSharedListeners, createPicker } from './utils'
+import { PickedValues, PickerSharedListeners, createPicker } from './utils'
+import { RequiredPartial } from '../_utils/shared'
 
-type PickerOptions = PartialRequired<Omit<PickerProps, 'popup'>, 'columns'> & PickerSharedListeners
+type PickerOptions = RequiredPartial<Omit<PickerProps, 'popup'>, 'columns'> & PickerSharedListeners
 
 export declare interface SmyPicker extends SmyComponent {
   new (): {

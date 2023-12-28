@@ -1,6 +1,7 @@
 import { assign } from '../_utils/shared'
 import { ExtractPropTypes, createArrayProp, createNumericProp, truthProp } from '../_utils/vue/props'
-import { pickerPopupProps, pickerToolbarProps } from '../picker/props'
+import { pickerToolbarProps } from '../picker/props'
+import { popupSharedProps } from '../popup/shared'
 
 export const props = assign(
   {
@@ -10,7 +11,7 @@ export const props = assign(
     nextStepText: String,
   },
   pickerToolbarProps,
-  pickerPopupProps
+  popupSharedProps,
 )
 
 export type PickerGroupProps = ExtractPropTypes<typeof props>

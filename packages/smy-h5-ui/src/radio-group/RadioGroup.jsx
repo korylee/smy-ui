@@ -1,6 +1,6 @@
 import { createParentMixin } from '../_mixins/relation'
 import { createNamespace } from '../_utils/vue/create'
-import { RADIO_KEY } from './common'
+import { RADIO_KEY } from './shared'
 import { props } from './props'
 
 import './radioGroup.less'
