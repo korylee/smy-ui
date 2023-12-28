@@ -1,10 +1,9 @@
 import type { ToastProps, ToastType } from './props'
 import type { VNode } from 'vue'
-import type { CombinedVueInstance } from 'vue/types/vue'
 import type { SmyComponent } from '../_utils/smy/component'
 
-import { mountComponent, withInstall } from '../_utils/vue/component'
-import _Toast from './Toast.vue'
+import { MountedInstance, mountComponent, withInstall } from '../_utils/vue/component'
+import _Toast from './Toast'
 import { isNumber, isPlainObject, isString } from '../_utils/is'
 import Vue from 'vue'
 import { TOAST_TYPES } from './props'
@@ -37,15 +36,12 @@ export type ReactiveToastOptions = Partial<ToastProps> & {
   onClosed?: () => void
 }
 
-type NeverRecord = Record<string, never>
-
-type ToastInstance = CombinedVueInstance<
-  Vue,
-  { content: string },
-  { close: () => void; open: (opts: ReactiveToastOptions) => void },
-  NeverRecord,
-  NeverRecord
->
+type ToastInstance = MountedInstance<{
+  content: string
+  close: () => void
+  open: (opts: ReactiveToastOptions) => void
+  refresh: () => void
+}>
 
 let isAllowMultiple = false
 let queue: ToastInstance[] = []
@@ -163,6 +159,10 @@ function createInstance() {
     methods: {
       open,
       close: () => toggle(false),
+      refresh() {
+        const { toast } = this.$refs
+        ;(toast as any)?.updateAfterDuration?.()
+      },
     },
     render(h) {
       const stateValue = state.value
@@ -180,7 +180,7 @@ function createInstance() {
         opened: () => stateValue.onOpened?.(),
         'update:show': toggle,
       }
-      return h(_SmyToast, { on, props: stateValue })
+      return h(_SmyToast, { on, props: stateValue, ref: 'toast' })
     },
   })
   return instance as ToastInstance
@@ -193,7 +193,9 @@ function getInstance() {
     queue.push(instance)
     return instance
   } else {
-    return queue[0]
+    const instance = queue[0]
+    instance.refresh()
+    return instance
   }
 }
 

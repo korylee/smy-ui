@@ -52,7 +52,7 @@ export default {
   render() {
     const vm = this
     const { tag, $createElement: h, shrinking, namespace, nextName, style, $listeners } = vm
-    const defaultSlot = getSlot(this)
+    const defaultSlot = getSlot.call(vm)
     const baseClass = bem({ shrinking })
     let child = defaultSlot
     let isImageIcon = false

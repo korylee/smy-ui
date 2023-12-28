@@ -1,4 +1,3 @@
-import { getSlot } from '../_utils/vue/slots'
 import Vue from 'vue'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
@@ -37,7 +36,7 @@ export default {
   methods: {
     create() {
       const Ctor = Vue.extend({
-        render: () => <div class={bem('container')}>{getSlot(this)}</div>,
+        render: () => <div class={bem('container')}>{this._t('default')}</div>,
       })
       const instance = new Ctor()
       instance.$parent = this

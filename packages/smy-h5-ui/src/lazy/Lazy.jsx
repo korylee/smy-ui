@@ -21,7 +21,9 @@ export default {
     },
   },
   render(h) {
-    const { tag, isIntersecting, onIntersect, options, transition, keepShow } = this
+    const vm = this
+    const { tag, isIntersecting, onIntersect, options, transition, keepShow } = vm
+
     const intersectDirective = {
       name: 'intersect',
       value: {
@@ -34,7 +36,7 @@ export default {
       staticClass: bem(),
       directives: [intersectDirective],
     }
-    const defaultSlot = getSlot(this, 'default', { value: isIntersecting })
+    const defaultSlot = getSlot.call(vm, 'default', { value: isIntersecting })
     const child =
       isIntersecting || keepShow ? (
         <MaybeTransition maybe={!!transition} name={transition} appear>

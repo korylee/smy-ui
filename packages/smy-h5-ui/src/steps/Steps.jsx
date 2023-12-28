@@ -1,4 +1,3 @@
-import { getSlot } from '../_utils/vue/slots'
 import { createParentMixin } from '../_mixins/relation'
 import { props } from './props'
 
@@ -20,6 +19,6 @@ export default {
     const vm = this
     const { direction, progressDot: dot } = vm
 
-    return <div class={bem({ dot, [direction]: direction })}>{getSlot(vm)}</div>
+    return <div class={bem({ dot, [direction]: direction })}>{vm._t('default')}</div>
   },
 }
