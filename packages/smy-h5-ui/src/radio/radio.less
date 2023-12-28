@@ -1,17 +1,17 @@
 :root {
-  --checkbox-size: 20px;
-  --checkbox-duration: var(--duration-fast);
-  --checkbox-color: var(--color-primary);
-  --checkbox-border-radius: 2px;
-  --checkbox-unchecked-border-color: #c8c9cc;
-  --checkbox-disabled-color: #c8c9cc;
-  --checkbox-disabled-label-color: #c8c9cc;
-  --checkbox-disabled-background-color: #ebedf0;
-  --checkbox-label-margin: var(--padding-xs);
-  --checkbox-label-color: var(--text-color);
+  --radio-size: 20px;
+  --radio-duration: var(--duration-fast);
+  --radio-color: var(--color-primary);
+  --radio-border-radius: 2px;
+  --radio-unchecked-border-color: #c8c9cc;
+  --radio-disabled-color: #c8c9cc;
+  --radio-disabled-label-color: #c8c9cc;
+  --radio-disabled-background-color: #ebedf0;
+  --radio-label-margin: var(--padding-xs);
+  --radio-label-color: var(--text-color);
 }
 
-.smy-checkbox {
+.smy-radio {
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -21,7 +21,6 @@
   &--inline {
     display: inline-flex;
   }
-
   &__icon {
     flex: none;
     height: 1em;
@@ -51,11 +50,13 @@
         background-color: var(--checkbox-color);
         border-color: var(--checkbox-checked-border-color, var(--checkbox-color));
       }
-      &--plain {
+      &--plain,
+      &--dot {
         background-color: transparent;
       }
-      &--plain&--checked {
-        color: var(--checkbox-color);
+      &--plain&--checked,
+      &--dot&--checked {
+        color: var(--radio-color);
       }
       &--disabled {
         cursor: not-allowed;
@@ -67,6 +68,17 @@
       &--disabled&--checked {
         color: var(--checkbox-disabled-color);
       }
+      &--dot {
+        border-radius: 100%;
+        .smy-radio__icon-content {
+          width: 0.5em;
+          height: 0.5em;
+          background-color: currentColor;
+          border-radius: 100%;
+          transition-duration: var(--radio-duration);
+          transition-property: background-color;
+        }
+      }
     }
     &-content.smy-icon {
       font-size: 0.8em;
@@ -74,14 +86,14 @@
   }
 
   &__label {
-    margin: 0 0 0 var(--checkbox-label-margin);
-    line-height: var(--checkbox-size);
-    color: var(--checkbox-label-color);
+    margin: 0 0 0 var(--radio-label-margin);
+    line-height: var(--radio-size);
+    color: var(--radio-label-color);
     &--left {
-      margin: 0 var(--checkbox-label-margin) 0 0;
+      margin: 0 var(--radio-label-margin) 0 0;
     }
     &--disabled {
-      color: var(--checkbox-disabled-label-color);
+      color: var(--radio-disabled-label-color);
     }
   }
 }

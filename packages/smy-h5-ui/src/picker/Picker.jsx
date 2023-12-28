@@ -81,9 +81,7 @@ export default {
       this.initing = true
       this.pickedIndexes = []
       this.pickedValues = []
-      this.scrollColumns = this.cascade
-        ? this.initCascade(columns)
-        : this.initNormal(isArray(columns[0]) ? columns : [columns])
+      this.scrollColumns = this.cascade ? this.initCascade(columns) : this.initNormal(columns)
       this.initing = false
     },
 

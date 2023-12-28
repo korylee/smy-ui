@@ -3,6 +3,8 @@ import { isPlainObject } from '../_utils/is'
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 
+import './checkboxGroup.less'
+
 const [name, bem] = createNamespace('checkbox-group')
 
 export default {

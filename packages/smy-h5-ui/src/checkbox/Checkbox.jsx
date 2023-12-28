@@ -26,7 +26,7 @@ export default {
     },
   },
   watch: {
-    value(newValue) {
+    checked(newValue) {
       if (this.indeterminate === null) {
         this.$emit('change', newValue)
       }
@@ -62,8 +62,6 @@ export default {
   },
   render(h) {
     const vm = this
-    const scopedSlots = assign({}, vm.$scopedSlots)
-
     const { _checked: checked, checkboxGroup: parent } = vm
     const attrs = assign({}, vm.$props, {
       role: 'checkbox',
@@ -74,7 +72,7 @@ export default {
     return h(Checker, {
       attrs,
       on: { toggle: vm.toggle },
-      scopedSlots,
+      scopedSlots: vm.$scopedSlots,
     })
   },
 }

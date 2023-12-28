@@ -1,5 +1,5 @@
 <template>
-  <smy-checkbox v-model="value">
+  <smy-checkbox v-model="value" :preset="false">
     <template #icon="{ checked }"> <smy-icon :name="checked ? activeIcon : inactiveIcon" /></template>
   </smy-checkbox>
 </template>

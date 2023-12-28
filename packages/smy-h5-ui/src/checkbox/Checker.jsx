@@ -1,9 +1,9 @@
 import { checkerProps } from './props'
 import SmyIcon from '../icon'
-import Check from '@smy-h5/icons/dist/es/Check'
 import Minus from '@smy-h5/icons/dist/es/Minus'
 import { convertToUnit } from '../_utils/dom'
-import { hasSlot } from '../_utils/vue/slots'
+
+const DEFAULT_SHAPE = { radio: 'round', checkbox: 'square' }
 
 export default {
   name: 'InternalChecker',
@@ -44,27 +44,30 @@ export default {
     renderIcon() {
       const vm = this
       const c = vm.$createElement
-      const { size: iconSize, indeterminate, shape: _shape, bem, checked, role, color, _disabled: disabled } = vm
+      const { indeterminate, bem, checked, role, _disabled: disabled, preset, checkedIcon } = vm
+      let { icon } = vm
+      if (icon === false) {
+        return null
+      }
+      if (!icon) {
+        icon = indeterminate ? Minus : checkedIcon
+      }
+      const iconSize = vm.size || vm.getParentProp('size')
       const size = convertToUnit(iconSize)
-      const shape = _shape || this.getParentProp('shape')
+      const shape = vm.shape || vm.getParentProp('shape') || DEFAULT_SHAPE[role]
+      const color = vm.color || vm.getParentProp('color')
+      const clazz = bem('icon-content')
       const iconFallback = () => {
         if (shape === 'dot') {
-          return c('div', {
-            class: bem('icon', ['dot']),
-          })
+          return c('div', { class: clazz })
         }
-        const icon = indeterminate ? Minus : Check
-        return c(SmyIcon, {
-          attrs: { name: icon },
-          style: {},
-        })
+        return c(SmyIcon, { attrs: { name: icon }, class: clazz })
       }
-      const custom = hasSlot(vm, 'icon')
       return c(
         'div',
         {
           ref: 'icon',
-          class: bem('icon', { disabled, checked, indeterminate, [shape]: shape, custom }),
+          class: bem('icon', { disabled, checked, indeterminate, [shape]: shape, preset }),
           style: { [`--${role}-size`]: size, [`--${role}-color`]: color },
         },
         [vm._t('icon', iconFallback, { checked })],
@@ -96,12 +99,13 @@ export default {
     } else if (!inline) {
       inline = true
     }
+    const direction = vm.getParentProp('direction')
 
     return c(
       'div',
       {
         attrs: { role, 'aria-checked': checked, tabindex: disabled ? undefined : 0 },
-        class: bem({ inline }),
+        class: bem({ inline, [direction]: direction }),
         on: {
           click: vm.onClick,
         },

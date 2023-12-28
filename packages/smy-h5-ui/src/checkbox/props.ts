@@ -1,19 +1,33 @@
 import { PropType } from 'vue'
 import { assign } from '../_utils/shared'
-import { numericProp, truthProp, unknownProp } from '../_utils/vue/props'
+import {
+  ExtractPropTypes,
+  componentProp,
+  createComponentProp,
+  createUnknownProp,
+  numericProp,
+  truthProp,
+} from '../_utils/vue/props'
+import { RadioShape } from '../radio/props'
+// @ts-ignore
+import Check from '@smy-h5/icons/dist/es/Check'
 
 export type CheckboxShape = 'square' | 'round' | 'plain'
-export type CheckerShape = CheckboxShape
+export type CheckerShape = CheckboxShape | RadioShape
 export type CheckerDirection = 'horizontal' | 'vertical'
 
 export const checkerSharedProps = {
   disabled: Boolean,
   size: numericProp,
-  value: unknownProp,
+  value: createUnknownProp(true),
   color: String,
-  checked: unknownProp,
+  checked: Boolean,
   inline: Boolean,
   labelDisabled: Boolean,
+  icon: componentProp,
+  checkedIcon: createComponentProp(Check),
+  preset: truthProp,
+  bindGroup: truthProp,
 }
 
 export const checkerProps = assign({}, checkerSharedProps, {
@@ -23,21 +37,19 @@ export const checkerProps = assign({}, checkerSharedProps, {
   },
   role: String,
   shape: String as PropType<CheckboxShape>,
-  checked: Boolean,
   indeterminate: {
     type: Boolean as PropType<boolean | null>,
     defualt: null,
   },
   parent: Object,
-  bindGroup: truthProp,
 })
 
 export const props = assign({}, checkerSharedProps, {
-  checked: Boolean,
   shape: String as PropType<CheckboxShape>,
-  bindGroup: truthProp,
   indeterminate: {
     type: Boolean as PropType<boolean | null>,
     defualt: null,
   },
 })
+
+export type CheckboxProps = ExtractPropTypes<typeof props>
