@@ -6,6 +6,7 @@ import { PickedValues, PickerSharedListeners, createPicker } from '../picker/uti
 import _DatePicker from './DatePicker.jsx'
 import { DatePickerColumnType, DatePickerProps } from './props'
 import { RequiredPartial } from '../_utils/shared'
+import { PopupEmit } from '../popup/shared'
 
 export declare class SmyDatePicker extends SmyComponent {
   new(): {
@@ -18,16 +19,10 @@ export declare class SmyDatePicker extends SmyComponent {
       top: () => VNode
     }
     $emit: {
-      (event: 'open'): void
-      (event: 'opened'): void
-      (event: 'close'): void
-      (event: 'closed'): void
-      (event: 'route-change'): void
-      (event: 'click-overlay'): void
       (event: 'confirm', values: PickedValues, indexes: number[]): void
       (event: 'cancel', values: PickedValues, indexes: number[]): void
       (event: 'change', values: PickedValues, indexes: number[]): void
-    }
+    } & PopupEmit
   }
 }
 

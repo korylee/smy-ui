@@ -4,7 +4,8 @@
       :active-tab.sync="activeTab"
       :popup="false"
       :tabs="['选择日期', '选择时间']"
-      nextStepText="下一步"
+      next-step-text="下一步"
+      @confirm="onConfirm"
     >
       <smy-date-picker
         :value.sync="currentDate"
@@ -18,7 +19,7 @@
 </template>
 
 <script>
-import SmyPickerGroup from '../PickerGroup.jsx'
+import SmyPickerGroup from '..'
 import DatePicker from '../../date-picker'
 import TimePicker from '../../time-picker'
 
@@ -30,5 +31,10 @@ export default {
     SmyTimePicker: TimePicker.Component,
   },
   data: () => ({ activeTab: 0, currentDate: [], currentTime: [] }),
+  methods: {
+    onConfirm(...args) {
+      console.log(args)
+    },
+  },
 }
 </script>

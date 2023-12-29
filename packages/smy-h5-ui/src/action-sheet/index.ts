@@ -6,6 +6,7 @@ import _ActionSheet from './ActionSheet'
 import { ActionSheetItem, ActionSheetProps } from './props'
 import { IN_BROWSER } from '../_utils/env'
 import { isArray } from '../_utils/is'
+import { PopupListeners } from '../popup/shared'
 
 declare interface SmyActionSheet extends SmyComponent {
   new (): {
@@ -26,13 +27,8 @@ declare interface SmyActionSheet extends SmyComponent {
 const _SmyActionSheet = withInstall(_ActionSheet) as SmyActionSheet
 
 export type ActionSheetListeners = {
-  onOpen?: () => void
-  onOpened?: () => void
-  onClose?: () => void
-  onClosed?: () => void
-  onClickOverlay?: () => void
   onSelect?: (action: ActionSheetItem, index: number) => void
-}
+} & PopupListeners
 
 export type ActionSheetOptions = Omit<ActionSheetProps, 'teleport'> & ActionSheetListeners
 

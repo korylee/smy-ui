@@ -7,6 +7,7 @@ import { isArray } from '../_utils/is'
 import { type VNode } from 'vue'
 import { PickedValues, PickerSharedListeners, createPicker } from './utils'
 import { RequiredPartial } from '../_utils/shared'
+import { PopupEmit } from '../popup/shared'
 
 type PickerOptions = RequiredPartial<Omit<PickerProps, 'popup'>, 'columns'> & PickerSharedListeners
 
@@ -21,16 +22,10 @@ export declare interface SmyPicker extends SmyComponent {
       top: () => VNode
     }
     $emit: {
-      (event: 'open'): void
-      (event: 'opened'): void
-      (event: 'close'): void
-      (event: 'closed'): void
-      (event: 'route-change'): void
-      (event: 'click-overlay'): void
       (event: 'confirm', values: PickedValues, indexes: number[]): void
       (event: 'cancel', values: PickedValues, indexes: number[]): void
       (event: 'change', values: PickedValues, indexes: number[]): void
-    }
+    } & PopupEmit
   }
 }
 

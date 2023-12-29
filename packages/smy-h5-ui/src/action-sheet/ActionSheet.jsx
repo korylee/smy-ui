@@ -4,7 +4,7 @@ import Popup from '../popup'
 import ProgressCircular from '../progress-circular'
 import Icon from '../icon'
 import { popupInheritPropKeys, props } from './props'
-import { popupListeners } from '../popup/shared'
+import { popupListenerKeys } from '../popup/shared'
 import { assign, pick } from '../_utils/shared'
 
 import '../_styles/common.less'
@@ -98,7 +98,7 @@ export default {
     )
     const data = {
       attrs,
-      on: getListeners.call(vm, popupListeners),
+      on: getListeners.call(vm, popupListenerKeys),
     }
     return c(Popup, data, [
       renderHeader(),

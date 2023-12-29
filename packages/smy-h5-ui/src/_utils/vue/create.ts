@@ -1,3 +1,4 @@
+import { NAMESPACE } from '../contant'
 import { isArray, isPlainObject, isString } from '../is'
 
 type Mod = string | Record<string, any>
@@ -37,7 +38,7 @@ export type BEM = ReturnType<typeof createBem>
 
 export function createNamespace<C extends string, D extends string>(name: C, namespace: D): [`${D}-${C}`, BEM]
 export function createNamespace<C extends string>(name: C): [`smy-${C}`, BEM]
-export function createNamespace(name: string, namespace = 'smy') {
+export function createNamespace(name: string, namespace = NAMESPACE) {
   const componentName = `${namespace}-${name}` as const
   return [componentName, createBem(namespace, componentName)] as const
 }

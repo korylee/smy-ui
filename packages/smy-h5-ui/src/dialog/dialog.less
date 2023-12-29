@@ -1,0 +1,104 @@
+:root,
+:host {
+  --dialog-width: 320px;
+  --dialog-small-screen-width: 90%;
+  --dialog-font-size: var(--font-size-lg);
+  --dialog-transition: 0.2s;
+  --dialog-radius: 8px;
+  --dialog-header-line-height: 24px;
+  --dialog-header-padding-top: 26px;
+  --dialog-header-font-weight: var(--font-bold);
+  --dialog-content-padding: 26px var(--padding-lg);
+  --dialog-content-font-size: var(--font-size-md);
+  --dialog-content-line-height: 20px;
+  --dialog-content-max-height: 60vh;
+  --dialog-has-header-content-text-color: #646566;
+  --dialog-has-header-content-padding-top: var(--padding-xs);
+  --dialog-button-height: 48px;
+  --dialog-confirm-text-color: var(--color-primary);
+}
+
+.smy-dialog {
+  overflow: hidden;
+  width: var(--dialog-width);
+  border-radius: var(--dialog-radius);
+  transition: var(--dialog-transition);
+  backface-visibility: hidden;
+  transition-property: transform, opacity;
+
+  @media (max-width: 321px) {
+    width: var(--dialog-small-screen-width);
+  }
+
+  &__header {
+    color: var(--text-color);
+    padding-top: var(--dialog-header-padding-top);
+    line-height: var(--dialog-header-line-height);
+    font-weight: var(--dialog-header-font-weight);
+    text-align: center;
+  }
+
+  &__body {
+    &--isolated {
+      display: flex;
+      align-items: center;
+      min-height: 104px;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    color: var(--text-color);
+    overflow-y: auto;
+    max-height: var(--dialog-content-max-height);
+    padding: var(--dialog-content-padding);
+    font-size: var(--dialog-content-font-size);
+    line-height: var(--dialog-content-line-height);
+
+    white-space: pre-wrap;
+    word-break: break-word;
+    text-align: center;
+    -webkit-overflow-scrolling: touch;
+
+    &--has-header {
+      color: var(--dialog-has-header-content-text-color);
+      padding-top: var(--dialog-has-header-content-padding-top);
+    }
+    &--justify {
+      text-align: justify;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  &__confirm,
+  &__cancel {
+    flex: 1;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    height: var(--dialog-button-height);
+    width: 100%;
+    background: #fff;
+  }
+  &__confirm {
+    &,
+    &:active {
+      color: var(--dialog-confirm-text-color);
+    }
+  }
+
+  &-bounce-enter-active {
+    transform: translate3d(0, -50%, 0) scale(0.7);
+    opacity: 0;
+  }
+
+  &-bounce-leave-active {
+    transform: translate3d(0, -50%, 0) scale(0.9);
+    opacity: 0;
+  }
+}

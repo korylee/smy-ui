@@ -6,7 +6,7 @@ import { SlotsMixin, hasSlot } from '../_utils/vue/slots'
 import { assign, pick } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { getListeners } from '../_mixins/listeners'
-import { popupListeners, popupSharedPropKeys } from '../popup/shared'
+import { popupListenerKeys, popupSharedPropKeys } from '../popup/shared'
 
 import '../popup/popup.less'
 import './toast.less'
@@ -68,7 +68,7 @@ export default {
         attrs,
         on: { click: vm.onClick },
       },
-      getListeners.call(vm, popupListeners),
+      getListeners.call(vm, popupListenerKeys),
     )
     return c(Popup, data, [
       hasIcon

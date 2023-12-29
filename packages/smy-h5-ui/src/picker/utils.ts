@@ -5,7 +5,7 @@ import { SmyComponent } from '../_utils/smy/component'
 import { MountedInstance, mountComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
 import { DisabledFormatter, ScrollColumn } from './props'
-import { popupListeners } from '../popup/shared'
+import { PopupListeners, popupListenerKeys } from '../popup/shared'
 import { IN_BROWSER } from '../_utils/env'
 
 // @ts-ignore
@@ -19,7 +19,7 @@ export { name, bem }
 
 export const pickerToolbarSlots = ['cancel', 'confirm', 'title', 'toolbar'] as const
 
-export const pickerPopupListeners = popupListeners
+export const pickerPopupListeners = popupListenerKeys
 
 export const pickerSharedListeners = [...pickerPopupListeners, 'confirm', 'cancel', 'change', 'update:value'] as const
 
@@ -49,16 +49,11 @@ export interface PickerResolvedData {
   indexes?: number[]
 }
 
-export interface PickerSharedListeners {
-  onOpen?: () => void
-  onOpened?: () => void
-  onClose?: () => void
-  onClosed?: () => void
-  onClickOverlay?: () => void
+export type PickerSharedListeners = {
   onChange?: (values: PickedValues, indexes: number[]) => void
   onConfirm?: (values: PickedValues, indexes: number[]) => void
   onCancel?: (values: PickedValues, indexes: number[]) => void
-}
+} & PopupListeners
 
 export function createPicker<I, O extends PickerSharedListeners>(
   PickComponent: SmyComponent,

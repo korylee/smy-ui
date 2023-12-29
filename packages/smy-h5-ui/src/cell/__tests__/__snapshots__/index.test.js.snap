@@ -23,7 +23,7 @@ exports[`test cell example 1`] = `
   </div>
   <div class="app-demo-title">展示图标</div>
   <div class="smy-cell smy-cell--borderless">
-    <div class="smy-cell__icon"><span class="smy-icon" style="transition: transform 0ms;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
+    <div class="smy-cell__icon"><span class="smy-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
     <div class="smy-cell__content">
       <div class="smy-cell__title">这里是cell组件
       </div>
@@ -39,7 +39,7 @@ exports[`test cell example 1`] = `
       </div>
       <!---->
     </div>
-    <div class="smy-cell__extra"><span class="smy-icon" style="transition: transform 0ms;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
+    <div class="smy-cell__extra"><span class="smy-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
   </div>
   <div class="app-demo-title">点击动画</div>
   <div class="smy-cell smy-cell--borderless smy-cell--clickable">
@@ -58,7 +58,7 @@ exports[`test cell example 1`] = `
       </div>
       <!---->
     </div>
-    <div class="smy-cell__extra"><span class="smy-icon" style="transition: transform 0ms;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
+    <div class="smy-cell__extra"><span class="smy-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
   </div>
   <div class="app-demo-title">分组用法</div>
   <div class="smy-cell-group">
@@ -69,7 +69,7 @@ exports[`test cell example 1`] = `
         </div>
         <div class="smy-cell__desc">这里是描述</div>
       </div>
-      <div class="smy-cell__extra"><span class="smy-icon" style="transition: transform 0ms;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
+      <div class="smy-cell__extra"><span class="smy-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
     </div>
     <div class="smy-cell smy-cell--clickable">
       <!---->
@@ -78,7 +78,7 @@ exports[`test cell example 1`] = `
         </div>
         <div class="smy-cell__desc">这里是描述</div>
       </div>
-      <div class="smy-cell__extra"><span class="smy-icon" style="transition: transform 0ms;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
+      <div class="smy-cell__extra"><span class="smy-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
     </div>
     <div class="smy-cell smy-cell--clickable">
       <!---->
@@ -87,7 +87,7 @@ exports[`test cell example 1`] = `
         </div>
         <div class="smy-cell__desc">这里是描述</div>
       </div>
-      <div class="smy-cell__extra"><span class="smy-icon" style="transition: transform 0ms;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
+      <div class="smy-cell__extra"><span class="smy-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
     </div>
   </div>
   <div class="app-demo-title">分组卡片样式</div>
@@ -99,7 +99,7 @@ exports[`test cell example 1`] = `
         </div>
         <div class="smy-cell__desc">这里是描述</div>
       </div>
-      <div class="smy-cell__extra"><span class="smy-icon" style="transition: transform 0ms;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
+      <div class="smy-cell__extra"><span class="smy-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
     </div>
     <div class="smy-cell smy-cell--clickable">
       <!---->
@@ -108,7 +108,7 @@ exports[`test cell example 1`] = `
         </div>
         <div class="smy-cell__desc">这里是描述</div>
       </div>
-      <div class="smy-cell__extra"><span class="smy-icon" style="transition: transform 0ms;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
+      <div class="smy-cell__extra"><span class="smy-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
     </div>
     <div class="smy-cell smy-cell--clickable">
       <!---->
@@ -117,7 +117,7 @@ exports[`test cell example 1`] = `
         </div>
         <div class="smy-cell__desc">这里是描述</div>
       </div>
-      <div class="smy-cell__extra"><span class="smy-icon" style="transition: transform 0ms;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
+      <div class="smy-cell__extra"><span class="smy-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"></path></svg></span></div>
     </div>
   </div>
 </div>"

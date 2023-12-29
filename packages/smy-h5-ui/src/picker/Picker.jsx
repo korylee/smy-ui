@@ -69,6 +69,7 @@ export default {
       const { pickedIndexes, pickedValues } = this
       this.$emit('confirm', pickedValues.slice(), pickedIndexes)
       this.$emit('input', pickedValues.slice())
+      return pickedValues.slice()
     },
 
     cancel() {

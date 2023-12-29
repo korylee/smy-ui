@@ -1,5 +1,6 @@
 import { SmyComponent } from '../_utils/smy/component'
 import { withInstall } from '../_utils/vue/component'
+import { PopupEmit } from '../popup/shared'
 import _PickerGroup from './PickerGroup'
 import { PickerGroupProps } from './props'
 
@@ -10,13 +11,9 @@ declare class SmyPickerGroup extends SmyComponent {
       default: () => any
     }
     $emit: {
-      (event: 'open'): void
-      (event: 'opened'): void
-      (event: 'close'): void
-      (event: 'closed'): void
-      (event: 'route-change'): void
-      (event: 'click-overlay'): void
-    }
+      (event: 'cancel'): void
+      (event: 'confirm', data: any[]): void
+    } & PopupEmit
   }
 }
 
