@@ -33,7 +33,7 @@ test('test scroll up & onConfirm', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 
   await wrapper.find('.smy-picker__confirm').trigger('click')
-  expect(onConfirm).lastCalledWith(['C'], [2])
+  expect(onConfirm).lastCalledWith({ values: ['C'], indexes: [2], column: ['C'] })
 
   wrapper.destroy()
 })

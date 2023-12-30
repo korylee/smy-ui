@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import { Numeric, isNil } from '../_utils/is'
-import { isSameValue, range } from '../_utils/shared'
+import { assign, isSameValue, range } from '../_utils/shared'
 import { SmyComponent } from '../_utils/smy/component'
 import { MountedInstance, mountComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
-import { DisabledFormatter, ScrollColumn } from './props'
-import { PopupListeners, popupListenerKeys } from '../popup/shared'
+import { DisabledFormatter, PickerColumnItem, ScrollColumn } from './props'
+import { PopupEmit, PopupListeners, popupListenerKeys } from '../popup/shared'
 import { IN_BROWSER } from '../_utils/env'
+import { ScopedSlotReturnValue } from 'vue/types/vnode'
 
 // @ts-ignore
 const functionRenderContextPrototype = Vue.FunctionalRenderContext.prototype
@@ -43,25 +44,44 @@ export type PickedValues = Numeric[]
 
 export type PickerResolvedState = 'confirm' | 'close' | 'cancel'
 
-export interface PickerResolvedData {
+export type PickerResult = {
   state: PickerResolvedState
-  values?: PickedValues
-  indexes?: number[]
+} & Partial<PickedData>
+
+type PickedData = {
+  values: PickedValues
+  indexes: number[]
 }
 
+export type PickerEmit = {
+  (event: 'confirm', data: PickedData): void
+  (event: 'cancel', data: PickedData): void
+  (event: 'change', data: PickedData): void
+} & PopupEmit
+
 export type PickerSharedListeners = {
-  onChange?: (values: PickedValues, indexes: number[]) => void
-  onConfirm?: (values: PickedValues, indexes: number[]) => void
-  onCancel?: (values: PickedValues, indexes: number[]) => void
+  onChange?: (data: PickedData) => void
+  onConfirm?: (data: PickedData) => void
+  onCancel?: (data: PickedData) => void
 } & PopupListeners
 
-export function createPicker<I, O extends PickerSharedListeners>(
-  PickComponent: SmyComponent,
-  genOptions: (options: I) => O,
-) {
-  let singletonInstance: MountedInstance<O & { show: boolean }> | null
+export type PickerScopedSlots = {
+  toolbar: () => ScopedSlotReturnValue
+  cancel: () => ScopedSlotReturnValue
+  title: () => ScopedSlotReturnValue
+  confirm: () => ScopedSlotReturnValue
+  top: () => ScopedSlotReturnValue
+  item: (data: { item: PickerColumnItem; index: number }) => ScopedSlotReturnValue
+}
 
-  const Picker = function Picker(options: I): Promise<PickerResolvedData | void> {
+export function createPicker<
+  PickerComponent extends SmyComponent,
+  Options,
+  NormaliedOptions extends PickerSharedListeners,
+>(picker: PickerComponent, genOptions: (options: Options) => NormaliedOptions) {
+  let singletonInstance: MountedInstance<NormaliedOptions & { show: boolean }> | null
+
+  const Picker = function Picker(options: Options): Promise<PickerResult | void> {
     if (!IN_BROWSER) {
       return Promise.resolve()
     }
@@ -69,7 +89,7 @@ export function createPicker<I, O extends PickerSharedListeners>(
       Picker.close()
       const pickerOptions = genOptions(options)
 
-      const { instance, unmount } = mountComponent<O & { show: boolean }>(PickComponent as any, 'body', {
+      const { instance, unmount } = mountComponent<NormaliedOptions & { show: boolean }>(picker as any, 'body', {
         propsData: pickerOptions,
       })
       instance.show = true
@@ -89,19 +109,19 @@ export function createPicker<I, O extends PickerSharedListeners>(
         unmount()
         clearSingletonInstance()
       })
-      instance.$on('change', (values: PickedValues, indexes: number[]) => {
-        pickerOptions.onChange?.(values, indexes)
+      instance.$on('change', (data: PickedData) => {
+        pickerOptions.onChange?.(data)
         clearSingletonInstance()
       })
-      instance.$on('confirm', (values: PickedValues, indexes: number[]) => {
-        pickerOptions.onConfirm?.(values, indexes)
-        resolve({ state: 'confirm', values, indexes })
+      instance.$on('confirm', (data: PickedData) => {
+        pickerOptions.onConfirm?.(data)
+        resolve(assign({ state: 'confirm' } as const, data))
         instance.show = false
         clearSingletonInstance()
       })
-      instance.$on('cancel', (values: PickedValues, indexes: number[]) => {
-        pickerOptions.onCancel?.(values, indexes)
-        resolve({ state: 'cancel', values, indexes })
+      instance.$on('cancel', (data: PickedData) => {
+        pickerOptions.onCancel?.(data)
+        resolve(assign({ state: 'cancel' } as const, data))
         instance.show = false
         clearSingletonInstance()
       })
@@ -125,7 +145,7 @@ export function createPicker<I, O extends PickerSharedListeners>(
     })
   }
 
-  Picker.Component = PickComponent
-  Picker.install = PickComponent.install
+  Picker.Component = picker
+  Picker.install = picker.install
   return Picker
 }

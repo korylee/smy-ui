@@ -135,8 +135,8 @@ export default {
     cascadeColumns,
   }),
   methods: {
-    onChange(...args) {
-      console.log(args)
+    onChange(data) {
+      console.log(data)
     },
     getTitle(val) {
       return val?.value?.join(',') ?? '请选择'
@@ -158,7 +158,7 @@ export default {
         ({ state, values, indexes }) => {
           Toast(`${state}: ${values}`)
           console.log(state, values, indexes)
-        }
+        },
       )
     },
     showDefaultSelectedPicker() {

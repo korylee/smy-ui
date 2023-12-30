@@ -13,8 +13,11 @@ export type ToastPosition = (typeof TOAST_POSITIONS)[number]
 export const TOAST_ICON_POSITIONS = ['top', 'bottom', 'left', 'right'] as const
 export type ToastIconPosition = (typeof TOAST_ICON_POSITIONS)[number]
 
+export type ToastWordBreak = 'break-all' | 'keep-all' | 'break-word' | 'normal'
+
 const popupInheritProps = assign({}, popupSharedProps, {
   closeOnClickOverlay: Boolean,
+  overlay: Boolean,
 })
 
 export const props = assign(
@@ -47,6 +50,7 @@ export const props = assign(
       validator: (position: ToastIconPosition) => TOAST_ICON_POSITIONS.includes(position),
     },
     closeOnClick: Boolean,
+    wordBreak: String as PropType<ToastWordBreak>,
   },
   popupInheritProps,
 )

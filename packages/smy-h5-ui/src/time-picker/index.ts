@@ -2,11 +2,10 @@ import { VNode } from 'vue'
 import { isArray } from '../_utils/is'
 import { SmyComponent } from '../_utils/smy/component'
 import { withInstall } from '../_utils/vue/component'
-import { PickedValues, PickerSharedListeners, createPicker } from '../picker/utils'
+import { PickerEmit, PickerSharedListeners, createPicker } from '../picker/utils'
 import _TimePicker from './TimePicker'
 import { TimePickerColumnType, TimePickerProps } from './props'
 import { RequiredPartial } from '../_utils/shared'
-import { PopupEmit } from '../popup/shared'
 
 export declare class SmyTimePicker extends SmyComponent {
   new(): {
@@ -18,11 +17,7 @@ export declare class SmyTimePicker extends SmyComponent {
       confirm: () => VNode
       top: () => VNode
     }
-    $emit: {
-      (event: 'confirm', values: PickedValues, indexes: number[]): void
-      (event: 'cancel', values: PickedValues, indexes: number[]): void
-      (event: 'change', values: PickedValues, indexes: number[]): void
-    } & PopupEmit
+    $emit: PickerEmit
   }
 }
 

@@ -10,14 +10,14 @@
       >
         <div
           v-if="overlay"
-          :class="[bem('overlay'), overlayClass]"
+          :class="[overlayClass, bem('overlay')]"
           :style="mergeStyles({ zIndex: zIndex - 1 }, overlayStyle)"
           @click="hidePopup"
         />
         <transition :name="getTransition()">
           <div
             v-if="show"
-            :class="[bem('content', { [position]: position, round }), contentClass]"
+            :class="[contentClass, bem('content', { [position]: position, round })]"
             :style="mergeStyles({ zIndex: zIndex }, contentStyle)"
             v-bind="$attrs"
             v-on="$listeners"

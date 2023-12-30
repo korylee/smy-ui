@@ -22,7 +22,7 @@ export default {
   mixins: [createChildrenMixin(PICKER_KEY)],
   props,
 
-  data: () => ({ pickedIndexes: [], pickedValues: [], scrollColumns: [] }),
+  data: () => ({ pickedIndexes: [], pickedValues: [], pickedColumn: [], scrollColumns: [] }),
 
   computed: {
     localOptionHeight({ optionHeight }) {
@@ -63,20 +63,27 @@ export default {
   },
 
   methods: {
+    genEventParams() {
+      const { pickedIndexes, pickedValues, pickedColumn } = this
+      return {
+        values: pickedValues.slice(),
+        indexes: pickedIndexes,
+        column: pickedColumn,
+      }
+    },
     confirm() {
       this.stopScroll()
-
-      const { pickedIndexes, pickedValues } = this
-      this.$emit('confirm', pickedValues.slice(), pickedIndexes)
-      this.$emit('input', pickedValues.slice())
-      return pickedValues.slice()
+      const params = this.genEventParams()
+      this.$emit('confirm', params)
+      this.$emit('input', params.values)
+      return params
     },
 
     cancel() {
       this.stopScroll()
-      const { pickedIndexes, pickedValues } = this
+      const params = this.genEventParams()
 
-      this.$emit('cancel', pickedValues, pickedIndexes)
+      this.$emit('cancel', params)
     },
 
     init() {
@@ -84,6 +91,7 @@ export default {
       this.initing = true
       this.pickedIndexes = []
       this.pickedValues = []
+      this.pickedColumn = []
       this.scrollColumns = this.cascade ? this.initCascade(columns) : this.initNormal(columns)
       this.initing = false
     },
@@ -108,7 +116,7 @@ export default {
     },
 
     updatePicked(scrollColumn) {
-      const { value, pickedIndexes, pickedValues, presetValue } = this
+      const { value, pickedIndexes, pickedValues, presetValue, pickedColumn } = this
       const { column, columnIndex, pickedIndex: oldPickedIndex } = scrollColumn
       const pickedValue = wrapInArray(value)[columnIndex]
       const values = column.map((item) => this.getValue(item, scrollColumn))
@@ -125,7 +133,8 @@ export default {
         }
       }
       const pickedIndex = findIndexFromColumn(findedIndex, scrollColumn, this.getDisabled)
-      if (oldPickedIndex === pickedIndex) return
+      if (!isNil(pickedIndexes[columnIndex]) && oldPickedIndex === pickedIndex) return
+      pickedColumn[columnIndex] = column[pickedIndex]
       pickedIndexes[columnIndex] = pickedIndex
       pickedValues[columnIndex] = values[pickedIndex]
       scrollColumn.pickedIndex = pickedIndex
@@ -151,11 +160,12 @@ export default {
       return scrollColumn
     },
 
-    onScrollInfo(index) {
-      const { scrollColumns, pickedIndexes, pickedValues } = this
+    onScrollInto(index) {
+      const { scrollColumns, pickedIndexes, pickedValues, pickedColumn } = this
       const scrollColumn = scrollColumns[index]
       const { pickedIndex, column } = scrollColumn
       pickedIndexes[index] = pickedIndex
+      pickedColumn[index] = column[pickedIndex]
       pickedValues[index] = this.getValue(column[pickedIndex], scrollColumn)
       this.$emit('update:value', pickedValues.slice())
       this.$emit('scroll-into', scrollColumn)
@@ -188,8 +198,9 @@ export default {
       cascade && this.rebuildChild(scrollColumn)
       const hasScrolling = columnRefs.some((columnRef) => columnRef.scrolling)
       if (hasScrolling) return
-      const { pickedIndexes, pickedValues } = this
-      this.$emit('change', pickedValues.slice(), pickedIndexes)
+      const params = this.genEventParams()
+
+      this.$emit('change', params)
     },
   },
 
@@ -212,7 +223,7 @@ export default {
       cancel,
       getText,
       change,
-      onScrollInfo,
+      onScrollInto,
       getDisabled,
     } = vm
 
@@ -250,7 +261,7 @@ export default {
                   const itemFallback = () => [
                     c('div', { class: bem('text'), domProps: { [domPropName]: vm._s(getText(item, scrollColumn)) } }),
                   ]
-                  return [vm._t('item', itemFallback, { item, index }, scrollColumn)]
+                  return [vm._t('item', itemFallback, { item, index })]
                 },
               },
             ])
@@ -267,7 +278,7 @@ export default {
               attrs,
               on: {
                 change: () => change(scrollColumn),
-                'scroll-into': () => onScrollInfo(index),
+                'scroll-into': () => onScrollInto(index),
               },
               scopedSlots,
             })

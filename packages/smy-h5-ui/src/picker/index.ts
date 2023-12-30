@@ -4,28 +4,16 @@ import type { SmyComponent } from '../_utils/smy/component'
 import { withInstall } from '../_utils/vue/component'
 import _Picker from './Picker.jsx'
 import { isArray } from '../_utils/is'
-import { type VNode } from 'vue'
-import { PickedValues, PickerSharedListeners, createPicker } from './utils'
+import { PickerEmit, PickerScopedSlots, PickerSharedListeners, createPicker } from './utils'
 import { RequiredPartial } from '../_utils/shared'
-import { PopupEmit } from '../popup/shared'
 
 type PickerOptions = RequiredPartial<Omit<PickerProps, 'popup'>, 'columns'> & PickerSharedListeners
 
 export declare interface SmyPicker extends SmyComponent {
   new (): {
     $props: PickerProps
-    $scopedSlots: {
-      toolbar: () => VNode
-      cancel: () => VNode
-      title: () => VNode
-      confirm: () => VNode
-      top: () => VNode
-    }
-    $emit: {
-      (event: 'confirm', values: PickedValues, indexes: number[]): void
-      (event: 'cancel', values: PickedValues, indexes: number[]): void
-      (event: 'change', values: PickedValues, indexes: number[]): void
-    } & PopupEmit
+    $scopedSlots: PickerScopedSlots
+    $emit: PickerEmit
   }
 }
 
