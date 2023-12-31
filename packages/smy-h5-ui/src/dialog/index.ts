@@ -1,4 +1,4 @@
-import Vue, { VNode } from 'vue'
+import Vue from 'vue'
 import { assign } from '../_utils/shared'
 import { SmyComponent } from '../_utils/smy/component'
 import { MountedInstance, mountComponent, withInstall } from '../_utils/vue/component'
@@ -6,6 +6,7 @@ import _Dialog from './Dialog'
 import { DialogProps } from './props'
 import { IN_BROWSER } from '../_utils/env'
 import { PopupEmit, PopupListeners } from '../popup/shared'
+import { ScopedSlotReturnValue } from 'vue/types/vnode'
 
 declare interface SmyDialog extends SmyComponent {
   new (): {
@@ -15,7 +16,8 @@ declare interface SmyDialog extends SmyComponent {
       (event: 'cancel'): void
     } & PopupEmit
     $scopedSlots: {
-      default: () => VNode
+      default: () => ScopedSlotReturnValue
+      title: () => ScopedSlotReturnValue
     }
   }
 }
@@ -36,13 +38,13 @@ function normalizeOptions(options: DialogOptions) {
   return assign({}, defaultOptions, options)
 }
 
-type DialogResult = boolean
+type DialogResult = 'confirm' | 'cancel'
 
 const Dialog = function Dialog(options: DialogOptions): Promise<DialogResult | void> {
   if (!IN_BROWSER) {
     return Promise.resolve()
   }
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     Dialog.close()
     const dialogOptions = normalizeOptions(options)
 
@@ -54,11 +56,11 @@ const Dialog = function Dialog(options: DialogOptions): Promise<DialogResult | v
     const clearSingletonInstance = () => singletonInstance === instance && (singletonInstance = null)
 
     instance.$on('confirm', () => {
-      resolve(true)
+      resolve('confirm')
       dialogOptions.onConfirm?.()
     })
     instance.$on('cancel', () => {
-      reject(false)
+      resolve('cancel')
       dialogOptions.onCancel?.()
     })
     instance.$on('close', () => {

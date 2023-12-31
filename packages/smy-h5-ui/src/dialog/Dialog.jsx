@@ -3,13 +3,13 @@ import { assign, pick } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
 import Popup from '../popup'
 import { popupInheritPropKeys, props } from './props'
-
-import '../_styles/common.less'
-import './dialog.less'
 import { isFunction, isString } from '../_utils/is'
 import { getListeners } from '../_mixins/listeners'
 import { popupListenerKeys } from '../popup/shared'
 import { BORDER_LEFT, BORDER_TOP } from '../_utils/contant'
+
+import '../_styles/common.less'
+import './dialog.less'
 
 const [name, bem] = createNamespace('dialog')
 

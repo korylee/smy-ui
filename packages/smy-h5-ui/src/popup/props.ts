@@ -19,6 +19,8 @@ export const props = assign(
     contentClass: [String, Object, Array],
     contentStyle: [String, Object, Array],
     round: Boolean,
+    safeAreaInsetTop: Boolean,
+    safeAreaInsetBottom: Boolean,
   },
   popupSharedProps,
 )

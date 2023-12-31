@@ -1,16 +1,21 @@
 <template>
   <div>
-    <button @click="onClick">测试</button>
+    <app-demo-title>基础使用</app-demo-title>
+    <basic-example />
   </div>
 </template>
 
 <script>
-import Dialog from '..'
+import { Dialog } from '@smy-h5/ui'
+import { AppDemoTitle } from '@smy-h5/cli/client'
+import BasicExample from './BasicExample.vue'
 
 export default {
   name: 'DialogExample',
   components: {
     SmyDialog: Dialog.Component,
+    AppDemoTitle,
+    BasicExample,
   },
   methods: {
     onClick() {

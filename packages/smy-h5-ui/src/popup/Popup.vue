@@ -17,7 +17,15 @@
         <transition :name="getTransition()">
           <div
             v-if="show"
-            :class="[contentClass, bem('content', { [position]: position, round })]"
+            :class="[
+              contentClass,
+              bem('content', {
+                [position]: position,
+                round,
+                '$--safe-area-top': safeAreaInsetTop,
+                '$--safe-area-bottom': safeAreaInsetBottom,
+              }),
+            ]"
             :style="mergeStyles({ zIndex: zIndex }, contentStyle)"
             v-bind="$attrs"
             v-on="$listeners"
