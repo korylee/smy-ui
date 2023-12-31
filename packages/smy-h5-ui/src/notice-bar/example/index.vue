@@ -5,15 +5,15 @@
     <app-demo-title>禁用滚动</app-demo-title>
     <smy-notice-bar :text="text" :scrollable="false" />
     <app-demo-title>可关闭</app-demo-title>
-    <smy-notice-bar :text="text" closable />
+    <smy-notice-bar :text="text" closeable />
     <app-demo-title>链接模式</app-demo-title>
-    <smy-notice-bar :text="text" closable>
+    <smy-notice-bar :text="text" closeable>
       <a href="https://www.github.com">github</a>
     </smy-notice-bar>
     <app-demo-title>多行展示</app-demo-title>
-    <smy-notice-bar :text="text" closable wrapable />
+    <smy-notice-bar :text="text" closeable wrapable />
     <app-demo-title>竖向</app-demo-title>
-    <smy-notice-bar closable :scrollable="false">
+    <smy-notice-bar closeable :scrollable="false">
       <template #left-icon>12</template>
       <smy-swiper vertical class="notice-swipe" :autoplay="3000" height="40">
         <smy-swiper-item>内容 1</smy-swiper-item>

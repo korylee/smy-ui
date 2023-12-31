@@ -2,7 +2,7 @@ import { ExtractPropTypes, createNumericProp, createStringProp, truthProp } from
 
 export const props = {
   text: createStringProp(''),
-  closable: Boolean,
+  closeable: Boolean,
   wrapable: Boolean,
   delay: createNumericProp(1000), // ms
   scrollable: truthProp,

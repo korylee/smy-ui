@@ -10,8 +10,8 @@
         {{ item }}
       </div>
     </div>
-    <smy-radio value="a">复选框a</smy-radio>
-    <smy-radio value="b">复选框b</smy-radio>
+    <smy-radio value="a">单选框a</smy-radio>
+    <smy-radio value="b">单选框b</smy-radio>
   </smy-radio-group>
 </template>
 
@@ -26,7 +26,7 @@ export default {
   data: () => ({
     value: 'a',
     shape: 'round',
-    shapes: ['round', 'square', 'dot'],
+    shapes: ['round', 'dot', 'square', 'plain'],
   }),
   methods: {
     onChangeShape(value) {

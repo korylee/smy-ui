@@ -6,6 +6,7 @@ import Icon from '../icon'
 import { popupInheritPropKeys, props } from './props'
 import { popupListenerKeys } from '../popup/shared'
 import { assign, pick } from '../_utils/shared'
+import { HAPTICS_FEEDBACK } from '../_utils/contant'
 
 import '../_styles/common.less'
 import './actionSheet.less'
@@ -17,11 +18,15 @@ export default {
   props,
   methods: {
     onSelect(item, index) {
-      const { disabled, loading, callback } = item
+      const { disabled, loading, callback, closeOnClickAction } = item
       if (disabled || loading) {
         return
       }
       callback?.(item)
+
+      if (closeOnClickAction) {
+        this.$emit('update:show', false)
+      }
 
       this.$nextTick(() => this.$emit('select', item, index))
     },
@@ -39,8 +44,12 @@ export default {
       vm.title
         ? c('div', { class: bem('header') }, [
             vm.title,
-            vm.closeIcon &&
-              c(Icon, { attrs: { name: vm.closeIcon }, class: [bem('close')], on: { click: vm.onCancel } }),
+            vm.closeable &&
+              c(Icon, {
+                attrs: { name: vm.closeIcon },
+                class: [bem('close'), HAPTICS_FEEDBACK],
+                on: { click: vm.onCancel },
+              }),
           ])
         : null
 

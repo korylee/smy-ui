@@ -1,5 +1,5 @@
 <template>
-  <div v-show="show" :class="bem({ closable, wrapable })" role="alert" @click="$emit('click', $event)">
+  <div v-show="show" :class="bem({ closeable, wrapable })" role="alert" @click="$emit('click', $event)">
     <div v-if="hasSlot('left-icon')" :class="bem('left-icon')">
       <slot name="left-icon"> </slot>
     </div>
@@ -14,7 +14,7 @@
         <slot>{{ text }}</slot>
       </div>
     </div>
-    <div v-if="closable || hasSlot('right-icon')" :class="bem('right-icon')">
+    <div v-if="closeable || hasSlot('right-icon')" :class="bem('right-icon')">
       <slot name="right-icon">
         <smy-icon name="window-close" @click.stop="onClickRightIcon" />
       </slot>
@@ -87,7 +87,7 @@ export default {
       })
     },
     onClickRightIcon(event) {
-      if (this.closable) {
+      if (this.closeable) {
         this.show = false
         this.$emit('close', event)
       }

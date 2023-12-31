@@ -24,10 +24,7 @@ const baseProps = {
   },
   images: createArrayProp<Image>(),
   zoom: createNumericProp(2),
-  closeable: {
-    type: Boolean,
-    default: false,
-  },
+  closeable: Boolean,
   closeIcon: createComponentProp(WindowClose),
   closeIconPosition: createStringProp<CloseIconPosition>('top-right'),
 }
@@ -35,7 +32,7 @@ const baseProps = {
 export const props = assign(
   baseProps,
   pick(swiperProps, ['loop', 'autoplay', 'initialIndex', 'indicator']),
-  pick(popupProps, ['lockScroll', 'teleport'])
+  pick(popupProps, ['lockScroll', 'teleport']),
 )
 
 export type ImagePreviewProps = ExtractPropTypes<typeof props>

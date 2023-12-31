@@ -1,7 +1,7 @@
 <template>
   <smy-radio-group v-model="value">
-    <smy-radio value="a">复选框a</smy-radio>
-    <smy-radio value="b">复选框b</smy-radio>
+    <smy-radio value="a">单选框a</smy-radio>
+    <smy-radio value="b">单选框b</smy-radio>
   </smy-radio-group>
 </template>
 

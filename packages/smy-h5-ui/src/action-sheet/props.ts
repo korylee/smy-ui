@@ -1,6 +1,8 @@
 import { assign, keys } from '../_utils/shared'
-import { ExtractPropTypes, componentProp, createArrayProp, truthProp } from '../_utils/vue/props'
+import { ExtractPropTypes, createArrayProp, createComponentProp, truthProp } from '../_utils/vue/props'
 import { popupSharedProps } from '../popup/shared'
+//@ts-ignore
+import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 
 export type ActionSheetItem = {
   name?: string
@@ -24,7 +26,8 @@ export const props = assign(
   {
     title: String,
     items: createArrayProp<ActionSheetItem>(),
-    closeIcon: componentProp,
+    closeable: Boolean,
+    closeIcon: createComponentProp(WindowClose),
     cancelText: String,
     desc: String,
     closeOnClickAction: Boolean,

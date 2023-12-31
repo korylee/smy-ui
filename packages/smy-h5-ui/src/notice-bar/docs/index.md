@@ -32,14 +32,14 @@ import BasicExample from '../example/BasicExample.vue'
 ```html
 <smy-notice-bar
   text="华为畅享9新品即将上市，活动期间0元预约可参与抽奖，赢HUAWEI WATCH等好礼，更多产品信息请持续关注！"
-  closable
+  closeable
 />
 ```
 
 ### 链接模式
 
 ```html
-<smy-notice-bar closable>
+<smy-notice-bar closeable>
   <a href="https://www.github.com">github</a>
 </smy-notice-bar>
 ```
@@ -56,7 +56,7 @@ import BasicExample from '../example/BasicExample.vue'
 ### 纵向滚动
 
 ```html
-<smy-notice-bar closable :scrollable="false">
+<smy-notice-bar closeable :scrollable="false">
   <smy-swiper vertical class="notice-swipe" :autoplay="3000" height="40">
     <smy-swiper-item>内容 1</smy-swiper-item>
     <smy-swiper-item>内容 2</smy-swiper-item>
