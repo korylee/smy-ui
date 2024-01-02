@@ -1,15 +1,15 @@
 .smy-icon {
-  display: inline-flex;
+  display: inline-block;
   overflow: hidden;
-  justify-content: center;
-  align-items: center;
   vertical-align: bottom;
+  line-height: 1;
   transition-property: transform;
 
   &__image,
   svg {
     width: 1em;
     height: 1em;
+    vertical-align: bottom;
 
     &:not([fill]) {
       fill: currentColor;
@@ -17,8 +17,6 @@
   }
 
   &--set {
-    vertical-align: bottom;
-
     &::before {
       position: relative;
       display: inline-block;

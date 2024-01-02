@@ -59,6 +59,7 @@ module.exports = defineConfig({
       { text: 'Image 图片', type: 2, doc: 'image' },
       { text: 'Sticky 粘滞定位', type: 2, doc: 'sticky' },
       { text: 'Divider 分割线', type: 2, doc: 'divider' },
+      { text: 'Highlight 高亮文本', type: 2, doc: 'highlight' },
       { text: '导航组件', type: 1 },
       { text: 'NoticeBar 通告栏', doc: 'notice-bar', type: 2 },
       { text: 'Tabs 导航', doc: 'tabs', type: 2 },

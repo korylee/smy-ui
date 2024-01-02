@@ -109,3 +109,8 @@ export const createComponentProp = (defaultVal: unknown) => ({
   // 对象或数组的默认值必须从一个工厂函数返回。 ，function 都被自动执行了==！
   default: () => defaultVal,
 })
+
+export const createRequiredProps = <T>(type: T) => ({
+  type,
+  required: true as const,
+})

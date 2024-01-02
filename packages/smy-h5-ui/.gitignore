@@ -33,6 +33,6 @@ dist
 site
 types
 .smy
-highlight
+/highlight
 umd
 coverage
