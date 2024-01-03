@@ -40,7 +40,8 @@
         </template>
         刘一飞 18889898888
       </smy-step>
-      <smy-step v-for="item of 3" :key="item" content="fasdfad" />
+      <smy-step v-for="item of 2" :key="item" content="fasdfad" />
+      <smy-step content="这里是该步骤的描述信息加长加长加长加长加长加长加长" title="已完成" />
     </smy-steps>
   </div>
 </template>

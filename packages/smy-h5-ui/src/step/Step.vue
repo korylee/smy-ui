@@ -1,12 +1,10 @@
 <template>
-  <div :class="bem([status])" @click="handleClickStep">
+  <div :class="bem([status])" @click="onClick">
     <div :class="bem('header')">
       <div :class="bem('header-line')"></div>
-      <div :class="bem('header-icon', { dot })">
-        <slot name="icon">
-          <div v-if="!dot" :class="bem('header-icon-seq')">{{ index + 1 }}</div>
-        </slot>
-      </div>
+      <slot name="icon">
+        <div :class="bem('header-icon', { dot })">{{ dot ? '' : currentIndex + 1 }}</div>
+      </slot>
     </div>
     <div :class="bem('main')">
       <div :class="bem('main-title')">
@@ -35,10 +33,13 @@ export default {
     dot({ steps }) {
       return steps.progressDot
     },
-    status({ index, steps }) {
-      const { step, reverse, current } = steps
+    currentIndex({ index, steps }) {
+      const { reverse, step } = steps
       const length = step?.length ?? 0
-      const currentIndex = reverse ? length - index - 1 : index
+      return reverse ? length - index - 1 : index
+    },
+    status({ steps, currentIndex }) {
+      const { current } = steps
       const isFinish = currentIndex < +current
       if (isFinish) return 'finish'
       return currentIndex === +current ? 'process' : 'wait'
@@ -49,7 +50,7 @@ export default {
   },
   methods: {
     bem,
-    handleClickStep() {
+    onClick() {
       const { steps, index } = this
       steps?.$emit('click-step', index)
     },

@@ -10,7 +10,6 @@ declare interface SmyStep extends SmyComponent {
     $scopedSlots: {
       title: () => void
       default: () => void
-      'header-icon': () => void
       icon: () => void
     }
   }

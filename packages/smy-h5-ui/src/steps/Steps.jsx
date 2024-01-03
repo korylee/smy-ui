@@ -17,8 +17,8 @@ export default {
   },
   render() {
     const vm = this
-    const { direction, progressDot: dot } = vm
+    const { direction, progressDot: dot, reverse } = vm
 
-    return <div class={bem({ dot, [direction]: direction })}>{vm._t('default')}</div>
+    return <div class={bem({ dot, [direction]: direction, reverse })}>{vm._t('default')}</div>
   },
 }
