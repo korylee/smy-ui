@@ -89,7 +89,7 @@ export default {
     const vm = this
     const _h = vm.$createElement
     const c = vm._self._c || _h
-    const { role, bem, checked, renderIcon, renderLabel, _disabled: disabled } = vm
+    const { role, bem, checked, renderIcon, renderLabel, _disabled: disabled, labelDisabled } = vm
     let { inline } = vm
 
     const children = [renderIcon()]
@@ -105,7 +105,7 @@ export default {
       'div',
       {
         attrs: { role, 'aria-checked': checked, tabindex: disabled ? undefined : 0 },
-        class: bem({ inline, [direction]: direction }),
+        class: bem({ inline, [direction]: direction, disabled, labelDisabled }),
         on: {
           click: vm.onClick,
         },

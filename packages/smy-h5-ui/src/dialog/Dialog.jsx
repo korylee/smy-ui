@@ -89,7 +89,6 @@ export default {
       )
 
     const attrs = assign(pick(vm.$props, popupInheritPropKeys), {
-      role: 'dialog',
       contentClass: bem(),
       wrapperClass: bem('popup'),
       tabindex: 0,

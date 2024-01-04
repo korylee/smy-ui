@@ -25,18 +25,18 @@
   --step-title-color: @step-title-color;
   --step-title-margin-bottom: @step-title-margin-bottom;
 
-  --step-process-title-color: @step-primary-color;
+  --step-process-title-color: var(--step-primary-color);
   --step-process-icon-color: #fff;
-  --step-process-icon-background: @step-primary-color;
+  --step-process-icon-background: var(--step-primary-color);
 
   --step-wait-title-color: @step-title-color;
   --step-wait-icon-color: @step-wait-icon-color;
   --step-wait-icon-background: #959fb1;
 
-  --step-finish-title-color: @step-primary-color;
+  --step-finish-title-color: var(--step-primary-color);
   --step-finish-icon-color: #fff;
-  --step-finish-icon-background: @step-primary-color;
-  --step-finish-line-color: @step-primary-color;
+  --step-finish-icon-background: var(--step-primary-color);
+  --step-finish-line-color: var(--step-primary-color);
 }
 
 .smy-step {
@@ -164,12 +164,16 @@
     position: relative;
     display: flex;
     height: 33.34%;
+    &__header {
+      margin-bottom: 0;
+    }
     &__header-line {
       position: absolute;
       display: inline-block;
       width: 1%;
       height: 100%;
       min-width: 1px;
+      top: 0;
       transform: translateX(-50%);
     }
     &__main {

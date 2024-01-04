@@ -2,9 +2,9 @@
   <div :class="bem([status])" @click="onClick">
     <div :class="bem('header')">
       <div :class="bem('header-line')"></div>
-      <slot name="icon">
-        <div :class="bem('header-icon', { dot })">{{ dot ? '' : currentIndex + 1 }}</div>
-      </slot>
+      <div :class="bem('header-icon', { dot })">
+        <slot name="icon">{{ dot ? '' : currentIndex + 1 }}</slot>
+      </div>
     </div>
     <div :class="bem('main')">
       <div :class="bem('main-title')">
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { getListener } from '../_mixins/listeners'
 import { createChildrenMixin } from '../_mixins/relation'
 import { createNamespace } from '../_utils/vue/create'
 import { SlotsMixin } from '../_utils/vue/slots'
@@ -52,7 +53,8 @@ export default {
     bem,
     onClick() {
       const { steps, index } = this
-      steps?.$emit('click-step', index)
+      const clickStep = getListener.call(steps, 'click-step')
+      clickStep(index)
     },
   },
 }

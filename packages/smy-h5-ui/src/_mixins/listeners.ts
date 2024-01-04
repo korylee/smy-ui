@@ -9,15 +9,18 @@ export function getListeners(this: Vue, events?: string[]) {
   if (!events) {
     events = keys($listeners)
   }
-  return events.reduce((listeners, event) => {
-    listeners[event] = getListener.call(this, event)
-    return listeners
-  }, {} as Record<string, Listener>)
+  return events.reduce(
+    (listeners, event) => {
+      listeners[event] = getListener.call(this, event)
+      return listeners
+    },
+    {} as Record<string, Listener>,
+  )
 }
 
 const slice = Array.prototype.slice
 
-function getListener(this: Vue, name: string) {
+export function getListener(this: Vue, name: string) {
   const vm = this
   const { $listeners, $emit } = vm
   const camelizeName = camelize(name)

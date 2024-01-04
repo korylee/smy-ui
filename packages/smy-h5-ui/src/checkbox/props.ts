@@ -13,6 +13,7 @@ import { RadioShape } from '../radio/props'
 import Check from '@smy-h5/icons/dist/es/Check'
 
 export type CheckboxShape = 'square' | 'round' | 'plain'
+
 export type CheckerShape = CheckboxShape | RadioShape
 export type CheckerDirection = 'horizontal' | 'vertical'
 
