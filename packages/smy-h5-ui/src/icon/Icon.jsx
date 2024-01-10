@@ -1,6 +1,6 @@
 import { convertToUnit, requestAnimationFrame } from '../_utils/dom'
 import { props } from './props'
-import { SlotsMixin, getSlot } from '../_utils/vue/slots'
+import { getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { isNil, isString } from '../_utils/is'
@@ -15,20 +15,10 @@ const [name, bem] = createNamespace('icon')
 export default {
   name,
   props,
-  mixins: [SlotsMixin],
   data: () => ({
     shrinking: false,
     nextName: '',
   }),
-  computed: {
-    style({ transition, size, color, shrinking }) {
-      return {
-        color,
-        fontSize: convertToUnit(size),
-        transitionDuration: shrinking ? `${toNumber(transition)}ms` : undefined,
-      }
-    },
-  },
   watch: {
     name: {
       immediate: true,
@@ -51,7 +41,12 @@ export default {
   },
   render() {
     const vm = this
-    const { tag, $createElement: h, shrinking, namespace, nextName, style, $listeners } = vm
+    const { tag, $createElement: h, shrinking, namespace, nextName, transition, size, color, $listeners } = vm
+    const style = {
+      color,
+      fontSize: convertToUnit(size),
+      transitionDuration: shrinking ? `${toNumber(transition)}ms` : undefined,
+    }
     const defaultSlot = getSlot.call(vm)
     const baseClass = bem({ shrinking })
     let child = defaultSlot

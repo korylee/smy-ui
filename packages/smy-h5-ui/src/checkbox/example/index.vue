@@ -1,7 +1,7 @@
 <template>
   <div class="demo-checkbox">
     <app-demo-title>基础用法</app-demo-title>
-    <smy-checkbox v-model="checked" />
+    <basic-example />
     <app-demo-title>禁用状态</app-demo-title>
     <disabled-example />
     <app-demo-title>自定义形状</app-demo-title>
@@ -21,7 +21,7 @@
 
 <script>
 import { AppDemoTitle } from '@smy-h5/cli/client'
-import Checkbox from '../'
+import BasicExample from './BasicExample.vue'
 import SizeExample from './SizeExample.vue'
 import ShapeExample from './ShapeExample.vue'
 import ColorExample from './ColorExample.vue'
@@ -33,8 +33,8 @@ import IndeterminateExample from './IndeterminateExample.vue'
 export default {
   name: 'CheckboxExample',
   components: {
-    SmyCheckbox: Checkbox,
     AppDemoTitle,
+    BasicExample,
     SizeExample,
     DisabledExample,
     ShapeExample,
@@ -43,9 +43,6 @@ export default {
     CheckboxGroupExample,
     IndeterminateExample,
   },
-  data: () => ({
-    checked: false,
-  }),
 }
 </script>
 

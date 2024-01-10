@@ -1,8 +1,8 @@
-import { type ExtractPropTypes, createNumericProp, truthProp } from '../_utils/vue/props'
+import { type ExtractPropTypes, createNumericProp, truthProp, numericProp } from '../_utils/vue/props'
 
 export const props = {
-  width: createNumericProp(window.innerWidth),
-  height: createNumericProp(0),
+  width: numericProp,
+  height: numericProp,
   vertical: {
     type: Boolean,
     default: false,

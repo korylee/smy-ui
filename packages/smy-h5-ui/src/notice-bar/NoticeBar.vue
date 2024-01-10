@@ -30,6 +30,8 @@ import { SlotsMixin } from '../_utils/vue/slots'
 import { doubleRaf, getRect } from '../_utils/dom'
 import { createNamespace } from '../_utils/vue/create'
 import { useWindowSize } from '../_utils/composable/useWindowSize'
+import { PopupMixin } from '../popup/provide'
+import { onMountedOrActivated } from '../_utils/vue/lifetime'
 
 SmyIcon.use('window-close', WindowClose)
 
@@ -37,35 +39,32 @@ const [name, bem] = createNamespace('notice-bar')
 
 export default {
   name,
-  mixins: [SlotsMixin],
+  mixins: [SlotsMixin, PopupMixin],
   components: { SmyIcon },
   props,
   data: () => ({
     wrapWidth: 0,
     show: true,
-    animate: false,
-    firstRound: true,
+    isReplay: false,
     duration: 0,
     offsetWidth: 0,
     animation: '',
-    windowSize: useWindowSize(),
   }),
   computed: {
-    contentStyle({ firstRound, wrapWidth, delay, duration }) {
+    contentStyle({ isReplay, wrapWidth, delay, duration }) {
       return {
-        paddingLeft: firstRound ? 0 : wrapWidth + 'px',
-        animationDelay: (firstRound ? delay : 0) + 'ms',
+        paddingLeft: isReplay ? wrapWidth : 0 + 'px',
+        animationDelay: (isReplay ? 0 : delay) + 'ms',
         animationDuration: duration + 's',
       }
     },
   },
-  watch: {
-    text: {
-      immediate: true,
-      handler: 'reset',
-    },
-    scrollable: 'reset',
-    'windowSize.width': 'reset',
+  created() {
+    const vm = this
+    const windowSize = useWindowSize()
+    vm.$watch(() => [vm.text, vm.scrollable, windowSize.width], vm.reset)
+    onMountedOrActivated(vm, vm.reset)
+    vm.popupProvider?.$on('show', vm.reset)
   },
   methods: {
     bem,
@@ -93,11 +92,12 @@ export default {
       }
     },
     onAnimationEnd() {
-      this.firstRound = false
+      this.isReplay = true
       doubleRaf(() => {
         const { offsetWidth, wrapWidth, speed } = this
         this.duration = (offsetWidth + wrapWidth) / speed
         this.animation = 'play-infinite'
+        this.$emit('replay')
       })
     },
   },

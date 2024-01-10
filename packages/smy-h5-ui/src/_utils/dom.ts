@@ -1,5 +1,5 @@
 import { IN_BROWSER, IN_IOS } from './env'
-import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow, isNumeric, isString } from './is'
+import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow, isNumeric, isString, isBool } from './is'
 import { warn } from './smy/warn'
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
@@ -133,7 +133,7 @@ export const createDomRect = (width = 0, height = 0) =>
     bottom: height,
     width,
     height,
-  } as DOMRect)
+  }) as DOMRect
 
 export function getRect(el: Element | Window | undefined) {
   if (isWindow(el)) {
@@ -157,7 +157,7 @@ export function getElementTop(el: ScrollerElement, scroller?: ScrollerElement) {
 }
 
 export function preventDefault(event: Event) {
-  if (event.cancelable) {
+  if (!isBool(event.cancelable) || event.cancelable) {
     event.preventDefault()
   }
 }

@@ -1,20 +1,21 @@
 .smy-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  line-height: 1em;
+  text-align: center;
+  position: relative;
+  transition-property: transform, color;
   vertical-align: middle;
-  line-height: 1;
-  transition-property: transform;
 
-  &__image,
+  img,
   svg {
     width: 1em;
     height: 1em;
+  }
 
-    &:not([fill]) {
-      fill: currentColor;
-    }
+  svg :not([fill]) {
+    fill: currentColor;
   }
 
   &--set {

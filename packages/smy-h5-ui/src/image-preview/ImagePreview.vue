@@ -180,6 +180,7 @@ export default {
 @import '../_styles/common.less';
 @import '../icon/icon.less';
 @import '../swiper/swiper.less';
+@import '../swiper-item/swiperItem.less';
 @import '../popup/popup.less';
 @import './imagePreview.less';
 </style>

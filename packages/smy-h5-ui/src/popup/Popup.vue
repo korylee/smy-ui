@@ -47,6 +47,7 @@ import { props } from './props'
 import SmyTeleport from '../teleport'
 import { mergeStyles } from '../_utils/vue/mergeData'
 import { createNamespace } from '../_utils/vue/create'
+import { POPUP_BIND_CHILDREN_KEY } from './provide'
 
 const MaybeTeleport = createMaybeComponent(SmyTeleport)
 
@@ -56,6 +57,9 @@ export default {
   name,
   inheritAttrs: false,
   mixins: [createZIndexMixin('show', 3), teleportMixin, createLockMixin('show', 'lockScroll')],
+  provide() {
+    return { [POPUP_BIND_CHILDREN_KEY]: this }
+  },
   components: { MaybeTeleport },
   props,
   watch: {

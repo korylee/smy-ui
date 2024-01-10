@@ -15,20 +15,18 @@
 }
 .smy-swiper {
   position: relative;
-  display: flex;
-  z-index: 1;
   overflow: hidden;
+  transform: translateZ(0);
   cursor: grab;
   user-select: none;
-  transition-property: transform;
-  box-sizing: content-box;
-  &--vertical {
-    .smy-swiper__inner {
+
+  &--vertical & {
+    &__track {
       flex-direction: column;
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
     }
-    .smy-swiper__indicator {
+    &__indicator {
       top: 50%;
       left: 12px;
       bottom: auto;
@@ -42,9 +40,10 @@
     }
   }
 
-  &__inner {
+  &__track {
     height: 100%;
     display: flex;
+    transition-property: transform;
   }
   &__indicator {
     display: flex;

@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { ListenersMixin } from '../_mixins/listeners'
+import { getListener } from '../_mixins/listeners'
 import { createParentMixin } from '../_mixins/relation'
 import { useWindowSize } from '../_utils/composable/useWindowSize'
 import {
@@ -61,6 +61,7 @@ import Intersect from '../intersect'
 import TabsContent from './TabsContent.vue'
 import { props } from './props'
 import { onMountedOrActivated } from '../_utils/vue/lifetime'
+import { PopupMixin } from '../popup/provide'
 
 const [name, bem] = createNamespace('tabs')
 
@@ -82,7 +83,7 @@ export default {
   components: { MaybeSticky, TabTitle, TabsContent },
   props,
   directives: { Intersect },
-  mixins: [createParentMixin('tabs'), ListenersMixin],
+  mixins: [createParentMixin('tabs'), PopupMixin],
   data: () => ({
     inited: false,
     currentIndex: -1,
@@ -128,19 +129,23 @@ export default {
     'windowSize.width': 'resize',
   },
   created() {
-    onMountedOrActivated(this, this.init)
+    const vm = this
+    onMountedOrActivated(vm, vm.init)
 
     const add = () => {
+      window.addEventListener('pageshow', vm.resize)
       doubleRaf(() => {
-        this.scroller = getParentScroller(this.$refs.root)
-        this.scroller.addEventListener('scroll', this.onScroll, { passive: true })
+        vm.scroller = getParentScroller(vm.$refs.root)
+        vm.scroller.addEventListener('scroll', vm.onScroll, { passive: true })
       })
     }
     const remove = () => {
-      this.scroller && this.scroller.removeEventListener('scroll', this.onScroll)
+      vm.scroller && vm.scroller.removeEventListener('scroll', vm.onScroll)
+      window.removeEventListener('pageshow', vm.resize)
     }
-    onMountedOrActivated(this, add)
-    this.$on(['hook:beforeDestory', 'hook:deactivated'], remove)
+    onMountedOrActivated(vm, add)
+    vm.$on(['hook:beforeDestory', 'hook:deactivated'], remove)
+    vm.popupProvider?.$on('show', vm.setLine)
   },
   methods: {
     bem,
@@ -159,9 +164,8 @@ export default {
     },
     onClickTab(item, index, event) {
       const { title, disabled } = item
-      const { getListener } = this
-      const onBeforeChange = getListener('before-change')
-      const onClickTab = getListener('click-tab')
+      const onBeforeChange = getListener.call(this, 'before-change')
+      const onClickTab = getListener.call(this, 'click-tab')
       const name = getTabName(item, index)
       if (!disabled) {
         Promise.resolve(onBeforeChange ? onBeforeChange(name) : true).then(() => {
@@ -286,7 +290,7 @@ export default {
       this.setLine()
       this.$nextTick(() => {
         this.scrollIntoView(true)
-        this.$refs.content?.$refs.swipe?.resize()
+        this.$refs.content?.$refs.swiper?.resize()
       })
     },
     init() {

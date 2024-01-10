@@ -38,3 +38,7 @@ export default {
   },
 }
 </script>
+
+<style lang="less">
+@import './swiperItem.less';
+</style>
