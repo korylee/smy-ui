@@ -1,77 +1,211 @@
-// touch事件模拟，解决在web端不能体验的问题
-const inBrowser = typeof window !== 'undefined'
-const supportTouch = 'ontouchstart' in window
+/* eslint-disable */
+// @ts-nocheck
 
-let initiated = false
-let eventTarget
+/**
+ * Emulate touch event
+ * Source：https://github.com/hammerjs/touchemulator
+ */
 
-const isMousedown = (eventType) => eventType === 'mousedown'
-
-const isMousemove = (eventType) => eventType === 'mousemove'
-
-const isMouseup = (eventType) => eventType === 'mouseup'
-
-const isUpdateTarget = (eventType) => isMousedown(eventType) || !eventTarget?.dispatchEvent
-
-function createTouch(target, identifier, mouseEvent) {
-  const { clientX, clientY, screenX, screenY, pageX, pageY } = mouseEvent
-  return { clientX, clientY, screenX, screenY, pageX, pageY, identifier, target }
-}
-
-function createTouchList() {
-  const touchList = []
-  touchList.item = function (index) {
-    return this[index] || null
+;(function () {
+  if (typeof window === 'undefined') {
+    return
   }
-  return touchList
-}
+  var eventTarget
+  var supportTouch = 'ontouchstart' in window
 
-function getActiveTouches(mouseEvent) {
-  const { type } = mouseEvent
-  if (isMouseup(type)) return createTouchList()
-  return updateTouchList(mouseEvent)
-}
+  // polyfills
+  if (!document.createTouch) {
+    document.createTouch = function (view, target, identifier, pageX, pageY, screenX, screenY) {
+      // auto set
+      return new Touch(
+        target,
+        identifier,
+        {
+          pageX: pageX,
+          pageY: pageY,
+          screenX: screenX,
+          screenY: screenY,
+          clientX: pageX - window.pageXOffset,
+          clientY: pageY - window.pageYOffset,
+        },
+        0,
+        0,
+      )
+    }
+  }
 
-function updateTouchList(mouseEvent) {
-  const touchList = createTouchList()
+  if (!document.createTouchList) {
+    document.createTouchList = function () {
+      var touchList = TouchList()
+      for (var i = 0; i < arguments.length; i++) {
+        touchList[i] = arguments[i]
+      }
+      touchList.length = arguments.length
+      return touchList
+    }
+  }
 
-  touchList.push(createTouch(eventTarget, 1, mouseEvent))
-  return touchList
-}
+  if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector
+  }
 
-function triggerTouch(touchType, mouseEvent) {
-  const { altKey, ctrlKey, metaKey, shiftKey } = mouseEvent
-  const touchEvent = new Event(touchType, { bubbles: true, cancelable: true })
+  if (!Element.prototype.closest) {
+    Element.prototype.closest = function (s) {
+      var el = this
 
-  touchEvent.altKey = altKey
-  touchEvent.ctrlKey = ctrlKey
-  touchEvent.metaKey = metaKey
-  touchEvent.shiftKey = shiftKey
+      do {
+        if (el.matches(s)) return el
+        el = el.parentElement || el.parentNode
+      } while (el !== null && el.nodeType === 1)
 
-  const activeTouches = getActiveTouches(mouseEvent)
-  touchEvent.touches = activeTouches
-  touchEvent.targetTouches = activeTouches
-  touchEvent.changedTouches = createTouchList()
+      return null
+    }
+  }
 
-  eventTarget.dispatchEvent(touchEvent)
-}
+  /**
+   * create an touch point
+   * @constructor
+   * @param target
+   * @param identifier
+   * @param pos
+   * @param deltaX
+   * @param deltaY
+   * @returns {Object} touchPoint
+   */
 
-function onMouse(mouseEvent, touchType) {
-  const { type, target } = mouseEvent
-  initiated = isMousedown(type) ? true : isMouseup(type) ? false : initiated
-  if (isMousemove(type) && !initiated) return
-  if (isUpdateTarget(type)) eventTarget = target
-  triggerTouch(touchType, mouseEvent)
+  var Touch = function Touch(target, identifier, pos, deltaX, deltaY) {
+    deltaX = deltaX || 0
+    deltaY = deltaY || 0
 
-  if (isMouseup(type)) eventTarget = null
-}
+    this.identifier = identifier
+    this.target = target
+    this.clientX = pos.clientX + deltaX
+    this.clientY = pos.clientY + deltaY
+    this.screenX = pos.screenX + deltaX
+    this.screenY = pos.screenY + deltaY
+    this.pageX = pos.pageX + deltaX
+    this.pageY = pos.pageY + deltaY
+  }
 
-function createTouchEmulator() {
-  window.addEventListener('mousedown', (event) => onMouse(event, 'touchstart'), true)
-  window.addEventListener('mousemove', (event) => onMouse(event, 'touchmove'), true)
-  window.addEventListener('mouseup', (event) => onMouse(event, 'touchend'), true)
-}
+  /**
+   * create empty touchlist with the methods
+   * @constructor
+   * @returns touchList
+   */
+  function TouchList() {
+    var touchList = []
 
-if (inBrowser && !supportTouch) {
-  createTouchEmulator()
-}
+    touchList['item'] = function (index) {
+      return this[index] || null
+    }
+
+    // specified by Mozilla
+    touchList['identifiedTouch'] = function (id) {
+      return this[id + 1] || null
+    }
+
+    return touchList
+  }
+
+  /**
+   * only trigger touches when the left mousebutton has been pressed
+   * @param touchType
+   * @returns {Function}
+   */
+
+  var initiated = false
+  function onMouse(touchType) {
+    return function (ev) {
+      // prevent mouse events
+
+      if (ev.type === 'mousedown') {
+        initiated = true
+      }
+
+      if (ev.type === 'mouseup') {
+        initiated = false
+      }
+
+      if (ev.type === 'mousemove' && !initiated) {
+        return
+      }
+
+      // The EventTarget on which the touch point started when it was first placed on the surface,
+      // even if the touch point has since moved outside the interactive area of that element.
+      // also, when the target doesnt exist anymore, we update it
+      if (ev.type === 'mousedown' || !eventTarget || (eventTarget && !eventTarget.dispatchEvent)) {
+        eventTarget = ev.target
+      }
+
+      if (eventTarget.closest('[data-no-touch-simulate]') == null) {
+        triggerTouch(touchType, ev)
+      }
+
+      // reset
+      if (ev.type === 'mouseup') {
+        eventTarget = null
+      }
+    }
+  }
+
+  /**
+   * trigger a touch event
+   * @param eventName
+   * @param mouseEv
+   */
+  function triggerTouch(eventName, mouseEv) {
+    var touchEvent = document.createEvent('Event')
+    touchEvent.initEvent(eventName, true, true)
+
+    touchEvent.altKey = mouseEv.altKey
+    touchEvent.ctrlKey = mouseEv.ctrlKey
+    touchEvent.metaKey = mouseEv.metaKey
+    touchEvent.shiftKey = mouseEv.shiftKey
+
+    touchEvent.touches = getActiveTouches(mouseEv)
+    touchEvent.targetTouches = getActiveTouches(mouseEv)
+    touchEvent.changedTouches = createTouchList(mouseEv)
+
+    eventTarget.dispatchEvent(touchEvent)
+  }
+
+  /**
+   * create a touchList based on the mouse event
+   * @param mouseEv
+   * @returns {TouchList}
+   */
+  function createTouchList(mouseEv) {
+    var touchList = TouchList()
+    touchList.push(new Touch(eventTarget, 1, mouseEv, 0, 0))
+    return touchList
+  }
+
+  /**
+   * receive all active touches
+   * @param mouseEv
+   * @returns {TouchList}
+   */
+  function getActiveTouches(mouseEv) {
+    // empty list
+    if (mouseEv.type === 'mouseup') {
+      return TouchList()
+    }
+    return createTouchList(mouseEv)
+  }
+
+  /**
+   * TouchEmulator initializer
+   */
+  function TouchEmulator() {
+    window.addEventListener('mousedown', onMouse('touchstart'), true)
+    window.addEventListener('mousemove', onMouse('touchmove'), true)
+    window.addEventListener('mouseup', onMouse('touchend'), true)
+  }
+
+  // start distance when entering the multitouch mode
+  TouchEmulator['multiTouchOffset'] = 75
+
+  if (!supportTouch) {
+    new TouchEmulator()
+  }
+})()
