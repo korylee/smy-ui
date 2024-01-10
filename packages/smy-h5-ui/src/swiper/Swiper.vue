@@ -28,7 +28,7 @@
 <script>
 import { createParentMixin } from '../_mixins/relation'
 import { toNumber, range, throttle } from '../_utils/shared'
-import { toPxNum, doubleRaf, preventDefault, isHidden } from '../_utils/dom'
+import { toPxNum, doubleRaf, preventDefault, isHidden, convertToUnit } from '../_utils/dom'
 import { useTouch } from '../_utils/composable/useTouch'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
@@ -56,9 +56,9 @@ export default {
     isCorrectDirection(vm) {
       return vm.touch?.isVertical() === !!vm.vertical
     },
-    size({ vertical, height, width, rect }) {
-      if (vertical) return toPxNum(height ?? rect?.height ?? 0)
-      return toPxNum(width ?? rect?.width ?? 0)
+    size(vm) {
+      const name = vm.vertical ? 'height' : 'width'
+      return toPxNum(vm[name] ?? vm.rect?.[name] ?? 0)
     },
     count({ children }) {
       return children.length
@@ -181,14 +181,15 @@ export default {
         const diff = (vertical ? rect.height : rect.width) - size
         offset = this.offset + (this.active === count - 1 ? -diff / 2 : diff / 2)
       }
+      const mainAxis = vertical ? 'height' : 'width'
       const crossName = vertical ? 'width' : 'height'
-      const crossAxis = toPxNum(this[crossName] ?? rect[crossName] ?? 0)
+      const crossAxis = this[crossName] ? convertToUnit(this[crossName]) : ''
       this.style = {
-        transitionProperty: moving ? 'none' : undefined,
+        transitionProperty: moving ? 'none' : '',
         transitionDuration: `${moving ? 0 : duration}ms`,
         transform: `translate${vertical ? 'Y' : 'X'}(${offset}px)`,
-        [vertical ? 'height' : 'width']: trackSize ? `${trackSize}px` : '',
-        [crossName]: crossAxis ? `${crossAxis}px` : '',
+        [mainAxis]: trackSize ? `${trackSize}px` : '',
+        [crossName]: crossAxis,
       }
     },
     resetPosition() {

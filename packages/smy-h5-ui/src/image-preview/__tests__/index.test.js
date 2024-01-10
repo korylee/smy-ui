@@ -48,7 +48,7 @@ test('test image-preview onChange callback', async () => {
   })
   await delay(200)
 
-  const track = document.querySelector('.smy-swiper__inner')
+  const track = document.querySelector('.smy-swiper__track')
   await triggerDrag(track, -100, 0)
   expect(onChange).toHaveBeenLastCalledWith(1)
 

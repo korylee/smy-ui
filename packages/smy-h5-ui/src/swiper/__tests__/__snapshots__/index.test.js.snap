@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test swiper next & prev & to method 1`] = `
+"<div class="smy-swiper" style="width: 100px; height: 100px;">
+  <div class="smy-swiper__track" style="transition-duration: 500ms; transform: translateX(0px);">
+    <div class="smy-swiper-item">1</div>
+    <div class="smy-swiper-item">2</div>
+    <div class="smy-swiper-item">3</div>
+  </div>
+  <div class="smy-swiper__indicator"><i class="smy-swiper__indicator-item smy-swiper__indicator-item--active"></i><i class="smy-swiper__indicator-item"></i><i class="smy-swiper__indicator-item"></i></div>
+</div>"
+`;
+
+exports[`test swiper next & prev & to method 2`] = `
+"<div class="smy-swiper" style="width: 100px; height: 100px;">
+  <div class="smy-swiper__track" style="transition-duration: 500ms; transform: translateX(0px);">
+    <div class="smy-swiper-item">1</div>
+    <div class="smy-swiper-item">2</div>
+    <div class="smy-swiper-item">3</div>
+  </div>
+  <div class="smy-swiper__indicator"><i class="smy-swiper__indicator-item"></i><i class="smy-swiper__indicator-item smy-swiper__indicator-item--active"></i><i class="smy-swiper__indicator-item"></i></div>
+</div>"
+`;
+
+exports[`test swiper next & prev & to method 3`] = `
+"<div class="smy-swiper" style="width: 100px; height: 100px;">
+  <div class="smy-swiper__track" style="transition-duration: 500ms; transform: translateX(0px);">
+    <div class="smy-swiper-item">1</div>
+    <div class="smy-swiper-item">2</div>
+    <div class="smy-swiper-item">3</div>
+  </div>
+  <div class="smy-swiper__indicator"><i class="smy-swiper__indicator-item smy-swiper__indicator-item--active"></i><i class="smy-swiper__indicator-item"></i><i class="smy-swiper__indicator-item"></i></div>
+</div>"
+`;
+
+exports[`test swiper next & prev & to method 4`] = `
+"<div class="smy-swiper" style="width: 100px; height: 100px;">
+  <div class="smy-swiper__track" style="transition-duration: 500ms; transform: translateX(0px);">
+    <div class="smy-swiper-item">1</div>
+    <div class="smy-swiper-item">2</div>
+    <div class="smy-swiper-item">3</div>
+  </div>
+  <div class="smy-swiper__indicator"><i class="smy-swiper__indicator-item"></i><i class="smy-swiper__indicator-item"></i><i class="smy-swiper__indicator-item smy-swiper__indicator-item--active"></i></div>
+</div>"
+`;

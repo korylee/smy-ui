@@ -5,9 +5,7 @@ exports[`test step direction prop 1`] = `
   <div class="smy-step smy-step--process">
     <div class="smy-step__header">
       <div class="smy-step__header-line"></div>
-      <div class="smy-step__header-icon">
-        <div class="smy-step__header-icon-seq">1</div>
-      </div>
+      <div class="smy-step__header-icon">1</div>
     </div>
     <div class="smy-step__main">
       <div class="smy-step__main-title"></div>
@@ -17,9 +15,7 @@ exports[`test step direction prop 1`] = `
   <div class="smy-step smy-step--wait">
     <div class="smy-step__header">
       <div class="smy-step__header-line"></div>
-      <div class="smy-step__header-icon">
-        <div class="smy-step__header-icon-seq">2</div>
-      </div>
+      <div class="smy-step__header-icon">2</div>
     </div>
     <div class="smy-step__main">
       <div class="smy-step__main-title"></div>
@@ -34,9 +30,7 @@ exports[`test step direction prop 2`] = `
   <div class="smy-step smy-step--process">
     <div class="smy-step__header">
       <div class="smy-step__header-line"></div>
-      <div class="smy-step__header-icon">
-        <div class="smy-step__header-icon-seq">1</div>
-      </div>
+      <div class="smy-step__header-icon">1</div>
     </div>
     <div class="smy-step__main">
       <div class="smy-step__main-title"></div>
@@ -46,9 +40,7 @@ exports[`test step direction prop 2`] = `
   <div class="smy-step smy-step--wait">
     <div class="smy-step__header">
       <div class="smy-step__header-line"></div>
-      <div class="smy-step__header-icon">
-        <div class="smy-step__header-icon-seq">2</div>
-      </div>
+      <div class="smy-step__header-icon">2</div>
     </div>
     <div class="smy-step__main">
       <div class="smy-step__main-title"></div>
@@ -63,9 +55,7 @@ exports[`test step event 1`] = `
   <div class="smy-step smy-step--finish">
     <div class="smy-step__header">
       <div class="smy-step__header-line"></div>
-      <div class="smy-step__header-icon">
-        <div class="smy-step__header-icon-seq">1</div>
-      </div>
+      <div class="smy-step__header-icon">1</div>
     </div>
     <div class="smy-step__main">
       <div class="smy-step__main-title"></div>
@@ -75,9 +65,7 @@ exports[`test step event 1`] = `
   <div class="smy-step smy-step--process">
     <div class="smy-step__header">
       <div class="smy-step__header-line"></div>
-      <div class="smy-step__header-icon">
-        <div class="smy-step__header-icon-seq">2</div>
-      </div>
+      <div class="smy-step__header-icon">2</div>
     </div>
     <div class="smy-step__main">
       <div class="smy-step__main-title"></div>
@@ -94,9 +82,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--process">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon">
-          <div class="smy-step__header-icon-seq">1</div>
-        </div>
+        <div class="smy-step__header-icon">1</div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title">已完成</div>
@@ -106,9 +92,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--wait">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon">
-          <div class="smy-step__header-icon-seq">2</div>
-        </div>
+        <div class="smy-step__header-icon">2</div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -118,9 +102,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--wait">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon">
-          <div class="smy-step__header-icon-seq">3</div>
-        </div>
+        <div class="smy-step__header-icon">3</div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -134,9 +116,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--process">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -146,9 +126,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--wait">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -158,9 +136,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--wait">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -174,9 +150,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--finish">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon">
-          <div class="smy-step__header-icon-seq">1</div>
-        </div>
+        <div class="smy-step__header-icon">1</div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title">已完成</div>
@@ -186,9 +160,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--process">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon">
-          <div class="smy-step__header-icon-seq">2</div>
-        </div>
+        <div class="smy-step__header-icon">2</div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -198,9 +170,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--wait">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon">
-          <div class="smy-step__header-icon-seq">3</div>
-        </div>
+        <div class="smy-step__header-icon">3</div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -214,9 +184,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--finish">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title">已完成</div>
@@ -226,9 +194,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--process">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -238,9 +204,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--wait">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -250,9 +214,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--wait">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -261,13 +223,11 @@ exports[`test steps example 1`] = `
     </div>
   </div>
   <div class="app-demo-title">翻转</div>
-  <div class="steps-wrapper smy-steps smy-steps--dot smy-steps--vertical">
+  <div class="steps-wrapper smy-steps smy-steps--dot smy-steps--vertical smy-steps--reverse">
     <div class="smy-step smy-step--finish">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"><span>收货地址：广东省深圳市福田区梅林街道新一代产业园5栋</span></div>
@@ -279,9 +239,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--finish">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -291,9 +249,7 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--finish">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
         <div class="smy-step__main-title"></div>
@@ -303,13 +259,11 @@ exports[`test steps example 1`] = `
     <div class="smy-step smy-step--finish">
       <div class="smy-step__header">
         <div class="smy-step__header-line"></div>
-        <div class="smy-step__header-icon smy-step__header-icon--dot">
-          <!---->
-        </div>
+        <div class="smy-step__header-icon smy-step__header-icon--dot"></div>
       </div>
       <div class="smy-step__main">
-        <div class="smy-step__main-title"></div>
-        <div class="smy-step__main-content"><span>fasdfad</span></div>
+        <div class="smy-step__main-title">已完成</div>
+        <div class="smy-step__main-content"><span>这里是该步骤的描述信息加长加长加长加长加长加长加长</span></div>
       </div>
     </div>
   </div>
