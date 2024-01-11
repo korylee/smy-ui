@@ -1,5 +1,7 @@
 import { padZero, toNumber } from '../_utils/shared'
 import { cancelAnimationFrame, requestAnimationFrame } from '../_utils/dom'
+import { isNil } from '../_utils/is'
+import { IN_BROWSER } from '../_utils/env'
 
 export type TimeData = ReturnType<typeof formatTime>
 
@@ -37,6 +39,7 @@ interface UseCountdownOptions {
   onStart?: (pauseTime: number) => void
   onEnd?: () => void
   onPause?: (pauseTime: number) => void
+  millisecond?: boolean
 }
 
 export function formatTime(durationTime: number) {
@@ -56,38 +59,58 @@ export function formatTime(durationTime: number) {
   }
 }
 
+function isSameSecond(time1: number, time2: number): boolean {
+  return Math.floor(time1 / 1000) === Math.floor(time2 / 1000)
+}
+
 export function useCountdown(opts: UseCountdownOptions) {
-  const { onChange, onEnd, onStart, onPause } = opts
+  const { onChange, onEnd, onStart, onPause, millisecond } = opts
   let realEndTime = 0
-  let pauseTime = 0
+  let remainTime = 0
   let timer: number | null = null
   let isStart = false
 
-  function countdown(time: string | number) {
-    const now = Date.now()
-
-    if (!realEndTime) realEndTime = now + toNumber(time)
-    let durationTime = realEndTime - now
-    if (durationTime < 0) durationTime = 0
-    pauseTime = durationTime
-    onChange?.(pauseTime)
-    if (durationTime === 0) {
+  function setRemain(value: number) {
+    remainTime = value
+    onChange?.(remainTime)
+    if (value === 0) {
       isStart = false
       return onEnd?.()
     }
-    if (isStart) timer = requestAnimationFrame(countdown)
+  }
+  function countdown(time: string | number) {
+    if (!IN_BROWSER) return
+
+    const now = Date.now()
+
+    if (!realEndTime) realEndTime = now + toNumber(time)
+    const currentRemain = Math.max(realEndTime - now, 0)
+    if (millisecond) {
+      setRemain(currentRemain)
+    } else {
+      if (!isSameSecond(remainTime, currentRemain) || currentRemain === 0) {
+        setRemain(currentRemain)
+      }
+    }
+    if (isStart && currentRemain >= 0) {
+      timer = requestAnimationFrame(countdown)
+    }
   }
 
-  function start(time: string | number) {
+  function start(time?: string | number) {
     if (isStart) return
+
+    if (!isNil(time)) {
+      remainTime = toNumber(time)
+    }
     isStart = true
-    realEndTime = Date.now() + (pauseTime || toNumber(time))
-    onStart?.(pauseTime)
-    countdown(time)
+    realEndTime = 0
+    onStart?.(remainTime)
+    countdown(remainTime)
   }
 
   function pause() {
-    onPause?.(pauseTime)
+    onPause?.(remainTime)
     isStart = false
     timer && cancelAnimationFrame(timer)
   }

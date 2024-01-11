@@ -34,11 +34,12 @@ export default {
         vm.$emit('pause', time)
         vm.$emit('update:paused', true)
       },
+      millisecond: vm.milliseconds || /S+/.test(vm.format),
     }),
   }),
 
   watch: {
-    time: { immediate: true, handler: 'init' },
+    time: { immediate: true, handler: 'reset' },
     paused(val, oldVal) {
       const { countdown } = this
       const isStart = countdown.isStart()
@@ -52,11 +53,6 @@ export default {
   },
 
   methods: {
-    init() {
-      const { autoStart, paused, start, reset } = this
-      const run = autoStart && !paused ? start : reset
-      run()
-    },
     start() {
       this.countdown.start(this.time)
     },
@@ -64,7 +60,10 @@ export default {
       this.countdown.pause()
     },
     reset() {
-      this.countdown.reset(this.time)
+      const { autoStart, paused, start, countdown, time } = this
+      const reset = () => countdown.reset(time)
+      const run = autoStart && !paused ? start : reset
+      run()
     },
   },
   render() {
