@@ -72,6 +72,7 @@ export function useCountdown(opts: UseCountdownOptions) {
     pauseTime = durationTime
     onChange?.(pauseTime)
     if (durationTime === 0) {
+      isStart = false
       return onEnd?.()
     }
     if (isStart) timer = requestAnimationFrame(countdown)
@@ -88,6 +89,7 @@ export function useCountdown(opts: UseCountdownOptions) {
   function pause() {
     onPause?.(pauseTime)
     isStart = false
+    timer && cancelAnimationFrame(timer)
   }
 
   function reset(time: string | number) {

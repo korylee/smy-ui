@@ -1,15 +1,8 @@
-<template>
-  <div class="smy-countdown">
-    <slot v-bind="timeData"> {{ parseTime(format, timeData) }}</slot>
-  </div>
-</template>
-
-<script>
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 import { parseTime, useCountdown, formatTime } from './utils'
 
-const [name] = createNamespace('countdown')
+const [name, bem] = createNamespace('countdown')
 
 export default {
   name,
@@ -45,7 +38,7 @@ export default {
   }),
 
   watch: {
-    time: 'reset',
+    time: { immediate: true, handler: 'init' },
     paused(val, oldVal) {
       const { countdown } = this
       const isStart = countdown.isStart()
@@ -54,18 +47,16 @@ export default {
     },
   },
 
-  created() {
-    const { autoStart, paused, start, reset } = this
-    const run = autoStart && !paused ? start : reset
-    run()
-  },
-
   beforeDestroy() {
     this.pause()
   },
 
   methods: {
-    parseTime,
+    init() {
+      const { autoStart, paused, start, reset } = this
+      const run = autoStart && !paused ? start : reset
+      run()
+    },
     start() {
       this.countdown.start(this.time)
     },
@@ -76,5 +67,17 @@ export default {
       this.countdown.reset(this.time)
     },
   },
+  render() {
+    const _vm = this
+    const _h = _vm.$createElement
+    const _c = _vm._self._c || _h
+    const { timeData } = _vm
+
+    return _c(
+      'div',
+      { staticClass: bem(), role: 'timer' },
+      [_vm._t('default', () => [parseTime(_vm.format, timeData)], timeData)],
+      2,
+    )
+  },
 }
-</script>
