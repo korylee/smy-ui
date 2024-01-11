@@ -66,6 +66,7 @@ module.exports = defineConfig({
       { text: 'BackTop 回到顶部', doc: 'back-top', type: 2 },
       { text: '功能指令', type: 1 },
       { text: 'Lazyload 懒加载', type: 2, doc: 'lazyload' },
+      { text: 'Ripple 水波指令', type: 2, doc: 'ripple' },
       { text: '反馈组件', type: 1 },
       { text: 'Popup 弹出层', doc: 'popup', type: 2 },
       { text: 'Dialog 对话框', doc: 'dialog', type: 2 },

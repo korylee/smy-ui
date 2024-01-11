@@ -1,15 +1,10 @@
 import Vue from 'vue'
 
-interface Context {
-  locks: Record<any, number>
-  zIndex: number
-  thouchmoveForbid: boolean
-}
-
-export const reactiveConxtext = Vue.observable<Context>({
-  locks: {},
+export const reactiveConxtext = Vue.observable({
+  locks: {} as Record<any, number>,
   zIndex: 1000,
   thouchmoveForbid: true,
+  enableRipple: true,
 })
 
 export default reactiveConxtext
