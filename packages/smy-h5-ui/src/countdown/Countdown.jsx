@@ -9,18 +9,11 @@ export default {
   props,
 
   data: (vm) => ({
-    timeData: {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      milliseconds: 0,
-      total: 0,
-    },
+    remainTime: 0,
     countdown: useCountdown({
       onChange: (time) => {
         const timeData = formatTime(time)
-        vm.timeData = timeData
+        vm.remainTime = time
         vm.$emit('change', timeData)
       },
       onStart: (time) => {
@@ -38,6 +31,11 @@ export default {
     }),
   }),
 
+  computed: {
+    timeData({ remainTime }) {
+      return formatTime(remainTime)
+    },
+  },
   watch: {
     time: { immediate: true, handler: 'reset' },
     paused(val, oldVal) {
@@ -54,7 +52,7 @@ export default {
 
   methods: {
     start() {
-      this.countdown.start(this.time)
+      this.countdown.start()
     },
     pause() {
       this.countdown.pause()
@@ -62,8 +60,11 @@ export default {
     reset() {
       const { autoStart, paused, start, countdown, time } = this
       const reset = () => countdown.reset(time)
-      const run = autoStart && !paused ? start : reset
-      run()
+      this.remainTime = time
+      reset()
+      if (autoStart && !paused) {
+        start()
+      }
     },
   },
   render() {
