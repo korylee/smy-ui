@@ -13,6 +13,8 @@ const createIsType =
 
 export const isType = <T>(type: string, val: unknown): val is T => createIsType<T>(type)(val)
 
+export const isUndefined = (val: unknown): val is undefined => typeof val === 'undefined'
+
 export const isNil = (val: unknown): val is null | undefined => val == null
 
 export const isBool = (val: unknown): val is boolean => typeof val === 'boolean'

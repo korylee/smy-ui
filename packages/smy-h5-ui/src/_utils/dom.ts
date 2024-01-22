@@ -1,6 +1,29 @@
 import { IN_BROWSER, IN_IOS } from './env'
-import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow, isNumeric, isString, isBool } from './is'
+import {
+  isFunction,
+  isNumString,
+  isNumber,
+  isRem,
+  isPx,
+  isVw,
+  isVh,
+  isWindow,
+  isNumeric,
+  isString,
+  isBool,
+  isUndefined,
+} from './is'
 import { warn } from './smy/warn'
+
+export const GLOBAL_THIS = (() => {
+  if (!isUndefined(globalThis)) {
+    return globalThis
+  }
+  if (IN_BROWSER) {
+    return window
+  }
+  return isUndefined(global) ? self : global
+})()
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
   const allParentScroller: Array<HTMLElement | Window> = []
@@ -32,11 +55,17 @@ export function getParentScroller(el: HTMLElement, root: ScrollerElement = windo
 }
 
 export function requestAnimationFrame(fn: FrameRequestCallback): number {
-  return IN_BROWSER ? globalThis.requestAnimationFrame(fn) : setTimeout(fn, 1000 / 60)
+  if (IN_BROWSER && GLOBAL_THIS.requestAnimationFrame) {
+    return GLOBAL_THIS.requestAnimationFrame(fn)
+  }
+  return GLOBAL_THIS.setTimeout(fn, 1000 / 60)
 }
 
 export function cancelAnimationFrame(handle: number): void {
-  return IN_BROWSER ? globalThis.cancelAnimationFrame(handle) : clearTimeout(handle)
+  if (IN_BROWSER && GLOBAL_THIS.cancelAnimationFrame) {
+    return GLOBAL_THIS.cancelAnimationFrame(handle)
+  }
+  return GLOBAL_THIS.clearTimeout(handle)
 }
 
 export const doubleRaf = (cb?: () => void, ctx?: any): Promise<void> => {
@@ -113,10 +142,10 @@ export function toPxNum(value: number | string) {
     return +value.replace('px', '')
   }
   if (isVw(value)) {
-    return (+value.replace('vw', '') * globalThis.innerWidth) / 100
+    return (+value.replace('vw', '') * GLOBAL_THIS.innerWidth) / 100
   }
   if (isVh(value)) {
-    return (+value.replace('vh', '') * globalThis.innerHeight) / 100
+    return (+value.replace('vh', '') * GLOBAL_THIS.innerHeight) / 100
   }
   if (isRem(value)) {
     return +value.replace('rem', '') * getRootFontSize()
