@@ -1,4 +1,4 @@
-import { convertToUnit, requestAnimationFrame } from '../_utils/dom'
+import { convertToUnit, raf } from '../_utils/dom'
 import { props } from './props'
 import { getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
@@ -31,7 +31,7 @@ export default {
 
         this.shrinking = true
         setTimeout(() => {
-          requestAnimationFrame(() => {
+          raf(() => {
             oldName != null && (this.nextName = newName)
             this.shrinking = false
           })

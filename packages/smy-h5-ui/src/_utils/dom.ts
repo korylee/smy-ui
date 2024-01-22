@@ -1,28 +1,20 @@
-import { IN_BROWSER, IN_IOS } from './env'
-import {
-  isFunction,
-  isNumString,
-  isNumber,
-  isRem,
-  isPx,
-  isVw,
-  isVh,
-  isWindow,
-  isNumeric,
-  isString,
-  isBool,
-  isUndefined,
-} from './is'
+import { IN_IOS } from './env'
+import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow, isNumeric, isString, isBool } from './is'
 import { warn } from './smy/warn'
-
-export const GLOBAL_THIS = (() => {
-  if (!isUndefined(globalThis)) {
-    return globalThis
-  }
-  if (IN_BROWSER) {
-    return window
-  }
-  return isUndefined(global) ? self : global
+// init globalThis
+// https://zhuanlan.zhihu.com/p/336227349
+;(function () {
+  if (typeof globalThis === 'object') return
+  Object.defineProperty(Object.prototype, '__magic__', {
+    get: function () {
+      return this
+    },
+    configurable: true, // 这样设置可以确保后面能够删除 getter
+  })
+  // @ts-ignore
+  __magic__.globalThis = __magic__ // lol what???
+  // @ts-ignore
+  delete Object.prototype.__magic__
 })()
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
@@ -54,23 +46,17 @@ export function getParentScroller(el: HTMLElement, root: ScrollerElement = windo
   return root
 }
 
-export function requestAnimationFrame(fn: FrameRequestCallback): number {
-  if (IN_BROWSER && GLOBAL_THIS.requestAnimationFrame) {
-    return GLOBAL_THIS.requestAnimationFrame(fn)
-  }
-  return GLOBAL_THIS.setTimeout(fn, 1000 / 60)
+export function raf(fn: FrameRequestCallback): number {
+  return requestAnimationFrame ? requestAnimationFrame(fn) : setTimeout(fn, 1000 / 60)
 }
 
-export function cancelAnimationFrame(handle: number): void {
-  if (IN_BROWSER && GLOBAL_THIS.cancelAnimationFrame) {
-    return GLOBAL_THIS.cancelAnimationFrame(handle)
-  }
-  return GLOBAL_THIS.clearTimeout(handle)
+export function cancelRaf(handle: number): void {
+  return cancelAnimationFrame ? cancelAnimationFrame(handle) : clearTimeout(handle)
 }
 
 export const doubleRaf = (cb?: () => void, ctx?: any): Promise<void> => {
   const promise = new Promise<void>((resolve) => {
-    requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+    raf(() => raf(() => resolve()))
   })
   if (!isFunction(cb)) return promise
   return promise.then(() => cb.call(ctx))
@@ -142,10 +128,10 @@ export function toPxNum(value: number | string) {
     return +value.replace('px', '')
   }
   if (isVw(value)) {
-    return (+value.replace('vw', '') * GLOBAL_THIS.innerWidth) / 100
+    return (+value.replace('vw', '') * window.innerWidth) / 100
   }
   if (isVh(value)) {
-    return (+value.replace('vh', '') * GLOBAL_THIS.innerHeight) / 100
+    return (+value.replace('vh', '') * window.innerHeight) / 100
   }
   if (isRem(value)) {
     return +value.replace('rem', '') * getRootFontSize()

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getParentScroller, getRootScrollTop, requestAnimationFrame } from '../_utils/dom'
+import { getParentScroller, getRootScrollTop, raf } from '../_utils/dom'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
 import { createNamespace } from '../_utils/vue/create'
@@ -68,7 +68,7 @@ export default {
       return offsetDistance <= this.threshold && isDown
     }
     const handleScroll = () => {
-      requestAnimationFrame(() => {
+      raf(() => {
         if (!isScrollAtBootom() || !this.hasMore || this.isInfiniting) return false
         this.isInfiniting = true
         this.$emit('input', true)

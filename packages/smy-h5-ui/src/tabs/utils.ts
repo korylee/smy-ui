@@ -1,4 +1,4 @@
-import { ScrollerElement, cancelAnimationFrame, getScrollTop, requestAnimationFrame, setScrollTop } from '../_utils/dom'
+import { ScrollerElement, cancelRaf, getScrollTop, raf, setScrollTop } from '../_utils/dom'
 
 export function scrollLeftTo(scroller: HTMLElement, to: number, duration = 0, done?: () => void) {
   let rafId: number
@@ -8,13 +8,13 @@ export function scrollLeftTo(scroller: HTMLElement, to: number, duration = 0, do
   function animate() {
     scroller.scrollLeft += (to - from) / frames
     if (++count < frames) {
-      rafId = requestAnimationFrame(animate)
+      rafId = raf(animate)
     } else if (done) {
-      rafId = requestAnimationFrame(done)
+      rafId = raf(done)
     }
   }
   animate()
-  return () => cancelAnimationFrame(rafId)
+  return () => cancelRaf(rafId)
 }
 
 export function scrollTopTo(scroller: ScrollerElement, to: number, duration: number, done?: () => void) {
@@ -32,12 +32,12 @@ export function scrollTopTo(scroller: ScrollerElement, to: number, duration: num
     setScrollTop(scroller, current)
 
     if ((isDown && current < to) || (!isDown && current > to)) {
-      rafId = requestAnimationFrame(animate)
+      rafId = raf(animate)
     } else if (done) {
-      rafId = requestAnimationFrame(done)
+      rafId = raf(done)
     }
   }
 
   animate()
-  return () => cancelAnimationFrame(rafId)
+  return () => cancelRaf(rafId)
 }

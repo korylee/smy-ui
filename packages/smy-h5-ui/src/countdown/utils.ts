@@ -1,5 +1,5 @@
 import { padZero, toNumber } from '../_utils/shared'
-import { cancelAnimationFrame, requestAnimationFrame } from '../_utils/dom'
+import { cancelRaf, raf } from '../_utils/dom'
 import { IN_BROWSER } from '../_utils/env'
 
 export type TimeData = ReturnType<typeof formatTime>
@@ -91,7 +91,7 @@ export function useCountdown(opts: UseCountdownOptions) {
         setRemain(currentRemain)
       }
       if (currentRemain >= 0) {
-        timer = requestAnimationFrame(countdown)
+        timer = raf(countdown)
       }
     }
   }
@@ -108,14 +108,14 @@ export function useCountdown(opts: UseCountdownOptions) {
   function pause() {
     onPause?.(remainTime)
     isStart = false
-    timer && cancelAnimationFrame(timer)
+    timer && cancelRaf(timer)
   }
 
   function reset(time: string | number) {
     endTime = 0
     isStart = false
     remainTime = toNumber(time)
-    timer && cancelAnimationFrame(timer)
+    timer && cancelRaf(timer)
     countdown()
   }
 
