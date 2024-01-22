@@ -27,7 +27,7 @@ export default {
         vm.$emit('pause', time)
         vm.$emit('update:paused', true)
       },
-      millisecond: vm.milliseconds || /S+/.test(vm.format),
+      millisecond: vm.millisecond || /S+/.test(vm.format),
     }),
   }),
 

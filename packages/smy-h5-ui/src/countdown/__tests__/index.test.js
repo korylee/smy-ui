@@ -66,7 +66,7 @@ describe('test countdown events', () => {
       listeners: {
         change: onChange,
       },
-      propsData: { time: 1, autoStart: true },
+      propsData: { time: 1, autoStart: true, millisecond: true },
     })
     await delay(50)
 
