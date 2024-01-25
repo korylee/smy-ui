@@ -1,4 +1,4 @@
-import { IN_IOS } from './env'
+import { IN_BROWSER, IN_IOS } from './env'
 import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow, isNumeric, isString, isBool } from './is'
 import { warn } from './smy/warn'
 // init globalThis
@@ -47,11 +47,11 @@ export function getParentScroller(el: HTMLElement, root: ScrollerElement = windo
 }
 
 export function raf(fn: FrameRequestCallback): number {
-  return requestAnimationFrame ? requestAnimationFrame(fn) : setTimeout(fn, 1000 / 60)
+  return IN_BROWSER ? requestAnimationFrame(fn) : setTimeout(fn, 1000 / 60)
 }
 
 export function cancelRaf(handle: number): void {
-  return cancelAnimationFrame ? cancelAnimationFrame(handle) : clearTimeout(handle)
+  return IN_BROWSER ? cancelAnimationFrame(handle) : clearTimeout(handle)
 }
 
 export const doubleRaf = (cb?: () => void, ctx?: any): Promise<void> => {
