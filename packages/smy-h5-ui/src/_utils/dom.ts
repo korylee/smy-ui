@@ -1,21 +1,6 @@
 import { IN_BROWSER, IN_IOS } from './env'
 import { isFunction, isNumString, isNumber, isRem, isPx, isVw, isVh, isWindow, isNumeric, isString, isBool } from './is'
 import { warn } from './smy/warn'
-// init globalThis
-// https://zhuanlan.zhihu.com/p/336227349
-;(function () {
-  if (typeof globalThis === 'object') return
-  Object.defineProperty(Object.prototype, '__magic__', {
-    get: function () {
-      return this
-    },
-    configurable: true, // 这样设置可以确保后面能够删除 getter
-  })
-  // @ts-ignore
-  __magic__.globalThis = __magic__ // lol what???
-  // @ts-ignore
-  delete Object.prototype.__magic__
-})()
 
 export function getAllParentScroller(el: HTMLElement): Array<HTMLElement | Window> {
   const allParentScroller: Array<HTMLElement | Window> = []
