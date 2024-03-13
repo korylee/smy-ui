@@ -1,7 +1,7 @@
 <template>
   <smy-cell>
-    <smy-switch v-model="value" inactive-label="关" active-label="开" />
-    <smy-switch v-model="value" style="width: 55px" inactive-label="OFF" active-label="ON" />
+    <smy-switch v-model="value" style="width: 38px" inactive-label="关" active-label="开" />
+    <smy-switch v-model="value" style="width: 50px" inactive-label="OFF" active-label="ON" />
   </smy-cell>
 </template>
 

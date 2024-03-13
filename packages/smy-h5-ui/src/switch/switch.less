@@ -2,8 +2,7 @@
 @switch-color-inactive: #dadada;
 @switch-cubic-bezier: cubic-bezier(0.55, 0.085, 0.68, 0.53);
 @switch-transition-duration: 0.2s;
-@switch-height: 1.68em;
-@switch-padding: 0.25em;
+@switch-padding: 0.15em;
 @switch-label-color: #fff;
 @switch-loading-color: #18a058;
 
@@ -12,18 +11,19 @@
   --switch-cubic-bezier: @switch-cubic-bezier;
   --switch-transition-duration: @switch-transition-duration;
   --switch-color-inactive: @switch-color-inactive;
-  --switch-height: @switch-height;
+  --switch-height: 1em;
   --switch-padding: @switch-padding;
   --switch-label-color: @switch-label-color;
   --switch-loading-color: @switch-loading-color;
-  --switch-size: 12px;
+  --switch-size: 20px;
+  --switch-thumb-size: 24px;
 }
 
 .smy-switch {
   position: relative;
   line-height: var(--switch-height);
   height: var(--switch-height);
-  min-width: 3.18em;
+  min-width: 1.6em;
   width: auto;
   display: inline-block;
   background: var(--switch-color-inactive);
@@ -46,6 +46,10 @@
     font-style: normal;
     transition: all var(--switch-transition-duration) var(--switch-cubic-bezier);
 
+    & > div {
+      font-size: 0.6em;
+    }
+
     &--close {
       right: var(--switch-padding);
       opacity: 1;
@@ -65,6 +69,7 @@
     width: var(--switch-height);
     left: 0;
     top: 0;
+    font-size: inherit;
     border: var(--switch-padding) solid var(--switch-color-inactive);
     border-radius: 50%;
     background: #fff;
@@ -75,7 +80,7 @@
     align-items: center;
 
     &-loading {
-      font-size: 0.9em;
+      font-size: 0.54em;
       color: var(--switch-loading-color);
     }
   }

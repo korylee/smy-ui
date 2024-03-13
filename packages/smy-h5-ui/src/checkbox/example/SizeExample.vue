@@ -1,5 +1,9 @@
 <template>
-  <smy-checkbox v-model="value" size="32px" />
+  <div class="demo-checkbox">
+    <smy-checkbox v-model="value1" size="32px" />
+    <smy-checkbox v-model="value2" />
+    <smy-checkbox v-model="value3" style="font-size: 50px" />
+  </div>
 </template>
 
 <script>
@@ -10,7 +14,15 @@ export default {
     SmyCheckbox: Checkbox,
   },
   data: () => ({
-    value: true,
+    value1: true,
+    value2: true,
+    value3: true,
   }),
 }
 </script>
+
+<style lang="less" scoped>
+.demo-checkbox {
+  --checkbox-size: 40px;
+}
+</style>

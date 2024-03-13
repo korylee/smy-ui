@@ -52,10 +52,8 @@ export default {
       if (!icon) {
         icon = indeterminate ? Minus : checkedIcon
       }
-      const iconSize = vm.size || vm.getParentProp('size')
-      const size = convertToUnit(iconSize)
+
       const shape = vm.shape || vm.getParentProp('shape') || DEFAULT_SHAPE[role]
-      const color = vm.color || vm.getParentProp('color')
       const clazz = bem('icon-content')
       const iconFallback = () => {
         if (shape === 'dot') {
@@ -68,7 +66,6 @@ export default {
         {
           ref: 'icon',
           class: bem('icon', { disabled, checked, indeterminate, [shape]: shape, preset }),
-          style: { [`--${role}-size`]: size, [`--${role}-color`]: color },
         },
         [vm._t('icon', iconFallback, { checked })],
       )
@@ -90,6 +87,9 @@ export default {
     const _h = vm.$createElement
     const c = vm._self._c || _h
     const { role, bem, checked, renderIcon, renderLabel, _disabled: disabled, labelDisabled } = vm
+    const iconSize = vm.size || vm.getParentProp('size')
+    const size = convertToUnit(iconSize)
+    const color = vm.color || vm.getParentProp('color')
     let { inline } = vm
 
     const children = [renderIcon()]
@@ -106,6 +106,7 @@ export default {
       {
         attrs: { role, 'aria-checked': checked, tabindex: disabled ? undefined : 0 },
         class: bem({ inline, [direction]: direction, disabled, labelDisabled }),
+        style: { [`--${role}-size`]: size, [`--${role}-color`]: color },
         on: {
           click: vm.onClick,
         },

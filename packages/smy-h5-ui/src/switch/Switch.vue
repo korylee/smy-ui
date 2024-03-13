@@ -18,8 +18,12 @@
         />
       </slot>
     </div>
-    <div v-if="activeLabel" :class="bem('label', 'open')">{{ activeLabel }}</div>
-    <div v-if="inactiveLabel" :class="bem('label', 'close')">{{ inactiveLabel }}</div>
+    <div v-if="activeLabel" :class="bem('label', 'open')">
+      <div>{{ activeLabel }}</div>
+    </div>
+    <div v-if="inactiveLabel" :class="bem('label', 'close')">
+      <div>{{ inactiveLabel }}</div>
+    </div>
   </div>
 </template>
 

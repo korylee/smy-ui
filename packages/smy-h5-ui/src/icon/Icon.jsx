@@ -82,7 +82,7 @@ export default {
         style,
         on: $listeners,
       },
-      [isImageIcon ? h('img', { staticClass: bem('image'), attrs: { src: nextName } }) : null],
+      [isImageIcon ? h('img', { attrs: { src: nextName } }) : null],
     )
   },
 }
