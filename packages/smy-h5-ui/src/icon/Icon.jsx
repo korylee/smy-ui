@@ -1,4 +1,4 @@
-import { convertToUnit, raf } from '../_utils/dom'
+import { convertToUnit } from '../_utils/dom'
 import { props } from './props'
 import { getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
@@ -30,12 +30,13 @@ export default {
         }
 
         this.shrinking = true
-        setTimeout(() => {
-          raf(() => {
+
+        this.$nextTick(() => {
+          setTimeout(() => {
             oldName != null && (this.nextName = newName)
             this.shrinking = false
-          })
-        }, toNumber(transition))
+          }, toNumber(transition))
+        })
       },
     },
   },
@@ -45,7 +46,7 @@ export default {
     const style = {
       color,
       fontSize: convertToUnit(size),
-      transitionDuration: shrinking ? `${toNumber(transition)}ms` : undefined,
+      transitionDuration: `${toNumber(transition)}ms`,
     }
     const defaultSlot = getSlot.call(vm)
     const baseClass = bem({ shrinking })
