@@ -1,13 +1,16 @@
 <template>
   <div :class="bem({ borderless: !border, insert, clickable })" v-on="$listeners">
     <div v-if="hasSlot('icon')" :class="bem('icon')"><slot name="icon" /></div>
-    <div :class="bem('content')">
-      <div :class="[bem('title'), titleClass]">
-        <slot>{{ title }}</slot>
-      </div>
+    <div :class="[bem('title'), titleClass]">
+      <slot name="title"
+        ><slot>{{ title }}</slot></slot
+      >
       <div v-if="hasSlot('desc') || desc" :class="[bem('desc'), descClass]">
         <slot name="desc">{{ desc }}</slot>
       </div>
+    </div>
+    <div v-if="hasSlot('value') || value != null" :class="bem('value')">
+      <slot name="value">{{ value }}</slot>
     </div>
     <div v-if="hasSlot('extra')" :class="[bem('extra'), extraClass]"><slot name="extra" /></div>
   </div>

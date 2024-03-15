@@ -11,7 +11,6 @@
 @cell-border-left: 12px;
 @cell-border-right: 12px;
 @cell-icon-right: 8px;
-@cell-extra-left: 8px;
 @cell-insert-box-shadow: rgb(237 238 241) 0px 1px 7px;
 
 :root {
@@ -19,14 +18,15 @@
   --cell-font-size: @cell-font-size;
   --cell-desc-font-size: @cell-desc-font-size;
   --cell-desc-color: @cell-desc-color;
+  --cell-value-font-size: inherit;
+  --cell-value-color: #969799;
   --cell-padding: @cell-padding;
   --cell-min-height: @cell-min-height;
   --cell-border-color: @cell-border-color;
   --cell-border-left: @cell-border-left;
   --cell-border-right: @cell-border-right;
   --cell-icon-right: @cell-icon-right;
-  --cell-extra-left: @cell-extra-left;
-  --cell--background: @cell-background;
+  --cell-background: @cell-background;
   --cell-insert-box-shadow: @cell-insert-box-shadow;
 }
 
@@ -41,7 +41,7 @@
   box-sizing: border-box;
   font-size: var(--cell-font-size);
   color: var(--cell-color);
-  background: var(--cell--background);
+  background: var(--cell-background);
 
   &::after {
     .hairline-bottom(var(--cell-border-color), var(--cell-border-left), var(--cell-border-right));
@@ -81,15 +81,19 @@
     margin-right: var(--cell-icon-right);
     flex: 0;
   }
-  &__content {
+  &__title,
+  &__value {
     flex: 1;
     overflow: hidden;
   }
-  // &__title {
-  // overflow: hidden;
-  // text-overflow: ellipsis;
-  // white-space: nowrap;
-  // }
+  &__value {
+    position: relative;
+    text-align: right;
+    vertical-align: middle;
+    word-wrap: break-word;
+    color: var(--cell-value-color);
+    font-size: var(--cell-value-font-size);
+  }
   &__desc {
     font-size: var(--cell-desc-font-size);
     color: var(--cell-desc-color);

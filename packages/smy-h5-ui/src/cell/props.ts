@@ -3,6 +3,7 @@ import { ExtractPropTypes, numericProp, unknownProp } from '../_utils/vue/props'
 export const props = {
   title: numericProp,
   desc: String,
+  value: [String, Number],
   border: Boolean,
   titleClass: unknownProp,
   descClass: unknownProp,
