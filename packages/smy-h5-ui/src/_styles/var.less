@@ -1,28 +1,12 @@
-// 文字
-@font-size-xs: 10px;
-@font-size-sm: 12px;
-@font-size-md: 14px;
-@font-size-lg: 16px;
-
-// 颜色
-@color-primary: #3a7afe;
-@color-primary-end: #3a7afe;
-@color-info: #00afef;
-@color-success: #00c48f;
-@color-warning: #ff9f00;
-@color-disabled: #e0e0e0;
-
-// 动画函数
-@cubic-bezier: cubic-bezier(0.25, 0.8, 0.5, 1);
-
 :root {
   // color
-  --color-primary: @color-primary;
-  --color-primary-end: @color-primary-end;
-  --color-info: @color-info;
-  --color-success: @color-success;
-  --color-disabled: @color-disabled;
+  --color-primary: #3a7afe;
+  --color-info: #00afef;
+  --color-success: #00c48f;
+  --color-disabled: #e0e0e0;
+  --color-warning: #ff9f00;
   --color-danger: #f44336;
+  --text-color: #323233;
 
   // padding
   --padding-base: 4px;
@@ -31,22 +15,24 @@
   --padding-md: 16px;
   --padding-lg: 24px;
 
-  // color
+  // border
   --border-width: 1px;
   --border-color: #ebedf0;
-  --text-color: #323233;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
 
   //  font
   --font-bold: 600;
-  --font-size-xs: @font-size-xs;
-  --font-size-sm: @font-size-sm;
-  --font-size-md: @font-size-md;
-  --font-size-lg: @font-size-lg;
+  --font-size-xs: 10px;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
 
   // animation
   --duration-base: 300ms;
   --duration-fast: 200ms;
   --ease-out: ease-out;
   --ease-in: ease-in;
-  --cubic-bezier: @cubic-bezier;
+  --cubic-bezier: cubic-bezier(0.25, 0.8, 0.5, 1);
 }
