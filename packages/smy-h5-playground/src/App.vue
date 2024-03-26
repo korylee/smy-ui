@@ -6,7 +6,6 @@
 
 <script>
 import { Repl, ReplStore } from '@smy-h5/repl'
-import '@smy-h5/repl/style.css'
 
 // const savedPreferDark = localStorage.getItem('smy-ui-playground-prefer-dark')
 // if (savedPreferDark === 'true' || (!savedPreferDark && window.matchMedia('(prefers-color-scheme: dark)').matches)) {

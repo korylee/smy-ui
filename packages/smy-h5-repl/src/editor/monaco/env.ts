@@ -1,8 +1,6 @@
 import { ReplStore } from '../../store'
 import { editor, languages, Uri } from 'monaco-editor-core'
-import * as onigasm from 'onigasm'
-// @ts-ignore
-import onigasmWasm from 'onigasm/lib/onigasm.wasm?url'
+import * as langConfigs from './lang-configs'
 // @ts-ignore
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 // @ts-ignore
@@ -18,13 +16,8 @@ let initted = false
 export function initMonaco(store: ReplStore) {
   if (initted) return
   loadMonacoEnv(store)
-  loadWasm()
 
   initted = true
-}
-
-export function loadWasm() {
-  return onigasm.loadWASM(onigasmWasm)
 }
 
 export function loadMonacoEnv(store: ReplStore) {
@@ -55,4 +48,26 @@ export function loadMonacoEnv(store: ReplStore) {
   languages.register({ id: 'vue', extensions: ['.vue'] })
   languages.register({ id: 'javascript', extensions: ['.js'] })
   languages.register({ id: 'typescript', extensions: ['.ts'] })
+  languages.register({ id: 'css', extensions: ['.css'] })
+  languages.register({ id: 'less', extensions: ['.less'] })
+  languages.register({ id: 'scss', extensions: ['.scss'] })
+
+  languages.setLanguageConfiguration('vue', langConfigs.vue)
+  languages.setLanguageConfiguration('javascript', langConfigs.js)
+  languages.setLanguageConfiguration('typescript', langConfigs.ts)
+  languages.setLanguageConfiguration('css', langConfigs.css)
+
+  editor.registerEditorOpener({
+    openCodeEditor(_, resource) {
+      const path = resource.path
+      if (/^\//.test(path)) {
+        const filename = path.replace('/', '')
+        if (filename !== store.state.activeFile.filename) {
+          store.setActive(filename)
+          return true
+        }
+      }
+      return false
+    },
+  })
 }

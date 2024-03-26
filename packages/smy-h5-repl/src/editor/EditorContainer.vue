@@ -18,8 +18,8 @@ export default {
   components: {
     Message,
     FileSelector,
-    Codemirror: () => import('./CodeMirrorEditor.vue'),
-    Monaco: () => import('./MonacoEditor.vue'),
+    Codemirror: () => import('./CodeMirrorEditor.jsx'),
+    Monaco: () => import('./MonacoEditor.jsx'),
   },
   computed: {
     activeFile({ store }) {

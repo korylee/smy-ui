@@ -1,6 +1,5 @@
 <script>
 import * as monaco from 'monaco-editor-core'
-import { loadGrammars, loadTheme } from 'monaco-volar'
 import { getOrCreateModel } from './utils'
 import { initMonaco } from './env'
 
@@ -25,7 +24,7 @@ export default {
     initMonaco(this.store)
   },
   async mounted() {
-    const theme = await loadTheme(monaco.editor)
+    const theme = await import('./highlight').then((m) => m.registerHighligher())
     await this.$nextTick()
     const { container } = this.$refs
     if (!container) {
@@ -35,6 +34,7 @@ export default {
     const editorInstance = monaco.editor.create(container, {
       ...(readonly ? { value, language: lang } : { model: null }),
       fontSize: 13,
+      tabSize: 2,
       theme: curTheme === 'light' ? theme.light : theme.dark,
       readOnly: readonly,
       automaticLayout: true,
@@ -104,11 +104,17 @@ export default {
         },
       )
     }
-
-    await loadGrammars(monaco, editorInstance)
+    this.$watch('theme', () => {
+      editorInstance.updateOptions({
+        theme: n === 'light' ? theme.light : theme.dark,
+      })
+    })
 
     editorInstance.onDidChangeModelContent(() => {
       this.$emit('input', editorInstance.getValue())
+    })
+    this.$on('hook:beforeDestroy', () => {
+      this.editor?.dispose()
     })
   },
   methods: {},

@@ -1,4 +1,3 @@
-<script>
 import CodeMirror from './codemirror/CodeMirror.vue'
 
 const props = {
@@ -44,4 +43,3 @@ export default {
     })
   },
 }
-</script>

@@ -25,8 +25,8 @@ import Preview from './Preview.vue'
 export default {
   components: {
     Preview,
-    Codemirror: () => import('../editor/CodeMirrorEditor.vue'),
-    Monaco: () => import('../editor/MonacoEditor.vue'),
+    Codemirror: () => import('../editor/CodeMirrorEditor.jsx'),
+    Monaco: () => import('../editor/MonacoEditor.jsx'),
   },
   props: {
     editor: {

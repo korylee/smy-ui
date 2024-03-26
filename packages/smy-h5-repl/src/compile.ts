@@ -1,5 +1,5 @@
 import { CodeFile, ReplStore } from './store'
-import { transformRef, shouldTransformRef, SFCDescriptor, BindingMetadata } from '@vue/compiler-sfc'
+import { SFCDescriptor, BindingMetadata } from '@vue/compiler-sfc'
 import hashId from 'hash-sum'
 import { compile } from 'vue-template-compiler/browser'
 import * as buble from 'vue-template-es2015-compiler/buble'
@@ -27,9 +27,6 @@ export async function compileFile(store: ReplStore, file: CodeFile) {
   }
   const isTsFile = filename.endsWith('.ts')
   if (filename.endsWith('.js') || isTsFile) {
-    if (shouldTransformRef(code)) {
-      code = transformRef(code, { filename }).code
-    }
     if (isTsFile) {
       code = await compileTs(code)
     }

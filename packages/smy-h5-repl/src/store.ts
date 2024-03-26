@@ -175,4 +175,15 @@ export class ReplStore {
   setImportMap(map: { imports: Record<string, string>; scopes?: Record<string, Record<string, string>> }) {
     this.state.files[ImportMapFile].code = JSON.stringify(map, null, 2)
   }
+  setActive(filename: string) {
+    const { state } = this
+    if (state.activeFile.filename === filename) {
+      return
+    }
+    const target = state.files[filename]
+    if (!target) {
+      return
+    }
+    state.activeFile = target
+  }
 }
