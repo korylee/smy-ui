@@ -64,7 +64,7 @@ export default {
 
     const renderFooter = () =>
       vm._t('footer', () =>
-        c('div', { class: [BORDER_TOP, bem('footer')] }, [
+        c('div', { class: bem('footer', BORDER_TOP) }, [
           vm.showCancel &&
             c(
               'button',
@@ -79,7 +79,7 @@ export default {
             c(
               'button',
               {
-                class: [bem('confirm'), vm.showCancel ? BORDER_LEFT : ''],
+                class: [bem('confirm', { [BORDER_LEFT]: vm.showCancel })],
                 style: { color: vm.confirmColor },
                 on: { click: () => vm.getHandler('confirm') },
               },

@@ -21,13 +21,17 @@ function genBem(mods: Mods | undefined, generate: (mod: string) => string): stri
 }
 
 function createBem(namespace: string, name: string) {
+  const prefixReg = new RegExp(`^${namespace}--`)
   function bem(el?: Mods, mods?: Mods) {
     if (el && !isString(el)) {
       mods = el
       el = ''
     }
     el = el ? `${name}__${el}` : name
-    const generate = (mod: string) => ' ' + (mod[0] === '$' ? mod.replace('$', namespace) : `${el}--${mod}`)
+    const generate = (mod: string) => {
+      const affix = mod[0] === '$' ? mod.replace('$', namespace) : prefixReg.test(mod) ? mod : `${el}--${mod}`
+      return ' ' + affix
+    }
 
     return `${el}${genBem(mods, generate)}`
   }

@@ -1,6 +1,5 @@
 import { convertToUnit } from '../_utils/dom'
 import { props } from './props'
-import { getSlot } from '../_utils/vue/slots'
 import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { isNil, isString } from '../_utils/is'
@@ -48,7 +47,7 @@ export default {
       fontSize: convertToUnit(size),
       transitionDuration: `${toNumber(transition)}ms`,
     }
-    const defaultSlot = getSlot.call(vm)
+    const defaultSlot = vm._t('default')
     const baseClass = bem({ shrinking })
     let child = defaultSlot
     let isImageIcon = false

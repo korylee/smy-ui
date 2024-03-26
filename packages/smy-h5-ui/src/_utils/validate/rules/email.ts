@@ -1,5 +1,4 @@
 import { isArray } from '../../is'
-import { wrapInArray } from '../../shared'
 
 const re =
   // eslint-disable-next-line
@@ -14,5 +13,4 @@ export function validator(value: string | string[]) {
   return validate(String(value))
 }
 
-wrapInArray
 export default { validator }

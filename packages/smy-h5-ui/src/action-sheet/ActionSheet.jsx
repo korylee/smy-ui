@@ -47,7 +47,7 @@ export default {
             vm.closeable &&
               c(Icon, {
                 attrs: { name: vm.closeIcon },
-                class: [bem('close'), HAPTICS_FEEDBACK],
+                class: bem('close', HAPTICS_FEEDBACK),
                 on: { click: vm.onCancel },
               }),
           ])

@@ -11,6 +11,9 @@ const EXPORT_START_RE = /export\s+default\s+{/
 const DEFINE_EXPORT_START_RE = /export\s+default\s+defineComponent\s*\(\s*{/
 export const EMPRY_COMMIT_RE = /\/\/\s*\n+/g
 
+const RENDER_NAME = '__sfc_render'
+const STATIC_RENDER_FNS_NAME = '__sfc_staticRenderFns'
+
 // 移除空行注释
 const clearEmptyComment = (str: string) => str.replace(EMPRY_COMMIT_RE, '')
 
@@ -71,9 +74,9 @@ export function injectRender(script: string, render: string): string {
       DEFINE_EXPORT_START_RE,
       `
 ${render}\nexport default defineComponent({
-render: __sfc_render,\
-staticRenderFns: __sfc_staticRenderFns,\
-`
+render: ${RENDER_NAME},\
+staticRenderFns: ${STATIC_RENDER_FNS_NAME},\
+`,
     )
   }
 
@@ -81,9 +84,9 @@ staticRenderFns: __sfc_staticRenderFns,\
     return script.replace(
       EXPORT_START_RE,
       `${render}\nexport default {
-render: __sfc_render,\
-staticRenderFns: __sfc_staticRenderFns,\
-`
+render: ${RENDER_NAME},\
+staticRenderFns: ${STATIC_RENDER_FNS_NAME},\
+`,
     )
   }
 
@@ -96,7 +99,7 @@ export function injectScopeId(script: string, scopeId: string): string {
       EXPORT_START_RE,
       `export default {
 _scopeId: '${scopeId}',\
-`
+`,
     )
   }
 
@@ -107,8 +110,8 @@ function compileTemplate(template: string) {
   const { render, staticRenderFns } = compiler.compile(template)
 
   return {
-    render: stripWith(`function __sfc_render () { ${render} }`) + '__sfc_render._withStripped = true\n',
-    staticRenderFns: `const __sfc_staticRenderFns = [${staticRenderFns
+    render: stripWith(`function ${RENDER_NAME} () { ${render} }`),
+    staticRenderFns: `const ${STATIC_RENDER_FNS_NAME} = [${staticRenderFns
       .map((staticRenderFn) => stripWith(`function _() { ${staticRenderFn} }`))
       .join(',\n')}]`,
   }
