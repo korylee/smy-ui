@@ -12,6 +12,7 @@ export const props = {
   rightDisabled: Boolean,
   leftArrow: [Boolean].concat(componentProp as any) as PropType<typeof componentProp | boolean>,
   clickable: truthProp,
+  safeAreaInsetTop: Boolean,
 }
 
 export type NavBarProps = ExtractPropTypes<typeof props>
