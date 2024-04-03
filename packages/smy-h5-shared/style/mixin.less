@@ -1,0 +1,26 @@
+.set-font-size(@size) {
+  & when (@size < 12px) {
+    font-size: 12px;
+    transform: scale(round(unit(@size / 12px), 4));
+  }
+  & when not (@size < 12px) {
+    font-size: @size;
+  }
+}
+
+.ellipsis(@lines:1) when (@lines = 1) {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.ellipsis(@lines) when (@lines > 1) {
+  display: -webkit-box;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: @lines;
+  line-break: anywhere;
+
+  -webkit-box-orient: vertical;
+}

@@ -7,22 +7,17 @@
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "import": "./lib/index.js",
-      "require": "./lib/index.cjs",
-      "types": "./lib/index.d.ts"
-    }
-  },
   "files": [
-    "lib"
+    "lib",
+    "style"
   ],
   "scripts": {
     "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts",
     "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean"
   },
   "keywords": [
-    "utils"
+    "utils",
+    "shared"
   ],
   "author": "",
   "license": "ISC",
