@@ -1,7 +1,6 @@
 import { PropType } from 'vue'
-import { assign } from '../_utils/shared'
 import { PickerBaseColumnItem, pickerSharedProps } from '../picker/props'
-import { isDate } from '../_utils/is'
+import { isDate, assign } from '@smy-h5/shared'
 import { ExtractPropTypes, createArrayProp } from '../_utils/vue/props'
 
 const DATE_PICKER_COLUMN_TYPE = ['year', 'month', 'day'] as const
@@ -24,7 +23,7 @@ export const props = assign(
     },
     filter: Function as PropType<(item: TimePickerColumnItem) => boolean>,
   },
-  pickerSharedProps
+  pickerSharedProps,
 )
 
 export type DatePickerProps = ExtractPropTypes<typeof props>

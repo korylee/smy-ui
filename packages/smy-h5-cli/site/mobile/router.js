@@ -2,7 +2,6 @@ import routes from '@mobile-routes'
 import config from '@config'
 import VueRouter from 'vue-router'
 import Vue from 'vue'
-import { get } from 'lodash-es'
 import { inIframe, isPhone } from '../utils'
 
 const originalReplace = VueRouter.prototype.replace
@@ -16,7 +15,7 @@ Vue.prototype.replace = function replace(location, onResolve, onReject) {
 
 Vue.use(VueRouter)
 
-const redirect = get(config, 'mobile.redirect')
+const redirect = config?.mobile?.redirect
 
 if (redirect) {
   routes.push({

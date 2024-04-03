@@ -1,7 +1,7 @@
 import type { PluginObject, VueConstructor, DirectiveOptions, VNodeDirective, VNode } from 'vue'
-import { assign, assignWith, createLRUCache } from '../_utils/shared'
+import { createLRUCache } from '../_utils/shared'
 import Intersect, { type ObserveVNodeDirective } from '../intersect'
-import { isNil, isObject } from '../_utils/is'
+import { isNil, isObject, assign, assignWith } from '@smy-h5/shared'
 
 type ValueOf<T> = T[keyof T]
 

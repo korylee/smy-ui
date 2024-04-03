@@ -1,4 +1,4 @@
-import { assign, keys } from '../_utils/shared'
+import { assign, keys } from '@smy-h5/shared'
 import { ExtractPropTypes, createArrayProp, createComponentProp, truthProp } from '../_utils/vue/props'
 import { popupSharedProps } from '../popup/shared'
 //@ts-ignore

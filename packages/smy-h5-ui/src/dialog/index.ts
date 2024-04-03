@@ -4,7 +4,7 @@ import { SmyComponent } from '../_utils/smy/component'
 import { MountedInstance, mountComponent, withInstall } from '../_utils/vue/component'
 import _Dialog from './Dialog'
 import { DialogProps } from './props'
-import { IN_BROWSER } from '../_utils/env'
+import { IN_BROWSER } from '@smy-h5/shared'
 import { PopupEmit, PopupListeners } from '../popup/shared'
 import { ScopedSlotReturnValue } from 'vue/types/vnode'
 

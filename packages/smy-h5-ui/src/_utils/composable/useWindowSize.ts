@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { IN_BROWSER } from '../env'
+import { IN_BROWSER } from '@smy-h5/shared'
 
 type WindowSize = { width: number; height: number }
 

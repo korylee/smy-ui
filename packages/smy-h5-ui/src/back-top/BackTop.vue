@@ -11,10 +11,7 @@
 </template>
 
 <script>
-import { getScrollTop } from '../_utils/dom'
-import { getParentScroller, getElement } from '../_utils/dom'
-import { IN_BROWSER } from '../_utils/env'
-import { throttle } from '../_utils/shared'
+import { IN_BROWSER, getScrollTop, getParentScroller, getElement, throttle } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { onMountedOrActivated } from '../_utils/vue/lifetime'
 import { MaybeTeleport } from '../teleport'

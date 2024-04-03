@@ -7,7 +7,9 @@ const PKG_CLI = resolve(CWD, './packages/smy-h5-cli')
 const PKG_UI = resolve(CWD, './packages/smy-h5-ui')
 const PKG_ICONS = resolve(CWD, './packages/smy-h5-icons')
 const PKG_REPL = resolve(CWD, './packages/smy-h5-repl')
+const PKG_SHARED = resolve(CWD, './packages/smy-h5-shared')
 
+export const buildShared = () => execa('pnpm', ['build'], { cwd: PKG_SHARED })
 export const buildCli = () => execa('pnpm', ['build'], { cwd: PKG_CLI })
 export const buildIcons = () => execa('pnpm', ['build'], { cwd: PKG_ICONS })
 export const buildUi = () => execa('pnpm', ['compile'], { cwd: PKG_UI })
@@ -25,6 +27,7 @@ export async function runTask(taskName, task) {
 }
 
 ;(async () => {
+  await runTask('shared', buildShared)
   await runTask('cli', buildCli)
   await runTask('icons', buildIcons)
   await runTask('ui', buildUi)

@@ -1,6 +1,4 @@
-import { padZero, toNumber } from '../_utils/shared'
-import { cancelRaf, raf } from '../_utils/dom'
-import { IN_BROWSER } from '../_utils/env'
+import { IN_BROWSER, cancelRaf, raf, toNumber, padZero } from '@smy-h5/shared'
 
 export type TimeData = ReturnType<typeof formatTime>
 

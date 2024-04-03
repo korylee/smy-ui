@@ -8,7 +8,7 @@
 
 <script>
 import { createNamespace } from '../_utils/vue/create'
-import { doubleRaf, getParentScroller, getRect, getRootScrollTop, getElement, toPxNum } from '../_utils/dom'
+import { doubleRaf, getParentScroller, getRect, getRootScrollTop, getElement, toPxNum } from '@smy-h5/shared'
 import intersect from '../intersect'
 import { props } from './props'
 import { useWindowSize } from '../_utils/composable/useWindowSize'

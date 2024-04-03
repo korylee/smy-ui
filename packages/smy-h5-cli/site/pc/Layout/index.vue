@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { get } from 'lodash-es'
 import AppHeader from './AppHeader.vue'
 import AppSidebar from './AppSidebar.vue'
 import AppMobile from './AppMobile.vue'
@@ -25,9 +24,9 @@ export default {
   name: 'Layout',
   components: { AppHeader, AppSidebar, AppMobile },
   data: () => ({
-    menu: get(config, 'pc.menu', []),
-    useMobile: get(config, 'useMobile'),
-    mobileRedirect: get(config, 'mobile.redirect', ''),
+    menu: config?.pc?.menu ?? [],
+    useMobile: config?.useMobile,
+    mobileRedirect: config?.mobile?.redirect ?? '',
     componentName: '',
     menuName: '',
   }),
@@ -39,7 +38,7 @@ export default {
         if (!name) return
         this.componentName = this.getComponentNameByMenuName(name)
         this.menuName = name
-        document.title = get(config, 'pc.title')
+        document.title = config?.pc?.title
       },
     },
   },

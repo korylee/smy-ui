@@ -1,4 +1,4 @@
-import { isString } from '../_utils/is'
+import { isString } from '@smy-h5/shared'
 import { throwError } from '../_utils/smy/warn'
 
 type TransformFunc = ((val: any) => any) | string

@@ -1,4 +1,4 @@
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 import { ExtractPropTypes, createArrayProp, createNumericProp, truthProp } from '../_utils/vue/props'
 import { pickerToolbarProps } from '../picker/props'
 import { popupSharedProps } from '../popup/shared'

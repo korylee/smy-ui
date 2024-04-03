@@ -1,5 +1,4 @@
-import { isFunction, isString } from '../_utils/is'
-import { wrapInArray } from '../_utils/shared'
+import { wrapInArray, isFunction, isString } from '@smy-h5/shared'
 import { ImageFit } from '../image/props'
 import { UploaderMaxSize, UploaderResultType } from './props'
 

@@ -5,7 +5,7 @@ import ProgressCircular from '../progress-circular'
 import Icon from '../icon'
 import { popupInheritPropKeys, props } from './props'
 import { popupListenerKeys } from '../popup/shared'
-import { assign, pick } from '../_utils/shared'
+import { assign, pick } from '@smy-h5/shared'
 import { HAPTICS_FEEDBACK } from '../_utils/contant'
 
 import '../_styles/common.less'

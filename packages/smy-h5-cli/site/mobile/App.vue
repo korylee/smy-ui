@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { upperFirst, camelCase } from 'lodash-es'
+import { upperFirst, camelize } from '@smy-h5/shared'
 import AppBar from './components/app-bar'
 import { getBrowserTheme, setTheme } from '../utils/theme'
 import config from '@config'
@@ -37,7 +37,7 @@ export default {
       const redirectName = this.redirect.slice(1)
       const isRedirect = redirectName === componentName
       this.showBackIcon = !isRedirect
-      this.title = isRedirect ? '' : upperFirst(camelCase(componentName))
+      this.title = isRedirect ? '' : upperFirst(camelize(componentName))
     },
   },
   created() {
@@ -73,7 +73,9 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   background: var(--site-config-color-bar);
   color: var(--site-config-color-text);
-  transition: background-color 0.25s, color 0.25s;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
 }
 
 .nav {

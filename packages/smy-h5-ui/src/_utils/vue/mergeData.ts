@@ -1,5 +1,4 @@
-import { camelize } from '../shared'
-import { isString } from '../is'
+import { camelize, isString } from '@smy-h5/shared'
 
 const pattern = {
   styleList: /;(?![^(]*\))/g,

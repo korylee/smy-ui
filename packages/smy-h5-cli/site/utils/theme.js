@@ -1,4 +1,4 @@
-import { kebabCase } from 'lodash-es'
+import { kebabCase } from '@smy-h5/shared'
 
 const mountedVarKeys = []
 

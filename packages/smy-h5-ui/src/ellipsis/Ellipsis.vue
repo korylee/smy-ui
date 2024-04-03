@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { toPxNum } from '../_utils/dom'
+import { toPxNum } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 
@@ -78,7 +78,7 @@ export default {
       containerStyle.display = 'block'
       const lineHeight = toPxNum(originStyle.lineHeight === 'normal' ? this.lineHeight : originStyle.lineHeight)
       maxHeight = Math.floor(
-        lineHeight * (Number(this.rows) + 0.5) + toPxNum(originStyle.paddingTop) + toPxNum(originStyle.paddingBottom)
+        lineHeight * (Number(this.rows) + 0.5) + toPxNum(originStyle.paddingTop) + toPxNum(originStyle.paddingBottom),
       )
       container.innerText = this.content
       document.body.appendChild(container)

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
-import { getElement } from '../_utils/dom'
+import { getElement } from '@smy-h5/shared'
 
 const [name, bem] = createNamespace('teleport')
 

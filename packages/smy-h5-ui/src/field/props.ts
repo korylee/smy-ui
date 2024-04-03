@@ -3,7 +3,7 @@ import { ExtractPropTypes, createComponentProp, createStringProp, numericProp } 
 //@ts-ignore
 import CloseCircle from '@smy-h5/icons/dist/es/CloseCircle'
 import { FieldAutosize } from './utils'
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 import { validateProviderProp } from '../_mixins/validate'
 
 type FieldClearTrigger = 'always' | 'focus'

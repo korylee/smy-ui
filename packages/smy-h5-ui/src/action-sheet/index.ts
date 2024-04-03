@@ -1,11 +1,9 @@
 import Vue, { VNode } from 'vue'
-import { RequiredPartial, assign } from '../_utils/shared'
 import { SmyComponent } from '../_utils/smy/component'
 import { MountedInstance, mountComponent, withInstall } from '../_utils/vue/component'
 import _ActionSheet from './ActionSheet'
 import { ActionSheetItem, ActionSheetProps } from './props'
-import { IN_BROWSER } from '../_utils/env'
-import { isArray } from '../_utils/is'
+import { IN_BROWSER, isArray, RequiredPartial, assign } from '@smy-h5/shared'
 import { PopupListeners } from '../popup/shared'
 
 declare interface SmyActionSheet extends SmyComponent {

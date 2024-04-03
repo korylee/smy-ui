@@ -1,7 +1,7 @@
 import { checkerProps } from './props'
 import SmyIcon from '../icon'
 import Minus from '@smy-h5/icons/dist/es/Minus'
-import { convertToUnit } from '../_utils/dom'
+import { convertToUnit } from '@smy-h5/shared'
 
 const DEFAULT_SHAPE = { radio: 'round', checkbox: 'square' }
 

@@ -1,13 +1,12 @@
 import type { VNodeDirective, VueConstructor } from 'vue'
 import { assign } from '../_utils/shared'
 import context from '../_context'
-import { doubleRaf, getRect } from '../_utils/dom'
+import { IS_SUPPORT_TOUCH, doubleRaf, getRect } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
-import { IS_SUPPORT_TOUCH } from '../_utils/env'
+import { isString } from '@smy-h5/shared'
 
 import '../_styles/common.less'
 import './ripple.less'
-import { isString } from '../_utils/is'
 
 const [, bem] = createNamespace('ripple')
 

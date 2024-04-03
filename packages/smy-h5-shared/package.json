@@ -1,0 +1,35 @@
+{
+  "name": "@smy-h5/shared",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "main": "lib/index.cjs",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "types": "./lib/index.d.ts"
+    }
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts",
+    "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean"
+  },
+  "keywords": [
+    "utils"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@swc/core": "^1.4.11",
+    "@types/node": "^18.19.29",
+    "tsup": "7.2.0",
+    "typescript": "^5.4.3"
+  }
+}

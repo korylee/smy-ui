@@ -1,8 +1,6 @@
-import { convertToUnit } from '../_utils/dom'
+import { convertToUnit, isNil, isString, toNumber } from '@smy-h5/shared'
 import { props } from './props'
-import { toNumber } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
-import { isNil, isString } from '../_utils/is'
 import { IconCache } from './utils'
 
 import './icon.less'

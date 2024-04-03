@@ -4,7 +4,7 @@ import { props } from './props'
 import ArrowLeft from '@smy-h5/icons/dist/es/ArrowLeft'
 import SmyIcon from '../icon'
 import { useWindowSize } from '../_utils/composable/useWindowSize'
-import { getRect } from '../_utils/dom'
+import { getRect } from '@smy-h5/shared'
 
 import '../_styles/common.less'
 import './navBar.less'

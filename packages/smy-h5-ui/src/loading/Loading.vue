@@ -35,7 +35,7 @@ import { LOADING_NUMBERS_DICT } from './constant'
 import { SlotsMixin } from '../_utils/vue/slots'
 import SmyProgressCircular from '../progress-circular'
 import { createNamespace } from '../_utils/vue/create'
-import { convertToUnit } from '../_utils/dom'
+import { convertToUnit } from '@smy-h5/shared'
 
 const [name, bem] = createNamespace('loading')
 

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { convertToUnit } from '../_utils/dom'
+import { convertToUnit } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { SlotsMixin } from '../_utils/vue/slots'
 import Lazyload, { LAZYLOAD_STATE } from '../lazyload'

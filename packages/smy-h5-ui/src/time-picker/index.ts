@@ -1,11 +1,10 @@
 import { VNode } from 'vue'
-import { isArray } from '../_utils/is'
+import { isArray, type RequiredPartial } from '@smy-h5/shared'
 import { SmyComponent } from '../_utils/smy/component'
 import { withInstall } from '../_utils/vue/component'
 import { PickerEmit, PickerSharedListeners, createPicker } from '../picker/utils'
 import _TimePicker from './TimePicker'
 import { TimePickerColumnType, TimePickerProps } from './props'
-import { RequiredPartial } from '../_utils/shared'
 
 export declare class SmyTimePicker extends SmyComponent {
   new(): {

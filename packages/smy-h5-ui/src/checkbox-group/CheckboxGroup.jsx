@@ -1,5 +1,5 @@
 import { createParentMixin } from '../_mixins/relation'
-import { isPlainObject } from '../_utils/is'
+import { isPlainObject } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 

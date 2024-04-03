@@ -27,8 +27,8 @@
 
 <script>
 import { createParentMixin } from '../_mixins/relation'
-import { toNumber, range, throttle } from '../_utils/shared'
-import { toPxNum, doubleRaf, preventDefault, isHidden, convertToUnit } from '../_utils/dom'
+import { toNumber, range, throttle } from '@smy-h5/shared'
+import { toPxNum, doubleRaf, preventDefault, isHidden, convertToUnit } from '@smy-h5/shared'
 import { useTouch } from '../_utils/composable/useTouch'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'

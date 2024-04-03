@@ -1,7 +1,8 @@
 import Picker from '../picker'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
-import { range, padZero, pick, assign, genArray, isSameValue } from '../_utils/shared'
+import { isSameValue } from '../_utils/shared'
+import { range, pick, genArray, padZero, assign } from '@smy-h5/shared'
 import { getMonthEndDay } from './utils'
 import { pickerSharedPropKeys } from '../picker/props'
 import { getListeners } from '../_mixins/listeners'
@@ -97,7 +98,7 @@ export default {
           const value = padZero(min + index)
           return formatter({ text: value, value, type })
         },
-        filter
+        filter,
       )
     },
     genDefaultVal({ column, columnIndex }) {
@@ -144,7 +145,7 @@ export default {
         },
         scopedSlots,
       },
-      listeners
+      listeners,
     )
     return _c(Picker.Component, data)
   },

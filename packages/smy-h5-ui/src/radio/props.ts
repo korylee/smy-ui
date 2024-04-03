@@ -1,5 +1,5 @@
 import { PropType } from 'vue'
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 import { checkerSharedProps } from '../checkbox/props'
 import { ExtractPropTypes } from '../_utils/vue/props'
 

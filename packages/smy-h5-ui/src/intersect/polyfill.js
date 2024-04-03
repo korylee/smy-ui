@@ -1,7 +1,4 @@
-import { getRect, createDomRect } from '../_utils/dom'
-import { IN_BROWSER } from '../_utils/env'
-import { isFunction } from '../_utils/is'
-import { removeItem, throttle } from '../_utils/shared'
+import { IN_BROWSER, getRect, createDomRect, isFunction, throttle, removeItem } from '@smy-h5/shared'
 
 const SUPPORT_INTERSECTION =
   'IntersectionObserver' in window &&

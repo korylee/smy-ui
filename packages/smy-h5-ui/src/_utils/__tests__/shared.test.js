@@ -1,5 +1,5 @@
 import { delay } from '../../../jest-utils'
-import { throttle, assign, genArray, decimal } from '../shared'
+import { throttle, assign, genArray, decimal } from '@smy-h5/shared'
 
 describe('throttle function', () => {
   it('当前无执行时，应该立即调用函数并执行一次', () => {

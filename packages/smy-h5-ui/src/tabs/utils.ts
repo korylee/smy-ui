@@ -1,4 +1,4 @@
-import { ScrollerElement, cancelRaf, getScrollTop, raf, setScrollTop } from '../_utils/dom'
+import { ScrollerElement, cancelRaf, getScrollTop, raf, setScrollTop } from '@smy-h5/shared'
 
 export function scrollLeftTo(scroller: HTMLElement, to: number, duration = 0, done?: () => void) {
   let rafId: number

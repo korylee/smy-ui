@@ -3,9 +3,8 @@ import type { SmyComponent } from '../_utils/smy/component'
 
 import { withInstall } from '../_utils/vue/component'
 import _Picker from './Picker.jsx'
-import { isArray } from '../_utils/is'
+import { isArray, type RequiredPartial } from '@smy-h5/shared'
 import { PickerEmit, PickerScopedSlots, PickerSharedListeners, createPicker } from './utils'
-import { RequiredPartial } from '../_utils/shared'
 
 type PickerOptions = RequiredPartial<Omit<PickerProps, 'popup'>, 'columns'> & PickerSharedListeners
 

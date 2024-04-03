@@ -2,7 +2,7 @@ import { ExtractPropTypes, componentProp, createNumericProp } from '../_utils/vu
 import type { PropType } from 'vue'
 import { props as loadingProps } from '../loading/props'
 import { popupSharedProps } from '../popup/shared'
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 
 export const TOAST_TYPES = ['loading', 'success', 'warning', 'info', 'error'] as const
 export type ToastType = (typeof TOAST_TYPES)[number]

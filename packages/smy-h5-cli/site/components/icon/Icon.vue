@@ -5,9 +5,8 @@
 </template>
 
 <script>
-import { convertToUnit, requestAnimationFrame } from '../../utils/dom'
+import { convertToUnit, raf, toNumber } from '@smy-h5/shared'
 import { props } from './props'
-import { toNumber } from '../../utils/shared'
 
 export default {
   name: 'SmySiteIcon',
@@ -44,7 +43,7 @@ export default {
         this.shrinking = true
         await this.$nextTick()
         setTimeout(() => {
-          requestAnimationFrame(() => {
+          raf(() => {
             oldName != null && (this.nextName = newName)
             this.shrinking = false
           })

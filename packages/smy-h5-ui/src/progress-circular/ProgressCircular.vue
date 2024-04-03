@@ -44,8 +44,7 @@
   </component>
 </template>
 <script>
-import { convertToUnit } from '../_utils/dom'
-import { range } from '../_utils/shared'
+import { convertToUnit, range } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { props } from './props'

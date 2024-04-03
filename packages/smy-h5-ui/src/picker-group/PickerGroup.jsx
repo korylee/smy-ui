@@ -8,7 +8,7 @@ import PickerToolbar from '../picker/PickerToolbar.vue'
 import { pickerPopupListeners, pickerToolbarSlots } from '../picker/utils'
 import { getListeners } from '../_mixins/listeners'
 import SmyPopup from '../popup'
-import { assign, pick } from '../_utils/shared'
+import { assign, pick } from '@smy-h5/shared'
 import { popupSharedPropKeys } from '../popup/shared'
 import { PICKER_KEY } from './shared'
 

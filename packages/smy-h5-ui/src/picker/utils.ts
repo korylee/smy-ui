@@ -1,12 +1,11 @@
 import Vue from 'vue'
-import { Numeric, isNil } from '../_utils/is'
-import { assign, isSameValue, range } from '../_utils/shared'
+import { Numeric, isNil, IN_BROWSER, range, assign } from '@smy-h5/shared'
+import { isSameValue } from '../_utils/shared'
 import { SmyComponent } from '../_utils/smy/component'
 import { MountedInstance, mountComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
 import { DisabledFormatter, PickerColumnItem, ScrollColumn } from './props'
 import { PopupEmit, PopupListeners, popupListenerKeys } from '../popup/shared'
-import { IN_BROWSER } from '../_utils/env'
 import { ScopedSlotReturnValue } from 'vue/types/vnode'
 
 // @ts-ignore

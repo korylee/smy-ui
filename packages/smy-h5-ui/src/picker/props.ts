@@ -1,7 +1,6 @@
-import { assign, keys } from '../_utils/shared'
 import type { PropType } from 'vue'
 import { ExtractPropTypes, createArrayProp, createNumericProp, createStringProp, truthProp } from '../_utils/vue/props'
-import { Numeric } from '../_utils/is'
+import { type Numeric, assign, keys } from '@smy-h5/shared'
 import { popupSharedProps } from '../popup/shared'
 
 export type PickerBaseColumnItem = {

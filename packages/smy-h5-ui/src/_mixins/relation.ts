@@ -1,6 +1,6 @@
 import type Vue from 'vue'
 import { ComponentOptions, type VNode } from 'vue'
-import { isNil, isString } from '../_utils/is'
+import { isNil, isString } from '@smy-h5/shared'
 import { throwError } from '../_utils/smy/warn'
 
 interface RelationOptions {

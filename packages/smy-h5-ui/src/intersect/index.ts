@@ -1,5 +1,5 @@
 import type { VNode, VNodeDirective, VueConstructor } from 'vue'
-import { isFunction } from '../_utils/is'
+import { isFunction } from '@smy-h5/shared'
 
 import './polyfill'
 
@@ -10,7 +10,7 @@ interface IntersectHTMLElement extends HTMLElement {
 type ObserveHandler = (
   isIntersecting: boolean,
   entries: IntersectionObserverEntry[],
-  observer: IntersectionObserver
+  observer: IntersectionObserver,
 ) => void
 
 export interface ObserveVNodeDirective extends Omit<VNodeDirective, 'modifiers'> {

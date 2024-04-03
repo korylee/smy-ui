@@ -1,11 +1,10 @@
 import { VNode } from 'vue'
-import { isArray } from '../_utils/is'
+import { isArray, RequiredPartial } from '@smy-h5/shared'
 import { SmyComponent } from '../_utils/smy/component'
 import { withInstall } from '../_utils/vue/component'
 import { PickedValues, PickerSharedListeners, createPicker } from '../picker/utils'
 import _DatePicker from './DatePicker.jsx'
 import { DatePickerColumnType, DatePickerProps } from './props'
-import { RequiredPartial } from '../_utils/shared'
 import { PopupEmit } from '../popup/shared'
 
 export declare class SmyDatePicker extends SmyComponent {

@@ -1,5 +1,5 @@
 import { PropType, VNode } from 'vue'
-import { assign, keys } from '../_utils/shared'
+import { assign, keys } from '@smy-h5/shared'
 import { ExtractPropTypes, createStringProp, numericProp, truthProp } from '../_utils/vue/props'
 import { popupSharedProps } from '../popup/shared'
 

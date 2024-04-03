@@ -1,6 +1,5 @@
 import type { VNode, VNodeDirective, VueConstructor } from 'vue'
-import { isFunction } from '../_utils/is'
-import { keys } from '../_utils/shared'
+import { isFunction, keys } from '@smy-h5/shared'
 
 interface MutationHTMLElement extends HTMLElement {
   _mutate?: Record<number, { observer: MutationObserver }>

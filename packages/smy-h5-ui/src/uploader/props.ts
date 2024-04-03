@@ -8,7 +8,7 @@ import {
   truthProp,
 } from '../_utils/vue/props'
 import { type ImageFit } from '../image/props'
-import { type Numeric } from '../_utils/is'
+import { type Numeric } from '@smy-h5/shared'
 import { UploaderFileListItem } from './utils'
 //@ts-ignore
 import Plus from '@smy-h5/icons/dist/es/Plus'

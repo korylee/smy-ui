@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import { convertToUnit } from '../_utils/dom'
+import { convertToUnit } from '@smy-h5/shared'
 import { SlotsMixin } from '../_utils/vue/slots'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'

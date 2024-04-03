@@ -44,6 +44,7 @@ import { getListener } from '../_mixins/listeners'
 import { createParentMixin } from '../_mixins/relation'
 import { useWindowSize } from '../_utils/composable/useWindowSize'
 import {
+  isNil,
   convertToUnit,
   doubleRaf,
   getElementTop,
@@ -51,8 +52,7 @@ import {
   getRect,
   setRootScrollTop,
   toPxNum,
-} from '../_utils/dom'
-import { isNil } from '../_utils/is'
+} from '@smy-h5/shared'
 import { createMaybeComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
 import SmySticky from '../sticky'

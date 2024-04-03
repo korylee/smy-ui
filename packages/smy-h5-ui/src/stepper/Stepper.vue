@@ -50,11 +50,18 @@
 <script>
 import { props } from './props'
 import SmyIcon from '../icon'
-import { range, toNumber, formatNumber, decimal } from '../_utils/shared'
 import { throwError } from '../_utils/smy/warn'
-import { convertToUnit, preventDefault, resetScroll } from '../_utils/dom'
 import { createNamespace } from '../_utils/vue/create'
-import { isNil } from '../_utils/is'
+import {
+  isNil,
+  range,
+  toNumber,
+  formatNumber,
+  decimal,
+  convertToUnit,
+  preventDefault,
+  resetScroll,
+} from '@smy-h5/shared'
 
 const [name, bem] = createNamespace('stepper')
 

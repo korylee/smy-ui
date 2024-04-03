@@ -1,6 +1,6 @@
 import { type PropType } from 'vue'
 import { createStringProp, type ExtractPropTypes } from '../_utils/vue/props'
-import { Numeric } from '../_utils/is'
+import { Numeric } from '@smy-h5/shared'
 import { numericProp } from '../_utils/vue/props'
 
 const BADGE_POSITIONS = ['top-right', 'bottom-right', 'top-left', 'bottom-left'] as const

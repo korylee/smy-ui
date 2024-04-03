@@ -1,6 +1,4 @@
-import { convertToUnit } from './dom'
-import { Numeric, isArray, isNil } from './is'
-import { kebabCase } from './shared'
+import { convertToUnit, Numeric, isArray, isNil, kebabCase } from '@smy-h5/shared'
 
 export type StyleVars = Record<string, string>
 

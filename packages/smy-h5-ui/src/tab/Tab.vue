@@ -14,7 +14,7 @@
 <script>
 import { createChildrenMixin } from '../_mixins/relation'
 import TabTitle from './TabTitle.vue'
-import { assign, pick } from '../_utils/shared'
+import { assign, pick } from '@smy-h5/shared'
 import { props } from './props'
 import SmySwiperItem from '../swiper-item'
 import { name, bem } from './utils'
@@ -54,7 +54,7 @@ export default {
           active,
         },
         data.attrs,
-        pick($props, ['badge', 'title', 'disabled'])
+        pick($props, ['badge', 'title', 'disabled']),
       )
       const mergedData = {
         on: listeners,

@@ -23,9 +23,8 @@
 <script>
 import { props } from './props'
 import { useTouch } from '../_utils/composable/useTouch'
-import { range } from '../_utils/shared'
 import { createNamespace } from '../_utils/vue/create'
-import { getElement } from '../_utils/dom'
+import { getElement, range } from '@smy-h5/shared'
 
 const [name, bem] = createNamespace('swipe')
 const getRefWidth = (ref) => ref?.clientWidth || 0
@@ -76,7 +75,7 @@ export default {
     useClickAway(
       this,
       () => this.$refs.root,
-      () => this.close('outside')
+      () => this.close('outside'),
     )
   },
   methods: {

@@ -1,4 +1,4 @@
-import { keys } from '../_utils/shared'
+import { keys } from '@smy-h5/shared'
 import { truthProp } from '../_utils/vue/props'
 
 export type PopupEmit = {

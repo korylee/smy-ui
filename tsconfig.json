@@ -6,6 +6,7 @@
     "module": "ESNext",
     "esModuleInterop": true,
     "moduleResolution": "Node",
+    "downlevelIteration": true,
     "lib": ["esnext", "dom"]
   }
 }

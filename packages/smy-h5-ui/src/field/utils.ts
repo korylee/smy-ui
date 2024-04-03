@@ -1,6 +1,4 @@
-import { resetScroll } from '../_utils/dom'
-import { isObject } from '../_utils/is'
-import { range } from '../_utils/shared'
+import { isObject, resetScroll, range } from '@smy-h5/shared'
 
 /**
  * 字符串切割成数组

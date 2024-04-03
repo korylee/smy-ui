@@ -1,4 +1,4 @@
-import { camelize, keys } from '../_utils/shared'
+import { camelize, keys } from '@smy-h5/shared'
 import type Vue from 'vue'
 
 // eslint-disable-next-line @typescript-eslint/ban-types

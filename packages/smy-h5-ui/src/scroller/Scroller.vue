@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getParentScroller, getRootScrollTop, raf } from '../_utils/dom'
+import { getParentScroller, getRootScrollTop, raf } from '@smy-h5/shared'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
 import { createNamespace } from '../_utils/vue/create'

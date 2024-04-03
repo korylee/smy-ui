@@ -1,4 +1,4 @@
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 import { ExtractPropTypes } from '../_utils/vue/props'
 import type { PropType } from 'vue'
 import { popupSharedProps } from './shared'

@@ -4,11 +4,10 @@ import type { SmyComponent } from '../_utils/smy/component'
 
 import { MountedInstance, mountComponent, withInstall } from '../_utils/vue/component'
 import _Toast from './Toast'
-import { isNumber, isPlainObject, isString } from '../_utils/is'
+import { isNumber, isPlainObject, isString, assign } from '@smy-h5/shared'
 import Vue from 'vue'
 import { TOAST_TYPES } from './props'
 import { throwError } from '../_utils/smy/warn'
-import { assign } from '../_utils/shared'
 
 declare interface SmyToast extends SmyComponent {
   new (): {

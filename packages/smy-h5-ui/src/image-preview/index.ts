@@ -4,8 +4,7 @@ import type { SmyComponent } from '../_utils/smy/component'
 import { mountComponent, withInstall } from '../_utils/vue/component'
 import _ImagePreview from './ImagePreview.vue'
 import Vue, { type VNode } from 'vue'
-import { isArray, isNil, isString } from '../_utils/is'
-import { IN_BROWSER } from '../_utils/env'
+import { IN_BROWSER, isArray, isNil, isString } from '@smy-h5/shared'
 
 declare interface SmyImagePreview extends SmyComponent {
   new (): {

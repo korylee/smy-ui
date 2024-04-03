@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { convertToUnit } from '../_utils/dom'
+import { convertToUnit } from '@smy-h5/shared'
 import { props } from './props'
 import SmyProgressCircular from '../progress-circular'
 import { createNamespace } from '../_utils/vue/create'

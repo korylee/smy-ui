@@ -1,4 +1,4 @@
-import { Numeric, isNumeric } from '../_utils/is'
+import { Numeric, isNumeric } from '@smy-h5/shared'
 
 export function normalizeBadge(value: Numeric, max: Numeric) {
   if (!value) return

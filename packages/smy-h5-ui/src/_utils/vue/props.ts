@@ -1,5 +1,5 @@
 import type { AsyncComponent, Component, PropType } from 'vue'
-import type { ElementSelector } from '../dom'
+import type { ElementSelector } from '@smy-h5/shared'
 
 declare type InferPropType<T> = [T] extends [null]
   ? any

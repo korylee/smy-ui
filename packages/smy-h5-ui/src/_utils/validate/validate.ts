@@ -1,5 +1,4 @@
-import { isArray, isBool, isFunction, isPlainObject, isString } from '../is'
-import { assign, keys, wrapInArray } from '../shared'
+import { isArray, isBool, isFunction, isPlainObject, isString, keys, wrapInArray, assign } from '@smy-h5/shared'
 import { throwError, warn } from '../smy/warn'
 
 export interface ValidationResult {
@@ -10,7 +9,7 @@ export interface ValidationResult {
 export type ValidationRuleFunction<VValue = unknown, VParams = unknown[] | Record<string, any>> = (
   value: VValue,
   params: VParams,
-  meta: FieldValidationMetaInfo
+  meta: FieldValidationMetaInfo,
 ) => boolean | string | Promise<boolean | string>
 
 export type ValidationFormatter = (value: any, rule: FieldValidationMetaInfo) => string
@@ -177,7 +176,7 @@ export type MaybePromise<T> = T | Promise<T>
 
 export type GenericValidateFunction<VValue = unknown> = (
   value: VValue,
-  meta: FieldValidationMetaInfo
+  meta: FieldValidationMetaInfo,
 ) => MaybePromise<boolean | MaybeArray<string>>
 
 export interface FieldValidationMetaInfo {
@@ -200,7 +199,7 @@ interface FieldValidationContext<VValue = unknown> {
 export async function validate<VValue = unknown>(
   value: VValue,
   rules: string | Record<string, unknown | unknown[]> | MaybeArray<GenericValidateFunction<VValue>>,
-  options: ValidationOptions = {}
+  options: ValidationOptions = {},
 ): Promise<ValidationResult> {
   const { bails = true, label, name = '{field}' } = options
   const errors: string[] = []

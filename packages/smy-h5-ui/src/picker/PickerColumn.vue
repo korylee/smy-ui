@@ -14,8 +14,7 @@
 </template>
 
 <script>
-import { getTranslate } from '../_utils/dom'
-import { range } from '../_utils/shared'
+import { range, getTranslate } from '@smy-h5/shared'
 import { bem, name, findIndexFromColumn } from './utils'
 
 const MOMENTUM_RECORD_TIME = 300

@@ -1,5 +1,5 @@
 import { PropType } from 'vue'
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 import {
   ExtractPropTypes,
   componentProp,

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { IN_BROWSER } from '../env'
+import { IN_BROWSER } from '@smy-h5/shared'
 
 let hidden: { value: boolean }
 export function usePageHidden() {

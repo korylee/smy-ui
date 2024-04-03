@@ -39,3 +39,5 @@ packages/smy-h5-repl/dist
 
 packages/smy-h5-playground/site
 packages/smy-h5-playground/public/
+
+packages/smy-h5-shared/lib

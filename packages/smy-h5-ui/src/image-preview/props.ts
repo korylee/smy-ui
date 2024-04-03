@@ -1,4 +1,4 @@
-import { assign, pick } from '../_utils/shared'
+import { assign, pick } from '@smy-h5/shared'
 import { props as swiperProps } from '../swiper/props'
 import { props as popupProps } from '../popup/props'
 import {

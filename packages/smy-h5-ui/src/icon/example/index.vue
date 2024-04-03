@@ -37,9 +37,9 @@
 </template>
 
 <script>
+import { kebabCase } from '@smy-h5/shared'
 import SmyIcon from '../'
 import * as icons from '@smy-h5/icons'
-import { kebabCase } from 'lodash-es'
 
 function handleCopy(text = '') {
   const isSupported = !!document.queryCommandSupported && !!document.queryCommandSupported('copy')

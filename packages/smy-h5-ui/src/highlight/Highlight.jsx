@@ -1,5 +1,4 @@
-import { isString } from '../_utils/is'
-import { wrapInArray } from '../_utils/shared'
+import { isString, wrapInArray } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 

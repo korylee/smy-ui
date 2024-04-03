@@ -1,4 +1,4 @@
-import { isArray } from '../../is'
+import { isArray } from '@smy-h5/shared'
 
 const re =
   // eslint-disable-next-line

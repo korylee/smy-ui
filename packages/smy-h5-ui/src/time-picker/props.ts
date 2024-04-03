@@ -1,5 +1,5 @@
 import { PropType } from 'vue'
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 import { PickerBaseColumnItem, pickerSharedProps } from '../picker/props'
 import { ExtractPropTypes, createArrayProp, createNumericProp } from '../_utils/vue/props'
 
@@ -34,7 +34,7 @@ export const props = assign(
     },
     filter: Function as PropType<(item: TimePickerColumnItem) => boolean>,
   },
-  pickerSharedProps
+  pickerSharedProps,
 )
 
 export type TimePickerProps = ExtractPropTypes<typeof props>
