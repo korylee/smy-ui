@@ -35,6 +35,15 @@ export interface SmyConfig {
   mobile?: {
     [key: string]: any
   }
+  icons?: {
+    name: string
+    namespace: string
+    base64?: boolean
+    fontFamilyClassName: string
+    fontWeight?: string
+    publicPath?: string
+    fontStyle?: string
+  }
   [k: string]: any
 }
 

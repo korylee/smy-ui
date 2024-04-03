@@ -59,6 +59,3 @@ export const ICONS_FONT_DIR = resolve(ICONS_DIST_DIR, 'font')
 export const ICONS_COMPONENTS_DIR = resolve(ICONS_DIST_DIR, 'vue')
 export const ICONS_SVG_DIR_NAME = 'svg'
 export const ICONS_SVG_DIR = resolve(CWD, ICONS_SVG_DIR_NAME)
-// 自定义uincode从e601开始
-export const START_UNICODE_NUM = 0xe601
-export const MAX_UNICODE_NUM = 1048576

@@ -1,5 +1,5 @@
 import type { VNodeDirective, VueConstructor } from 'vue'
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 import context from '../_context'
 import { IS_SUPPORT_TOUCH, doubleRaf, getRect } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'

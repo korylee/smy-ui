@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 import { SmyComponent } from '../_utils/smy/component'
 import { MountedInstance, mountComponent, withInstall } from '../_utils/vue/component'
 import _Dialog from './Dialog'

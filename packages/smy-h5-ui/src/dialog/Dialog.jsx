@@ -1,5 +1,5 @@
 import { convertToUnit, pick, isFunction, isString } from '@smy-h5/shared'
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import Popup from '../popup'
 import { popupInheritPropKeys, props } from './props'

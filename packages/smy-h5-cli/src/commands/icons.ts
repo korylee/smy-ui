@@ -7,7 +7,6 @@ import {
   ICONS_PNG_DIR,
   ICONS_SVG_DIR,
   ICONS_SVG_DIR_NAME,
-  START_UNICODE_NUM,
 } from '../shared/constant'
 import webfont from 'webfont'
 import { resolve } from 'path'
@@ -40,19 +39,6 @@ function buildWebFont(name: string) {
 //   }))
 // }
 
-// [Unicode4.0规范](http://www.unicode.org/versions/Unicode4.0.1/)
-// Unicode编码定义从e601开始, 此处为了避免每次修改或增加svg图标时，图标代表的unicode编码都会发生改变
-// 所以在svg图标命名上加入【'u' + unicode编码 + '-'】前缀
-const formatSvgName = (svgName: string) => {
-  const index = svgName.indexOf('-')
-  const extIndex = svgName.indexOf('.')
-  const HEXCode = svgName.slice(1, index)
-  return {
-    name: svgName.slice(index + 1, extIndex),
-    HEXCode,
-  }
-}
-
 async function generateIndex(names: string[], indexExt: string, componentExt: string, outPath: string) {
   const exportsStmts =
     names.map((name) => `export {default as ${name} } from './${name}${componentExt}'`).join('\n') + '\n'
@@ -67,17 +53,19 @@ async function generateAsyncIndex(names: string[], indexExt: string, componentEx
   await writeFile(resolve(outPath, `async-index${indexExt}`), exportsStmts)
 }
 
-async function buildComponents(svgFiles: string[]) {
+async function buildComponents() {
+  const svgFiles = readdirSync(ICONS_SVG_DIR)
   const TEMP_DIR_NAME = '_vue'
   const tempPath = resolve(ICONS_DIST_DIR, TEMP_DIR_NAME)
   await mkdir(tempPath)
   const paths: string[] = []
   const names: string[] = []
   await Promise.all(
-    svgFiles.map(async (svgName) => {
-      const { name } = formatSvgName(svgName)
+    svgFiles.map(async (svgFile) => {
+      const index = svgFile.indexOf('.')
+      const name = svgFile.slice(0, index)
       const componentName = upperFirst(camelCase(name))
-      const file = await readFile(resolve(ICONS_SVG_DIR, svgName), 'utf-8')
+      const file = await readFile(resolve(ICONS_SVG_DIR, svgFile), 'utf-8')
 
       const vueTemplate = `\
 <template>
@@ -91,7 +79,7 @@ export default { name: "${componentName}" }
       await writeFile(path, vueTemplate)
       paths.push(path)
       names.push(componentName)
-    })
+    }),
   )
   await generateIndex(names, '.js', '', tempPath)
   await generateAsyncIndex(names, '.js', '', tempPath)
@@ -123,19 +111,33 @@ export default { name: "${componentName}" }
       module: 'ESNext',
     },
   })
+
   await remove(tempPath)
 }
 
+// [Unicode4.0规范](http://www.unicode.org/versions/Unicode4.0.1/)
 export async function icons() {
   try {
     const smyConfig = getSmyConfig()
-    const { name, namespace, base64, fontFamilyClassName, fontWeight, publicPath, fontStyle } = smyConfig?.icons ?? {}
+    const {
+      name,
+      namespace,
+      base64 = true,
+      fontFamilyClassName,
+      fontWeight = 'normal',
+      publicPath,
+      fontStyle = 'normal',
+    } = smyConfig?.icons ?? {}
 
     await removeDir()
 
-    const svgFiles = readdirSync(ICONS_SVG_DIR)
-    const [{ ttf }] = await Promise.all([buildWebFont(name!)])
-    if (!ttf) {
+    const { ttf, glyphsData } = await buildWebFont(name!)
+    const icons = glyphsData?.map((item) => ({
+      name: item.metadata!.name,
+      pointCode: item.metadata!.unicode![0].charCodeAt(0).toString(16),
+    }))
+
+    if (!ttf || !icons) {
       throw new Error('[@smy-h5/cli]: build:icon')
     }
 
@@ -155,24 +157,20 @@ export async function icons() {
   font-family: "${name}";
 }
 
-${svgFiles
-  .map((svg) => {
-    const { HEXCode, name } = formatSvgName(svg)
-    if (parseInt(HEXCode, 16) < START_UNICODE_NUM) {
-      throw new Error('Exceeds the minimal unicode number')
-    }
-    return `\
-.${namespace}-${name}::before {
-  content: "\\${HEXCode}";
+${icons
+  .map(
+    (icon) => `\
+.${namespace}-${icon.name}::before {
+  content: "\\${icon.pointCode}";
 }
-`
-  })
+`,
+  )
   .join('\n\n')}
 
 `
 
     await Promise.all([
-      buildComponents(svgFiles),
+      buildComponents(),
       writeFile(resolve(ICONS_FONT_DIR, `${name}-webfont.ttf`), ttf),
       writeFile(resolve(ICONS_STYLE_DIR, `${name}.css`), cssTemplate),
       writeFile(resolve(ICONS_STYLE_DIR, `${name}.less`), cssTemplate),

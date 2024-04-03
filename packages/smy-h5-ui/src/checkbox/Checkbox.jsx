@@ -1,4 +1,4 @@
-import { assign } from '../_utils/shared'
+import { assign } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import Checker from './Checker'
 import { props } from './props'
