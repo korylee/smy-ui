@@ -1,4 +1,4 @@
-import { CWD, JEST_CONFIG } from '../shared/constant'
+import { CWD, JEST_CONFIG, TESTS_DIR_NAME } from '../shared/constant'
 import { runCLI } from 'jest'
 import logger from '../shared/logger'
 import { compileUiEntry } from '../compiler/compileSiteEntry'
@@ -15,7 +15,9 @@ interface JestCommandOptions {
  */
 export async function jest(dirs?: string[], { watch, watchAll, clearCache }: JestCommandOptions = {}) {
   process.env.NODE_ENV = 'test'
-  const testRegex = dirs?.length ? dirs.map((component) => `${component}/__tests__/.*.test.[jt]s?$`) : undefined
+  const testRegex = dirs?.length
+    ? dirs.map((component) => `${component}/${TESTS_DIR_NAME}/.*.test.[jt]sx?$`)
+    : undefined
 
   const config = {
     rootDir: CWD,

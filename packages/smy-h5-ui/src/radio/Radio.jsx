@@ -1,9 +1,9 @@
 import { createChildrenMixin } from '../_mixins/relation'
-import { assign } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import Checker from '../checkbox/Checker'
 import { props } from './props'
 import { RADIO_KEY } from '../radio-group/shared'
+import { assign } from '@smy-h5/shared'
 
 import '../_styles/common.less'
 import './radio.less'
@@ -42,17 +42,25 @@ export default {
     const _c = _vm._self._c || _h
     const { [RADIO_KEY]: radioGroup, _checked: checked } = _vm
 
-    const attrs = assign({}, _vm.$props, {
-      role: 'radio',
-      bem,
-      parent: radioGroup,
-      checked,
-    })
+    const data = _vm._g(
+      _vm._b(
+        {
+          attrs: assign({}, _vm.$props, {
+            role: 'radio',
+            bem,
+            parent: radioGroup,
+            checked,
+          }),
+          on: { toggle: _vm.toggle },
+          scopedSlots: _vm.$scopedSlots,
+        },
+        'checker',
+        _vm.$attrs,
+        false,
+      ),
+      _vm.$listeners,
+    )
 
-    return _c(Checker, {
-      attrs,
-      on: { toggle: _vm.toggle },
-      scopedSlots: _vm.$scopedSlots,
-    })
+    return _c(Checker, data)
   },
 }

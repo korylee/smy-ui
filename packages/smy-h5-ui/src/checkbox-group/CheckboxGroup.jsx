@@ -1,7 +1,8 @@
 import { createParentMixin } from '../_mixins/relation'
-import { isPlainObject } from '@smy-h5/shared'
+import { isBool } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
+import { CHECKBOX_KEY } from './shared'
 
 import './checkboxGroup.less'
 
@@ -9,7 +10,7 @@ const [name, bem] = createNamespace('checkbox-group')
 
 export default {
   name,
-  mixins: [createParentMixin('checkboxGroup')],
+  mixins: [createParentMixin(CHECKBOX_KEY)],
   props,
   watch: {
     value(val) {
@@ -20,23 +21,22 @@ export default {
     updateValue(value) {
       this.$emit('input', value)
     },
-    toggleAll(options) {
-      let checked = false
-      if (isPlainObject(options)) {
-        ;({ checked } = options)
-      } else {
-        checked = options
+    toggleAll(options = {}) {
+      if (isBool(options)) {
+        options = { checked: options }
       }
-      const values = []
-      this.children.forEach((item) => {
-        const { $props } = item
-        if (!$props.bindGroup) {
-          return
+      const { checked, skipDisabled } = options
+      const checkedChildren = this.children.filter((item) => {
+        const { $props: itemProps, _checked: itemChecked } = item
+        if (!itemProps.bindGroup) {
+          return false
         }
-        if (checked ?? !item._checked) {
-          values.push($props.value)
+        if (itemProps.disabled && skipDisabled) {
+          return itemChecked
         }
+        return checked ?? !itemChecked
       })
+      const values = checkedChildren.map((item) => item.value)
       this.updateValue(values)
     },
   },

@@ -6,21 +6,22 @@ import { createChildrenMixin } from '../_mixins/relation'
 
 import '../_styles/common.less'
 import './checkbox.less'
+import { CHECKBOX_KEY } from '../checkbox-group/shared'
 
 const [name, bem] = createNamespace('checkbox')
 
 export default {
   name,
-  mixins: [createChildrenMixin('checkboxGroup')],
+  mixins: [createChildrenMixin(CHECKBOX_KEY)],
   props,
   model: {
     prop: 'checked',
     event: 'input',
   },
   computed: {
-    _checked({ checked, checkboxGroup, bindGroup, value }) {
-      if (checkboxGroup && bindGroup) {
-        return checkboxGroup.value.indexOf(value) !== -1
+    _checked({ checked, [CHECKBOX_KEY]: parent, bindGroup, value }) {
+      if (parent && bindGroup) {
+        return parent.value.indexOf(value) !== -1
       }
       return !!checked
     },
@@ -34,7 +35,7 @@ export default {
   },
   methods: {
     toggle(newValue = !this._checked) {
-      const { checkboxGroup: parent, bindGroup, value } = this
+      const { [CHECKBOX_KEY]: parent, bindGroup, value } = this
       if (parent && bindGroup) {
         const { max, value: parentValue } = parent.$props
         const values = parentValue.slice()
@@ -61,18 +62,27 @@ export default {
     },
   },
   render(h) {
-    const vm = this
-    const { _checked: checked, checkboxGroup: parent } = vm
-    const attrs = assign({}, vm.$props, {
-      role: 'checkbox',
-      bem,
-      checked,
-      parent,
-    })
-    return h(Checker, {
-      attrs,
-      on: { toggle: vm.toggle },
-      scopedSlots: vm.$scopedSlots,
-    })
+    const _vm = this
+    const { _checked: checked, [CHECKBOX_KEY]: parent } = _vm
+
+    const data = _vm._g(
+      _vm._b(
+        {
+          attrs: assign({}, _vm.$props, {
+            role: 'checkbox',
+            bem,
+            parent,
+            checked,
+          }),
+          on: { toggle: _vm.toggle },
+          scopedSlots: _vm.$scopedSlots,
+        },
+        'checker',
+        _vm.$attrs,
+        false,
+      ),
+      _vm.$listeners,
+    )
+    return h(Checker, data)
   },
 }

@@ -25,6 +25,7 @@ export const checkerSharedProps = {
   checked: Boolean,
   inline: Boolean,
   labelDisabled: Boolean,
+  labelPosition: String as PropType<'left' | 'right'>,
   icon: componentProp,
   checkedIcon: createComponentProp(Check),
   preset: truthProp,

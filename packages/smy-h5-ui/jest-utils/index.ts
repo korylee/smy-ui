@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { Wrapper } from '@vue/test-utils'
+import { IN_BROWSER } from '@smy-h5/shared'
 
 Vue.config.productionTip = false
 
@@ -64,4 +65,13 @@ export function mockConsole(method: keyof Console, fn: any = () => {}) {
   return () => {
     console[method] = originMethod
   }
+}
+
+export function mockGetBoundingClientRect(rect: Partial<DOMRect>): () => void {
+  if (IN_BROWSER) {
+    const spy = jest.spyOn(Element.prototype, 'getBoundingClientRect')
+    spy.mockReturnValue(rect as DOMRect)
+    return () => spy.mockRestore()
+  }
+  return () => {}
 }

@@ -67,16 +67,16 @@ export default {
           ref: 'icon',
           class: bem('icon', { disabled, checked, indeterminate, [shape]: shape, preset }),
         },
-        [vm._t('icon', iconFallback, { checked })],
+        [vm._t('icon', iconFallback, { checked, disabled })],
       )
     },
     renderLabel() {
       const vm = this
       const c = vm._self._c || vm.$createElement
-      const { _disabled: disabled, checked } = vm
+      const { _disabled: disabled, checked, labelPosition } = vm
       const childNodes = vm._t('default', undefined, { disabled, checked })
       if (childNodes) {
-        return c('span', { class: vm.bem('label', { disabled }) }, childNodes)
+        return c('span', { class: vm.bem('label', { disabled, [labelPosition]: labelPosition }) }, childNodes)
       }
       return null
     },
@@ -86,7 +86,7 @@ export default {
     const vm = this
     const _h = vm.$createElement
     const c = vm._self._c || _h
-    const { role, bem, checked, renderIcon, renderLabel, _disabled: disabled, labelDisabled } = vm
+    const { role, bem, checked, renderIcon, renderLabel, _disabled: disabled, labelDisabled, labelPosition } = vm
     const iconSize = vm.size || vm.getParentProp('size')
     const size = convertToUnit(iconSize)
     const color = vm.color || vm.getParentProp('color')
@@ -95,7 +95,7 @@ export default {
     const children = [renderIcon()]
     const labelVnode = renderLabel()
     if (labelVnode) {
-      children.push(labelVnode)
+      children[labelPosition === 'left' ? 'unshift' : 'push'](labelVnode)
     } else if (!inline) {
       inline = true
     }
@@ -105,7 +105,7 @@ export default {
       'div',
       {
         attrs: { role, 'aria-checked': checked, tabindex: disabled ? undefined : 0 },
-        class: bem({ inline, [direction]: direction, disabled, labelDisabled }),
+        class: bem({ inline, [direction]: direction, disabled, 'label-disabled': labelDisabled }),
         style: { [`--${role}-size`]: size, [`--${role}-color`]: color },
         on: {
           click: vm.onClick,

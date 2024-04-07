@@ -70,7 +70,7 @@ export default {
         }
       }
       const onClickRight = (event) => {
-        if (!_vm.rightDisabled) {
+        if (!rightDisabled) {
           _vm.$emit('click-right', event)
         }
       }
