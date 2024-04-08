@@ -11,7 +11,7 @@ export default function preset(api?: ConfigAPI) {
   return {
     presets: [
       [require.resolve('@babel/preset-env'), { loose: true, modules: useEsModules ? false : 'commonjs' }],
-      [require.resolve('@vue/babel-preset-jsx'), { functional: false }],
+      [require.resolve('@vue/babel-preset-jsx')],
       require.resolve('@babel/preset-typescript'),
       require('./babel.sfc.transform'),
     ],

@@ -36,10 +36,10 @@
       <smy-tab v-for="item of 4" :key="item" :title="'标签' + item"> 内容 {{ item }} </smy-tab>
     </smy-tabs>
     <app-demo-title>滑动切换</app-demo-title>
-    <smy-tabs swipeable>
+    <smy-tabs swipeable @change="onChange">
       <smy-tab v-for="item of 4" :key="item" :title="'标签' + item"> 内容 {{ item }} </smy-tab>
     </smy-tabs>
-    <app-demo-title>滑动切换</app-demo-title>
+    <app-demo-title>粘滞定位</app-demo-title>
     <smy-tabs scrollspy sticky>
       <smy-tab v-for="item of 8" :key="item" :title="'标签' + item"> 内容 {{ item }} </smy-tab>
     </smy-tabs>
@@ -62,6 +62,9 @@ export default {
   methods: {
     clickTab({ title }) {
       SmyToast(title)
+    },
+    onChange(...args) {
+      console.log(...args)
     },
   },
 }

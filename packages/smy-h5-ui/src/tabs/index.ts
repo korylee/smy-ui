@@ -1,6 +1,6 @@
 import { SmyComponent } from '../_utils/smy/component'
 import { withInstall } from '../_utils/vue/component'
-import _Tabs from './Tabs.vue'
+import _Tabs from './Tabs.jsx'
 import { TabsProps } from './props'
 
 declare interface SmyTabs extends SmyComponent {

@@ -4,7 +4,7 @@ import { IN_BROWSER } from '@smy-h5/shared'
 
 Vue.config.productionTip = false
 
-export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time))
+export const delay = (time = 0) => new Promise((resolve) => setTimeout(resolve, time))
 
 export function getTouch(el: Element | Window | Document, x: number, y: number) {
   return {
@@ -49,8 +49,20 @@ export function trigger(
   return Vue.nextTick()
 }
 
-export async function triggerDrag(el: HTMLElement, x: number, y: number) {
-  await trigger(el, 'touchstart', 0, 0)
+export async function triggerDrag(el: HTMLElement, relativeX: number, relativeY: number) {
+  let x = relativeX
+  let y = relativeY
+  let startX = 0
+  let startY = 0
+  if (relativeX < 0) {
+    startX = Math.abs(relativeX)
+    x = 0
+  }
+  if (relativeY < 0) {
+    startY = Math.abs(relativeY)
+    y = 0
+  }
+  await trigger(el, 'touchstart', startX, startY)
   await trigger(el, 'touchmove', x / 4, y / 4)
   await trigger(el, 'touchmove', x / 3, y / 3)
   await trigger(el, 'touchmove', x / 2, y / 2)

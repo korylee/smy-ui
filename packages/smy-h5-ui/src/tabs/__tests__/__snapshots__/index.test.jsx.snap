@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should switch tab after click the tab title 1`] = `
+"<div class="smy-tabs">
+  <div class="smy-tabs__wrap">
+    <div role="tablist" aria-orientation="horizontal" class="smy-tabs__nav smy-tabs__nav--line">
+      <div role="tab" tabindex="0" aria-selected="true" class="smy-tab smy-tab--active"><span class="smy-tab__text">title1</span></div>
+      <div role="tab" tabindex="-1" class="smy-tab"><span class="smy-tab__text">title2</span></div>
+      <div role="tab" aria-disabled="true" class="smy-tab smy-tab--disabled"><span class="smy-tab__text">title3</span></div>
+      <div class="smy-tabs__line" style="transform: translateX(0px) translateX(-50%);"></div>
+    </div>
+  </div>
+  <div class="smy-tabs__content">
+    <div role="tabpanel" class="smy-tab__panel" style="">Text</div>
+    <div role="tabpanel" class="smy-tab__panel" style="display: none;">
+      <!---->
+    </div>
+    <div role="tabpanel" class="smy-tab__panel" style="display: none;">
+      <!---->
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`should switch tab after click the tab title 2`] = `
+"<div class="smy-tabs">
+  <div class="smy-tabs__wrap">
+    <div role="tablist" aria-orientation="horizontal" class="smy-tabs__nav smy-tabs__nav--line">
+      <div role="tab" tabindex="-1" class="smy-tab"><span class="smy-tab__text">title1</span></div>
+      <div role="tab" tabindex="0" class="smy-tab smy-tab--active" aria-selected="true"><span class="smy-tab__text">title2</span></div>
+      <div role="tab" aria-disabled="true" class="smy-tab smy-tab--disabled"><span class="smy-tab__text">title3</span></div>
+      <div class="smy-tabs__line" style="transform: translateX(0px) translateX(-50%); transition-duration: 300ms;"></div>
+    </div>
+  </div>
+  <div class="smy-tabs__content">
+    <div role="tabpanel" class="smy-tab__panel" style="display: none;">Text</div>
+    <div role="tabpanel" class="smy-tab__panel" style="">Text</div>
+    <div role="tabpanel" class="smy-tab__panel" style="display: none;">
+      <!---->
+    </div>
+  </div>
+</div>"
+`;

@@ -1,45 +1,3 @@
-<template>
-  <div ref="root" v-intersect="setLine" :class="bem()">
-    <maybe-sticky ref="sticky" :maybe="sticky" :container="$refs.root" @scroll="$emit('scroll', $event)">
-      <div ref="wrap" :class="bem('wrap')">
-        <div
-          ref="nav"
-          :class="bem('nav', { line: true, shrink, scrollable })"
-          :style="navStyle"
-          role="tablist"
-          aria-orientation="horizontal"
-        >
-          <slot name="nav-left"></slot>
-          <tab-title
-            v-for="(item, index) of children"
-            :key="item._uid"
-            :tab="item"
-            :shrink="shrink"
-            :scrollable="scrollable"
-            @click="onClickTab(item, index, $event)"
-          />
-          <div v-if="children.length" :class="bem('line')" :style="lineStyle"></div>
-          <slot name="nav-right"></slot>
-        </div>
-      </div>
-      <slot name="nav-bottom"></slot>
-    </maybe-sticky>
-    <tabs-content
-      ref="content"
-      :count="children.length"
-      :animated="animated"
-      :swipeable="swipeable"
-      :duration="duration"
-      :inited="inited"
-      :current-index="currentIndex"
-      @change="setCurrentIndex"
-    >
-      <slot />
-    </tabs-content>
-  </div>
-</template>
-
-<script>
 import { getListener } from '../_mixins/listeners'
 import { createParentMixin } from '../_mixins/relation'
 import { useWindowSize } from '../_utils/composable/useWindowSize'
@@ -53,34 +11,24 @@ import {
   setRootScrollTop,
   toPxNum,
 } from '@smy-h5/shared'
-import { createMaybeComponent } from '../_utils/vue/component'
 import { createNamespace } from '../_utils/vue/create'
 import SmySticky from '../sticky'
+import SmySwiper from '../swiper'
 import { scrollLeftTo, scrollTopTo } from './utils'
 import Intersect from '../intersect'
-import TabsContent from './TabsContent.vue'
 import { props } from './props'
 import { onMountedOrActivated } from '../_utils/vue/lifetime'
 import { PopupMixin } from '../popup/provide'
 
+import '../sticky/sticky.less'
+import './tabs.less'
+
 const [name, bem] = createNamespace('tabs')
-
-const MaybeSticky = createMaybeComponent(SmySticky)
-
-const TabTitle = {
-  functional: true,
-  props: { tab: Object },
-  render(h, context) {
-    const { props } = context
-    return props.tab?.renderTitle(context)
-  },
-}
 
 const getTabName = (tab, index) => tab.name ?? index
 
 export default {
   name,
-  components: { MaybeSticky, TabTitle, TabsContent },
   props,
   directives: { Intersect },
   mixins: [createParentMixin('tabs'), PopupMixin],
@@ -88,7 +36,6 @@ export default {
     inited: false,
     currentIndex: -1,
     tabHeight: 0,
-    windowSize: useWindowSize(),
     lineStyle: {},
   }),
   computed: {
@@ -126,11 +73,12 @@ export default {
         this.scrollIntoView(true)
       })
     },
-    'windowSize.width': 'resize',
   },
   created() {
     const vm = this
     onMountedOrActivated(vm, vm.init)
+    const windowSize = useWindowSize()
+    this.$watch(() => windowSize.width, vm.resize)
 
     const add = () => {
       window.addEventListener('pageshow', vm.resize)
@@ -148,7 +96,6 @@ export default {
     vm.popupProvider?.$on('show', vm.setLine)
   },
   methods: {
-    bem,
     onScroll() {
       if (!this.scrollspy || this.lockScroll) {
         return
@@ -210,6 +157,10 @@ export default {
       const newName = getTabName(newTab, newIndex)
       const shouldEmitChange = this.currentIndex !== null
       if (this.currentIndex !== newIndex) {
+        const { swiper } = this.$refs
+        if (swiper?.to && swiper.active !== newIndex) {
+          swiper.to?.(newIndex)
+        }
         this.currentIndex = newIndex
         if (!skipScrollIntoView) {
           this.scrollIntoView()
@@ -304,10 +255,68 @@ export default {
       })
     },
   },
-}
-</script>
+  render() {
+    const vm = this
+    const _c = vm.$createElement
+    const renderTitle = () => {
+      const { children: tabs, shrink, scrollable } = vm
+      const children = [
+        <div ref="wrap" class={bem('wrap')}>
+          <div
+            ref="nav"
+            class={bem('nav', { line: true, shrink, scrollable })}
+            style={vm.navStyle}
+            role="tablist"
+            aria-orientation="horizontal"
+          >
+            {vm._t('nav-left')}
+            {vm._l(tabs, (tab, index) =>
+              tab.renderTitle?.({
+                attrs: {
+                  scrollable,
+                  shrink,
+                },
+                listeners: { click: ($event) => vm.onClickTab(tab, index, $event) },
+              }),
+            )}
+            {tabs.length ? <div class={bem('line')} style={vm.lineStyle}></div> : null}
+            {vm._t('nav-right')}
+          </div>
+        </div>,
+        vm._t('nav-bottom'),
+      ]
+      return vm.sticky
+        ? _c(SmySticky, { ref: 'sticky', on: { scroll: (event) => vm.$emit('scroll', event) } }, children)
+        : children
+    }
+    const renderContent = () => {
+      const { swipeable, animated: _animated } = vm
+      const animated = _animated || swipeable
+      const { duration } = vm
+      const children = vm._t('default')
+      return (
+        <div class={bem('content', { animated })}>
+          {animated
+            ? _c(
+                SmySwiper,
+                {
+                  ref: 'swiper',
+                  attrs: { loop: false, indicators: false, duration, touchable: swipeable },
+                  on: { change: (activeIndex) => vm.setCurrentIndex(activeIndex) },
+                  class: bem('track'),
+                },
+                children,
+              )
+            : children}
+        </div>
+      )
+    }
 
-<style lang="less">
-@import '../sticky/sticky.less';
-@import './tabs.less';
-</style>
+    return (
+      <div ref="root" v-intersect={vm.setLine} class={bem()}>
+        {renderTitle()}
+        {renderContent()}
+      </div>
+    )
+  },
+}

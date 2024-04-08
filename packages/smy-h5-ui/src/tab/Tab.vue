@@ -5,7 +5,9 @@
     :tabindex="active ? 0 : -1"
     role="tabpanel"
   >
-    <div :class="bem('panel')"><slot /></div>
+    <div :class="bem('panel')">
+      <slot />
+    </div>
   </smy-swiper-item>
   <div v-else v-show="tabs.scrollspy || active" :class="bem('panel')" role="tabpanel">
     <slot v-if="inited || tabs.scrollspy" />
@@ -45,7 +47,7 @@ export default {
   },
   methods: {
     bem,
-    renderTitle({ data, listeners }) {
+    renderTitle({ attrs: _attrs, listeners }) {
       const vm = this
       const { $createElement: h, $props, active, titleClass, titleStyle } = vm
       const attrs = assign(
@@ -53,7 +55,7 @@ export default {
           role: 'tab',
           active,
         },
-        data.attrs,
+        _attrs,
         pick($props, ['badge', 'title', 'disabled']),
       )
       const mergedData = {

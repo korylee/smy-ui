@@ -17,29 +17,20 @@ const [name, bem] = createNamespace('picker-group')
 export default {
   name,
   props,
-  mixins: [
-    createParentMixin(PICKER_KEY),
-    createProxiedModel('activeTab', 'currentTab', { event: 'update:activeTab', passive: false }),
-  ],
-  components: {
-    SmyTab: Tab,
-    SmyTabs: Tabs,
-    PickerToolbar,
-  },
+  mixins: [createParentMixin(PICKER_KEY), createProxiedModel('activeTab', 'currentTab', { event: 'update:activeTab' })],
   computed: {
     showNextButton({ currentTab, tabs, nextStepText }) {
       return +currentTab < tabs.length - 1 && nextStepText
     },
   },
   methods: {
-    bem,
     onConfirm() {
       if (this.showNextButton) {
         this.currentTab = +this.currentTab + 1
       } else {
         this.$emit(
           'confirm',
-          this.children.map((item) => item.confirm())
+          this.children.map((item) => item.confirm()),
         )
       }
     },
@@ -71,7 +62,7 @@ export default {
           key,
           fn: () => [vm._t(key)],
           proxy: true,
-        }))
+        })),
       )
       return h(PickerToolbar, {
         attrs: { title, cancelButtonText, confirmButtonText },
@@ -93,7 +84,7 @@ export default {
           <Tab key={index} title={title} titleClass={bem('tab-title')}>
             {childNodes?.[index]}
           </Tab>
-        ))
+        )),
       )
     }
     const children = [renderToolbar(), renderTabs()]
@@ -105,7 +96,7 @@ export default {
           'smy-picker-cover': '',
           position: 'bottom',
         },
-        pick(vm.$props, popupSharedPropKeys)
+        pick(vm.$props, popupSharedPropKeys),
       )
       return h(SmyPopup, { attrs, on: getListeners.call(vm, pickerPopupListeners) }, children)
     }
