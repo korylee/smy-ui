@@ -8,7 +8,7 @@ module.exports = {
   pc: {
     redirect: '/index',
     menu: [],
-    title: 'Smy h5',
+    title: 'Smy',
     fold: {
       height: 50,
       default: false,

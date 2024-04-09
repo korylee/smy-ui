@@ -4,8 +4,6 @@
   </code>
 </template>
 <script>
-import hljs from 'highlight.js'
-
 export default {
   name: 'SmySiteCode',
   props: {
@@ -29,14 +27,14 @@ export default {
     this.$nextTick(this.setCode)
   },
   methods: {
-    setCode() {
+    async setCode() {
       if (this.$slots.default) return
       const { codeRef: codeEl } = this.$refs
       if (!codeEl) return
       const { language } = this
       const code = this.uri ? window.decodeURIComponent(this.code) : this.code
       if (language) {
-        const html = this.createCodeHtml(language, code, this.trim)
+        const html = await this.createCodeHtml(language, code, this.trim)
         if (html !== null) {
           if (this.inline) {
             codeEl.innerHTML = html
@@ -66,7 +64,8 @@ export default {
         codeEl.appendChild(wrap)
       }
     },
-    createCodeHtml(language, code, trim) {
+    async createCodeHtml(language, code, trim) {
+      const hljs = await import('highlight.js')
       if (!language || !hljs.getLanguage(language)) {
         return null
       }

@@ -24,6 +24,7 @@ export interface SmyConfig {
   host?: string
   port?: number
   pc?: {
+    title?: string
     menu?: PcMenu[]
     header?: Record<string, any>
     indexPage?: {

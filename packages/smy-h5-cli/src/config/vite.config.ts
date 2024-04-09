@@ -11,15 +11,14 @@ import {
   SITE_UI_ENTRY,
   UI_PACKAGE_JSON,
 } from '../shared/constant'
-import { get } from 'lodash'
-import { BuildOptions, InlineConfig, LibraryFormats, Plugin } from 'vite'
+import { BuildOptions, InlineConfig, LibraryFormats, PluginOption } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
-import { injectHtml } from 'vite-plugin-html'
 import { resolve } from 'path'
 import markdownPlugin from '@smy-h5/markdown-vite-plugin'
 import { SmyConfig } from './smyConfig'
 import { pathExistsSync, removeSync, readFileSync, writeFileSync, copyFileSync } from 'fs-extra'
 import stripWith from 'vue-template-es2015-compiler'
+import ejs from 'ejs'
 
 export function getDevConfig(smyConfig: SmyConfig): InlineConfig {
   const { host } = smyConfig
@@ -48,9 +47,9 @@ export function getDevConfig(smyConfig: SmyConfig): InlineConfig {
         jsx: true,
       }),
       markdownPlugin(),
-      injectHtml({
+      html({
         data: {
-          pcTitle: get(smyConfig, `pc.title`),
+          pcTitle: smyConfig.pc?.title,
           mobileTitle: smyConfig?.mobile?.title,
           logo: smyConfig?.logo,
         },
@@ -91,7 +90,7 @@ export interface BundleBuildOptions {
 }
 
 export function getBundleConfig(smyConfig: SmyConfig, buildOptions: BundleBuildOptions): InlineConfig {
-  const plugins = []
+  const plugins: PluginOption[] = []
   const name = smyConfig.name
   const { fileName, output, format, emptyOutDir, removeEnv, entry, minify } = buildOptions
   if (format === 'umd') {
@@ -125,7 +124,7 @@ export function getBundleConfig(smyConfig: SmyConfig, buildOptions: BundleBuildO
   }
 }
 
-function inlineCss(filename: string, dir: string): Plugin {
+function inlineCss(filename: string, dir: string): PluginOption {
   return {
     name: 'smy-inline-css-vite-plugin',
     apply: 'build',
@@ -139,6 +138,18 @@ function inlineCss(filename: string, dir: string): Plugin {
       writeFileSync(jsFile, `${stripWith(injectCode)}${stripWith(jsCode)}`)
       copyFileSync(cssFile, resolve(LIB_DIR, 'style.css'))
       removeSync(cssFile)
+    },
+  }
+}
+
+function html(options: { data: Record<string, string | undefined> }): PluginOption {
+  return {
+    name: 'vite-plugin-html',
+    transformIndexHtml: {
+      order: 'pre',
+      transform(html) {
+        return ejs.render(html, options.data)
+      },
     },
   }
 }
