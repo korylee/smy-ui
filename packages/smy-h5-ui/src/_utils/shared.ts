@@ -77,3 +77,15 @@ if (!StringPrototype.padEnd) {
 
 export const isSameValue = (newValue: unknown, oldValue: unknown) =>
   JSON.stringify(newValue) === JSON.stringify(oldValue)
+
+export function genArray<T>(length: number, gen: (index: number) => T, filter?: (item: T) => boolean) {
+  const res = []
+  for (let i = 0; i < length; i++) {
+    const item = gen(i)
+    if (filter && !filter(item)) {
+      continue
+    }
+    res.push(item)
+  }
+  return res
+}

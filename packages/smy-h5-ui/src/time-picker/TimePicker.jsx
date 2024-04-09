@@ -1,10 +1,11 @@
 import Picker from '../picker'
 import { TIME_PICKER_COLUMN_TYPE, props } from './props'
 import { createNamespace } from '../_utils/vue/create'
-import { range, pick, genArray, padZero, assign } from '@smy-h5/shared'
+import { range, pick, padZero, assign } from '@smy-h5/shared'
 import { pickerSharedPropKeys } from '../picker/props'
 import { getListeners } from '../_mixins/listeners'
 import { looseEqual, pickerSharedListeners } from '../picker/utils'
+import { genArray } from '../_utils/shared'
 
 import '../popup/popup.less'
 import '../picker/picker.less'

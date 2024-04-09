@@ -8,9 +8,7 @@
     <smy-nav-bar title="test" left-arrow>
       <template #title>
         <smy-tabs>
-          <smy-tab>
-            <smy-tab v-for="item of 3" :key="item" :title="'标签' + item"> 内容 {{ item }} </smy-tab>
-          </smy-tab>
+          <smy-tab v-for="item of 3" :key="item" :title="'标签' + item" />
         </smy-tabs>
       </template>
     </smy-nav-bar>

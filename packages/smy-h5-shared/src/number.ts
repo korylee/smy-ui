@@ -60,6 +60,4 @@ export const decimal = (() => {
   }
 })()
 
-export const addNumber = decimal.add
-
 export const range = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)

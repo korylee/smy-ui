@@ -53,7 +53,7 @@ function createBem(namespace: string, name: string) {
 export type BEM = ReturnType<typeof createBem>
 
 export function genCreateNamespace<N extends string>(namespace: N) {
-  return function createNamespace(name: string) {
+  return function createNamespace<K extends string>(name: K) {
     const componentName = `${namespace}-${name}` as const
     return [componentName, createBem(namespace, componentName)] as const
   }

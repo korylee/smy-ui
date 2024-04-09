@@ -20,18 +20,19 @@ import { assign, pick } from '@smy-h5/shared'
 import { props } from './props'
 import SmySwiperItem from '../swiper-item'
 import { name, bem } from './utils'
+import { TABS_KEY } from '../tabs/shared'
 
 export default {
   name,
   props,
-  mixins: [createChildrenMixin('tabs')],
+  mixins: [createChildrenMixin(TABS_KEY)],
   components: { SmySwiperItem },
   data: () => ({
     inited: false,
   }),
   computed: {
-    active({ name, index, tabs }) {
-      const isActive = (name || index) === tabs.currentName
+    active({ name, index, [TABS_KEY]: parent }) {
+      const isActive = (name || index) === parent.currentName
       if (isActive && !this.inited) {
         this.init()
       }
@@ -40,9 +41,9 @@ export default {
   },
   watch: {
     title() {
-      const { tabs } = this
-      tabs.setLine()
-      tabs.scrollIntoView()
+      const { [TABS_KEY]: parent } = this
+      parent.setLine()
+      parent.scrollIntoView()
     },
   },
   methods: {
@@ -69,9 +70,9 @@ export default {
     },
     init() {
       this.inited = true
-      const { tabs, name, index } = this
-      if (tabs.lazyRender) {
-        tabs.$emit('rendered', name || index)
+      const { [TABS_KEY]: parent, name, index } = this
+      if (parent.lazyRender) {
+        parent.$emit('rendered', name || index)
       }
     },
   },

@@ -19,6 +19,7 @@ import Intersect from '../intersect'
 import { props } from './props'
 import { onMountedOrActivated } from '../_utils/vue/lifetime'
 import { PopupMixin } from '../popup/provide'
+import { TABS_KEY } from './shared'
 
 import '../sticky/sticky.less'
 import './tabs.less'
@@ -31,7 +32,7 @@ export default {
   name,
   props,
   directives: { Intersect },
-  mixins: [createParentMixin('tabs'), PopupMixin],
+  mixins: [createParentMixin(TABS_KEY), PopupMixin],
   data: () => ({
     inited: false,
     currentIndex: -1,
@@ -203,7 +204,7 @@ export default {
       this.$nextTick(() => {
         const { children, currentIndex, lineWidth, lineHeight, color, duration } = this
         const item = children[currentIndex]
-        const title = item?.$refs['tab-title']?.$el
+        const title = item.$refs['tab-title']?.$el
         if (!title) {
           this.lineStyle = {
             display: 'none',
