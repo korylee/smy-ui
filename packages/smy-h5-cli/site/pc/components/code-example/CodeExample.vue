@@ -31,14 +31,7 @@ import Xml from '@smy-h5/icons/dist/es/Xml'
 import CodeJson from '@smy-h5/icons/dist/es/CodeJson'
 import SmySiteIcon from '../../../components/icon'
 import SmySiteCode from '../code'
-
-function doubleRaf() {
-  return new Promise((resolve) => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(resolve)
-    })
-  })
-}
+import { doubleRaf } from '@smy-h5/shared'
 
 function utoa(data) {
   return btoa(unescape(encodeURIComponent(data)))
