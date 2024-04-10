@@ -6,20 +6,19 @@
           <Xml />
         </smy-site-icon>
       </smy-site-button>
-      <smy-site-button v-if="clipboard" text round @click="handleCopy">
-        <smy-site-icon size="18">
-          <Copy />
-        </smy-site-icon>
-      </smy-site-button>
       <smy-site-button v-if="playground" text round @click="toPlayground">
         <smy-site-icon size="18">
           <CodeJson />
         </smy-site-icon>
       </smy-site-button>
+      <smy-site-button v-if="clipboard" text round @click="handleCopy">
+        <smy-site-icon size="18">
+          <Copy />
+        </smy-site-icon>
+      </smy-site-button>
     </div>
-    <div ref="code" :class="codeClass" :style="codeStyle" class="smy-site-code-example__code">
-      <smy-site-code :language="language" :code="code" :trim="trim" :uri="uri" :inline="inline" />
-    </div>
+    <!-- <span v-if="lang" class="smy-site-code-example__lang">{{ lang }}</span> -->
+    <div ref="code" :class="codeClass" :style="codeStyle" class="smy-site-code-example__code" v-html="output" />
   </div>
 </template>
 
@@ -30,7 +29,6 @@ import Copy from '@smy-h5/icons/dist/es/Copy'
 import Xml from '@smy-h5/icons/dist/es/Xml'
 import CodeJson from '@smy-h5/icons/dist/es/CodeJson'
 import SmySiteIcon from '../../../components/icon'
-import SmySiteCode from '../code'
 import { doubleRaf } from '@smy-h5/shared'
 
 function utoa(data) {
@@ -46,14 +44,28 @@ export default {
     Xml,
     SmySiteIcon,
     CodeJson,
-    SmySiteCode,
   },
-  props: { playgroundIgnore: Boolean, ...SmySiteCode.props },
+  props: {
+    playgroundIgnore: Boolean,
+    lang: String,
+    code: {
+      type: String,
+      default: '',
+    },
+    trim: {
+      type: Boolean,
+      default: true,
+    },
+    uri: Boolean,
+    inline: Boolean,
+  },
   data: () => ({
     clipboard: config?.pc?.clipboard ?? true,
     fold: config?.pc?.fold,
     height: -1,
     disabledFold: false,
+    output: '<pre></pre>',
+    loading: false,
   }),
   computed: {
     codeClass({ disabledFold, fold, height }) {
@@ -70,6 +82,45 @@ export default {
     playground() {
       return this.playgroundIgnore ? undefined : config?.pc?.header?.playground
     },
+  },
+  async created() {
+    const self = this
+    const { getHighlighter } = await import('shiki')
+    const highligher = await getHighlighter({
+      themes: ['catppuccin-latte'],
+      langs: ['typescript', 'javascript', 'css', 'less', 'scss', 'vue', 'html', 'vue-html'],
+    })
+
+    this.$watch('code', run, { immediate: true })
+    this.$watch(
+      () => [this.lang],
+      async () => {
+        this.loading = true
+        await Promise.all([highligher.loadLanguage(this.lang)])
+        run()
+      },
+      { immediate: true },
+    )
+    function run() {
+      let code = self.code
+      if (self.uri) {
+        code = window.decodeURIComponent(self.code)
+      }
+      if (self.trim) {
+        code = code.trim()
+      }
+      self.output = highligher.codeToHtml(code, {
+        lang: self.lang,
+        theme: 'catppuccin-latte',
+        transformers: [
+          {
+            preprocess(code) {
+              if (code.endsWith('\n')) return `${code}\n`
+            },
+          },
+        ],
+      })
+    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -112,5 +163,95 @@ export default {
 </script>
 
 <style lang="less">
-@import './codeExample.less';
+.smy-site-code-example {
+  margin-top: 16px;
+  margin-bottom: 4px;
+  position: relative;
+  border-radius: 4px;
+  border: thin solid var(--site-config-hl-border);
+  transition: border 0.25s;
+
+  &:hover {
+    .smy-site-code-example__toolbar {
+      opacity: 1;
+    }
+  }
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+    right: 10px;
+    top: 10px;
+    opacity: 0;
+    transition: 0.25s all;
+
+    .smy-site-button {
+      color: #58727e;
+    }
+  }
+
+  &__code {
+    transition: all 0.25s;
+    overflow: hidden;
+    border-radius: 4px;
+
+    &--singleline {
+      .smy-site-code {
+        white-space: nowrap;
+      }
+    }
+
+    &--scrollable {
+      max-height: 600px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+        height: 1px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 5px rgb(0 0 0 / 20%);
+        background: #888;
+      }
+
+      &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 5px rgb(0 0 0 / 20%);
+        border-radius: 10px;
+        background: #ffffff;
+      }
+    }
+    code {
+      font-size: var(--site-config-code-font-size);
+      padding: 0 24px;
+      display: block;
+      width: fit-content;
+      min-width: 100%;
+      transition: color 0.5s;
+      border-radius: 8px;
+    }
+    pre {
+      position: relative;
+      padding: 20px 0;
+      margin: 0;
+      background: transparent;
+      overflow-x: auto;
+    }
+  }
+  &__lang {
+    position: absolute;
+    top: 2px;
+    right: 8px;
+    z-index: 2;
+    font-size: 12px;
+    font-weight: 500;
+    color: #888;
+    transition:
+      color 0.4s,
+      opacity 0.4s;
+  }
+}
 </style>

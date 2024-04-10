@@ -147,7 +147,7 @@ function html(options: { data: Record<string, string | undefined> }): PluginOpti
     name: 'vite-plugin-html',
     transformIndexHtml: {
       order: 'pre',
-      transform(html) {
+      handler(html) {
         return ejs.render(html, options.data)
       },
     },

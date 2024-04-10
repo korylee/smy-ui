@@ -45,15 +45,15 @@ function createHighlight(componentMap) {
       let replaced = ''
       components.forEach((component) => {
         const componentRaw = gnDocField(component)
-        replaced += `<smy-site-code-example ${attr} uri language="html" :code="encodeURIComponent(${componentRaw})" />`
+        replaced += `<smy-site-code-example ${attr} uri lang="vue" :code="encodeURIComponent(${componentRaw})" />`
       })
       return replaced && `<pre class="hljs">${replaced}</pre>`
     }
     if (lang) {
-      attr = !attr.includes('playground-ignore') && lang !== 'html' ? 'playground-ignore' : attr
+      attr = !attr.includes('playground-ignore') && lang !== 'vue' ? 'playground-ignore' : attr
       return `\
 <pre class="hljs">
-  <smy-site-code-example ${attr} uri language="${lang}" code="${encodeURIComponent(str)}" />
+  <smy-site-code-example ${attr} uri lang="${lang}" code="${encodeURIComponent(str)}" />
 </pre>`
     }
     return ''
