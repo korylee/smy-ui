@@ -1,0 +1,10 @@
+
+[production]
+> 0.5%
+Chrome >= 51
+Android 5.0
+iOS 8
+not dead
+
+[ssr]
+node 12.22.5

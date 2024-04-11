@@ -58,11 +58,6 @@
     "*.css",
     "*.less"
   ],
-  "browserslist": [
-    "Chrome >= 51",
-    "Android >= 5.0",
-    "iOS >= 8"
-  ],
   "dependencies": {
     "@smy-h5/icons": "workspace:*",
     "@smy-h5/shared": "workspace:*"
