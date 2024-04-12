@@ -65,14 +65,14 @@ export async function compileDts(files: string[]) {
 
           sourceFiles.push(
             // 创建一个同路径的同名 ts/js 的映射文件
-            project.createSourceFile(file + (isTs ? '.ts' : '.js'), content)
+            project.createSourceFile(file + (isTs ? '.ts' : '.js'), content),
           )
         }
       } else if (isScript(file)) {
         // 如果是 ts 文件则直接添加即可
         sourceFiles.push(project.addSourceFileAtPath(file))
       }
-    })
+    }),
   )
   const diagnostics = project.getPreEmitDiagnostics()
 
@@ -92,7 +92,7 @@ export async function compileDts(files: string[]) {
         const text = outputFile.getText()
         await mkdir(dirname(filePath), { recursive: true })
         await writeFile(filePath, text, 'utf8')
-      })
+      }),
     )
   }
 }
@@ -126,7 +126,7 @@ export default _default
 
 async function comipleTypes() {
   const config = getSmyConfig()
-  const namespace = config?.namespace ?? 'smy'
+  const namespace = config.namespace || 'smy'
   const { name } = require(UI_PACKAGE_JSON)
   const entryDir = await readdir(SRC_DIR)
   const declares: string[] = []

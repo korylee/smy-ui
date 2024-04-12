@@ -18,3 +18,7 @@ declare module 'vue-template-compiler/browser' {
     customBlocks: SFCBlock[]
   }
 }
+
+declare module 'vue-template-es2015-compiler/buble' {
+  export function transform(str: string, options?: any): { code: string }
+}

@@ -16,6 +16,10 @@ export interface SmyConfig {
    * UI library name.
    */
   name?: string
+  /**
+   * @default `smy`
+   */
+  namespace?: string
   useMobile?: boolean
   /**
    * @default `localhost`
