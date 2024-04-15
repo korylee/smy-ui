@@ -5,7 +5,7 @@ type WindowSize = { width: number; height: number }
 
 let windowSize: WindowSize
 
-export function useWindowSize() {
+export function useWindowSize(): Readonly<WindowSize> {
   if (!windowSize) {
     windowSize = Vue.observable<WindowSize>({ width: 0, height: 0 })
     if (IN_BROWSER) {

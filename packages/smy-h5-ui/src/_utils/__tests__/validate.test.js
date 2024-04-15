@@ -26,8 +26,6 @@ describe('test defineRule', () => {
   })
 })
 
-describe('test validate', () => {})
-
 describe('test validator rules', () => {
   const validEmails = [
     'someone@example.com',

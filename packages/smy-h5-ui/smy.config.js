@@ -71,6 +71,7 @@ module.exports = defineConfig({
       { text: '反馈组件', type: 1 },
       { text: 'Popup 弹出层', doc: 'popup', type: 2 },
       { text: 'Dialog 对话框', doc: 'dialog', type: 2 },
+      { text: 'FloatingPanel 浮动面板', doc: 'floating-panel', type: 2 },
       { text: 'Toast 吐司气泡', doc: 'toast', type: 2 },
       { text: 'ActionSheet 动作面板', doc: 'action-sheet', type: 2 },
       { text: 'Picker 多列选择器', doc: 'picker', type: 2 },

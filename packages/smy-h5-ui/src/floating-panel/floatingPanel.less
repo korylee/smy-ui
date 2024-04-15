@@ -1,0 +1,54 @@
+:root {
+  --floating-panel-border-radius: 16px;
+  --floating-panel-z-index: 999;
+  --floating-panel-background: #fff;
+  --floating-panel-header-height: 30px;
+  --floating-panel-bar-width: 20px;
+  --floating-panel-bar-height: 3px;
+  --floating-panel-bar-color: #c8c9cc;
+}
+
+.smy-floating-panel {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: var(--floating-panel-z-index);
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background: var(--floating-panel-background);
+  border-top-left-radius: var(--floating-panel-border-radius);
+  border-top-right-radius: var(--floating-panel-border-radius);
+  will-change: transform;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: -100vh;
+    height: 100vh;
+    width: 100vw;
+    background-color: inherit;
+  }
+
+  &__header {
+    height: var(--floating-panel-header-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    user-select: none;
+    &-bar {
+      height: var(--floating-panel-bar-height);
+      width: var(--floating-panel-bar-width);
+      border-radius: var(--smy-radius-md, 4px);
+      background: var(--floating-panel-bar-color);
+    }
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--floating-panel-background);
+  }
+}
