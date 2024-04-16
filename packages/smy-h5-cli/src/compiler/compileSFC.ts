@@ -1,7 +1,5 @@
 import { readFile, writeFileSync } from 'fs-extra'
-import * as compiler from 'vue-template-compiler'
 import * as compilerSfc from '@vue/compiler-sfc'
-import stripWith from 'vue-template-es2015-compiler'
 import hash from 'hash-sum'
 import { compileScript } from './compileScript'
 import { replaceExt } from '../shared/fs-utils'
@@ -11,26 +9,31 @@ const EXPORT_START_RE = /export\s+default\s+{/
 const DEFINE_EXPORT_START_RE = /export\s+default\s+defineComponent\s*\(\s*{/
 export const EMPRY_COMMIT_RE = /\/\/\s*\n+/g
 
-const RENDER_NAME = '__sfc_render'
-const STATIC_RENDER_FNS_NAME = '__sfc_staticRenderFns'
-
 // 移除空行注释
 const clearEmptyComment = (str: string) => str.replace(EMPRY_COMMIT_RE, '')
 
 export async function compileSFCFile(sfc: string) {
   const source: string = await readFile(sfc, 'utf-8')
-  const { descriptor } = compilerSfc.parse(source, { sourceMap: false })
-  const { script, template, styles } = descriptor
+  const { script, template, styles } = compilerSfc.parse({
+    source,
+    sourceMap: false,
+    filename: sfc,
+  })
 
   let content = script?.content ?? `export default {  }`
-
-  if (template) {
-    const { render, staticRenderFns } = compileTemplate(template.content)
-    content = injectRender(content, render + staticRenderFns)
-  }
-
   const hasScope = styles.some((style) => style.scoped)
   const scopeId = hasScope ? `data-v-${hash(source)}` : ''
+
+  if (template) {
+    const { code } = compilerSfc.compileTemplate({
+      source: template.content,
+      filename: sfc,
+      isProduction: true,
+      compilerOptions: { scopeId },
+    })
+    content = injectRender(content, code)
+  }
+
   if (scopeId) {
     content = injectScopeId(content, scopeId)
   }
@@ -65,7 +68,7 @@ export async function compileSFCFile(sfc: string) {
   }
 }
 
-export function injectRender(script: string, render: string): string {
+function injectRender(script: string, render: string): string {
   script = script.trim()
   script = clearEmptyComment(script)
 
@@ -74,8 +77,8 @@ export function injectRender(script: string, render: string): string {
       DEFINE_EXPORT_START_RE,
       `
 ${render}\nexport default defineComponent({
-render: ${RENDER_NAME},\
-staticRenderFns: ${STATIC_RENDER_FNS_NAME},\
+render: render,\
+staticRenderFns: staticRenderFns,\
 `,
     )
   }
@@ -84,8 +87,8 @@ staticRenderFns: ${STATIC_RENDER_FNS_NAME},\
     return script.replace(
       EXPORT_START_RE,
       `${render}\nexport default {
-render: ${RENDER_NAME},\
-staticRenderFns: ${STATIC_RENDER_FNS_NAME},\
+render: render,\
+staticRenderFns: staticRenderFns,\
 `,
     )
   }
@@ -104,15 +107,4 @@ _scopeId: '${scopeId}',\
   }
 
   return script
-}
-
-function compileTemplate(template: string) {
-  const { render, staticRenderFns } = compiler.compile(template)
-
-  return {
-    render: stripWith(`function ${RENDER_NAME} () { ${render} }`),
-    staticRenderFns: `const ${STATIC_RENDER_FNS_NAME} = [${staticRenderFns
-      .map((staticRenderFn) => stripWith(`function _() { ${staticRenderFn} }`))
-      .join(',\n')}]`,
-  }
 }

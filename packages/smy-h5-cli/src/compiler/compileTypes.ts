@@ -39,9 +39,11 @@ export async function compileDts(files: string[]) {
     files.map(async (file: string) => {
       if (isSFC(file)) {
         // 对于 vue 文件，借助 @vue/compiler-sfc 的 parse 进行解析
-        const sfc = parse(await readFile(file, 'utf-8'))
+        const sfc = parse({
+          source: await readFile(file, 'utf-8'),
+        })
         // 提取出 script 中的内容
-        const { script, scriptSetup } = sfc.descriptor
+        const { script, scriptSetup } = sfc
 
         if (script || scriptSetup) {
           let content = ''
@@ -54,7 +56,7 @@ export async function compileDts(files: string[]) {
           }
 
           if (scriptSetup) {
-            const compiled = compileScript(sfc.descriptor, {
+            const compiled = compileScript(sfc, {
               id: `${index++}`,
             })
 
