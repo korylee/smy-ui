@@ -1,5 +1,5 @@
 import type { AsyncComponent, Component, PropType } from 'vue'
-import type { ElementSelector } from '@smy-h5/shared'
+import type { ElementSelector, Numeric } from '@smy-h5/shared'
 
 declare type InferPropType<T> = [T] extends [null]
   ? any
@@ -87,6 +87,15 @@ export const createNumberProp = <T>(defaultVal: T) => ({
 export const createStringProp = <T>(defaultVal: T) => ({
   type: String as unknown as PropType<T>,
   default: defaultVal,
+})
+
+export const createContainProp = <T extends Readonly<Numeric[]>, R extends T[number], D extends boolean = true>(
+  contains: T,
+  useDefault: D = true as D,
+) => ({
+  type: numericProp as unknown as PropType<R>,
+  default: (useDefault ? contains[0] : undefined) as D extends true ? T[0] : undefined,
+  validator: (val: R) => contains.includes(val),
 })
 
 export const createNumericProp = <T>(defaultVal: T) => ({

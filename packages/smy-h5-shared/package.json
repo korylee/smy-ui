@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts",
-    "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean"
+    "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean --splitting"
   },
   "keywords": [
     "utils",
@@ -22,9 +22,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@swc/core": "^1.4.11",
+    "@microsoft/api-extractor": "^7.43.1",
+    "@swc/core": "^1.4.14",
     "@types/node": "^18.19.29",
-    "tsup": "7.2.0",
+    "tsup": "8.0.2",
     "typescript": "^5.4.3"
   }
 }

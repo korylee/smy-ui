@@ -1,17 +1,10 @@
-import { createNumericProp, createStringProp, type ExtractPropTypes } from '../_utils/vue/props'
-import type { PropType } from 'vue'
+import { createContainProp, createNumericProp, createStringProp, type ExtractPropTypes } from '../_utils/vue/props'
 
-const ELLIPSIS_DIRECTION = ['start', 'end', 'middle'] as const
-
-type EllipsisDirection = (typeof ELLIPSIS_DIRECTION)[number]
+const ELLIPSIS_DIRECTION = ['end', 'start', 'middle'] as const
 
 export const props = {
   content: createStringProp(''),
-  direction: {
-    type: String as PropType<EllipsisDirection>,
-    validator: (str: EllipsisDirection) => ELLIPSIS_DIRECTION.includes(str),
-    default: 'end',
-  },
+  direction: createContainProp(ELLIPSIS_DIRECTION),
   rows: createNumericProp(1),
   expandText: createStringProp(''),
   collapseText: createStringProp(''),

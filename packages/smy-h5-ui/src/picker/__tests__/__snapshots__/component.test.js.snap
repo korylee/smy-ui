@@ -4,46 +4,22 @@ exports[`test picker example 1`] = `
 "<div>
   <h4>函数调用</h4>
   <div class="smy-cell smy-cell--borderless smy-cell--insert">
-    <!---->
-    <div class="smy-cell__title">单列选择
-      <!---->
-    </div>
-    <!---->
-    <!---->
+    <div class="smy-cell__title">单列选择</div>
   </div>
   <div class="smy-cell smy-cell--borderless smy-cell--insert">
-    <!---->
-    <div class="smy-cell__title">多列选择
-      <!---->
-    </div>
-    <!---->
-    <!---->
+    <div class="smy-cell__title">多列选择</div>
   </div>
   <div class="smy-cell smy-cell--borderless smy-cell--insert">
-    <!---->
-    <div class="smy-cell__title">级联选择
-      <!---->
-    </div>
-    <!---->
-    <!---->
+    <div class="smy-cell__title">级联选择</div>
   </div>
   <div class="smy-cell smy-cell--borderless smy-cell--insert">
-    <!---->
-    <div class="smy-cell__title">默认选中项
-      <!---->
-    </div>
-    <!---->
-    <!---->
+    <div class="smy-cell__title">默认选中项</div>
   </div>
   <h4>组件调用</h4>
   <div class="app-demo-title">单列选择</div>
   <div>
     <div class="smy-cell smy-cell--borderless smy-cell--insert">
-      <!---->
-      <div class="smy-cell__title">请选择
-        <!---->
-      </div>
-      <!---->
+      <div class="smy-cell__title">请选择</div>
       <div class="smy-cell__extra">popup: <div tabindex="0" aria-checked="true" role="switch" class="smy-switch smy-switch--active">
           <div class="smy-switch__thumb">
             <!---->
@@ -64,11 +40,7 @@ exports[`test picker example 1`] = `
   </div>
   <div class="app-demo-title">多列选择</div>
   <div class="smy-cell smy-cell--borderless smy-cell--insert">
-    <!---->
-    <div class="smy-cell__title">请选择
-      <!---->
-    </div>
-    <!---->
+    <div class="smy-cell__title">请选择</div>
     <div class="smy-cell__extra">popup: <div tabindex="0" aria-checked="true" role="switch" class="smy-switch smy-switch--active">
         <div class="smy-switch__thumb">
           <!---->
@@ -88,11 +60,7 @@ exports[`test picker example 1`] = `
   </transition-stub>
   <div class="app-demo-title">级联选择</div>
   <div class="smy-cell smy-cell--borderless smy-cell--insert">
-    <!---->
-    <div class="smy-cell__title">请选择
-      <!---->
-    </div>
-    <!---->
+    <div class="smy-cell__title">请选择</div>
     <div class="smy-cell__extra">popup: <div tabindex="0" aria-checked="true" role="switch" class="smy-switch smy-switch--active">
         <div class="smy-switch__thumb">
           <!---->
@@ -112,11 +80,7 @@ exports[`test picker example 1`] = `
   </transition-stub>
   <div class="app-demo-title">默认选中项</div>
   <div class="smy-cell smy-cell--borderless smy-cell--insert">
-    <!---->
-    <div class="smy-cell__title">Tuesday,Afternoon
-      <!---->
-    </div>
-    <!---->
+    <div class="smy-cell__title">Tuesday,Afternoon</div>
     <div class="smy-cell__extra">popup: <div tabindex="0" aria-checked="true" role="switch" class="smy-switch smy-switch--active">
         <div class="smy-switch__thumb">
           <!---->

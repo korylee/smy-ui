@@ -1,6 +1,9 @@
-import { ExtractPropTypes, createNumericProp, numericProp, truthProp } from '../_utils/vue/props'
+import { ExtractPropTypes, createContainProp, createNumericProp, numericProp, truthProp } from '../_utils/vue/props'
+
+const TABS_TYPE = ['line'] as const
 
 export const props = {
+  type: createContainProp(TABS_TYPE),
   color: String,
   sticky: Boolean,
   shrink: Boolean,

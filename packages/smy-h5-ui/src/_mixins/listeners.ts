@@ -1,4 +1,4 @@
-import { camelize, keys } from '@smy-h5/shared'
+import { call, camelize, kebabCase, keys } from '@smy-h5/shared'
 import type Vue from 'vue'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -18,23 +18,19 @@ export function getListeners(this: Vue, events?: string[]) {
   )
 }
 
-const slice = Array.prototype.slice
-
-const createInvoker = (vm: Vue, name: string) => {
-  const { $emit } = vm
-  return function invoker() {
-    // eslint-disable-next-line prefer-rest-params
-    const args = slice.call(arguments)
-    args.unshift(name)
-    $emit.apply(vm, args as unknown as any)
+const createInvoker =
+  (vm: Vue, name: string) =>
+  (...args: unknown[]) => {
+    vm.$emit(name, ...args)
   }
-}
 
 export function getListener(this: Vue, name: string) {
   const vm = this
   const { $listeners } = vm
   const camelizeName = camelize(name)
-  return $listeners[name] ?? $listeners[camelizeName] ?? createInvoker(vm, name)
+  const kebabCaseName = kebabCase(name)
+  const listener = $listeners[camelizeName] ?? $listeners[kebabCaseName] ?? createInvoker(vm, kebabCaseName)
+  return (...args: any[]) => call(listener as any, ...args)
 }
 
 export const ListenersMixin = {

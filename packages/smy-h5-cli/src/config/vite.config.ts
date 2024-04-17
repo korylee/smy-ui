@@ -11,7 +11,7 @@ import {
   SITE_UI_ENTRY,
   UI_PACKAGE_JSON,
 } from '../shared/constant'
-import { BuildOptions, InlineConfig, LibraryFormats, PluginOption } from 'vite'
+import { BuildOptions, InlineConfig, LibraryFormats, PluginOption, mergeConfig } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { resolve } from 'path'
 import markdownPlugin from '@smy-h5/markdown-vite-plugin'
@@ -61,8 +61,7 @@ export function getDevConfig(smyConfig: SmyConfig): InlineConfig {
 export function getBuildConfig(smyConfig: Record<string, any>): InlineConfig {
   const devConfig = getDevConfig(smyConfig)
 
-  return {
-    ...devConfig,
+  return mergeConfig(devConfig, {
     base: './',
     build: {
       outDir: SITE_OUTPUT_PATH,
@@ -76,7 +75,7 @@ export function getBuildConfig(smyConfig: Record<string, any>): InlineConfig {
         },
       },
     },
-  }
+  })
 }
 
 export interface BundleBuildOptions {

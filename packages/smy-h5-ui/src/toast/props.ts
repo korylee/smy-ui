@@ -1,6 +1,6 @@
-import { ExtractPropTypes, componentProp, createNumericProp } from '../_utils/vue/props'
+import { ExtractPropTypes, componentProp, createContainProp, createNumericProp } from '../_utils/vue/props'
 import type { PropType } from 'vue'
-import { props as loadingProps } from '../loading/props'
+import { LOADING_TYPES } from '../loading/props'
 import { popupSharedProps } from '../popup/shared'
 import { assign } from '@smy-h5/shared'
 
@@ -22,16 +22,9 @@ const popupInheritProps = assign({}, popupSharedProps, {
 
 export const props = assign(
   {
-    type: {
-      type: String as PropType<ToastType>,
-      validator: (type: ToastType) => TOAST_TYPES.includes(type),
-    },
+    type: createContainProp(TOAST_TYPES, false),
     // 显示的位置
-    position: {
-      type: String as PropType<ToastPosition>,
-      default: 'top',
-      validator: (position: ToastPosition) => TOAST_POSITIONS.includes(position),
-    },
+    position: createContainProp(TOAST_POSITIONS),
     content: String,
     contentClass: [String, Object, Array],
     // 持续时间
@@ -41,14 +34,10 @@ export const props = assign(
       type: Boolean,
       default: false,
     },
-    loadingType: loadingProps.type,
+    loadingType: createContainProp(LOADING_TYPES),
     icon: componentProp,
     iconSize: createNumericProp(30),
-    iconPosition: {
-      type: String as PropType<ToastIconPosition>,
-      default: 'top',
-      validator: (position: ToastIconPosition) => TOAST_ICON_POSITIONS.includes(position),
-    },
+    iconPosition: createContainProp(TOAST_ICON_POSITIONS),
     closeOnClick: Boolean,
     wordBreak: String as PropType<ToastWordBreak>,
   },

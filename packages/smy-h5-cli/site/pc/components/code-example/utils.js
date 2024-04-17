@@ -36,3 +36,16 @@ export function handleCopy(text = '') {
     return false
   }
 }
+
+let highligher
+export async function genHighlighter() {
+  if (highligher) {
+    return highligher
+  }
+  const { getHighlighter } = await import('shiki')
+  highligher = await getHighlighter({
+    themes: ['catppuccin-latte'],
+    langs: ['typescript', 'javascript', 'css', 'less', 'scss', 'vue', 'html', 'vue-html'],
+  })
+  return highligher
+}

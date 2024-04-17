@@ -1,19 +1,14 @@
 import { assign } from '@smy-h5/shared'
-import { ExtractPropTypes } from '../_utils/vue/props'
-import type { PropType } from 'vue'
+import { ExtractPropTypes, createContainProp } from '../_utils/vue/props'
 import { popupSharedProps } from './shared'
 
-const POPUP_POSITIONS = ['top', 'bottom', 'center', 'left', 'right'] as const
+const POPUP_POSITIONS = ['center', 'top', 'bottom', 'left', 'right'] as const
 
 export type PopupPosition = (typeof POPUP_POSITIONS)[number]
 
 export const props = assign(
   {
-    position: {
-      type: String as PropType<PopupPosition>,
-      default: 'center',
-      validator: (str: PopupPosition) => POPUP_POSITIONS.includes(str),
-    },
+    position: createContainProp(POPUP_POSITIONS),
     transition: String,
     wrapperClass: [String, Object, Array],
     contentClass: [String, Object, Array],

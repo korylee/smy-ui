@@ -10,6 +10,8 @@ import {
   getRect,
   setRootScrollTop,
   toPxNum,
+  isPercentage,
+  toNumber,
 } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import SmySticky from '../sticky'
@@ -116,12 +118,12 @@ export default {
       const onClickTab = getListener.call(this, 'click-tab')
       const name = getTabName(item, index)
       if (!disabled) {
-        Promise.resolve(onBeforeChange ? onBeforeChange(name) : true).then(() => {
+        Promise.resolve(onBeforeChange(name)).then(() => {
           this.setCurrentIndex(index)
           this.scrollToCurrentContent()
         })
       }
-      onClickTab?.({ name, title, event, disabled })
+      onClickTab({ name, title, event, disabled })
     },
     findAvailableTabIndex(index) {
       const diff = index < this.currentIndex ? -1 : 1
@@ -211,15 +213,20 @@ export default {
           }
           return
         }
-        const left = title.offsetLeft + title.offsetWidth / 2
+        const { offsetLeft, offsetWidth } = title
         let height
         let borderRadius
         if (!isNil(lineHeight)) {
           height = convertToUnit(lineHeight)
           borderRadius = height
         }
+        const width = isPercentage(lineWidth)
+          ? convertToUnit((toNumber(lineWidth) * offsetWidth) / 100)
+          : convertToUnit(lineWidth)
+        const left = offsetLeft + offsetWidth / 2
+
         this.lineStyle = {
-          width: convertToUnit(lineWidth),
+          width,
           backgroundColor: color,
           transform: `translateX(${left}px) translateX(-50%)`,
           transitionDuration: shouldAnimate ? `${duration}ms` : undefined,
@@ -257,15 +264,16 @@ export default {
     },
   },
   render() {
+    /**@type {import('vue').default} */
     const vm = this
     const _c = vm.$createElement
     const renderTitle = () => {
-      const { children: tabs, shrink, scrollable } = vm
+      const { children: tabs, shrink, scrollable, type } = vm
       const children = [
         <div ref="wrap" class={bem('wrap')}>
           <div
             ref="nav"
-            class={bem('nav', { line: true, shrink, scrollable })}
+            class={bem('nav', { [type]: type, shrink, scrollable })}
             style={vm.navStyle}
             role="tablist"
             aria-orientation="horizontal"

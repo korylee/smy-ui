@@ -30,7 +30,7 @@ test('test cell props', async () => {
     },
   })
   expect(wrapper.classes('smy-cell--borderless')).toBe(false)
-  expect(wrapper.find('.smy-cell__title').text()).toBe('This is Cell This is desc')
+  expect(wrapper.find('.smy-cell__title').text()).toBe('This is CellThis is desc')
   expect(wrapper.find('.smy-cell__desc').text()).toBe('This is desc')
   expect(wrapper.find('.test-extra-class').text()).toBe('text')
   expect(wrapper.html()).toMatchSnapshot()

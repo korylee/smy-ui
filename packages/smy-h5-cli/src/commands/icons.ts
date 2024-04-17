@@ -14,6 +14,7 @@ import logger from '../shared/logger'
 import { camelCase, upperFirst } from 'lodash'
 import { compileSFCFile } from '../compiler/compileSFC'
 import { tsc } from '../compiler/compileScript'
+import { optimize } from 'svgo'
 
 async function removeDir() {
   removeSync(ICONS_DIST_DIR)
@@ -65,11 +66,39 @@ async function buildComponents() {
       const index = svgFile.indexOf('.')
       const name = svgFile.slice(0, index)
       const componentName = upperFirst(camelCase(name))
-      const file = await readFile(resolve(ICONS_SVG_DIR, svgFile), 'utf-8')
+      const svgFilePath = resolve(ICONS_SVG_DIR, svgFile)
+      let content = await readFile(svgFilePath, 'utf-8')
+
+      const { data } = await optimize(content, {
+        path: svgFilePath,
+        plugins: [
+          {
+            name: 'preset-default',
+            params: {
+              overrides: {
+                removeViewBox: false,
+                removeUselessStrokeAndFill: {
+                  fill: true,
+                },
+                // removeDimensions: true,
+              },
+            },
+          },
+        ],
+      })
+      content = data || content
+
+      // fix cannot change svg color  by  parent node problem
+      content = content.replace(/stroke="[a-zA-Z#0-9]*"/, 'stroke="currentColor"')
+      content = content.replace(/^<svg/, '<svg v-once')
+      if (!content) {
+        logger.error(`${svgFile} is not a valid svg file`)
+        return
+      }
 
       const vueTemplate = `\
 <template>
-  ${file}
+  ${content}
 </template>
 <script>
 export default { name: "${componentName}" }

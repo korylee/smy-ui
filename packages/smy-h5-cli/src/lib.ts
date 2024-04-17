@@ -63,6 +63,7 @@ program
   .option('-w, --watch', 'Watch files for changes and rerun tests related to changed files')
   .option('-wa, --watchAll', 'Watch files for changes and rerun all tests when something changes')
   .option('-cc --clearCache', 'Clear test cache')
+  .option('-u, --updateSnapshot', 'Update snapshot')
   .action(jest)
 
 program.command('build:icons').description('Build icons').action(icons)

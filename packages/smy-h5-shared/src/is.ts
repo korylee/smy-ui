@@ -1,6 +1,6 @@
-export declare interface Func<T = any, R = T> {
-  (...args: T[]): R
-}
+export type Func<T = any, R = T> = (...args: T[]) => R
+
+export type MaybeArray<T> = T | T[]
 
 export type Numeric = number | string
 
@@ -42,6 +42,8 @@ export const isPx = (str: string): boolean => isEndsWith(str, 'px')
 export const isVh = (str: string): boolean => isEndsWith(str, 'vh')
 
 export const isVw = (str: string): boolean => isEndsWith(str, 'vw')
+
+export const isPercentage = (str: string): boolean => isEndsWith(str, '%')
 
 export const isNumString = (str: unknown): boolean => isString(str) && /^\d+(\.\d+)?$/.test(str)
 

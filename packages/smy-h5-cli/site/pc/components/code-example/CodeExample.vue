@@ -24,7 +24,7 @@
 
 <script>
 import config from '@config'
-import { handleCopy } from './utils'
+import { genHighlighter, handleCopy } from './utils'
 import Copy from '@smy-h5/icons/dist/es/Copy'
 import Xml from '@smy-h5/icons/dist/es/Xml'
 import CodeJson from '@smy-h5/icons/dist/es/CodeJson'
@@ -57,7 +57,6 @@ export default {
       default: true,
     },
     uri: Boolean,
-    inline: Boolean,
   },
   data: () => ({
     clipboard: config?.pc?.clipboard ?? true,
@@ -85,11 +84,7 @@ export default {
   },
   async created() {
     const self = this
-    const { getHighlighter } = await import('shiki')
-    const highligher = await getHighlighter({
-      themes: ['catppuccin-latte'],
-      langs: ['typescript', 'javascript', 'css', 'less', 'scss', 'vue', 'html', 'vue-html'],
-    })
+    const highligher = await genHighlighter()
 
     this.$watch('code', run, { immediate: true })
     this.$watch(

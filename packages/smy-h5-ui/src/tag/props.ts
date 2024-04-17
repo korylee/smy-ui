@@ -1,17 +1,11 @@
-import { ExtractPropTypes, createComponentProp, createStringProp } from '../_utils/vue/props'
-import type { PropType } from 'vue'
+import { ExtractPropTypes, createComponentProp, createContainProp, createStringProp } from '../_utils/vue/props'
 // @ts-ignore
 import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
 
 const TAG_TYPES = ['primary', 'success', 'danger', 'warning'] as const
-type TagType = (typeof TAG_TYPES)[number]
 
 export const props = {
-  type: {
-    type: String as PropType<TagType>,
-    default: '',
-    validator: (val: TagType) => !val || TAG_TYPES.includes(val),
-  },
+  type: createContainProp(TAG_TYPES, false),
   color: createStringProp(''),
   textColor: createStringProp(''),
   plain: {

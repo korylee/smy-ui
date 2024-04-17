@@ -1,7 +1,7 @@
 import type { VNode, VNodeDirective, VueConstructor } from 'vue'
-import { isFunction } from '@smy-h5/shared'
+import { IN_BROWSER, isFunction } from '@smy-h5/shared'
 
-import './polyfill'
+const IsSupportIntersectionObserver = IN_BROWSER && 'IntersectionObserver' in window
 
 interface IntersectHTMLElement extends HTMLElement {
   _intersect?: Record<number, { init: boolean; observer: IntersectionObserver }>
@@ -22,6 +22,9 @@ export interface ObserveVNodeDirective extends Omit<VNodeDirective, 'modifiers'>
 }
 
 function inserted(el: IntersectHTMLElement, binding: ObserveVNodeDirective, vnode: VNode) {
+  if (!IsSupportIntersectionObserver) {
+    return
+  }
   const { modifiers = {}, value } = binding
   const uid = (vnode.context as any)._uid as number
   if (!value) return

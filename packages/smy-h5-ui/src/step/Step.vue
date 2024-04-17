@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { getListener } from '../_mixins/listeners'
 import { createChildrenMixin } from '../_mixins/relation'
 import { createNamespace } from '../_utils/vue/create'
 import { SlotsMixin } from '../_utils/vue/slots'
@@ -53,8 +52,7 @@ export default {
     bem,
     onClick() {
       const { steps, index } = this
-      const clickStep = getListener.call(steps, 'click-step')
-      clickStep(index)
+      steps?.$emit('click-step', index)
     },
   },
 }

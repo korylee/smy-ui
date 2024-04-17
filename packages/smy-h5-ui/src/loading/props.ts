@@ -1,24 +1,11 @@
-import type { ExtractPropTypes } from '../_utils/vue/props'
-import type { PropType } from 'vue'
+import { createContainProp, createNumericProp, createStringProp, type ExtractPropTypes } from '../_utils/vue/props'
 
-const loadingTypes = ['circle', 'wave', 'cube'] as const
-
-type LoadingType = (typeof loadingTypes)[number]
+export const LOADING_TYPES = ['circle', 'wave', 'cube'] as const
 
 export const props = {
-  type: {
-    type: String as PropType<LoadingType>,
-    default: 'circle',
-    validator: (type: LoadingType) => loadingTypes.includes(type),
-  },
-  size: {
-    type: [String, Number],
-    default: 16,
-  },
-  color: {
-    type: String,
-    default: 'currentColor',
-  },
+  type: createContainProp(LOADING_TYPES),
+  size: createNumericProp(16),
+  color: createStringProp('currentColor'),
   desc: String,
   loading: {
     type: Boolean,

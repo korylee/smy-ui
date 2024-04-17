@@ -93,7 +93,7 @@ export async function compileDts(files: string[]) {
         const filePath = outputFile.getFilePath()
         const text = outputFile.getText()
         await mkdir(dirname(filePath), { recursive: true })
-        await writeFile(filePath, text, 'utf8')
+        await writeFile(filePath.replace('.vue.d.ts', '.d.ts'), text, 'utf8')
       }),
     )
   }

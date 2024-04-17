@@ -7,13 +7,14 @@ interface JestCommandOptions {
   watch?: boolean
   watchAll?: boolean
   clearCache?: boolean
+  updateSnapshot?: boolean
 }
 
 /**
  * @param dirs 单测的文件夹 空为所有
  * @param cmd
  */
-export async function jest(dirs?: string[], { watch, watchAll, clearCache }: JestCommandOptions = {}) {
+export async function jest(dirs?: string[], { watch, watchAll, clearCache, updateSnapshot }: JestCommandOptions = {}) {
   process.env.NODE_ENV = 'test'
   const testRegex = dirs?.length
     ? dirs.map((component) => `${component}/${TESTS_DIR_NAME}/.*.test.[jt]sx?$`)
@@ -26,6 +27,7 @@ export async function jest(dirs?: string[], { watch, watchAll, clearCache }: Jes
     config: JEST_CONFIG,
     clearCache: clearCache,
     testRegex,
+    updateSnapshot,
   }
   try {
     await compileUiEntry()

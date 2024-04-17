@@ -1,9 +1,7 @@
 import type { VNodeDirective, VueConstructor } from 'vue'
-import { assign } from '@smy-h5/shared'
+import { IS_SUPPORT_TOUCH, doubleRaf, getRect, assign, isString } from '@smy-h5/shared'
 import context from '../_context'
-import { IS_SUPPORT_TOUCH, doubleRaf, getRect } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
-import { isString } from '@smy-h5/shared'
 
 import '../_styles/common.less'
 import './ripple.less'
