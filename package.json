@@ -8,7 +8,7 @@
     "build": "node scripts/build.mjs",
     "changelog": "smy-h5-cli changelog",
     "lint": "smy-h5-cli lint",
-    "release": "smy-h5-cli update-version && node scripts/build.mjs && smy-h5-cli publish shared ui icons repl"
+    "release": "node scripts/release.mjs"
   },
   "keywords": [],
   "author": "",

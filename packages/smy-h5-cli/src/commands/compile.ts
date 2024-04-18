@@ -10,7 +10,7 @@ function removeDir() {
   return Promise.all([remove(ES_DIR), remove(TYPES_DIR), remove(HL_DIR), remove(LIB_DIR)])
 }
 
-export async function runTask(taskName: string, task: () => any) {
+async function runTask(taskName: string, task: () => any) {
   const progress = createSpinner().start({ text: `Compiling ${taskName}` })
   try {
     const start = performance.now()

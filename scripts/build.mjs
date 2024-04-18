@@ -15,7 +15,7 @@ export const buildIcons = () => execa('pnpm', ['build'], { cwd: PKG_ICONS })
 export const buildUi = () => execa('pnpm', ['compile'], { cwd: PKG_UI })
 export const buildRepl = () => execa('pnpm', ['build'], { cwd: PKG_REPL })
 
-export async function runTask(taskName, task) {
+async function runTask(taskName, task) {
   const s = createSpinner().start({ text: `Building ${taskName}` })
   try {
     await task()
