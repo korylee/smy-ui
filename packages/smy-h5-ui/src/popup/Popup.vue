@@ -1,5 +1,5 @@
 <template>
-  <maybe-teleport :maybe="!!teleport" :to="teleport" :disabled="teleportDisabled">
+  <smy-teleport :to="teleport" :disabled="teleportDisabled">
     <transition name="smy-fade" @after-enter="$emit('opened')" @after-leave="$emit('closed')">
       <div
         v-show="show"
@@ -35,21 +35,19 @@
         </transition>
       </div>
     </transition>
-  </maybe-teleport>
+  </smy-teleport>
 </template>
 
 <script>
 import { createZIndexMixin } from '../_context/mixins/zIndex'
 import { teleportMixin } from '../_mixins/teleport'
 import { createLockMixin } from '../_context/mixins/lock'
-import { addRouteListener, createMaybeComponent } from '../_utils/vue/component'
+import { addRouteListener } from '../_utils/vue/component'
 import { props } from './props'
 import SmyTeleport from '../teleport'
 import { mergeStyles } from '../_utils/vue/mergeData'
 import { createNamespace } from '../_utils/vue/create'
 import { POPUP_BIND_CHILDREN_KEY } from './provide'
-
-const MaybeTeleport = createMaybeComponent(SmyTeleport)
 
 const [name, bem] = createNamespace('popup')
 
@@ -60,7 +58,7 @@ export default {
   provide() {
     return { [POPUP_BIND_CHILDREN_KEY]: this }
   },
-  components: { MaybeTeleport },
+  components: { SmyTeleport },
   props,
   watch: {
     show(newValue) {

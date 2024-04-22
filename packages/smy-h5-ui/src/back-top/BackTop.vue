@@ -1,12 +1,16 @@
 <template>
   <div ref="root" :class="bem('wrap')">
-    <maybe-teleport :maybe="!!teleport" :to="teleport">
-      <div :class="bem({ active: show })" :style="style" v-bind="$attrs" v-on="$listeners" @click="onClick">
-        <slot>
-          <smy-icon :class="bem('icon')" name="chevron-up" />
-        </slot>
+    <smy-teleport :to="teleport">
+      <div
+        :class="bem({ active: show })"
+        :style="{ zIndex, right, bottom }"
+        v-bind="$attrs"
+        v-on="$listeners"
+        @click="onClick"
+      >
+        <slot><smy-icon :class="bem('icon')" name="chevron-up" /></slot>
       </div>
-    </maybe-teleport>
+    </smy-teleport>
   </div>
 </template>
 
@@ -14,7 +18,7 @@
 import { IN_BROWSER, getScrollTop, getParentScroller, getElement, throttle } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { onMountedOrActivated } from '../_utils/vue/lifetime'
-import { MaybeTeleport } from '../teleport'
+import SmyTeleport from '../teleport'
 import { props } from './props'
 import SmyIcon from '../icon'
 import ChevronUp from '@smy-h5/icons/dist/es/ChevronUp'
@@ -28,24 +32,20 @@ export default {
   props,
   inheritAttrs: false,
   components: {
-    MaybeTeleport,
+    SmyTeleport,
     SmyIcon,
   },
   data: () => ({
     show: false,
     scrollParent: null,
   }),
-  computed: {
-    style({ zIndex, right, bottom }) {
-      return { zIndex, right, bottom }
-    },
-  },
-  watch: {
-    target: 'updateTarget',
-  },
   created() {
     let attached = false
-    const scroll = throttle(this.onScroll, 100)
+    const onScroll = () => {
+      const { scrollParent, offset } = this
+      this.show = scrollParent ? getScrollTop(scrollParent) >= +offset : false
+    }
+    const scroll = throttle(onScroll, 100)
     const add = (element) => {
       if (element && !attached) {
         element.addEventListener('scroll', scroll)
@@ -59,29 +59,24 @@ export default {
       }
     }
     onMountedOrActivated(this, add)
-    this.$on(['hook:deactivated', 'hook:beforeDestory'], remove)
-    this.$watch('scrollParent', (val, oldVal) => {
-      add(val)
-      remove(oldVal)
-    })
-  },
-  mounted() {
-    this.updateTarget()
-  },
-  methods: {
-    bem,
-    updateTarget() {
+    const updateTarget = () => {
       if (!IN_BROWSER) return
       this.$nextTick(() => {
         const { target } = this
-        this.scrollParent = target ? getElement(target) : getParentScroller(this.$refs.root)
-        this.onScroll()
+        const newScrollParent = target ? getElement(target) : getParentScroller(this.$refs.root)
+        add(newScrollParent)
+        remove(this.scrollParent)
+        this.scrollParent = newScrollParent
+        onScroll()
       })
-    },
-    onScroll() {
-      const { scrollParent, offset } = this
-      this.show = scrollParent ? getScrollTop(scrollParent) >= +offset : false
-    },
+    }
+    this.$on('hook:mounted', () => {
+      this.$watch('target', updateTarget, { immediate: true })
+    })
+    this.$on(['hook:deactivated', 'hook:beforeDestory'], remove)
+  },
+  methods: {
+    bem,
     onClick(event) {
       this.$emit('click', event)
       this.scrollParent?.scrollTo({

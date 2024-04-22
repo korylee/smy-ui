@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import BackTop from '../BackTop.vue'
+import BackTop from '..'
 import SmyCell from '../../cell'
 import SmyTabs from '../../tabs'
 import SmyTab from '../../tab'

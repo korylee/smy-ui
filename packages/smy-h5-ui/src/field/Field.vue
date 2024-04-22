@@ -34,7 +34,7 @@
         :name="clearIcon"
         @click.stop="onClear"
       />
-      <div v-if="$slots['button']" :class="bem('button')"><slot name="button" /></div>
+      <div v-if="$scopedSlots['button']" :class="bem('button')"><slot name="button" /></div>
     </div>
     <smy-form-details :error-message="errorMessage || $data._errorMessage" :extra-message="wordLimit">
       <template #error-message><slot name="error-message" /></template>
