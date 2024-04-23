@@ -51,6 +51,8 @@
     "@smy-h5/icons": "workspace:^1.0.0",
     "@smy-h5/shared": "workspace:*",
     "@smy-h5/touch-emulator": "workspace:^",
+    "@vitejs/plugin-vue2": "^2.3.1",
+    "@vitejs/plugin-vue2-jsx": "^1.1.1",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.4.0",
     "@vue/babel-preset-jsx": "^1.4.0",
     "@vue/compiler-sfc": "2.7.14",
@@ -81,16 +83,15 @@
     "terser": "^5.30.3",
     "ts-morph": "^22.0.0",
     "vite": "^5.2.9",
-    "vite-plugin-vue2": "^2.0.3",
-    "vue": "2.6.14",
+    "vue": "2.7.16",
     "vue-router": "^3.6.5",
-    "vue-template-compiler": "2.6.14",
+    "vue-template-compiler": "2.7.16",
     "vue-template-es2015-compiler": "^1.9.1",
     "webfont": "^11.2.26"
   },
   "peerDependencies": {
     "shiki": "1.0.0",
-    "vue": "2.6.14",
-    "vue-template-compiler": "2.6.14"
+    "vue": "2.7.16",
+    "vue-template-compiler": "2.7.16"
   }
 }

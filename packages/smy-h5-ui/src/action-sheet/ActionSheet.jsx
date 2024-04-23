@@ -1,4 +1,3 @@
-import { getListeners } from '../_mixins/listeners'
 import { createNamespace } from '../_utils/vue/create'
 import Popup from '../popup'
 import ProgressCircular from '../progress-circular'
@@ -7,17 +6,19 @@ import { popupInheritPropKeys, props } from './props'
 import { popupListenerKeys } from '../popup/shared'
 import { assign, pick } from '@smy-h5/shared'
 import { HAPTICS_FEEDBACK } from '../_utils/contant'
+import { defineComponent, getCurrentInstance, h, nextTick } from 'vue'
+import { getListeners } from '../_utils/vue/listener'
 
 import '../_styles/common.less'
 import './actionSheet.less'
 
 const [name, bem] = createNamespace('action-sheet')
 
-export default {
+export default defineComponent({
   name,
   props,
-  methods: {
-    onSelect(item, index) {
+  setup(props, { emit, slots }) {
+    const onSelect = (item, index) => {
       const { disabled, loading, callback, closeOnClickAction } = item
       if (disabled || loading) {
         return
@@ -25,95 +26,89 @@ export default {
       callback?.(item)
 
       if (closeOnClickAction) {
-        this.$emit('update:show', false)
+        emit('update:show', false)
       }
 
-      this.$nextTick(() => this.$emit('select', item, index))
-    },
-    onCancel() {
-      this.$emit('update:show', false)
-      this.$emit('cancel')
-    },
-  },
-  render() {
-    /**@type {import('vue').default} */
-    const vm = this
-    const c = vm.$createElement
+      nextTick(() => emit('select', item, index))
+    }
+    const onCancel = () => {
+      emit('update:show', false)
+      emit('cancel')
+    }
 
-    const renderHeader = () =>
-      vm.title
-        ? c('div', { class: bem('header') }, [
-            vm.title,
-            vm.closeable &&
-              c(Icon, {
-                attrs: { name: vm.closeIcon },
-                class: bem('close', HAPTICS_FEEDBACK),
-                on: { click: vm.onCancel },
-              }),
-          ])
-        : null
+    return () => {
+      const renderHeader = () =>
+        props.title
+          ? h('div', { class: bem('header') }, [
+              props.title,
+              props.closeable &&
+                h(Icon, {
+                  attrs: { name: props.closeIcon },
+                  class: bem('close', HAPTICS_FEEDBACK),
+                  on: { click: onCancel },
+                }),
+            ])
+          : null
 
-    const renderCancel = () => {
-      const content = vm._t('cancel') || vm.cancelText
-      if (content) {
+      const renderCancel = () => {
+        const content = slots.cancel?.() ?? props.cancelText
+        if (content) {
+          return [
+            h('div', { class: bem('gap') }),
+            h('button', { class: bem('cancel'), attrs: { type: 'button' }, on: { click: onCancel } }, [content]),
+          ]
+        }
+      }
+      const renderActionContent = (item, index) => {
+        if (item.loading) {
+          return <ProgressCircular class={bem('loading')} indeterminate={true} width={1.2} />
+        }
+        if (slots.item) {
+          return slots.item({ item, index })
+        }
         return [
-          c('div', { class: bem('gap') }),
-          c('button', { class: bem('cancel'), attrs: { type: 'button' }, on: { click: vm.onCancel } }, [content]),
+          <span class={bem('name')}>{item.name}</span>,
+          item.subname && <div class={bem('subname')}>{item.subname}</div>,
         ]
       }
-    }
-    const renderActionContent = (item, index) => {
-      if (item.loading) {
-        return c(ProgressCircular, {
-          class: bem('loading'),
-          attrs: { indeterminate: true, width: 1.2 },
-        })
-      }
-      return vm._t(
-        'item',
-        () => [
-          c('span', { class: bem('name') }, [item.name]),
-          item.subname && c('div', { class: bem('subname') }, [item.subname]),
-        ],
-        { item, index },
-      )
-    }
 
-    const renderAction = (item, index) =>
-      c(
-        'button',
+      const renderAction = (item, index) =>
+        h(
+          'button',
+          {
+            class: [bem('item', { loading: item.loading, disabled: item.disabled }), item.className],
+            style: { color: item.color },
+            on: { click: () => onSelect(item, index) },
+          },
+          [renderActionContent(item, index)],
+        )
+
+      const renderDesc = () => {
+        const content = slots.desc ? slots.desc() : props.desc
+        if (content) {
+          return h('div', { class: bem('desc') }, [content])
+        }
+      }
+
+      const attrs = assign(
         {
-          class: [bem('item', { loading: item.loading, disabled: item.disabled }), item.className],
-          style: { color: item.color },
-          on: { click: () => vm.onSelect(item, index) },
+          contentClass: bem(),
+          wrapperClass: bem('popup'),
+          position: 'bottom',
         },
-        [renderActionContent(item, index)],
+        pick(props, popupInheritPropKeys),
       )
-
-    const renderDesc = () => {
-      const content = vm._t('desc') || vm.desc
-      if (content) {
-        return c('div', { class: bem('desc') }, [content])
+      const data = {
+        attrs,
+        on: getListeners(popupListenerKeys),
       }
+      console.log(getCurrentInstance(), '----');
+      return h(Popup, data, [
+        renderHeader(),
+        renderDesc(),
+        h('div', { class: bem('content') }, [props.items.map(renderAction), slots.default?.()]),
+        renderCancel(),
+      ])
     }
-
-    const attrs = assign(
-      {
-        contentClass: bem(),
-        wrapperClass: bem('popup'),
-        position: 'bottom',
-      },
-      pick(vm, popupInheritPropKeys),
-    )
-    const data = {
-      attrs,
-      on: getListeners.call(vm, popupListenerKeys),
-    }
-    return c(Popup, data, [
-      renderHeader(),
-      renderDesc(),
-      c('div', { class: bem('content') }, [vm.items.map(renderAction), vm._t('default')]),
-      renderCancel(),
-    ])
-  },
-}
+  }
+})

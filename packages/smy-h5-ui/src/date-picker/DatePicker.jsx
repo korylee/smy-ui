@@ -2,40 +2,38 @@ import Picker from '../picker'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
 import { isSameValue, genArray } from '../_utils/shared'
-import { range, pick, padZero, assign } from '@smy-h5/shared'
+import { range, pick, padZero, assign, assignWith } from '@smy-h5/shared'
 import { getMonthEndDay } from './utils'
 import { pickerSharedPropKeys } from '../picker/props'
-import { getListeners } from '../_mixins/listeners'
 import { pickerSharedListeners } from '../picker/utils'
+import { defineComponent, h, ref, set, unref, watch } from 'vue'
 
 import '../popup/popup.less'
 import '../picker/picker.less'
+import { getListeners } from '../_utils/vue/listener'
 
 const [name] = createNamespace('date-picker')
 
-export default {
+export default defineComponent({
   name,
   props,
-  data: (vm) => ({ columns: [], currentValue: vm.value.slice() }),
-  computed: {
-    initialParam({ columnsType }) {
-      return this.genParam(columnsType[0])
-    },
-  },
-  watch: {
-    initialParam: {
-      immediate: true,
-      handler(param, oldParam) {
-        if (isSameValue(param, oldParam)) return
-        this.columns = this.genOptions(param)
+  setup(props, { slots }) {
+    const columns = ref([])
+    const currentValue = ref(props.value.slice())
+
+    watch(
+      () => genParam(props.columnsType[0]),
+      (val, oldVal) => {
+        if (isSameValue(val, oldVal)) return
+        columns.value = genOptions(val)
       },
-    },
-  },
-  methods: {
-    getValue(type) {
-      const { minDate, columnsType, currentValue } = this
-      const index = columnsType.indexOf(type)
-      const target = currentValue[index]
+      { immediate: true },
+    )
+
+    function getValue(type) {
+      const { minDate } = props
+      const index = props.columnsType.indexOf(type)
+      const target = unref(currentValue)[index]
       if (target) {
         return +target
       }
@@ -47,9 +45,9 @@ export default {
         case 'day':
           return minDate.getDate()
       }
-    },
-    genParam(type) {
-      const { maxDate, minDate } = this
+    }
+    function genParam(type) {
+      const { maxDate, minDate } = props
       const minYear = minDate.getFullYear()
       const maxYear = maxDate.getFullYear()
       switch (type) {
@@ -60,7 +58,7 @@ export default {
             max: maxYear,
           }
         case 'month': {
-          const year = this.getValue('year')
+          const year = getValue('year')
           const minMonth = minYear === year ? minDate.getMonth() + 1 : 1
           const maxMonth = maxYear === year ? maxDate.getMonth() + 1 : 12
           return {
@@ -70,8 +68,8 @@ export default {
           }
         }
         case 'day': {
-          const year = this.getValue('year')
-          const month = this.getValue('month')
+          const year = getValue('year')
+          const month = getValue('month')
           const minMonth = minDate.getMonth() + 1
           const maxMonth = maxDate.getMonth() + 1
           const minDay = year === minYear && month === minMonth ? minDate.getDate() : 1
@@ -85,68 +83,63 @@ export default {
         default:
           return
       }
-    },
-    genOptions(param) {
+    }
+    function genOptions(param) {
       if (!param) return []
       const { min, max, type } = param
-      const { filter, formatter } = this
 
       const length = max - min + 1
       return genArray(
         length,
         (index) => {
           const value = padZero(min + index)
-          return formatter({ text: value, value, type })
+          return props.formatter({ text: value, value, type })
         },
-        filter,
+        props.filter,
       )
-    },
-    genDefaultVal({ column, columnIndex }) {
-      const value = this.currentValue[columnIndex]
+    }
+    function genDefaultVal({ column, columnIndex }) {
+      const value = unref(currentValue)[columnIndex]
       const minValue = +column[0].value
       const maxValue = +column[column.length - 1].value
       return padZero(range(+value, minValue, maxValue))
-    },
-    genChildren(item) {
+    }
+    function genChildren(item) {
       if (item.children) {
         return item.children
       }
-      const { columnsType } = this
+      const { columnsType } = props
       const index = columnsType.indexOf(item.type)
       const nextType = columnsType[index + 1]
-      const param = this.genParam(nextType)
-      const children = this.genOptions(param)
-      this.$set(item, 'children', children)
+      const param = genParam(nextType)
+      const children = genOptions(param)
+      set(item, 'children', children)
       return children
-    },
-  },
-  render() {
-    const _vm = this
-    const _h = _vm.$createElement
-    const _c = _vm._self._c || _h
-    const listeners = getListeners.call(_vm, pickerSharedListeners)
+    }
 
-    const attrs = assign(pick(_vm.$props, pickerSharedPropKeys), {
-      value: _vm.currentValue,
-      columns: _vm.columns,
-      'item-children': _vm.genChildren,
-      'preset-value': _vm.genDefaultVal,
-      cascade: '',
-    })
-    const scopedSlots = assign({}, _vm.$scopedSlots)
+    return () => {
+      const listeners = getListeners(pickerSharedListeners)
 
-    const data = _vm._g(
-      {
-        attrs,
-        on: {
-          'update:value': function updateValue($event) {
-            _vm.currentValue = $event
+      const attrs = assign(pick(props, pickerSharedPropKeys), {
+        value: unref(currentValue),
+        columns: unref(columns),
+        'item-children': genChildren,
+        'preset-value': genDefaultVal,
+        cascade: '',
+      })
+      const scopedSlots = assign({}, slots)
+
+      const on = assignWith(
+        {
+          'update:value': ($event) => {
+            currentValue.value = $event
           },
         },
-        scopedSlots,
-      },
-      listeners,
-    )
-    return _c(Picker.Component, data)
+        listeners,
+        (targetVal, sourceVal) => (targetVal ? [targetVal].concat(sourceVal) : sourceVal),
+      )
+      const data = { attrs, on, scopedSlots }
+      return h(Picker.Component, data)
+    }
   },
-}
+})

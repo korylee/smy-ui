@@ -12,13 +12,14 @@ import {
   UI_PACKAGE_JSON,
 } from '../shared/constant'
 import { BuildOptions, InlineConfig, LibraryFormats, PluginOption, mergeConfig } from 'vite'
-import { createVuePlugin } from 'vite-plugin-vue2'
 import { resolve } from 'path'
 import markdownPlugin from '@smy-h5/markdown-vite-plugin'
 import { SmyConfig } from './smyConfig'
 import { pathExistsSync, removeSync, readFileSync, writeFileSync, copyFileSync } from 'fs-extra'
 import stripWith from 'vue-template-es2015-compiler'
 import ejs from 'ejs'
+import vue from '@vitejs/plugin-vue2'
+import vueJsx from '@vitejs/plugin-vue2-jsx'
 
 export function getDevConfig(smyConfig: SmyConfig): InlineConfig {
   const { host } = smyConfig
@@ -42,10 +43,10 @@ export function getDevConfig(smyConfig: SmyConfig): InlineConfig {
     },
     publicDir: SITE_PUBLIC_PATH,
     plugins: [
-      createVuePlugin({
+      vue({
         include: [/\.vue$/, /\.md$/],
-        jsx: true,
       }),
+      vueJsx(),
       markdownPlugin(),
       html({
         data: {

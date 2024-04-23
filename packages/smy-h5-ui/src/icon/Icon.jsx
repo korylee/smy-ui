@@ -2,6 +2,7 @@ import { convertToUnit, isNil, isString, toNumber } from '@smy-h5/shared'
 import { props } from './props'
 import { createNamespace } from '../_utils/vue/create'
 import { IconCache } from './utils'
+import { defineComponent, h, nextTick, ref, watch } from 'vue'
 
 import './icon.less'
 
@@ -9,78 +10,76 @@ const isImage = (name) => name?.includes('/')
 
 const [name, bem] = createNamespace('icon')
 
-export default {
+export default defineComponent({
   name,
   props,
-  data: () => ({
-    shrinking: false,
-    nextName: '',
-  }),
-  watch: {
-    name: {
-      immediate: true,
-      handler(newName, oldName) {
-        const { transition } = this
-        if (oldName == null || toNumber(transition) === 0) {
-          this.nextName = newName
+  setup(props, { slots, listeners }) {
+    const shrinking = ref(false)
+    const nextName = ref('')
+
+    watch(
+      () => props.name,
+      (newVal, oldVal) => {
+        const transition = toNumber(props.transition)
+        if (oldVal == null || transition === 0) {
+          nextName.value = newVal
           return
         }
-
-        this.shrinking = true
-
-        this.$nextTick(() => {
+        shrinking.value = true
+        nextTick(() => {
           setTimeout(() => {
-            oldName != null && (this.nextName = newName)
-            this.shrinking = false
-          }, toNumber(transition))
+            oldVal != null && (nextName.value = newVal)
+            shrinking.value = false
+          }, transition)
         })
       },
-    },
-  },
-  render() {
-    const vm = this
-    const { tag, $createElement: h, shrinking, namespace, nextName, transition, size, color, $listeners } = vm
-    const style = {
-      color,
-      fontSize: convertToUnit(size),
-      transitionDuration: `${toNumber(transition)}ms`,
-    }
-    const defaultSlot = vm._t('default')
-    const baseClass = bem({ shrinking })
-    let child = defaultSlot
-    let isImageIcon = false
-    if (isNil(child) && nextName) {
-      if (isString(nextName)) {
-        isImageIcon = isImage(nextName)
-        const icon = IconCache.resolve(nextName)
-        if (icon) {
-          child = h(icon)
-        }
-      } else {
-        child = h(nextName)
+      { immediate: true },
+    )
+
+    return () => {
+      const { tag, namespace, transition, size, color } = props
+      const currentName = nextName.value
+      const style = {
+        color,
+        fontSize: convertToUnit(size),
+        transitionDuration: `${toNumber(transition)}ms`,
       }
-    }
-    if (child) {
+      const baseClass = bem({ shrinking: shrinking.value })
+      let child = slots.default?.()
+      let isImageIcon = false
+      if (isNil(child) && currentName) {
+        if (isString(currentName)) {
+          isImageIcon = isImage(currentName)
+          const icon = IconCache.resolve(currentName)
+          if (icon) {
+            child = h(icon)
+          }
+        } else {
+          child = h(currentName)
+        }
+      }
+      if (child) {
+        return h(
+          tag,
+          {
+            class: baseClass,
+            style,
+            on: listeners,
+          },
+          [child],
+        )
+      }
+      // iconfont 字体或图片
+      const addClass = namespace && currentName && !isImageIcon ? ` ${namespace}--set ${namespace}-${currentName}` : ''
       return h(
-        tag,
+        'i',
         {
-          class: baseClass,
+          class: baseClass + addClass,
           style,
-          on: $listeners,
+          on: listeners,
         },
-        [child],
+        [isImageIcon ? h('img', { attrs: { src: currentName } }) : null],
       )
     }
-    // iconfont 字体或图片
-    const addClass = namespace && nextName && !isImageIcon ? ` ${namespace}--set ${namespace}-${nextName}` : ''
-    return h(
-      'i',
-      {
-        class: baseClass + addClass,
-        style,
-        on: $listeners,
-      },
-      [isImageIcon ? h('img', { attrs: { src: nextName } }) : null],
-    )
   },
-}
+})

@@ -4,15 +4,16 @@ import { props } from './props'
 
 import '../_styles/common.less'
 import './highlight.less'
+import { computed, defineComponent, h, unref } from 'vue'
 
 const [name, bem] = createNamespace('highlight')
 
-export default {
+export default defineComponent({
   name,
   props,
-  computed: {
-    chunks(vm) {
-      const { keywords: _keywords, autoEscape, caseSensitive, content } = vm
+  setup(props, { slots }) {
+    const chunks = computed(() => {
+      const { keywords: _keywords, autoEscape, caseSensitive, content } = props
       const keywords = wrapInArray(_keywords)
 
       const highlightChunks = []
@@ -64,29 +65,23 @@ export default {
       }
 
       return chunks
-    },
-  },
-  render() {
-    const _vm = this
-    const _h = _vm.$createElement
-    const { tag } = _vm
-
-    const renderContent = () => {
-      const { content, highlightClass, highlightTag, unhighlightClass, unhighlightTag, chunks } = _vm
-      return chunks.map((chunk) => {
-        const { highlight, start, end } = chunk
-        const text = content.slice(start, end)
-        if (highlight) {
-          return _vm._t('highlight', () => [_h(highlightTag, { class: [bem('highlight'), highlightClass] }, [text])], {
-            text,
-          })
-        }
-        return _vm._t('unhighlight', () => [_h(unhighlightTag, { class: [unhighlightClass] }, [text])], {
-          text,
+    })
+    return () => {
+      const renderContent = () =>
+        unref(chunks).map((chunk) => {
+          const { highlight, start, end } = chunk
+          const text = props.content.slice(start, end)
+          if (highlight) {
+            return slots.highlight
+              ? slots.highlight({ text })
+              : h(props.highlightTag, { class: [bem('highlight'), props.highlightClass] }, [text])
+          }
+          return slots.unhighlight
+            ? slots.unhighlight({ text })
+            : h(props.unhighlightTag, { class: [bem('unhighlight'), props.unhighlightClass] }, [text])
         })
-      })
-    }
 
-    return _h(tag, { class: bem() }, [renderContent()])
+      return h(props.tag, { class: bem() }, [renderContent()])
+    }
   },
-}
+})

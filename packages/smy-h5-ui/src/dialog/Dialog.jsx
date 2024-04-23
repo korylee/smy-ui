@@ -6,13 +6,14 @@ import { popupInheritPropKeys, props } from './props'
 import { getListeners } from '../_mixins/listeners'
 import { popupListenerKeys } from '../popup/shared'
 import { BORDER_LEFT, BORDER_TOP } from '../_utils/contant'
+import { defineComponent } from 'vue'
 
 import '../_styles/common.less'
 import './dialog.less'
 
 const [name, bem] = createNamespace('dialog')
 
-export default {
+export default defineComponent({
   name,
   props,
   methods: {
@@ -104,4 +105,4 @@ export default {
       [renderHeader(), renderBody(), renderFooter()],
     )
   },
-}
+})

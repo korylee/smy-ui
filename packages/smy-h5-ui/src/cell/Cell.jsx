@@ -2,48 +2,44 @@ import { createNamespace } from '../_utils/vue/create'
 import { props } from './props'
 
 import './cell.less'
+import { defineComponent, h } from 'vue'
 
 const [name, bem] = createNamespace('cell')
 
-export default {
+export default defineComponent({
   name,
   props,
-  render() {
-    const _vm = this
-    const _h = _vm.$createElement
-    const _c = _vm._self._c || _h
-    const renderIcon = () => {
-      const iconVNode = _vm._t('icon')
-      return iconVNode ? _c('div', { class: bem('icon') }, [iconVNode], 2) : null
-    }
-    const renderTitle = () => {
-      const { desc } = _vm
-      const descVNode = _vm._t('desc') || _vm._s(desc)
-      return (
-        <div class={[bem('title'), _vm.titleClass]}>
-          {_vm._t('title', () => [_vm._t('default', () => [_vm._s(_vm.title)])])}
-          {descVNode ? _c('div', { class: [bem('desc'), _vm.descClass] }, [descVNode], 2) : null}
-        </div>
-      )
-    }
-    const renderValue = () => {
-      const { value } = _vm
-      const valueVNode = _vm._t('value') || _vm._s(value)
-      return valueVNode ? <div class={bem('value')}>{valueVNode}</div> : null
-    }
-    const renderExtra = () => {
-      const extraVNode = _vm._t('extra')
-      return extraVNode ? <div class={[bem('extra'), _vm.extraClass]}>{extraVNode}</div> : null
-    }
+  setup(props, { slots, listeners }) {
+    return () => {
+      const renderIcon = () => {
+        return slots.icon ? h('div', { class: bem('icon') }, [slots.icon()], 2) : null
+      }
+      const renderTitle = () => {
+        const descVNode = slots.desc?.() ?? props.desc
+        return (
+          <div class={[bem('title'), props.titleClass]}>
+            {(slots.title ?? slots.default)?.() ?? props.title}
+            {descVNode ? <div class={[bem('desc'), props.descClass]}>{descVNode}</div> : null}
+          </div>
+        )
+      }
+      const renderValue = () => {
+        const valueVNode = slots.value?.() || props.value
+        return valueVNode ? <div class={bem('value')}>{valueVNode}</div> : null
+      }
+      const renderExtra = () => {
+        return slots.extra ? <div class={[bem('extra'), props.extraClass]}>{slots.extra()}</div> : null
+      }
 
-    const data = {
-      class: bem({
-        borderless: !_vm.border,
-        insert: _vm.insert,
-        clickable: _vm.clickable,
-      }),
-      on: _vm.$listeners,
+      const data = {
+        class: bem({
+          borderless: !props.border,
+          insert: props.insert,
+          clickable: props.clickable,
+        }),
+        on: listeners,
+      }
+      return h('div', data, [renderIcon(), renderTitle(), renderValue(), renderExtra()])
     }
-    return _h('div', data, [renderIcon(), renderTitle(), renderValue(), renderExtra()])
   },
-}
+})

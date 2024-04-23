@@ -22,10 +22,11 @@ import { createMaybeComponent } from '../_utils/vue/component'
 import SmyBadge from '../badge'
 import { numericProp } from '../_utils/vue/props'
 import { name, bem } from './utils'
+import { defineComponent, computed } from 'vue'
 
 const MaybeBadge = createMaybeComponent(SmyBadge)
 
-export default {
+export default defineComponent({
   name: name + '-title',
   props: {
     type: String,
@@ -41,25 +42,26 @@ export default {
     inactiveColor: String,
   },
   components: { MaybeBadge },
-  computed: {
-    style() {
-      const style = {}
-      const { color, disabled, active } = this
+  setup(props) {
+    const style = computed(() => {
+      const _style = {}
+      const { color, disabled, active } = props
       if (color) {
-        style.borderColor = color
+        _style.borderColor = color
         if (!disabled) {
           if (active) {
-            style.backgroundColor = color
+            _style.backgroundColor = color
           } else {
-            style.color = color
+            _style.color = color
           }
         }
       }
-      return style
-    },
+      return _style
+    })
+    return {
+      style,
+      bem,
+    }
   },
-  methods: {
-    bem,
-  },
-}
+})
 </script>
