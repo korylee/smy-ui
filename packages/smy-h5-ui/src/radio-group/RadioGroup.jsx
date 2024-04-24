@@ -2,38 +2,33 @@ import { createParentMixin } from '../_mixins/relation'
 import { createNamespace } from '../_utils/vue/create'
 import { RADIO_KEY } from './shared'
 import { props } from './props'
+import { defineComponent, watch } from 'vue'
 
 import './radioGroup.less'
 
 const [name, bem] = createNamespace('radio-group')
 
-export default {
+export default defineComponent({
   name,
   mixins: [createParentMixin(RADIO_KEY)],
   props,
-  watch: {
-    value(val) {
-      this.$emit('change', val)
-    },
-  },
-  methods: {
-    updateValue(value) {
-      this.$emit('input', value)
-    },
-  },
-  render() {
-    const _vm = this
-    const _h = _vm.$createElement
-    const _c = _vm._self._c || _h
-    const { direction } = _vm
-    return _c(
-      'div',
-      {
-        class: bem([direction]),
-        attrs: { role: 'radiogroup' },
+  setup(props, { emit, expose, slots }) {
+    watch(
+      () => props.value,
+      (val) => {
+        emit('change', val)
       },
-      [_vm._t('default')],
-      2,
+    )
+    expose({
+      updateValue: (value) => {
+        emit('input', value)
+      },
+    })
+
+    return () => (
+      <div class={bem([props.direction])} role="radiogroup">
+        {slots.default?.()}
+      </div>
     )
   },
-}
+})

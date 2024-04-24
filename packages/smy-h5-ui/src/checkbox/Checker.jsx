@@ -2,15 +2,17 @@ import { checkerProps } from './props'
 import SmyIcon from '../icon'
 import Minus from '@smy-h5/icons/dist/es/Minus'
 import { convertToUnit } from '@smy-h5/shared'
+import { computed, defineComponent, h, ref, unref } from 'vue'
 
 const DEFAULT_SHAPE = { radio: 'round', checkbox: 'square' }
 
-export default {
+export default defineComponent({
   name: 'InternalChecker',
   props: checkerProps,
-  computed: {
-    _disabled(vm) {
-      const { disabled, parent, bindGroup, role, getParentProp, checked } = vm
+  setup(props, { emit, slots }) {
+    const iconRef = ref()
+    const realDisabled = computed(() => {
+      const { disabled, parent, bindGroup, role, checked } = props
       if (parent && bindGroup) {
         const _disabled = getParentProp('disabled') || disabled
         if (role === 'checkbox') {
@@ -22,96 +24,81 @@ export default {
         return _disabled
       }
       return disabled
-    },
-  },
-  methods: {
-    getParentProp(name) {
-      const { parent, bindGroup } = this
+    })
+
+    function getParentProp(name) {
+      const { parent, bindGroup } = props
       if (parent && bindGroup) {
         return parent[name]
       }
-    },
-    onClick(event) {
-      const { _disabled: disabled, labelDisabled } = this
+    }
+    function onClick(event) {
       const { target } = event
-      const { icon } = this.$refs
-      const iconClicked = icon === target || icon?.contains(target)
-      if (!disabled && (iconClicked || !labelDisabled)) {
-        this.$emit('toggle')
+      const iconClicked = unref(iconRef) === target || unref(iconRef)?.contains(target)
+      if (!unref(realDisabled) && (iconClicked || !props.labelDisabled)) {
+        emit('toggle')
       }
-      this.$emit('click', event)
-    },
-    renderIcon() {
-      const vm = this
-      const c = vm.$createElement
-      const { indeterminate, bem, checked, role, _disabled: disabled, preset, checkedIcon } = vm
-      let { icon } = vm
-      if (icon === false) {
-        return null
+      emit('click', event)
+    }
+    return () => {
+      const iconSize = props.size || getParentProp('size')
+      const size = convertToUnit(iconSize)
+      const color = props.color || getParentProp('color')
+      const direction = getParentProp('direction')
+      const disabled = unref(realDisabled)
+      const { role, bem, checked, labelPosition } = props
+      let { inline } = props
+
+      const renderIcon = () => {
+        const { indeterminate } = props
+        let { icon } = props
+        if (icon === false) {
+          return null
+        }
+        if (!icon) {
+          icon = indeterminate ? Minus : props.checkedIcon
+        }
+
+        const shape = props.shape || getParentProp('shape') || DEFAULT_SHAPE[role]
+        const clazz = bem('icon-content')
+        return (
+          <div
+            ref={iconRef}
+            class={bem('icon', { disabled, checked, indeterminate, [shape]: shape, preset: props.preset })}
+          >
+            {slots.icon
+              ? slots.icon({ checked, disabled })
+              : shape === 'dot'
+              ? h('div', { class: clazz })
+              : h(SmyIcon, { attrs: { name: icon }, class: clazz })}
+          </div>
+        )
       }
-      if (!icon) {
-        icon = indeterminate ? Minus : checkedIcon
+      const renderLabel = () =>
+        slots.default ? (
+          <span class={bem('label', { disabled, [labelPosition]: labelPosition })}>
+            {slots.default({ disabled, checked })}
+          </span>
+        ) : null
+
+      const children = [renderIcon()]
+      const labelVnode = renderLabel()
+      if (labelVnode) {
+        children[labelPosition === 'left' ? 'unshift' : 'push'](labelVnode)
+      } else if (!inline) {
+        inline = true
       }
 
-      const shape = vm.shape || vm.getParentProp('shape') || DEFAULT_SHAPE[role]
-      const clazz = bem('icon-content')
-      const iconFallback = () => {
-        if (shape === 'dot') {
-          return c('div', { class: clazz })
-        }
-        return c(SmyIcon, { attrs: { name: icon }, class: clazz })
-      }
-      return c(
+      return h(
         'div',
         {
-          ref: 'icon',
-          class: bem('icon', { disabled, checked, indeterminate, [shape]: shape, preset }),
+          attrs: { role, 'aria-checked': props.checked, tabindex: disabled ? undefined : 0 },
+          class: props.bem({ inline, [direction]: direction, disabled, 'label-disabled': props.labelDisabled }),
+          style: { [`--${role}-size`]: size, [`--${role}-color`]: color },
+          on: { click: onClick },
         },
-        [vm._t('icon', iconFallback, { checked, disabled })],
+        children,
       )
-    },
-    renderLabel() {
-      const vm = this
-      const c = vm._self._c || vm.$createElement
-      const { _disabled: disabled, checked, labelPosition } = vm
-      const childNodes = vm._t('default', undefined, { disabled, checked })
-      if (childNodes) {
-        return c('span', { class: vm.bem('label', { disabled, [labelPosition]: labelPosition }) }, childNodes)
-      }
-      return null
-    },
-  },
-  render() {
-    /**@type {import('vue').default} */
-    const vm = this
-    const _h = vm.$createElement
-    const c = vm._self._c || _h
-    const { role, bem, checked, renderIcon, renderLabel, _disabled: disabled, labelDisabled, labelPosition } = vm
-    const iconSize = vm.size || vm.getParentProp('size')
-    const size = convertToUnit(iconSize)
-    const color = vm.color || vm.getParentProp('color')
-    let { inline } = vm
-
-    const children = [renderIcon()]
-    const labelVnode = renderLabel()
-    if (labelVnode) {
-      children[labelPosition === 'left' ? 'unshift' : 'push'](labelVnode)
-    } else if (!inline) {
-      inline = true
     }
-    const direction = vm.getParentProp('direction')
-
-    return c(
-      'div',
-      {
-        attrs: { role, 'aria-checked': checked, tabindex: disabled ? undefined : 0 },
-        class: bem({ inline, [direction]: direction, disabled, 'label-disabled': labelDisabled }),
-        style: { [`--${role}-size`]: size, [`--${role}-color`]: color },
-        on: {
-          click: vm.onClick,
-        },
-      },
-      children,
-    )
   },
-}
+})

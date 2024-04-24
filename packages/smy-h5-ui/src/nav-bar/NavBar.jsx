@@ -5,14 +5,14 @@ import ArrowLeft from '@smy-h5/icons/dist/es/ArrowLeft'
 import SmyIcon from '../icon'
 import { useWindowSize } from '../_utils/composable/useWindowSize'
 import { getRect } from '@smy-h5/shared'
-import { h, nextTick, onMounted, ref, watch } from 'vue'
+import { defineComponent, h, nextTick, onMounted, ref, watch } from 'vue'
 
 import '../_styles/common.less'
 import './navBar.less'
 
 const [name, bem] = createNamespace('nav-bar')
 
-export default {
+export default defineComponent({
   name,
   props,
   setup(props, { slots, emit }) {
@@ -118,4 +118,4 @@ export default {
       return renderContent()
     }
   },
-}
+})

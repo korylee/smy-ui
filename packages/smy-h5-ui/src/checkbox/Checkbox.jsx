@@ -3,14 +3,16 @@ import { createNamespace } from '../_utils/vue/create'
 import Checker from './Checker'
 import { props } from './props'
 import { createChildrenMixin } from '../_mixins/relation'
+import { CHECKBOX_KEY } from '../checkbox-group/shared'
+import { defineComponent } from 'vue'
 
 import '../_styles/common.less'
 import './checkbox.less'
-import { CHECKBOX_KEY } from '../checkbox-group/shared'
+
 
 const [name, bem] = createNamespace('checkbox')
 
-export default {
+export default defineComponent({
   name,
   mixins: [createChildrenMixin(CHECKBOX_KEY)],
   props,
@@ -85,4 +87,4 @@ export default {
     )
     return h(Checker, data)
   },
-}
+})

@@ -118,8 +118,6 @@ export default defineComponent({
     }
 
     return () => {
-      const listeners = getListeners(pickerSharedListeners)
-
       const attrs = assign(pick(props, pickerSharedPropKeys), {
         value: unref(currentValue),
         columns: unref(columns),
@@ -127,8 +125,8 @@ export default defineComponent({
         'preset-value': genDefaultVal,
         cascade: '',
       })
-      const scopedSlots = assign({}, slots)
 
+      const listeners = getListeners(pickerSharedListeners)
       const on = assignWith(
         {
           'update:value': ($event) => {
@@ -138,7 +136,7 @@ export default defineComponent({
         listeners,
         (targetVal, sourceVal) => (targetVal ? [targetVal].concat(sourceVal) : sourceVal),
       )
-      const data = { attrs, on, scopedSlots }
+      const data = { attrs, on, scopedSlots: slots }
       return h(Picker.Component, data)
     }
   },

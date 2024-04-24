@@ -3,10 +3,10 @@ import { assign } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import Popup from '../popup'
 import { popupInheritPropKeys, props } from './props'
-import { getListeners } from '../_mixins/listeners'
 import { popupListenerKeys } from '../popup/shared'
 import { BORDER_LEFT, BORDER_TOP } from '../_utils/contant'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
+import { getListeners } from '../_utils/vue/listener'
 
 import '../_styles/common.less'
 import './dialog.less'
@@ -16,93 +16,86 @@ const [name, bem] = createNamespace('dialog')
 export default defineComponent({
   name,
   props,
-  methods: {
-    getHandler(action) {
-      if (!this.show) {
-        return
-      }
-      this.callback?.(action)
-      this.$emit(action)
-      this.$emit('update:show', false)
-    },
-  },
-  render() {
-    /** @type {import('vue').default} */
-    const vm = this
-    const c = vm.$createElement
-    const headerContent = vm._t('title') || vm.title
-    const hasHeader = !!headerContent
-    const defaultVnode = vm._t('default')
-
-    const renderHeader = () => {
-      if (headerContent) {
-        return c('div', { class: bem('header', { isolated: !vm.content && !defaultVnode }) }, [headerContent])
+  setup(props, { emit, slots }) {
+    function getHandler(action) {
+      return () => {
+        if (!props.show) {
+          return
+        }
+        props.callback?.(action)
+        emit(action)
+        emit('update:show', false)
       }
     }
+    return () => {
+      const headerContent = slots.title ? slots.title() : props.title
+      const hasHeader = !!headerContent
+      const defaultVnode = slots.default?.()
 
-    const renderContent = () => {
-      const { content: _content, allowHtml } = vm
-      const className = bem('content', {
-        'has-header': hasHeader,
+      const renderHeader = () => {
+        if (headerContent) {
+          return h('div', { class: bem('header', { isolated: !props.content && !defaultVnode }) }, [headerContent])
+        }
+      }
+
+      const renderBody = () => {
+        if (defaultVnode) {
+          return h('div', { class: bem('body') }, defaultVnode)
+        }
+        const { content: _content } = props
+        if (_content) {
+          const content = isFunction(_content) ? _content() : _content
+          const domPropName = props.allowHtml && isString(content) ? 'innerHTML' : 'textContent'
+          const Content = h('div', {
+            class: bem('content', { 'has-header': hasHeader }),
+            domProps: { [domPropName]: content },
+          })
+          return <div class={bem('body', { isolated: !hasHeader })}>{Content}</div>
+        }
+      }
+
+      const renderFooter = () =>
+        slots.footer
+          ? slots.footer()
+          : h('div', { class: bem('footer', BORDER_TOP) }, [
+              props.showCancel &&
+                h(
+                  'button',
+                  {
+                    class: bem('cancel'),
+                    style: { color: props.cancelColor },
+                    on: { click: getHandler('cancel') },
+                  },
+                  [props.cancelText],
+                ),
+              props.showConfirm &&
+                h(
+                  'button',
+                  {
+                    class: [bem('confirm', { [BORDER_LEFT]: props.showCancel })],
+                    style: { color: props.confirmColor },
+                    on: { click: getHandler('confirm') },
+                  },
+                  [props.confirmText],
+                ),
+            ])
+
+      const attrs = assign(pick(props, popupInheritPropKeys), {
+        contentClass: bem(),
+        wrapperClass: bem('popup'),
+        tabindex: 0,
+        'aria-labelledy': props.title || props.content,
       })
-      const content = isFunction(_content) ? _content() : _content
-      if (allowHtml && isString(content)) {
-        return c('div', { class: className, domProps: { innerHTML: content } })
-      }
-      return c('div', { class: className }, [content])
-    }
-
-    const renderBody = () => {
-      if (defaultVnode) {
-        return c('div', { class: bem('body') }, defaultVnode)
-      }
-
-      if (vm.content) {
-        return c('div', { class: bem('body', { isolated: !hasHeader }) }, [renderContent()])
-      }
-    }
-
-    const renderFooter = () =>
-      vm._t('footer', () =>
-        c('div', { class: bem('footer', BORDER_TOP) }, [
-          vm.showCancel &&
-            c(
-              'button',
-              {
-                class: bem('cancel'),
-                style: { color: vm.cancelColor },
-                on: { click: () => vm.getHandler('cancel') },
-              },
-              [vm.cancelText],
-            ),
-          vm.showConfirm &&
-            c(
-              'button',
-              {
-                class: [bem('confirm', { [BORDER_LEFT]: vm.showCancel })],
-                style: { color: vm.confirmColor },
-                on: { click: () => vm.getHandler('confirm') },
-              },
-              [vm.confirmText],
-            ),
-        ]),
+      return h(
+        Popup,
+        {
+          ref: 'popup',
+          attrs,
+          style: { width: convertToUnit(props.width) },
+          on: getListeners(popupListenerKeys),
+        },
+        [renderHeader(), renderBody(), renderFooter()],
       )
-
-    const attrs = assign(pick(vm.$props, popupInheritPropKeys), {
-      contentClass: bem(),
-      wrapperClass: bem('popup'),
-      tabindex: 0,
-      'aria-labelledy': vm.title || vm.content,
-    })
-    return c(
-      Popup,
-      {
-        ref: 'popup',
-        attrs,
-        style: { width: convertToUnit(vm.width) },
-        on: getListeners.call(vm, popupListenerKeys),
-      },
-      [renderHeader(), renderBody(), renderFooter()],
-    )
+    }
   },
 })
