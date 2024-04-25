@@ -55,7 +55,7 @@ import SmyImage from '../image'
 import { props } from './props'
 import { readFileContent, isOversize, filterFiles, isImageFile } from './utils'
 import { SlotsMixin } from '../_mixins/slots'
-import { ListenersMixin } from '../_mixins/listeners'
+import { emit } from '../_mixins/listeners'
 import { isNil, wrapInArray } from '@smy-h5/shared'
 import ImagePreview from '../image-preview'
 import WindowClose from '@smy-h5/icons/dist/es/WindowClose'
@@ -68,7 +68,7 @@ let fid = 0
 
 export default {
   name,
-  mixins: [SlotsMixin, ListenersMixin],
+  mixins: [SlotsMixin],
   components: { SmyIcon, SmyImage },
   props,
   data: () => ({
@@ -91,9 +91,7 @@ export default {
         return
       }
       const file = Array.from(files)
-      const { getListener } = this
-      const onBeforeRead = getListener('before-read')
-      Promise.resolve(onBeforeRead ? onBeforeRead(file) : file)
+      Promise.resolve(emit(this, 'before-read', file))
         .then((data) => this.readFile(data ?? file))
         .catch(this.resetInput)
     },
@@ -104,9 +102,7 @@ export default {
       this.$emit('delete', item)
     },
     onClickUpload(event) {
-      const { getListener } = this
-      const onClickUpload = getListener('click-upload')
-      onClickUpload(event)
+      emit(this, 'click-upload', event)
     },
     onReupload(index) {
       this.chooseFile()
@@ -114,8 +110,7 @@ export default {
     },
     onPreview(item) {
       if (!this.previewImage) return
-      const { getListener } = this
-      const onClosePreview = getListener('close-preview')
+      const onClosePreview = emit(this, 'close-preview')
       const imageFiles = this.value.filter(isImageFile)
       const images = []
       imageFiles.forEach((item) => {
@@ -134,15 +129,12 @@ export default {
       })
     },
     onClickImage(item, index) {
-      const { getListener } = this
-      const onClickReupload = getListener('click-reupload')
-      const onClickPreview = getListener('click-preview')
       if (this.reupload) {
-        onClickReupload(item, index)
+        emit(this, 'click-reupload', item, index)
         this.onReupload(index)
         return
       }
-      onClickPreview(item, index)
+      emitemit(this, 'click-preview', item, index)
       this.onPreview(item)
     },
     chooseFile() {
@@ -158,8 +150,6 @@ export default {
     onAfterRead(items) {
       this.resetInput()
       const { maxSize, value, reuploadIndex } = this
-      const { getListener } = this
-      const onAfterRead = getListener('after-read')
       if (isOversize(items, maxSize)) {
         const result = filterFiles(items, maxSize)
         items = result.valid
@@ -176,7 +166,7 @@ export default {
       } else {
         this.$emit('input', [...value, ...items])
       }
-      onAfterRead?.(items)
+      emit(this, 'after-read', items)
     },
     readFile(files) {
       const { maxCount, value, resultType } = this
