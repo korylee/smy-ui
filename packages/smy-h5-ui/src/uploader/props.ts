@@ -35,7 +35,6 @@ export const props = {
   imageFit: createStringProp<ImageFit>('cover'),
   resultType: createStringProp<UploaderResultType>('dataUrl'),
   preview: truthProp,
-  previewSize: [Number, String, Array] as PropType<Numeric | [Numeric, Numeric]>,
   previewImage: Boolean,
   uploadIcon: createComponentProp(Plus),
   uploadText: String,

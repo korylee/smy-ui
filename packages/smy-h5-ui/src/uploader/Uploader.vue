@@ -75,7 +75,7 @@ export default {
     reuploadIndex: -1,
     urls: [],
   }),
-  mounted() {
+  beforeDestroy() {
     this.urls.forEach((url) => URL.revokeObjectURL(url))
   },
   methods: {

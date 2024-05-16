@@ -20,7 +20,7 @@ export declare class SmyTimePicker extends SmyComponent {
   }
 }
 
-const _SmyTimePicker = withInstall(_TimePicker)
+const _SmyTimePicker = withInstall(_TimePicker) as SmyTimePicker
 
 type TimePickerOptions = RequiredPartial<Omit<TimePickerProps, 'popup'>, 'columnsType'> & PickerSharedListeners
 

@@ -2,7 +2,7 @@ import Popup from '../popup'
 import Loading from '../loading'
 import Icon from '../icon'
 import { props } from './props'
-import { SlotsMixin, hasSlot } from '../_utils/vue/slots'
+import { hasSlot } from '../_utils/vue/slots'
 import { assign, pick } from '@smy-h5/shared'
 import { createNamespace } from '../_utils/vue/create'
 import { getListeners } from '../_mixins/listeners'
@@ -15,14 +15,11 @@ const [name, bem] = createNamespace('toast')
 
 export default {
   name,
-  mixins: [SlotsMixin],
   props,
-  watch: {
-    show: {
+  mounted() {
+    this.$watch(() => [this.show, this.duration], this.updateAfterDuration, {
       immediate: true,
-      handler: 'updateAfterDuration',
-    },
-    duration: 'updateAfterDuration',
+    })
   },
   methods: {
     bem,
@@ -55,17 +52,17 @@ export default {
         [type]: !icon && type,
       },
     ])
-    const attrs = assign(
-      {
-        contentClass: toastClass,
-        'smy-toast-cover': '',
-        wrapperClass: bem('popup', { unclickable: type === 'loading' || forbidClick }),
-      },
-      pick(vm, popupSharedPropKeys),
-    )
+
     const data = vm._g(
       {
-        attrs,
+        attrs: assign(
+          {
+            contentClass: toastClass,
+            'smy-toast-cover': '',
+            wrapperClass: bem('popup', { unclickable: type === 'loading' || forbidClick }),
+          },
+          pick(vm, popupSharedPropKeys),
+        ),
         on: { click: vm.onClick },
       },
       getListeners.call(vm, popupListenerKeys),
@@ -73,15 +70,14 @@ export default {
     return c(Popup, data, [
       hasIcon
         ? c('div', { class: bem('icon') }, [
-            hasIcon &&
-              vm._t('icon', () => {
-                if (icon) {
-                  return c(Icon, { attrs: { name: icon, size: iconSize } })
-                }
-                if (type === 'loading') {
-                  return c(Loading, { attrs: { type: loadingType, size: iconSize } })
-                }
-              }),
+            vm._t('icon', () => {
+              if (icon) {
+                return c(Icon, { attrs: { name: icon, size: iconSize } })
+              }
+              if (type === 'loading') {
+                return c(Loading, { attrs: { type: loadingType, size: iconSize } })
+              }
+            }),
           ])
         : null,
       hasContent
