@@ -134,7 +134,7 @@ export default {
         this.onReupload(index)
         return
       }
-      emitemit(this, 'click-preview', item, index)
+      emit(this, 'click-preview', item, index)
       this.onPreview(item)
     },
     chooseFile() {
