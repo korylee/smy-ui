@@ -153,11 +153,11 @@ importers:
         specifier: ^22.0.0
         version: 22.0.0
       vite:
-        specifier: ^5.2.9
-        version: 5.2.9(@types/node@18.19.29)(less@4.2.0)(terser@5.30.3)
+        specifier: ^5.2.11
+        version: 5.2.11(@types/node@18.19.29)(less@4.2.0)(terser@5.30.3)
       vite-plugin-vue2:
         specifier: ^2.0.3
-        version: 2.0.3(ejs@3.1.9)(lodash@4.17.21)(vite@5.2.9)(vue-template-compiler@2.6.14)(vue@2.6.14)
+        version: 2.0.3(ejs@3.1.9)(lodash@4.17.21)(vite@5.2.11)(vue-template-compiler@2.6.14)(vue@2.6.14)
       vue:
         specifier: 2.6.14
         version: 2.6.14
@@ -288,11 +288,11 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
       vite:
-        specifier: ^5.2.9
-        version: 5.2.9(@types/node@18.19.29)(less@4.2.0)(sass@1.69.5)
+        specifier: ^5.2.11
+        version: 5.2.11(@types/node@18.19.29)(less@4.2.0)(sass@1.69.5)
       vite-plugin-vue2:
         specifier: ^2.0.3
-        version: 2.0.3(vite@5.2.9)(vue-template-compiler@2.6.14)(vue@2.6.14)
+        version: 2.0.3(vite@5.2.11)(vue-template-compiler@2.6.14)(vue@2.6.14)
 
   packages/smy-h5-repl:
     dependencies:
@@ -343,14 +343,14 @@ importers:
         specifier: ^3.34.0
         version: 3.34.0
       vite:
-        specifier: ^5.2.9
-        version: 5.2.9(@types/node@18.19.29)(less@4.2.0)(sass@1.69.5)
+        specifier: ^5.2.11
+        version: 5.2.11(@types/node@18.19.29)(less@4.2.0)(sass@1.69.5)
       vite-plugin-dts:
         specifier: ^3.8.3
-        version: 3.8.3(@types/node@18.19.29)(typescript@5.4.3)(vite@5.2.9)
+        version: 3.8.3(@types/node@18.19.29)(typescript@5.4.3)(vite@5.2.11)
       vite-plugin-vue2:
         specifier: ^2.0.3
-        version: 2.0.3(vite@5.2.9)(vue-template-compiler@2.6.14)(vue@2.6.14)
+        version: 2.0.3(vite@5.2.11)(vue-template-compiler@2.6.14)(vue@2.6.14)
       vue:
         specifier: 2.6.14
         version: 2.6.14
@@ -10544,7 +10544,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /vite-plugin-dts@3.8.3(@types/node@18.19.29)(typescript@5.4.3)(vite@5.2.9):
+  /vite-plugin-dts@3.8.3(@types/node@18.19.29)(typescript@5.4.3)(vite@5.2.11):
     resolution: {integrity: sha512-yRHiRosQw7MXdOhmcrVI+kRiB8YEShbSxnADNteK4eZGdEoyOkMHihvO5XOAVlOq8ng9sIqu8vVefDK1zcj3qw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -10561,7 +10561,7 @@ packages:
       kolorist: 1.8.0
       magic-string: 0.30.8
       typescript: 5.4.3
-      vite: 5.2.9(@types/node@18.19.29)(less@4.2.0)(sass@1.69.5)
+      vite: 5.2.11(@types/node@18.19.29)(less@4.2.0)(sass@1.69.5)
       vue-tsc: 1.8.27(typescript@5.4.3)
     transitivePeerDependencies:
       - '@types/node'
@@ -10569,7 +10569,7 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-vue2@2.0.3(ejs@3.1.9)(lodash@4.17.21)(vite@5.2.9)(vue-template-compiler@2.6.14)(vue@2.6.14):
+  /vite-plugin-vue2@2.0.3(ejs@3.1.9)(lodash@4.17.21)(vite@5.2.11)(vue-template-compiler@2.6.14)(vue@2.6.14):
     resolution: {integrity: sha512-t3Tu93GWsMHbpeIv66MTO5e/rRAo8/+/eWoUtFYuAdKDMyEnn1dqsrXh+CfG+SJAlxJvcTP8U0eXkzhLjKNyMg==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0
@@ -10603,7 +10603,7 @@ packages:
       rollup: 2.79.1
       slash: 3.0.0
       source-map: 0.7.4
-      vite: 5.2.9(@types/node@18.19.29)(less@4.2.0)(terser@5.30.3)
+      vite: 5.2.11(@types/node@18.19.29)(less@4.2.0)(terser@5.30.3)
       vue-template-babel-compiler: 1.2.0(vue-template-compiler@2.6.14)
       vue-template-compiler: 2.6.14
     transitivePeerDependencies:
@@ -10664,7 +10664,7 @@ packages:
       - whiskers
     dev: false
 
-  /vite-plugin-vue2@2.0.3(vite@5.2.9)(vue-template-compiler@2.6.14)(vue@2.6.14):
+  /vite-plugin-vue2@2.0.3(vite@5.2.11)(vue-template-compiler@2.6.14)(vue@2.6.14):
     resolution: {integrity: sha512-t3Tu93GWsMHbpeIv66MTO5e/rRAo8/+/eWoUtFYuAdKDMyEnn1dqsrXh+CfG+SJAlxJvcTP8U0eXkzhLjKNyMg==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0
@@ -10698,7 +10698,7 @@ packages:
       rollup: 2.79.1
       slash: 3.0.0
       source-map: 0.7.4
-      vite: 5.2.9(@types/node@18.19.29)(less@4.2.0)(sass@1.69.5)
+      vite: 5.2.11(@types/node@18.19.29)(less@4.2.0)(sass@1.69.5)
       vue-template-babel-compiler: 1.2.0(vue-template-compiler@2.6.14)
       vue-template-compiler: 2.6.14
     transitivePeerDependencies:
@@ -10759,8 +10759,8 @@ packages:
       - whiskers
     dev: true
 
-  /vite@5.2.9(@types/node@18.19.29)(less@4.2.0)(sass@1.69.5):
-    resolution: {integrity: sha512-uOQWfuZBlc6Y3W/DTuQ1Sr+oIXWvqljLvS881SVmAj00d5RdgShLcuXWxseWPd4HXwiYBFW/vXHfKFeqj9uQnw==}
+  /vite@5.2.11(@types/node@18.19.29)(less@4.2.0)(sass@1.69.5):
+    resolution: {integrity: sha512-HndV31LWW05i1BLPMUCE1B9E9GFbOu1MbenhS58FuK6owSO5qHm7GiCotrNY1YE5rMeQSFBGmT5ZaLEjFizgiQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -10797,8 +10797,8 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vite@5.2.9(@types/node@18.19.29)(less@4.2.0)(terser@5.30.3):
-    resolution: {integrity: sha512-uOQWfuZBlc6Y3W/DTuQ1Sr+oIXWvqljLvS881SVmAj00d5RdgShLcuXWxseWPd4HXwiYBFW/vXHfKFeqj9uQnw==}
+  /vite@5.2.11(@types/node@18.19.29)(less@4.2.0)(terser@5.30.3):
+    resolution: {integrity: sha512-HndV31LWW05i1BLPMUCE1B9E9GFbOu1MbenhS58FuK6owSO5qHm7GiCotrNY1YE5rMeQSFBGmT5ZaLEjFizgiQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
