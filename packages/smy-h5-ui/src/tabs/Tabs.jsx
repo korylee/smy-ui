@@ -1,4 +1,4 @@
-import { getListener } from '../_mixins/listeners'
+import { emit } from '../_mixins/listeners'
 import { createParentMixin } from '../_mixins/relation'
 import { useWindowSize } from '../_utils/composable/useWindowSize'
 import {
@@ -114,16 +114,14 @@ export default {
     },
     onClickTab(item, index, event) {
       const { title, disabled } = item
-      const onBeforeChange = getListener.call(this, 'before-change')
-      const onClickTab = getListener.call(this, 'click-tab')
       const name = getTabName(item, index)
       if (!disabled) {
-        Promise.resolve(onBeforeChange(name)).then(() => {
+        Promise.resolve(emit(this, 'before-change', name)).then(() => {
           this.setCurrentIndex(index)
           this.scrollToCurrentContent()
         })
       }
-      onClickTab({ name, title, event, disabled })
+      emit(this, 'click-tab', { name, title, event, disabled })
     },
     findAvailableTabIndex(index) {
       const diff = index < this.currentIndex ? -1 : 1

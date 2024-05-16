@@ -1,6 +1,5 @@
 import { props } from './props'
 import Intersect from '../intersect'
-import { getSlot } from '../_utils/vue/slots'
 
 import '../_styles/transition.less'
 import { createProxiedModel } from '../_mixins/proxiedModel'
@@ -36,7 +35,7 @@ export default {
       staticClass: bem(),
       directives: [intersectDirective],
     }
-    const defaultSlot = getSlot.call(vm, 'default', { value: isIntersecting })
+    const defaultSlot = vm._t('default', { value: isIntersecting })
     const child =
       isIntersecting || keepShow ? (
         <MaybeTransition maybe={!!transition} name={transition} appear>

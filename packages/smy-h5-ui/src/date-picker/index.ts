@@ -25,7 +25,7 @@ export declare class SmyDatePicker extends SmyComponent {
   }
 }
 
-const _SmyDatePicker = withInstall(_DatePicker)
+const _SmyDatePicker = withInstall(_DatePicker) as SmyDatePicker
 
 type DatePickerOptions = RequiredPartial<Omit<DatePickerProps, 'popup'>, 'columnsType'> & PickerSharedListeners
 

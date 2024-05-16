@@ -53,6 +53,7 @@ import { resetScroll } from '@smy-h5/shared'
 import { createProxiedModel } from '../_mixins/proxiedModel'
 import { ValidateProvider, getPropComputed } from '../_mixins/validate'
 import SmyFormDetails from '../form-details'
+import { emit } from '../_mixins/listeners'
 
 const [name, bem] = createNamespace('field')
 
@@ -213,10 +214,10 @@ export default {
     },
     validate() {
       this._reset()
-      this.$emit('startValidate')
+      emit(this, 'start-validate')
       return this._validate(this.modelValue).then(() => {
         const { _status, _errorMessage, name } = this
-        this.$emit('endValidate')
+        emit(this, 'end-validate')
         return _status === 'failed' ? { name, message: _errorMessage } : undefined
       })
     },
